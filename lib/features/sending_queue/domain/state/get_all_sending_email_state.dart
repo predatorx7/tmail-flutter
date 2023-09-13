@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/state/failure.dart';
 import 'package:core/presentation/state/success.dart';
 import 'package:tmail_ui_user/features/sending_queue/domain/model/sending_email.dart';
@@ -6,7 +5,6 @@ import 'package:tmail_ui_user/features/sending_queue/domain/model/sending_email.
 class GetAllSendingEmailLoading extends UIState {}
 
 class GetAllSendingEmailSuccess extends UIState {
-
   final List<SendingEmail> sendingEmails;
 
   GetAllSendingEmailSuccess(this.sendingEmails);
@@ -16,6 +14,5 @@ class GetAllSendingEmailSuccess extends UIState {
 }
 
 class GetAllSendingEmailFailure extends FeatureFailure {
-
   GetAllSendingEmailFailure(dynamic exception) : super(exception: exception);
 }

@@ -15,12 +15,13 @@ class RefreshAllMailboxInteractor {
 
   RefreshAllMailboxInteractor(this._mailboxRepository);
 
-  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId, jmap_state.State currentState) async* {
+  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId,
+      jmap_state.State currentState) async* {
     try {
       yield Right<Failure, Success>(RefreshChangesAllMailboxLoading());
       yield* _mailboxRepository
-        .refresh(session, accountId, currentState)
-        .map(_toGetMailboxState);
+          .refresh(session, accountId, currentState)
+          .map(_toGetMailboxState);
     } catch (e) {
       yield Left<Failure, Success>(RefreshChangesAllMailboxFailure(e));
     }
@@ -28,12 +29,11 @@ class RefreshAllMailboxInteractor {
 
   Either<Failure, Success> _toGetMailboxState(MailboxResponse mailboxResponse) {
     final mailboxList = mailboxResponse.mailboxes
-        ?.map((mailbox) => mailbox.toPresentationMailbox()).toList()
-        ?? List<PresentationMailbox>.empty();
+            ?.map((mailbox) => mailbox.toPresentationMailbox())
+            .toList() ??
+        List<PresentationMailbox>.empty();
 
     return Right<Failure, Success>(RefreshChangesAllMailboxSuccess(
-        mailboxList: mailboxList,
-        currentMailboxState: mailboxResponse.state)
-    );
+        mailboxList: mailboxList, currentMailboxState: mailboxResponse.state));
   }
 }

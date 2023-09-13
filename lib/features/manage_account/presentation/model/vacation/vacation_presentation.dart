@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:jmap_dart_client/jmap/core/utc_date.dart';
@@ -34,27 +33,26 @@ class VacationPresentation with EquatableMixin {
   }
 
   VacationPresentation copyWidth({
-     VacationResponderStatus? status,
-     DateTime? startDate,
-     TimeOfDay? startTime,
-     DateTime? endDate,
-     TimeOfDay? endTime,
-     String? messagePlainText,
-     String? messageHtmlText,
-     String? subject,
-     bool? vacationStopEnabled,
+    VacationResponderStatus? status,
+    DateTime? startDate,
+    TimeOfDay? startTime,
+    DateTime? endDate,
+    TimeOfDay? endTime,
+    String? messagePlainText,
+    String? messageHtmlText,
+    String? subject,
+    bool? vacationStopEnabled,
   }) {
     return VacationPresentation(
-      status: status ?? this.status,
-      startDate: startDate ?? this.startDate,
-      startTime: startTime ?? this.startTime,
-      endDate: endDate ?? this.endDate,
-      endTime: endTime ?? this.endTime,
-      messagePlainText: messagePlainText ?? this.messagePlainText,
-      messageHtmlText: messageHtmlText ?? this.messageHtmlText,
-      subject: subject ?? this.subject,
-      vacationStopEnabled: vacationStopEnabled ?? this.vacationStopEnabled
-    );
+        status: status ?? this.status,
+        startDate: startDate ?? this.startDate,
+        startTime: startTime ?? this.startTime,
+        endDate: endDate ?? this.endDate,
+        endTime: endTime ?? this.endTime,
+        messagePlainText: messagePlainText ?? this.messagePlainText,
+        messageHtmlText: messageHtmlText ?? this.messageHtmlText,
+        subject: subject ?? this.subject,
+        vacationStopEnabled: vacationStopEnabled ?? this.vacationStopEnabled);
   }
 
   bool get startDateIsNull => startDate == null;
@@ -73,16 +71,16 @@ class VacationPresentation with EquatableMixin {
 
   @override
   List<Object?> get props => [
-    status,
-    startDate,
-    startTime,
-    endDate,
-    endTime,
-    vacationStopEnabled,
-    messagePlainText,
-    messageHtmlText,
-    subject,
-  ];
+        status,
+        startDate,
+        startTime,
+        endDate,
+        endTime,
+        vacationStopEnabled,
+        messagePlainText,
+        messageHtmlText,
+        subject,
+      ];
 }
 
 extension VacationPresentationExtension on VacationPresentation {

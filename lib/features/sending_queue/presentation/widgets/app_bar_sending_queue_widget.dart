@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/resources/image_paths.dart';
 import 'package:core/presentation/utils/style_utils.dart';
@@ -13,19 +12,17 @@ import 'package:tmail_ui_user/features/sending_queue/presentation/utils/sending_
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
 class AppBarSendingQueueWidget extends StatelessWidget {
-
   final VoidCallback? onBackAction;
   final VoidCallback? onOpenMailboxMenu;
   final SelectMode selectMode;
   final List<SendingEmail> listSendingEmailSelected;
 
-  const AppBarSendingQueueWidget({
-    super.key,
-    required this.listSendingEmailSelected,
-    this.onBackAction,
-    this.onOpenMailboxMenu,
-    this.selectMode = SelectMode.INACTIVE
-  });
+  const AppBarSendingQueueWidget(
+      {super.key,
+      required this.listSendingEmailSelected,
+      this.onBackAction,
+      this.onOpenMailboxMenu,
+      this.selectMode = SelectMode.INACTIVE});
 
   @override
   Widget build(BuildContext context) {
@@ -35,19 +32,17 @@ class AppBarSendingQueueWidget extends StatelessWidget {
       return Container(
         height: 52,
         color: Colors.white,
-        padding: SendingQueueUtils.getPaddingAppBarByResponsiveSize(constraints.maxWidth),
+        padding: SendingQueueUtils.getPaddingAppBarByResponsiveSize(
+            constraints.maxWidth),
         child: Row(
           children: [
             if (selectMode == SelectMode.INACTIVE)
               buildIconWeb(
-                icon: SvgPicture.asset(
-                  imagePaths.icMenuMailbox,
-                  colorFilter: AppColor.colorTextButton.asFilter(),
-                  fit: BoxFit.fill
-                ),
-                tooltip: AppLocalizations.of(context).openMailboxMenu,
-                onTap: onOpenMailboxMenu
-              )
+                  icon: SvgPicture.asset(imagePaths.icMenuMailbox,
+                      colorFilter: AppColor.colorTextButton.asFilter(),
+                      fit: BoxFit.fill),
+                  tooltip: AppLocalizations.of(context).openMailboxMenu,
+                  onTap: onOpenMailboxMenu)
             else
               Padding(
                 padding: const EdgeInsets.only(left: 8),
@@ -58,44 +53,37 @@ class AppBarSendingQueueWidget extends StatelessWidget {
                     onTap: onBackAction,
                     borderRadius: BorderRadius.circular(15),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SvgPicture.asset(
-                            DirectionUtils.isDirectionRTLByLanguage(context) ? imagePaths.icCollapseFolder : imagePaths.icBack,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 5),
+                      child: Row(mainAxisSize: MainAxisSize.min, children: [
+                        SvgPicture.asset(
+                            DirectionUtils.isDirectionRTLByLanguage(context)
+                                ? imagePaths.icCollapseFolder
+                                : imagePaths.icBack,
                             colorFilter: AppColor.colorTextButton.asFilter(),
-                            fit: BoxFit.fill
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            listSendingEmailSelected.length.toString(),
+                            fit: BoxFit.fill),
+                        const SizedBox(width: 8),
+                        Text(listSendingEmailSelected.length.toString(),
                             maxLines: 1,
                             overflow: CommonTextStyle.defaultTextOverFlow,
                             softWrap: CommonTextStyle.defaultSoftWrap,
                             style: const TextStyle(
-                              fontSize: 17,
-                              color: AppColor.colorTextButton
-                            )
-                          )
-                        ]
-                      ),
+                                fontSize: 17, color: AppColor.colorTextButton))
+                      ]),
                     ),
                   ),
                 ),
               ),
-            Expanded(child: Text(
-              AppLocalizations.of(context).sendingQueue,
-              maxLines: 1,
-              textAlign: TextAlign.center,
-              overflow: CommonTextStyle.defaultTextOverFlow,
-              softWrap: CommonTextStyle.defaultSoftWrap,
-              style: const TextStyle(
-                fontSize: 21,
-                color: Colors.black,
-                fontWeight: FontWeight.bold
-              )
-            )),
+            Expanded(
+                child: Text(AppLocalizations.of(context).sendingQueue,
+                    maxLines: 1,
+                    textAlign: TextAlign.center,
+                    overflow: CommonTextStyle.defaultTextOverFlow,
+                    softWrap: CommonTextStyle.defaultSoftWrap,
+                    style: const TextStyle(
+                        fontSize: 21,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold))),
             const SizedBox(width: 50)
           ],
         ),

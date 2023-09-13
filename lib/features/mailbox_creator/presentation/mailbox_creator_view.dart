@@ -17,7 +17,6 @@ import 'package:tmail_ui_user/features/mailbox_creator/presentation/widgets/crea
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
 class MailboxCreatorView extends GetWidget<MailboxCreatorController> {
-
   final _maxHeight = 656.0;
   final _imagePaths = Get.find<ImagePaths>();
   final _responsiveUtils = Get.find<ResponsiveUtils>();
@@ -38,50 +37,52 @@ class MailboxCreatorView extends GetWidget<MailboxCreatorController> {
           borderOnForeground: false,
           color: Colors.transparent,
           child: SafeArea(
-            top: PlatformInfo.isMobile && _responsiveUtils.isPortraitMobile(context),
+            top: PlatformInfo.isMobile &&
+                _responsiveUtils.isPortraitMobile(context),
             bottom: false,
             left: false,
             right: false,
             child: Center(
                 child: GestureDetector(
-                  onTap: () => FocusScope.of(context).unfocus(),
-                  child: Container(
-                      margin: _getMarginView(context),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: _getRadiusView(context),
-                          boxShadow: const [
-                            BoxShadow(
-                                color: AppColor.colorShadowLayerBottom,
-                                blurRadius: 96,
-                                spreadRadius: 96,
-                                offset: Offset.zero),
-                            BoxShadow(
-                                color: AppColor.colorShadowLayerTop,
-                                blurRadius: 2,
-                                spreadRadius: 2,
-                                offset: Offset.zero),
-                          ]),
-                      width: _getWidthView(context),
-                      height: _getHeightView(context),
-                      child: ClipRRect(
-                          borderRadius: _getRadiusView(context),
-                          child: SafeArea(
-                            top: false,
-                            bottom: false,
-                            left: PlatformInfo.isMobile && _responsiveUtils.isLandscapeMobile(context),
-                            right: PlatformInfo.isMobile && _responsiveUtils.isLandscapeMobile(context),
-                            child: Column(children: [
-                              _buildAppBar(context),
-                              const Divider(color: AppColor.colorDividerDestinationPicker, height: 1),
-                              _buildCreateMailboxNameInput(context),
-                              _buildMailboxLocation(context),
-                            ]),
-                          )
-                      )
-                  ),
-                )
-            ),
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: Container(
+                  margin: _getMarginView(context),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: _getRadiusView(context),
+                      boxShadow: const [
+                        BoxShadow(
+                            color: AppColor.colorShadowLayerBottom,
+                            blurRadius: 96,
+                            spreadRadius: 96,
+                            offset: Offset.zero),
+                        BoxShadow(
+                            color: AppColor.colorShadowLayerTop,
+                            blurRadius: 2,
+                            spreadRadius: 2,
+                            offset: Offset.zero),
+                      ]),
+                  width: _getWidthView(context),
+                  height: _getHeightView(context),
+                  child: ClipRRect(
+                      borderRadius: _getRadiusView(context),
+                      child: SafeArea(
+                        top: false,
+                        bottom: false,
+                        left: PlatformInfo.isMobile &&
+                            _responsiveUtils.isLandscapeMobile(context),
+                        right: PlatformInfo.isMobile &&
+                            _responsiveUtils.isLandscapeMobile(context),
+                        child: Column(children: [
+                          _buildAppBar(context),
+                          const Divider(
+                              color: AppColor.colorDividerDestinationPicker,
+                              height: 1),
+                          _buildCreateMailboxNameInput(context),
+                          _buildMailboxLocation(context),
+                        ]),
+                      ))),
+            )),
           ),
         ),
       ),
@@ -89,92 +90,97 @@ class MailboxCreatorView extends GetWidget<MailboxCreatorController> {
   }
 
   Widget _buildAppBar(BuildContext context) {
-    return (AppBarMailboxCreatorBuilder(
-      context,
-      title: AppLocalizations.of(context).new_mailbox,
-      isValidated: true)
-    ..addOnCancelActionClick(() => controller.closeMailboxCreator(context))
-    ..addOnDoneActionClick(() => controller.createNewMailbox(context)))
-    .build();
+    return (AppBarMailboxCreatorBuilder(context,
+            title: AppLocalizations.of(context).new_mailbox, isValidated: true)
+          ..addOnCancelActionClick(
+              () => controller.closeMailboxCreator(context))
+          ..addOnDoneActionClick(() => controller.createNewMailbox(context)))
+        .build();
   }
 
   Widget _buildCreateMailboxNameInput(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      child: Obx(() => TextFieldBuilder(
-        onTextChange: controller.setNewNameMailbox,
-        keyboardType: TextInputType.visiblePassword,
-        cursorColor: AppColor.colorTextButton,
-        controller: controller.nameInputController,
-        textDirection: DirectionUtils.getDirectionByLanguage(context),
-        maxLines: 1,
-        textStyle: const TextStyle(
-          color: AppColor.colorNameEmail,
-          fontSize: 16,
-          overflow: CommonTextStyle.defaultTextOverFlow),
-        focusNode: controller.nameInputFocusNode,
-        decoration: (CreateMailboxNameInputDecorationBuilder()
-          ..setHintText(AppLocalizations.of(context).hint_input_create_new_mailbox)
-          ..setErrorText(controller.getErrorInputNameString(context)))
-        .build(),
-      ))
-    );
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        child: Obx(() => TextFieldBuilder(
+              onTextChange: controller.setNewNameMailbox,
+              keyboardType: TextInputType.visiblePassword,
+              cursorColor: AppColor.colorTextButton,
+              controller: controller.nameInputController,
+              textDirection: DirectionUtils.getDirectionByLanguage(context),
+              maxLines: 1,
+              textStyle: const TextStyle(
+                  color: AppColor.colorNameEmail,
+                  fontSize: 16,
+                  overflow: CommonTextStyle.defaultTextOverFlow),
+              focusNode: controller.nameInputFocusNode,
+              decoration: (CreateMailboxNameInputDecorationBuilder()
+                    ..setHintText(AppLocalizations.of(context)
+                        .hint_input_create_new_mailbox)
+                    ..setErrorText(controller.getErrorInputNameString(context)))
+                  .build(),
+            )));
   }
 
   Widget _buildMailboxLocation(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-        child: Text(
-          AppLocalizations.of(context).selectParentFolder,
-          textAlign: TextAlign.left,
-          style: const TextStyle(
-              fontSize: 13,
-              color: AppColor.colorHintSearchBar,
-              fontWeight: FontWeight.normal)),
+        child: Text(AppLocalizations.of(context).selectParentFolder,
+            textAlign: TextAlign.left,
+            style: const TextStyle(
+                fontSize: 13,
+                color: AppColor.colorHintSearchBar,
+                fontWeight: FontWeight.normal)),
       ),
       Container(
           alignment: Alignment.center,
           margin: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(14),
-              color: AppColor.colorBgMailbox
-          ),
+              color: AppColor.colorBgMailbox),
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () => controller.selectMailboxLocation(context),
-              customBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-              child: Row(children: [
-                const SizedBox(width: 12),
-                Obx(() => SvgPicture.asset(
-                    controller.selectedMailbox.value?.getMailboxIcon(_imagePaths) ?? _imagePaths.icFolderMailbox,
-                    width: PlatformInfo.isWeb ? 20 : 24,
-                    height: PlatformInfo.isWeb ? 20 : 24,
-                    fit: BoxFit.fill)),
-                const SizedBox(width: 12),
-                Expanded(child: Obx(() => Text(
-                  controller.selectedMailbox.value?.getDisplayName(context) ?? AppLocalizations.of(context).allMailboxes,
-                  maxLines: 1,
-                  softWrap: CommonTextStyle.defaultSoftWrap,
-                  overflow: CommonTextStyle.defaultTextOverFlow,
-                  style: TextStyle(
-                      fontSize: 15,
-                      color: controller.selectedMailbox.value == null
-                          ? AppColor.colorHintSearchBar
-                          : AppColor.colorNameEmail),
-                ))),
-                const SizedBox(width: 12),
-                IconButton(
-                    color: AppColor.primaryColor,
-                    icon: SvgPicture.asset(
-                        DirectionUtils.isDirectionRTLByLanguage(context) ? _imagePaths.icBack : _imagePaths.icCollapseFolder,
-                        colorFilter: AppColor.colorCollapseMailbox.asFilter(),
-                        fit: BoxFit.fill),
-                    onPressed: () => controller.selectMailboxLocation(context))
+                onTap: () => controller.selectMailboxLocation(context),
+                customBorder: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14)),
+                child: Row(children: [
+                  const SizedBox(width: 12),
+                  Obx(() => SvgPicture.asset(
+                      controller.selectedMailbox.value
+                              ?.getMailboxIcon(_imagePaths) ??
+                          _imagePaths.icFolderMailbox,
+                      width: PlatformInfo.isWeb ? 20 : 24,
+                      height: PlatformInfo.isWeb ? 20 : 24,
+                      fit: BoxFit.fill)),
+                  const SizedBox(width: 12),
+                  Expanded(
+                      child: Obx(() => Text(
+                            controller.selectedMailbox.value
+                                    ?.getDisplayName(context) ??
+                                AppLocalizations.of(context).allMailboxes,
+                            maxLines: 1,
+                            softWrap: CommonTextStyle.defaultSoftWrap,
+                            overflow: CommonTextStyle.defaultTextOverFlow,
+                            style: TextStyle(
+                                fontSize: 15,
+                                color: controller.selectedMailbox.value == null
+                                    ? AppColor.colorHintSearchBar
+                                    : AppColor.colorNameEmail),
+                          ))),
+                  const SizedBox(width: 12),
+                  IconButton(
+                      color: AppColor.primaryColor,
+                      icon: SvgPicture.asset(
+                          DirectionUtils.isDirectionRTLByLanguage(context)
+                              ? _imagePaths.icBack
+                              : _imagePaths.icCollapseFolder,
+                          colorFilter: AppColor.colorCollapseMailbox.asFilter(),
+                          fit: BoxFit.fill),
+                      onPressed: () =>
+                          controller.selectMailboxLocation(context))
                 ])),
-          )
-      )
+          ))
     ]);
   }
 
@@ -218,7 +224,6 @@ class MailboxCreatorView extends GetWidget<MailboxCreatorController> {
         }
       }
     }
-
   }
 
   EdgeInsets _getMarginView(BuildContext context) {
@@ -251,8 +256,7 @@ class MailboxCreatorView extends GetWidget<MailboxCreatorController> {
       return BorderRadius.zero;
     } else if (_responsiveUtils.isMobile(context)) {
       return const BorderRadius.only(
-          topRight: Radius.circular(16),
-          topLeft: Radius.circular(16));
+          topRight: Radius.circular(16), topLeft: Radius.circular(16));
     } else {
       return const BorderRadius.all(Radius.circular(16));
     }

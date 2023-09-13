@@ -1,8 +1,6 @@
-
 import 'package:jmap_dart_client/jmap/mail/email/email_filter_condition.dart';
 
 extension EmailFilterConditionExtension on EmailFilterCondition {
-
   bool get hasCondition {
     return inMailbox != null ||
         inMailboxOtherThan?.isNotEmpty == true ||

@@ -22,14 +22,14 @@ import 'package:tmail_ui_user/features/sending_queue/domain/model/sending_email.
 import 'package:tmail_ui_user/main/exceptions/exception_thrower.dart';
 
 class EmailDataSourceImpl extends EmailDataSource {
-
   final EmailAPI emailAPI;
   final ExceptionThrower _exceptionThrower;
 
   EmailDataSourceImpl(this.emailAPI, this._exceptionThrower);
 
   @override
-  Future<Email> getEmailContent(Session session, AccountId accountId, EmailId emailId) {
+  Future<Email> getEmailContent(
+      Session session, AccountId accountId, EmailId emailId) {
     return Future.sync(() async {
       return await emailAPI.getEmailContent(session, accountId, emailId);
     }).catchError(_exceptionThrower.throwException);
@@ -37,23 +37,17 @@ class EmailDataSourceImpl extends EmailDataSource {
 
   @override
   Future<bool> sendEmail(
-    Session session,
-    AccountId accountId,
-    EmailRequest emailRequest,
-    {CreateNewMailboxRequest? mailboxRequest}
-  ) {
+      Session session, AccountId accountId, EmailRequest emailRequest,
+      {CreateNewMailboxRequest? mailboxRequest}) {
     return Future.sync(() async {
-      return await emailAPI.sendEmail(session, accountId, emailRequest, mailboxRequest: mailboxRequest);
+      return await emailAPI.sendEmail(session, accountId, emailRequest,
+          mailboxRequest: mailboxRequest);
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<List<Email>> markAsRead(
-    Session session,
-    AccountId accountId,
-    List<Email> emails,
-    ReadActions readActions
-  ) {
+  Future<List<Email>> markAsRead(Session session, AccountId accountId,
+      List<Email> emails, ReadActions readActions) {
     return Future.sync(() async {
       return await emailAPI.markAsRead(session, accountId, emails, readActions);
     }).catchError(_exceptionThrower.throwException);
@@ -64,10 +58,10 @@ class EmailDataSourceImpl extends EmailDataSource {
       List<Attachment> attachments,
       AccountId accountId,
       String baseDownloadUrl,
-      AccountRequest accountRequest
-  ) {
+      AccountRequest accountRequest) {
     return Future.sync(() async {
-      return await emailAPI.downloadAttachments(attachments, accountId, baseDownloadUrl, accountRequest);
+      return await emailAPI.downloadAttachments(
+          attachments, accountId, baseDownloadUrl, accountRequest);
     }).catchError(_exceptionThrower.throwException);
   }
 
@@ -77,45 +71,52 @@ class EmailDataSourceImpl extends EmailDataSource {
       AccountId accountId,
       String baseDownloadUrl,
       AccountRequest accountRequest,
-      CancelToken cancelToken
-  ) {
+      CancelToken cancelToken) {
     return Future.sync(() async {
-      return await emailAPI.exportAttachment(attachment, accountId, baseDownloadUrl, accountRequest, cancelToken);
+      return await emailAPI.exportAttachment(
+          attachment, accountId, baseDownloadUrl, accountRequest, cancelToken);
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<List<EmailId>> moveToMailbox(Session session, AccountId accountId, MoveToMailboxRequest moveRequest) {
+  Future<List<EmailId>> moveToMailbox(
+      Session session, AccountId accountId, MoveToMailboxRequest moveRequest) {
     return Future.sync(() async {
       return await emailAPI.moveToMailbox(session, accountId, moveRequest);
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<List<Email>> markAsStar(Session session, AccountId accountId, List<Email> emails, MarkStarAction markStarAction) {
+  Future<List<Email>> markAsStar(Session session, AccountId accountId,
+      List<Email> emails, MarkStarAction markStarAction) {
     return Future.sync(() async {
-      return await emailAPI.markAsStar(session, accountId, emails, markStarAction);
+      return await emailAPI.markAsStar(
+          session, accountId, emails, markStarAction);
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<Email> saveEmailAsDrafts(Session session, AccountId accountId, Email email) {
+  Future<Email> saveEmailAsDrafts(
+      Session session, AccountId accountId, Email email) {
     return Future.sync(() async {
       return await emailAPI.saveEmailAsDrafts(session, accountId, email);
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<bool> removeEmailDrafts(Session session, AccountId accountId, EmailId emailId) {
+  Future<bool> removeEmailDrafts(
+      Session session, AccountId accountId, EmailId emailId) {
     return Future.sync(() async {
       return await emailAPI.removeEmailDrafts(session, accountId, emailId);
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<Email> updateEmailDrafts(Session session, AccountId accountId, Email newEmail, EmailId oldEmailId) {
+  Future<Email> updateEmailDrafts(Session session, AccountId accountId,
+      Email newEmail, EmailId oldEmailId) {
     return Future.sync(() async {
-      return await emailAPI.updateEmailDrafts(session, accountId, newEmail, oldEmailId);
+      return await emailAPI.updateEmailDrafts(
+          session, accountId, newEmail, oldEmailId);
     }).catchError(_exceptionThrower.throwException);
   }
 
@@ -126,42 +127,43 @@ class EmailDataSourceImpl extends EmailDataSource {
       AccountId accountId,
       String baseDownloadUrl,
       AccountRequest accountRequest,
-      StreamController<Either<Failure, Success>> onReceiveController
-  ) {
+      StreamController<Either<Failure, Success>> onReceiveController) {
     return Future.sync(() async {
-      return await emailAPI.downloadAttachmentForWeb(
-          taskId,
-          attachment,
-          accountId,
-          baseDownloadUrl,
-          accountRequest,
-          onReceiveController);
+      return await emailAPI.downloadAttachmentForWeb(taskId, attachment,
+          accountId, baseDownloadUrl, accountRequest, onReceiveController);
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<List<EmailId>> deleteMultipleEmailsPermanently(Session session, AccountId accountId, List<EmailId> emailIds) {
+  Future<List<EmailId>> deleteMultipleEmailsPermanently(
+      Session session, AccountId accountId, List<EmailId> emailIds) {
     return Future.sync(() async {
-      return await emailAPI.deleteMultipleEmailsPermanently(session, accountId, emailIds);
+      return await emailAPI.deleteMultipleEmailsPermanently(
+          session, accountId, emailIds);
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<bool> deleteEmailPermanently(Session session, AccountId accountId, EmailId emailId) {
+  Future<bool> deleteEmailPermanently(
+      Session session, AccountId accountId, EmailId emailId) {
     return Future.sync(() async {
       return await emailAPI.deleteEmailPermanently(session, accountId, emailId);
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<void> storeDetailedNewEmail(Session session, AccountId accountId, DetailedEmail detailedEmail) {
+  Future<void> storeDetailedNewEmail(
+      Session session, AccountId accountId, DetailedEmail detailedEmail) {
     throw UnimplementedError();
   }
 
   @override
-  Future<List<Email>> getListDetailedEmailById(Session session, AccountId accountId, Set<EmailId> emailIds, {Set<Comparator>? sort}) {
+  Future<List<Email>> getListDetailedEmailById(
+      Session session, AccountId accountId, Set<EmailId> emailIds,
+      {Set<Comparator>? sort}) {
     return Future.sync(() async {
-      return await emailAPI.getListDetailedEmailById(session, accountId, emailIds, sort: sort);
+      return await emailAPI
+          .getListDetailedEmailById(session, accountId, emailIds, sort: sort);
     }).catchError(_exceptionThrower.throwException);
   }
 
@@ -171,57 +173,68 @@ class EmailDataSourceImpl extends EmailDataSource {
   }
 
   @override
-  Future<void> storeOpenedEmail(Session session, AccountId accountId, DetailedEmail detailedEmail) {
+  Future<void> storeOpenedEmail(
+      Session session, AccountId accountId, DetailedEmail detailedEmail) {
     throw UnimplementedError();
   }
 
   @override
-  Future<DetailedEmail> getStoredOpenedEmail(Session session, AccountId accountId, EmailId emailId) {
+  Future<DetailedEmail> getStoredOpenedEmail(
+      Session session, AccountId accountId, EmailId emailId) {
     throw UnimplementedError();
   }
 
   @override
-  Future<DetailedEmail> getStoredNewEmail(Session session, AccountId accountId, EmailId emailId) {
+  Future<DetailedEmail> getStoredNewEmail(
+      Session session, AccountId accountId, EmailId emailId) {
     throw UnimplementedError();
   }
 
   @override
-  Future<Email> getStoredEmail(Session session, AccountId accountId, EmailId emailId) {
+  Future<Email> getStoredEmail(
+      Session session, AccountId accountId, EmailId emailId) {
     throw UnimplementedError();
   }
 
   @override
-  Future<SendingEmail> storeSendingEmail(AccountId accountId, UserName userName, SendingEmail sendingEmail) {
+  Future<SendingEmail> storeSendingEmail(
+      AccountId accountId, UserName userName, SendingEmail sendingEmail) {
     throw UnimplementedError();
   }
 
   @override
-  Future<List<SendingEmail>> getAllSendingEmails(AccountId accountId, UserName userName) {
+  Future<List<SendingEmail>> getAllSendingEmails(
+      AccountId accountId, UserName userName) {
     throw UnimplementedError();
   }
 
   @override
-  Future<void> deleteSendingEmail(AccountId accountId, UserName userName, String sendingId) {
+  Future<void> deleteSendingEmail(
+      AccountId accountId, UserName userName, String sendingId) {
     throw UnimplementedError();
   }
 
   @override
-  Future<SendingEmail> updateSendingEmail(AccountId accountId, UserName userName, SendingEmail newSendingEmail) {
+  Future<SendingEmail> updateSendingEmail(
+      AccountId accountId, UserName userName, SendingEmail newSendingEmail) {
     throw UnimplementedError();
   }
 
   @override
-  Future<List<SendingEmail>> updateMultipleSendingEmail(AccountId accountId, UserName userName, List<SendingEmail> newSendingEmails) {
+  Future<List<SendingEmail>> updateMultipleSendingEmail(AccountId accountId,
+      UserName userName, List<SendingEmail> newSendingEmails) {
     throw UnimplementedError();
   }
 
   @override
-  Future<List<SendingEmail>> deleteMultipleSendingEmail(AccountId accountId, UserName userName, List<String> sendingIds) {
+  Future<List<SendingEmail>> deleteMultipleSendingEmail(
+      AccountId accountId, UserName userName, List<String> sendingIds) {
     throw UnimplementedError();
   }
 
   @override
-  Future<SendingEmail> getStoredSendingEmail(AccountId accountId, UserName userName, String sendingId) {
+  Future<SendingEmail> getStoredSendingEmail(
+      AccountId accountId, UserName userName, String sendingId) {
     throw UnimplementedError();
   }
 }

@@ -6,6 +6,5 @@ class GetAuthenticationInfoLoading extends LoadingState {}
 class GetAuthenticationInfoSuccess extends UIState {}
 
 class GetAuthenticationInfoFailure extends FeatureFailure {
-
   GetAuthenticationInfoFailure(dynamic exception) : super(exception: exception);
 }

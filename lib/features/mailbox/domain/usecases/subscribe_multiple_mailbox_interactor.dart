@@ -12,37 +12,35 @@ class SubscribeMultipleMailboxInteractor {
 
   SubscribeMultipleMailboxInteractor(this._mailboxRepository);
 
-  Stream<Either<Failure, Success>> execute(
-    Session session,
-    AccountId accountId,
-    SubscribeMultipleMailboxRequest subscribeRequest
-  ) async* {
+  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId,
+      SubscribeMultipleMailboxRequest subscribeRequest) async* {
     try {
       yield Right<Failure, Success>(LoadingSubscribeMultipleMailbox());
 
-      final currentMailboxState = await _mailboxRepository.getMailboxState(session, accountId);
-      final listResult = await _mailboxRepository.subscribeMultipleMailbox(session, accountId, subscribeRequest);
+      final currentMailboxState =
+          await _mailboxRepository.getMailboxState(session, accountId);
+      final listResult = await _mailboxRepository.subscribeMultipleMailbox(
+          session, accountId, subscribeRequest);
 
-      final matchedSize = listResult.length == subscribeRequest.mailboxIdsSubscribe.length;
+      final matchedSize =
+          listResult.length == subscribeRequest.mailboxIdsSubscribe.length;
       final allMatchedMailboxIdSubscribe = subscribeRequest.mailboxIdsSubscribe
-        .every((mailboxId) => listResult.contains(mailboxId));
+          .every((mailboxId) => listResult.contains(mailboxId));
 
       if (allMatchedMailboxIdSubscribe && matchedSize) {
         yield Right<Failure, Success>(SubscribeMultipleMailboxAllSuccess(
-          subscribeRequest.parentMailboxId,
-          listResult,
-          subscribeRequest.subscribeAction,
-          currentMailboxState: currentMailboxState
-        ));
+            subscribeRequest.parentMailboxId,
+            listResult,
+            subscribeRequest.subscribeAction,
+            currentMailboxState: currentMailboxState));
       } else if (listResult.isEmpty) {
         yield Left<Failure, Success>(SubscribeMultipleMailboxAllFailure());
       } else {
         yield Right<Failure, Success>(SubscribeMultipleMailboxHasSomeSuccess(
-          subscribeRequest.parentMailboxId,
-          listResult,
-          subscribeRequest.subscribeAction,
-          currentMailboxState: currentMailboxState
-        ));
+            subscribeRequest.parentMailboxId,
+            listResult,
+            subscribeRequest.subscribeAction,
+            currentMailboxState: currentMailboxState));
       }
     } catch (e) {
       yield Left<Failure, Success>(SubscribeMultipleMailboxFailure(e));

@@ -11,7 +11,8 @@ class GetStoredEmailStateInteractor {
 
   GetStoredEmailStateInteractor(this._emailRepository);
 
-  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId) async* {
+  Stream<Either<Failure, Success>> execute(
+      Session session, AccountId accountId) async* {
     try {
       final state = await _emailRepository.getEmailState(session, accountId);
       if (state != null) {

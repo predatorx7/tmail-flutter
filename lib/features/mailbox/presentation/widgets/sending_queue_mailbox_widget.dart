@@ -10,17 +10,15 @@ import 'package:tmail_ui_user/features/sending_queue/domain/model/sending_email.
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
 class SendingQueueMailboxWidget extends StatelessWidget {
-
   final List<SendingEmail> listSendingEmails;
   final bool isSelected;
   final VoidCallback? onOpenSendingQueueAction;
 
-  const SendingQueueMailboxWidget({
-    super.key,
-    required this.listSendingEmails,
-    this.isSelected = false,
-    this.onOpenSendingQueueAction
-  });
+  const SendingQueueMailboxWidget(
+      {super.key,
+      required this.listSendingEmails,
+      this.isSelected = false,
+      this.onOpenSendingQueueAction});
 
   @override
   Widget build(BuildContext context) {
@@ -36,53 +34,51 @@ class SendingQueueMailboxWidget extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(8)),
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: isSelected ? AppColor.colorBgMailboxSelected : Colors.transparent),
+                borderRadius: BorderRadius.circular(8),
+                color: isSelected
+                    ? AppColor.colorBgMailboxSelected
+                    : Colors.transparent),
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
             child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(width: responsiveUtils.isLandscapeMobile(context) ? 20 : 28),
-                    SvgPicture.asset(
-                      imagePath.icMailboxSendingQueue,
-                      width: PlatformInfo.isWeb ? 20 : 24,
-                      height: PlatformInfo.isWeb ? 20 : 24,
-                      colorFilter: AppColor.primaryColor.asFilter(),
-                      fit: BoxFit.fill),
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                    SizedBox(
+                        width: responsiveUtils.isLandscapeMobile(context)
+                            ? 20
+                            : 28),
+                    SvgPicture.asset(imagePath.icMailboxSendingQueue,
+                        width: PlatformInfo.isWeb ? 20 : 24,
+                        height: PlatformInfo.isWeb ? 20 : 24,
+                        colorFilter: AppColor.primaryColor.asFilter(),
+                        fit: BoxFit.fill),
                     const SizedBox(width: 12),
-                    Expanded(child: Row(
+                    Expanded(
+                        child: Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Expanded(
                           child: TextOverflowBuilder(
                             AppLocalizations.of(context).sendingQueue,
                             style: const TextStyle(
-                              fontSize: 15,
-                              color: AppColor.colorNameEmail,
-                              fontWeight: FontWeight.normal),
+                                fontSize: 15,
+                                color: AppColor.colorNameEmail,
+                                fontWeight: FontWeight.normal),
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsetsDirectional.only(start: 12),
-                          child: TextOverflowBuilder(
-                            _getCountSendingEmails(),
-                            style: const TextStyle(
-                              fontSize: 13,
-                              color: Colors.black,
-                              fontWeight: FontWeight.normal
-                            )
-                          ),
+                          child: TextOverflowBuilder(_getCountSendingEmails(),
+                              style: const TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal)),
                         )
                       ],
                     ))
-                  ]
-                ),
-              ]
-            ),
+                  ]),
+                ]),
           ),
         ),
       ),
@@ -93,6 +89,8 @@ class SendingQueueMailboxWidget extends StatelessWidget {
     if (listSendingEmails.isEmpty) {
       return '';
     }
-    return listSendingEmails.length <= 999 ? '${listSendingEmails.length}' : '999+';
+    return listSendingEmails.length <= 999
+        ? '${listSendingEmails.length}'
+        : '999+';
   }
 }

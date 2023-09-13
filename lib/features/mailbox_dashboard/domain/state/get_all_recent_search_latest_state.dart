@@ -3,7 +3,6 @@ import 'package:core/presentation/state/success.dart';
 import 'package:tmail_ui_user/features/mailbox_dashboard/domain/model/recent_search.dart';
 
 class GetAllRecentSearchLatestSuccess extends UIState {
-
   final List<RecentSearch> listRecentSearch;
 
   GetAllRecentSearchLatestSuccess(this.listRecentSearch);
@@ -13,6 +12,6 @@ class GetAllRecentSearchLatestSuccess extends UIState {
 }
 
 class GetAllRecentSearchLatestFailure extends FeatureFailure {
-
-  GetAllRecentSearchLatestFailure(dynamic exception) : super(exception: exception);
+  GetAllRecentSearchLatestFailure(dynamic exception)
+      : super(exception: exception);
 }

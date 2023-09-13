@@ -13,10 +13,12 @@ class StoreEmailDeliveryStateInteractor {
 
   StoreEmailDeliveryStateInteractor(this._fcmRepository);
 
-  Stream<Either<Failure, Success>> execute(AccountId accountId, UserName userName, jmap.State newState) async* {
+  Stream<Either<Failure, Success>> execute(
+      AccountId accountId, UserName userName, jmap.State newState) async* {
     try {
       yield Right<Failure, Success>(StoreEmailDeliveryStateLoading());
-      await _fcmRepository.storeStateToRefresh(accountId, userName, TypeName.emailDelivery, newState);
+      await _fcmRepository.storeStateToRefresh(
+          accountId, userName, TypeName.emailDelivery, newState);
       yield Right<Failure, Success>(StoreEmailDeliveryStateSuccess());
     } catch (e) {
       yield Left<Failure, Success>(StoreEmailDeliveryStateFailure(e));

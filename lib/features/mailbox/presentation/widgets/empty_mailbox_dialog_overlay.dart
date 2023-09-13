@@ -13,7 +13,6 @@ import 'package:tmail_ui_user/features/mailbox/presentation/utils/mailbox_method
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
 class EmptyMailboxDialogOverlay extends StatelessWidget {
-
   final MailboxNode mailboxNode;
   final OnEmptyMailboxActionCallback onEmptyMailboxActionCallback;
   final OnCancelActionClick onCancelActionClick;
@@ -39,38 +38,33 @@ class EmptyMailboxDialogOverlay extends StatelessWidget {
         elevation: EmptyMailboxDialogOverlayStyles.elevation,
         child: Container(
           constraints: BoxConstraints(
-            maxHeight: _responsiveUtils.getSizeScreenHeight(context)
-          ),
+              maxHeight: _responsiveUtils.getSizeScreenHeight(context)),
           width: EmptyMailboxDialogOverlayStyles.width,
           padding: EmptyMailboxDialogOverlayStyles.padding,
           margin: EmptyMailboxDialogOverlayStyles.margin,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                     AppLocalizations.of(context).clearFolder,
-                     style: EmptyMailboxDialogOverlayStyles.titleTextStyle
-                    ),
-                  ),
-                  TMailButtonWidget.fromIcon(
-                    icon: _imagePaths.icClose,
-                    iconSize: EmptyMailboxDialogOverlayStyles.closeButtonIconSize,
-                    iconColor: EmptyMailboxDialogOverlayStyles.closeButtonColor,
-                    backgroundColor: Colors.transparent,
-                    padding: EmptyMailboxDialogOverlayStyles.iconPadding,
-                    onTapActionCallback: onCancelActionClick,
-                  )
-                ]
-              ),
+              Row(children: [
+                Expanded(
+                  child: Text(AppLocalizations.of(context).clearFolder,
+                      style: EmptyMailboxDialogOverlayStyles.titleTextStyle),
+                ),
+                TMailButtonWidget.fromIcon(
+                  icon: _imagePaths.icClose,
+                  iconSize: EmptyMailboxDialogOverlayStyles.closeButtonIconSize,
+                  iconColor: EmptyMailboxDialogOverlayStyles.closeButtonColor,
+                  backgroundColor: Colors.transparent,
+                  padding: EmptyMailboxDialogOverlayStyles.iconPadding,
+                  onTapActionCallback: onCancelActionClick,
+                )
+              ]),
               const SizedBox(height: EmptyMailboxDialogOverlayStyles.space),
               Flexible(
                 child: Text(
-                  AppLocalizations.of(context).messageEmptyFolderDialog(mailboxNode.item.getDisplayName(context)),
-                  style: EmptyMailboxDialogOverlayStyles.messageTextStyle
-                ),
+                    AppLocalizations.of(context).messageEmptyFolderDialog(
+                        mailboxNode.item.getDisplayName(context)),
+                    style: EmptyMailboxDialogOverlayStyles.messageTextStyle),
               ),
               const SizedBox(height: EmptyMailboxDialogOverlayStyles.space),
               Row(
@@ -78,20 +72,24 @@ class EmptyMailboxDialogOverlay extends StatelessWidget {
                   const Spacer(),
                   TMailButtonWidget.fromText(
                     text: AppLocalizations.of(context).cancel,
-                    backgroundColor: EmptyMailboxDialogOverlayStyles.cancelButtonColor,
+                    backgroundColor:
+                        EmptyMailboxDialogOverlayStyles.cancelButtonColor,
                     padding: EmptyMailboxDialogOverlayStyles.buttonPadding,
                     textStyle: EmptyMailboxDialogOverlayStyles.buttonTextStyle,
                     borderRadius: EmptyMailboxDialogOverlayStyles.buttonRadius,
                     onTapActionCallback: onCancelActionClick,
                   ),
-                  const SizedBox(width: EmptyMailboxDialogOverlayStyles.buttonSpace),
+                  const SizedBox(
+                      width: EmptyMailboxDialogOverlayStyles.buttonSpace),
                   TMailButtonWidget.fromText(
                     text: AppLocalizations.of(context).empty,
-                    backgroundColor: EmptyMailboxDialogOverlayStyles.emptyButtonColor,
+                    backgroundColor:
+                        EmptyMailboxDialogOverlayStyles.emptyButtonColor,
                     padding: EmptyMailboxDialogOverlayStyles.buttonPadding,
                     textStyle: EmptyMailboxDialogOverlayStyles.buttonTextStyle,
                     borderRadius: EmptyMailboxDialogOverlayStyles.buttonRadius,
-                    onTapActionCallback: () => onEmptyMailboxActionCallback.call(mailboxNode),
+                    onTapActionCallback: () =>
+                        onEmptyMailboxActionCallback.call(mailboxNode),
                   )
                 ],
               )

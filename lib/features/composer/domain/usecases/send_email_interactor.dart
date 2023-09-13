@@ -16,11 +16,8 @@ class SendEmailInteractor {
   SendEmailInteractor(this._emailRepository, this._mailboxRepository);
 
   Stream<Either<Failure, Success>> execute(
-    Session session,
-    AccountId accountId,
-    EmailRequest emailRequest,
-    {CreateNewMailboxRequest? mailboxRequest}
-  ) async* {
+      Session session, AccountId accountId, EmailRequest emailRequest,
+      {CreateNewMailboxRequest? mailboxRequest}) async* {
     try {
       yield Right<Failure, Success>(SendEmailLoading());
 
@@ -33,23 +30,18 @@ class SendEmailInteractor {
       final currentEmailState = listState.last;
 
       final result = await _emailRepository.sendEmail(
-        session,
-        accountId,
-        emailRequest,
-        mailboxRequest: mailboxRequest
-      );
+          session, accountId, emailRequest,
+          mailboxRequest: mailboxRequest);
 
       if (result) {
         if (emailRequest.emailIdDestroyed != null) {
-          await _emailRepository.deleteEmailPermanently(session, accountId, emailRequest.emailIdDestroyed!);
+          await _emailRepository.deleteEmailPermanently(
+              session, accountId, emailRequest.emailIdDestroyed!);
         }
 
-        yield Right<Failure, Success>(
-          SendEmailSuccess(
+        yield Right<Failure, Success>(SendEmailSuccess(
             currentEmailState: currentEmailState,
-            currentMailboxState: currentMailboxState
-          )
-        );
+            currentMailboxState: currentMailboxState));
       } else {
         yield Left<Failure, Success>(SendEmailFailure(null));
       }

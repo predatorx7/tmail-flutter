@@ -14,30 +14,34 @@ class GetNewReceiveEmailFromNotificationInteractor {
   final FCMRepository _fcmRepository;
   final EmailRepository _emailRepository;
 
-  GetNewReceiveEmailFromNotificationInteractor(this._fcmRepository, this._emailRepository);
+  GetNewReceiveEmailFromNotificationInteractor(
+      this._fcmRepository, this._emailRepository);
 
-  Stream<Either<Failure, Success>> execute({
-    required Session session,
-    required AccountId accountId,
-    required UserName userName,
-    required jmap.State newState
-  }) async* {
+  Stream<Either<Failure, Success>> execute(
+      {required Session session,
+      required AccountId accountId,
+      required UserName userName,
+      required jmap.State newState}) async* {
     try {
-      yield Right<Failure, Success>(GetNewReceiveEmailFromNotificationLoading());
+      yield Right<Failure, Success>(
+          GetNewReceiveEmailFromNotificationLoading());
 
-      final currentState = await _emailRepository.getEmailState(session, accountId);
+      final currentState =
+          await _emailRepository.getEmailState(session, accountId);
       if (currentState != null && currentState != newState) {
-        final listEmailIds = await _fcmRepository.getNewReceiveEmailFromNotification(
-          session,
-          accountId,
-          currentState);
+        final listEmailIds =
+            await _fcmRepository.getNewReceiveEmailFromNotification(
+                session, accountId, currentState);
 
-        yield Right<Failure, Success>(GetNewReceiveEmailFromNotificationSuccess(accountId, session, listEmailIds.toSet()));
+        yield Right<Failure, Success>(GetNewReceiveEmailFromNotificationSuccess(
+            accountId, session, listEmailIds.toSet()));
       } else {
-        yield Left<Failure, Success>(GetNewReceiveEmailFromNotificationFailure(EmailStateNoChangeException()));
+        yield Left<Failure, Success>(GetNewReceiveEmailFromNotificationFailure(
+            EmailStateNoChangeException()));
       }
     } catch (e) {
-      yield Left<Failure, Success>(GetNewReceiveEmailFromNotificationFailure(e));
+      yield Left<Failure, Success>(
+          GetNewReceiveEmailFromNotificationFailure(e));
     }
   }
 }

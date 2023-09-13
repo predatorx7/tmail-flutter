@@ -1,6 +1,1 @@
-
-enum EmailContentType {
-  textHtml,
-  textPlain,
-  other
-}
+enum EmailContentType { textHtml, textPlain, other }

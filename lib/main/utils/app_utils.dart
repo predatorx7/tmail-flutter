@@ -11,45 +11,48 @@ import 'package:intl/intl.dart' as intl;
 import 'package:date_format/date_format.dart' as date_format;
 
 class AppUtils {
-
   static const String envFileName = 'env.file';
 
-  static Future<void> loadEnvFile()  {
+  static Future<void> loadEnvFile() {
     return dotenv.load(fileName: envFileName);
   }
 
-  static Future<void> loadFcmConfigFileToEnv({Map<String, String>? currentMapEnvData})  {
+  static Future<void> loadFcmConfigFileToEnv(
+      {Map<String, String>? currentMapEnvData}) {
     return dotenv.load(
-      fileName: AppConfig.appFCMConfigurationPath,
-      mergeWith: currentMapEnvData ?? {}
-    );
+        fileName: AppConfig.appFCMConfigurationPath,
+        mergeWith: currentMapEnvData ?? {});
   }
 
   static Future<void> launchLink(String url, {bool isNewTab = true}) async {
-    await launchUrl(
-      Uri.parse(url),
-      webOnlyWindowName: isNewTab ? '_blank' : '_self',
-      mode: LaunchMode.externalApplication
-    );
+    await launchUrl(Uri.parse(url),
+        webOnlyWindowName: isNewTab ? '_blank' : '_self',
+        mode: LaunchMode.externalApplication);
   }
 
-  static String? get fcmVapidPublicKey => PlatformInfo.isWeb ? AppConfig.fcmVapidPublicKeyWeb : null;
+  static String? get fcmVapidPublicKey =>
+      PlatformInfo.isWeb ? AppConfig.fcmVapidPublicKeyWeb : null;
 
   static bool isDirectionRTL(BuildContext context) {
-    return intl.Bidi.isRtlLanguage(Localizations.localeOf(context).languageCode);
+    return intl.Bidi.isRtlLanguage(
+        Localizations.localeOf(context).languageCode);
   }
 
-  static TextDirection getCurrentDirection(BuildContext context) => Directionality.maybeOf(context) ?? TextDirection.ltr;
+  static TextDirection getCurrentDirection(BuildContext context) =>
+      Directionality.maybeOf(context) ?? TextDirection.ltr;
 
   static bool isEmailLocalhost(String email) {
-    return  RegExp(r'^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@localhost$').hasMatch(email);
+    return RegExp(
+            r'^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@localhost$')
+        .hasMatch(email);
   }
 
-  static void copyEmailAddressToClipboard(BuildContext context, String emailAddress) {
-    Clipboard.setData(ClipboardData(text: emailAddress)).then((_){
-      ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-        SnackBar(content: Text(AppLocalizations.of(context).email_address_copied_to_clipboard))
-      );
+  static void copyEmailAddressToClipboard(
+      BuildContext context, String emailAddress) {
+    Clipboard.setData(ClipboardData(text: emailAddress)).then((_) {
+      ScaffoldMessenger.maybeOf(context)?.showSnackBar(SnackBar(
+          content: Text(
+              AppLocalizations.of(context).email_address_copied_to_clipboard)));
     });
   }
 

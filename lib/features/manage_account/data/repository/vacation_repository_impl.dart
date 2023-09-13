@@ -14,7 +14,8 @@ class VacationRepositoryImpl extends VacationRepository {
   }
 
   @override
-  Future<List<VacationResponse>> updateVacation(AccountId accountId, VacationResponse vacationResponse) {
+  Future<List<VacationResponse>> updateVacation(
+      AccountId accountId, VacationResponse vacationResponse) {
     return dataSource.updateVacation(accountId, vacationResponse);
   }
 }

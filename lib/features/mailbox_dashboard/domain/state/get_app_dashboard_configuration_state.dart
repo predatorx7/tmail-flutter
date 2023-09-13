@@ -5,7 +5,6 @@ import 'package:tmail_ui_user/features/mailbox_dashboard/domain/app_dashboard/li
 class LoadingAppDashboardConfiguration extends UIState {}
 
 class GetAppDashboardConfigurationSuccess extends UIState {
-
   final LinagoraApplications linagoraApplications;
 
   GetAppDashboardConfigurationSuccess(this.linagoraApplications);
@@ -15,6 +14,6 @@ class GetAppDashboardConfigurationSuccess extends UIState {
 }
 
 class GetAppDashboardConfigurationFailure extends FeatureFailure {
-
-  GetAppDashboardConfigurationFailure(dynamic exception) : super(exception: exception);
+  GetAppDashboardConfigurationFailure(dynamic exception)
+      : super(exception: exception);
 }

@@ -1,4 +1,3 @@
-
 import 'package:core/core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -23,7 +22,6 @@ import 'package:tmail_ui_user/main/routes/dialog_router.dart';
 import 'package:tmail_ui_user/main/routes/route_navigation.dart';
 
 class MailboxCreatorController extends BaseController {
-
   final VerifyNameInteractor _verifyNameInteractor;
 
   final selectedMailbox = Rxn<PresentationMailbox>();
@@ -76,29 +74,33 @@ class MailboxCreatorController extends BaseController {
   }
 
   MailboxNode? _findMailboxNodeById(MailboxId mailboxId) {
-    final mailboxNode = defaultMailboxTree?.findNode((node) => node.item.id == mailboxId)
-     ?? personalMailboxTree?.findNode((node) => node.item.id == mailboxId)
-     ?? teamMailboxesTre?.findNode((node) => node.item.id == mailboxId);
+    final mailboxNode = defaultMailboxTree
+            ?.findNode((node) => node.item.id == mailboxId) ??
+        personalMailboxTree?.findNode((node) => node.item.id == mailboxId) ??
+        teamMailboxesTre?.findNode((node) => node.item.id == mailboxId);
     return mailboxNode;
   }
 
   void _createListMailboxNameAsStringInMailboxLocation() {
     if (selectedMailbox.value == null) {
-      final allChildrenAtMailboxLocation = (defaultMailboxTree?.root.childrenItems ?? <MailboxNode>[]) 
-        + (personalMailboxTree?.root.childrenItems ?? <MailboxNode>[])
-        + (teamMailboxesTre?.root.childrenItems ?? <MailboxNode>[]);
+      final allChildrenAtMailboxLocation =
+          (defaultMailboxTree?.root.childrenItems ?? <MailboxNode>[]) +
+              (personalMailboxTree?.root.childrenItems ?? <MailboxNode>[]) +
+              (teamMailboxesTre?.root.childrenItems ?? <MailboxNode>[]);
       if (allChildrenAtMailboxLocation.isNotEmpty) {
         listMailboxNameAsStringExist = allChildrenAtMailboxLocation
             .where((mailboxNode) => mailboxNode.nameNotEmpty)
             .map((mailboxNode) => mailboxNode.mailboxNameAsString)
             .toList();
-      }  else {
+      } else {
         listMailboxNameAsStringExist = [];
       }
     } else {
-      final mailboxNodeLocation = _findMailboxNodeById(selectedMailbox.value!.id);
-      if (mailboxNodeLocation != null && mailboxNodeLocation.childrenItems?.isNotEmpty == true) {
-        final allChildrenAtMailboxLocation =  mailboxNodeLocation.childrenItems!;
+      final mailboxNodeLocation =
+          _findMailboxNodeById(selectedMailbox.value!.id);
+      if (mailboxNodeLocation != null &&
+          mailboxNodeLocation.childrenItems?.isNotEmpty == true) {
+        final allChildrenAtMailboxLocation = mailboxNodeLocation.childrenItems!;
         listMailboxNameAsStringExist = allChildrenAtMailboxLocation
             .where((mailboxNode) => mailboxNode.nameNotEmpty)
             .map((mailboxNode) => mailboxNode.mailboxNameAsString)
@@ -111,26 +113,20 @@ class MailboxCreatorController extends BaseController {
 
   String? getErrorInputNameString(BuildContext context) {
     final nameMailbox = newNameMailbox.value;
-    final canCheckNameString = _createdMailbox && nameInputFocusNode.hasFocus == false;
+    final canCheckNameString =
+        _createdMailbox && nameInputFocusNode.hasFocus == false;
 
-    return _verifyNameInteractor.execute(
-        nameMailbox,
-        [
-          if (canCheckNameString)
-            EmptyNameValidator(),
-          DuplicateNameValidator(listMailboxNameAsStringExist),
-        ]
-    ).fold(
-      (failure) {
-        if (failure is VerifyNameFailure) {
-          _createdMailbox = false;
-          return failure.getMessage(context);
-        } else {
-          return null;
-        }
-      },
-      (success) => null
-    );
+    return _verifyNameInteractor.execute(nameMailbox, [
+      if (canCheckNameString) EmptyNameValidator(),
+      DuplicateNameValidator(listMailboxNameAsStringExist),
+    ]).fold((failure) {
+      if (failure is VerifyNameFailure) {
+        _createdMailbox = false;
+        return failure.getMessage(context);
+      } else {
+        return null;
+      }
+    }, (success) => null);
   }
 
   void selectMailboxLocation(BuildContext context) async {
@@ -138,19 +134,19 @@ class MailboxCreatorController extends BaseController {
 
     if (accountId != null) {
       final arguments = DestinationPickerArguments(
-        accountId!,
-        MailboxActions.create,
-        _session,
-        mailboxIdSelected: selectedMailbox.value?.id);
+          accountId!, MailboxActions.create, _session,
+          mailboxIdSelected: selectedMailbox.value?.id);
 
       final destinationMailbox = PlatformInfo.isWeb
-        ? await DialogRouter.pushGeneralDialog(routeName: AppRoutes.destinationPicker, arguments: arguments)
-        : await push(AppRoutes.destinationPicker, arguments: arguments);
+          ? await DialogRouter.pushGeneralDialog(
+              routeName: AppRoutes.destinationPicker, arguments: arguments)
+          : await push(AppRoutes.destinationPicker, arguments: arguments);
 
       if (destinationMailbox is PresentationMailbox) {
-        final mailboxDestination = destinationMailbox == PresentationMailbox.unifiedMailbox
-          ? null
-          : destinationMailbox;
+        final mailboxDestination =
+            destinationMailbox == PresentationMailbox.unifiedMailbox
+                ? null
+                : destinationMailbox;
 
         selectedMailbox.value = mailboxDestination;
         _createListMailboxNameAsStringInMailboxLocation();
@@ -169,9 +165,8 @@ class MailboxCreatorController extends BaseController {
     }
 
     if (nameMailbox != null && nameMailbox.isNotEmpty && _createdMailbox) {
-      final newMailboxArguments = NewMailboxArguments(
-        MailboxName(nameMailbox),
-        mailboxLocation: selectedMailbox.value);
+      final newMailboxArguments = NewMailboxArguments(MailboxName(nameMailbox),
+          mailboxLocation: selectedMailbox.value);
       popBack(result: newMailboxArguments);
     }
   }

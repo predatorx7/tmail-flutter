@@ -7,34 +7,32 @@ import 'package:tmail_ui_user/features/quotas/presentation/styles/quotas_view_st
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
 class QuotasView extends GetWidget<QuotasController> {
-
   const QuotasView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      if (controller.octetsQuota.value != null && controller.octetsQuota.value!.storageAvailable) {
+      if (controller.octetsQuota.value != null &&
+          controller.octetsQuota.value!.storageAvailable) {
         final octetQuota = controller.octetsQuota.value!;
         return LayoutBuilder(builder: (context, constraints) {
           return Container(
             padding: const EdgeInsetsDirectional.only(
-              start: QuotasViewStyles.padding,
-              top: QuotasViewStyles.padding,
-              bottom: QuotasViewStyles.bottomPadding
-            ),
+                start: QuotasViewStyles.padding,
+                top: QuotasViewStyles.padding,
+                bottom: QuotasViewStyles.bottomPadding),
             margin: controller.responsiveUtils.isWebDesktop(context)
-              ? const EdgeInsetsDirectional.only(end: QuotasViewStyles.margin)
-              : null,
+                ? const EdgeInsetsDirectional.only(end: QuotasViewStyles.margin)
+                : null,
             decoration: BoxDecoration(
               color: controller.responsiveUtils.isWebDesktop(context)
-                ? QuotasViewStyles.webBackgroundColor
-                : QuotasViewStyles.mobileBackgroundColor,
+                  ? QuotasViewStyles.webBackgroundColor
+                  : QuotasViewStyles.mobileBackgroundColor,
               border: const Border(
-                top: BorderSide(
-                  color: QuotasViewStyles.topLineColor,
-                  width: QuotasViewStyles.topLineSize,
-                )
-              ),
+                  top: BorderSide(
+                color: QuotasViewStyles.topLineColor,
+                width: QuotasViewStyles.topLineSize,
+              )),
             ),
             alignment: AlignmentDirectional.centerStart,
             child: Column(
@@ -53,10 +51,9 @@ class QuotasView extends GetWidget<QuotasController> {
                     Text(
                       AppLocalizations.of(context).storageQuotas,
                       style: const TextStyle(
-                        fontSize: QuotasViewStyles.labelTextSize,
-                        fontWeight: QuotasViewStyles.labelFontWeight,
-                        color: QuotasViewStyles.labelTextColor
-                      ),
+                          fontSize: QuotasViewStyles.labelTextSize,
+                          fontWeight: QuotasViewStyles.labelFontWeight,
+                          color: QuotasViewStyles.labelTextColor),
                     )
                   ],
                 ),
@@ -66,7 +63,8 @@ class QuotasView extends GetWidget<QuotasController> {
                   child: LinearProgressIndicator(
                     color: octetQuota.getQuotasStateProgressBarColor(),
                     minHeight: QuotasViewStyles.progressBarHeight,
-                    backgroundColor: QuotasViewStyles.progressBarBackgroundColor,
+                    backgroundColor:
+                        QuotasViewStyles.progressBarBackgroundColor,
                     value: octetQuota.usedStoragePercent,
                   ),
                 ),
@@ -74,10 +72,9 @@ class QuotasView extends GetWidget<QuotasController> {
                 Text(
                   octetQuota.getQuotasStateTitle(context),
                   style: TextStyle(
-                    fontSize: QuotasViewStyles.progressStateTextSize,
-                    fontWeight: QuotasViewStyles.progressStateFontWeight,
-                    color: octetQuota.getQuotasStateTitleColor()
-                  ),
+                      fontSize: QuotasViewStyles.progressStateTextSize,
+                      fontWeight: QuotasViewStyles.progressStateFontWeight,
+                      color: octetQuota.getQuotasStateTitleColor()),
                 )
               ],
             ),

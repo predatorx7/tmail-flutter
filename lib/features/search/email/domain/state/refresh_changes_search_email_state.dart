@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/state/failure.dart';
 import 'package:core/presentation/state/success.dart';
 import 'package:model/email/presentation_email.dart';
@@ -15,6 +14,6 @@ class RefreshChangesSearchEmailSuccess extends UIState {
 }
 
 class RefreshChangesSearchEmailFailure extends FeatureFailure {
-
-  RefreshChangesSearchEmailFailure(dynamic exception) : super(exception: exception);
+  RefreshChangesSearchEmailFailure(dynamic exception)
+      : super(exception: exception);
 }

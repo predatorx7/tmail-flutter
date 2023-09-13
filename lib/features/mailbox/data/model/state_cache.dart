@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 import 'package:tmail_ui_user/features/caching/utils/caching_constants.dart';
@@ -8,7 +7,6 @@ part 'state_cache.g.dart';
 
 @HiveType(typeId: CachingConstants.STATE_CACHE_IDENTIFY)
 class StateCache extends HiveObject with EquatableMixin {
-
   @HiveField(0)
   final StateType type;
 

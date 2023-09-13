@@ -21,5 +21,6 @@ class ForwardId with EquatableMixin {
 }
 
 extension ForwardIdSingleton on ForwardId {
-  static ForwardId get forwardIdSingleton => ForwardId(id: Id(ForwardIdType.singleton.value));
+  static ForwardId get forwardIdSingleton =>
+      ForwardId(id: Id(ForwardIdType.singleton.value));
 }

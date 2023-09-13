@@ -8,7 +8,6 @@ import 'package:tmail_ui_user/features/quotas/presentation/quotas_controller.dar
 import 'package:tmail_ui_user/features/quotas/presentation/styles/quotas_banner_styles.dart';
 
 class QuotasBannerWidget extends StatelessWidget {
-
   const QuotasBannerWidget({Key? key}) : super(key: key);
 
   @override
@@ -16,19 +15,24 @@ class QuotasBannerWidget extends StatelessWidget {
     final controller = Get.find<QuotasController>();
     final responsiveUtils = Get.find<ResponsiveUtils>();
     return Obx(() {
-      if (controller.octetsQuota.value != null && controller.octetsQuota.value!.allowedDisplayToQuotaBanner) {
+      if (controller.octetsQuota.value != null &&
+          controller.octetsQuota.value!.allowedDisplayToQuotaBanner) {
         final octetQuota = controller.octetsQuota.value!;
         return Container(
           decoration: BoxDecoration(
             color: octetQuota.getQuotaBannerBackgroundColor(),
-            borderRadius: const BorderRadius.all(Radius.circular(QuotasBannerStyles.borderRadius)),
+            borderRadius: const BorderRadius.all(
+                Radius.circular(QuotasBannerStyles.borderRadius)),
           ),
           margin: EdgeInsetsDirectional.only(
-            end: QuotasBannerStyles.endMargin,
-            top: PlatformInfo.isWeb ? QuotasBannerStyles.topMargin : 0,
-            start: responsiveUtils.isWebDesktop(context) ? 0 : QuotasBannerStyles.startMargin,
-            bottom: responsiveUtils.isWebDesktop(context) ? 0 : QuotasBannerStyles.bottomMargin
-          ),
+              end: QuotasBannerStyles.endMargin,
+              top: PlatformInfo.isWeb ? QuotasBannerStyles.topMargin : 0,
+              start: responsiveUtils.isWebDesktop(context)
+                  ? 0
+                  : QuotasBannerStyles.startMargin,
+              bottom: responsiveUtils.isWebDesktop(context)
+                  ? 0
+                  : QuotasBannerStyles.bottomMargin),
           padding: const EdgeInsetsDirectional.symmetric(
             horizontal: QuotasBannerStyles.horizontalPadding,
             vertical: QuotasBannerStyles.verticalPadding,

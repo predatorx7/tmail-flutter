@@ -19,28 +19,36 @@ import 'package:tmail_ui_user/features/mailbox/domain/model/subscribe_mailbox_re
 import 'package:tmail_ui_user/features/mailbox/domain/model/subscribe_multiple_mailbox_request.dart';
 
 abstract class MailboxRepository {
-  Stream<MailboxResponse> getAllMailbox(Session session, AccountId accountId, {Properties? properties});
+  Stream<MailboxResponse> getAllMailbox(Session session, AccountId accountId,
+      {Properties? properties});
 
-  Stream<MailboxResponse> refresh(Session session, AccountId accountId, State currentState);
+  Stream<MailboxResponse> refresh(
+      Session session, AccountId accountId, State currentState);
 
-  Future<Mailbox?> createNewMailbox(Session session, AccountId accountId, CreateNewMailboxRequest newMailboxRequest);
+  Future<Mailbox?> createNewMailbox(Session session, AccountId accountId,
+      CreateNewMailboxRequest newMailboxRequest);
 
-  Future<Map<Id,SetError>> deleteMultipleMailbox(Session session, AccountId accountId, List<MailboxId> mailboxIds);
+  Future<Map<Id, SetError>> deleteMultipleMailbox(
+      Session session, AccountId accountId, List<MailboxId> mailboxIds);
 
-  Future<bool> renameMailbox(Session session, AccountId accountId, RenameMailboxRequest request);
+  Future<bool> renameMailbox(
+      Session session, AccountId accountId, RenameMailboxRequest request);
 
   Future<List<Email>> markAsMailboxRead(
-    Session session,
-    AccountId accountId,
-    MailboxId mailboxId,
-    int totalEmailUnread,
-    StreamController<dartz.Either<Failure, Success>> onProgressController);
+      Session session,
+      AccountId accountId,
+      MailboxId mailboxId,
+      int totalEmailUnread,
+      StreamController<dartz.Either<Failure, Success>> onProgressController);
 
-  Future<bool> moveMailbox(Session session, AccountId accountId, MoveMailboxRequest request);
+  Future<bool> moveMailbox(
+      Session session, AccountId accountId, MoveMailboxRequest request);
 
   Future<State?> getMailboxState(Session session, AccountId accountId);
 
-  Future<bool> subscribeMailbox(Session session, AccountId accountId, SubscribeMailboxRequest request);
+  Future<bool> subscribeMailbox(
+      Session session, AccountId accountId, SubscribeMailboxRequest request);
 
-  Future<List<MailboxId>> subscribeMultipleMailbox(Session session, AccountId accountId, SubscribeMultipleMailboxRequest subscribeRequest);
+  Future<List<MailboxId>> subscribeMultipleMailbox(Session session,
+      AccountId accountId, SubscribeMultipleMailboxRequest subscribeRequest);
 }

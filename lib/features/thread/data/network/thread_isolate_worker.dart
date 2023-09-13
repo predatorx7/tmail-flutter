@@ -30,21 +30,23 @@ class ThreadIsolateWorker {
     Session session,
     AccountId accountId,
     MailboxId mailboxId,
-    Future<void> Function(List<EmailId>? newDestroyed) updateDestroyedEmailCache,
+    Future<void> Function(List<EmailId>? newDestroyed)
+        updateDestroyedEmailCache,
   ) async {
     if (PlatformInfo.isWeb) {
-      return _emptyMailboxFolderOnWeb(session, accountId, mailboxId, updateDestroyedEmailCache);
+      return _emptyMailboxFolderOnWeb(
+          session, accountId, mailboxId, updateDestroyedEmailCache);
     } else {
       final result = await _isolateExecutor.execute(
-        arg1: EmptyMailboxFolderArguments(session, _threadAPI, _emailAPI, accountId, mailboxId),
-        fun1: _emptyMailboxFolderAction,
-        notification: (value) {
-          if (value is List<EmailId>) {
-            updateDestroyedEmailCache.call(value);
-            log('ThreadIsolateWorker::emptyMailboxFolder(): onUpdateProgress: PERCENT ${value.length}');
-          }
-        }
-      );
+          arg1: EmptyMailboxFolderArguments(
+              session, _threadAPI, _emailAPI, accountId, mailboxId),
+          fun1: _emptyMailboxFolderAction,
+          notification: (value) {
+            if (value is List<EmailId>) {
+              updateDestroyedEmailCache.call(value);
+              log('ThreadIsolateWorker::emptyMailboxFolder(): onUpdateProgress: PERCENT ${value.length}');
+            }
+          });
 
       if (result.isEmpty) {
         throw NotFoundEmailsDeletedException();
@@ -54,7 +56,8 @@ class ThreadIsolateWorker {
     }
   }
 
-  static Future<List<EmailId>> _emptyMailboxFolderAction(EmptyMailboxFolderArguments args, TypeSendPort sendPort) async {
+  static Future<List<EmailId>> _emptyMailboxFolderAction(
+      EmptyMailboxFolderArguments args, TypeSendPort sendPort) async {
     List<EmailId> emailListCompleted = List.empty(growable: true);
     try {
       var hasEmails = true;
@@ -62,17 +65,18 @@ class ThreadIsolateWorker {
 
       while (hasEmails) {
         final emailsResponse = await args.threadAPI.getAllEmail(
-          args.session,
-          args.accountId,
-          sort: <Comparator>{}..add(
-            EmailComparator(EmailComparatorProperty.receivedAt)
-              ..setIsAscending(false)),
-          filter: EmailFilterCondition(inMailbox: args.mailboxId, before: lastEmail?.receivedAt),
-          properties: Properties({EmailProperty.id}));
+            args.session, args.accountId,
+            sort: <Comparator>{}..add(
+                EmailComparator(EmailComparatorProperty.receivedAt)
+                  ..setIsAscending(false)),
+            filter: EmailFilterCondition(
+                inMailbox: args.mailboxId, before: lastEmail?.receivedAt),
+            properties: Properties({EmailProperty.id}));
 
         var newEmailList = emailsResponse.emailList ?? <Email>[];
         if (lastEmail != null) {
-          newEmailList = newEmailList.where((email) => email.id != lastEmail!.id).toList();
+          newEmailList =
+              newEmailList.where((email) => email.id != lastEmail!.id).toList();
         }
 
         log('ThreadIsolateWorker::_emptyMailboxFolderAction(): ${newEmailList.length}');
@@ -80,9 +84,12 @@ class ThreadIsolateWorker {
         if (newEmailList.isNotEmpty) {
           lastEmail = newEmailList.last;
           hasEmails = true;
-          final listEmailIdDeleted = await args.emailAPI.deleteMultipleEmailsPermanently(args.session, args.accountId, newEmailList.listEmailIds);
+          final listEmailIdDeleted = await args.emailAPI
+              .deleteMultipleEmailsPermanently(
+                  args.session, args.accountId, newEmailList.listEmailIds);
 
-          if (listEmailIdDeleted.isNotEmpty && listEmailIdDeleted.length == newEmailList.listEmailIds.length) {
+          if (listEmailIdDeleted.isNotEmpty &&
+              listEmailIdDeleted.length == newEmailList.listEmailIds.length) {
             sendPort.send(listEmailIdDeleted);
           }
           emailListCompleted.addAll(listEmailIdDeleted);
@@ -111,18 +118,18 @@ class ThreadIsolateWorker {
       Email? lastEmail;
 
       while (hasEmails) {
-        final emailsResponse = await _threadAPI.getAllEmail(
-          session,
-          accountId,
-          sort: <Comparator>{}..add(
-            EmailComparator(EmailComparatorProperty.receivedAt)
-              ..setIsAscending(false)),
-          filter: EmailFilterCondition(inMailbox: mailboxId, before: lastEmail?.receivedAt),
-          properties: Properties({EmailProperty.id}));
+        final emailsResponse = await _threadAPI.getAllEmail(session, accountId,
+            sort: <Comparator>{}..add(
+                EmailComparator(EmailComparatorProperty.receivedAt)
+                  ..setIsAscending(false)),
+            filter: EmailFilterCondition(
+                inMailbox: mailboxId, before: lastEmail?.receivedAt),
+            properties: Properties({EmailProperty.id}));
 
         var newEmailList = emailsResponse.emailList ?? <Email>[];
         if (lastEmail != null) {
-          newEmailList = newEmailList.where((email) => email.id != lastEmail!.id).toList();
+          newEmailList =
+              newEmailList.where((email) => email.id != lastEmail!.id).toList();
         }
 
         log('ThreadIsolateWorker::_emptyMailboxFolderOnWeb(): ${newEmailList.length}');
@@ -130,13 +137,15 @@ class ThreadIsolateWorker {
         if (newEmailList.isNotEmpty) {
           lastEmail = newEmailList.last;
           hasEmails = true;
-          final listEmailIdDeleted = await _emailAPI.deleteMultipleEmailsPermanently(session, accountId, newEmailList.listEmailIds);
+          final listEmailIdDeleted =
+              await _emailAPI.deleteMultipleEmailsPermanently(
+                  session, accountId, newEmailList.listEmailIds);
 
-          if (listEmailIdDeleted.isNotEmpty && listEmailIdDeleted.length == newEmailList.listEmailIds.length) {
+          if (listEmailIdDeleted.isNotEmpty &&
+              listEmailIdDeleted.length == newEmailList.listEmailIds.length) {
             await updateDestroyedEmailCache(listEmailIdDeleted);
           }
           emailListCompleted.addAll(listEmailIdDeleted);
-
         } else {
           hasEmails = false;
         }

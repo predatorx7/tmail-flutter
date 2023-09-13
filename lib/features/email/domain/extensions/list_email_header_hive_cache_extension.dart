@@ -3,5 +3,7 @@ import 'package:tmail_ui_user/features/email/domain/extensions/email_header_hive
 import 'package:tmail_ui_user/features/offline_mode/model/email_header_hive_cache.dart';
 
 extension ListEmailHeaderExtension on List<EmailHeaderHiveCache> {
-  Set<EmailHeader> toSetEmailHeader() => map((emailHeaderHiveCache) => emailHeaderHiveCache.toEmailHeader()).toSet();
+  Set<EmailHeader> toSetEmailHeader() =>
+      map((emailHeaderHiveCache) => emailHeaderHiveCache.toEmailHeader())
+          .toSet();
 }

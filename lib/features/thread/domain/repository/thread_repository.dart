@@ -17,40 +17,34 @@ import 'package:tmail_ui_user/features/thread/domain/model/get_email_request.dar
 abstract class ThreadRepository {
   Stream<EmailsResponse> getAllEmail(
     Session session,
-    AccountId accountId,
-    {
-      UnsignedInt? limit,
-      Set<Comparator>? sort,
-      EmailFilter? emailFilter,
-      Properties? propertiesCreated,
-      Properties? propertiesUpdated,
-    }
-  );
+    AccountId accountId, {
+    UnsignedInt? limit,
+    Set<Comparator>? sort,
+    EmailFilter? emailFilter,
+    Properties? propertiesCreated,
+    Properties? propertiesUpdated,
+  });
 
   Stream<EmailsResponse> refreshChanges(
     Session session,
     AccountId accountId,
-    jmap.State currentState,
-    {
-      Set<Comparator>? sort,
-      EmailFilter? emailFilter,
-      Properties? propertiesCreated,
-      Properties? propertiesUpdated,
-    }
-  );
+    jmap.State currentState, {
+    Set<Comparator>? sort,
+    EmailFilter? emailFilter,
+    Properties? propertiesCreated,
+    Properties? propertiesUpdated,
+  });
 
   Stream<EmailsResponse> loadMoreEmails(GetEmailRequest emailRequest);
 
   Future<List<Email>> searchEmails(
     Session session,
-    AccountId accountId,
-    {
-      UnsignedInt? limit,
-      Set<Comparator>? sort,
-      Filter? filter,
-      Properties? properties,
-    }
-  );
+    AccountId accountId, {
+    UnsignedInt? limit,
+    Set<Comparator>? sort,
+    Filter? filter,
+    Properties? properties,
+  });
 
   Future<List<EmailId>> emptyTrashFolder(
     Session session,
@@ -59,11 +53,8 @@ abstract class ThreadRepository {
   );
 
   Future<PresentationEmail> getEmailById(
-    Session session,
-    AccountId accountId,
-    EmailId emailId,
-    {Properties? properties}
-  );
+      Session session, AccountId accountId, EmailId emailId,
+      {Properties? properties});
 
   Future<List<EmailId>> emptySpamFolder(
     Session session,

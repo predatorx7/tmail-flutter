@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/resources/image_paths.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,7 +12,7 @@ enum QuickSearchFilter {
   fromMe;
 
   String getName(BuildContext context) {
-    switch(this) {
+    switch (this) {
       case QuickSearchFilter.hasAttachment:
         return AppLocalizations.of(context).hasAttachment;
       case QuickSearchFilter.last7Days:
@@ -29,12 +28,13 @@ enum QuickSearchFilter {
     DateTime? startDate,
     DateTime? endDate,
   }) {
-    switch(this) {
+    switch (this) {
       case QuickSearchFilter.hasAttachment:
         return AppLocalizations.of(context).hasAttachment;
       case QuickSearchFilter.last7Days:
-        return receiveTimeType?.getTitle(context, startDate: startDate, endDate: endDate)
-          ?? AppLocalizations.of(context).allTime;
+        return receiveTimeType?.getTitle(context,
+                startDate: startDate, endDate: endDate) ??
+            AppLocalizations.of(context).allTime;
       case QuickSearchFilter.fromMe:
         return AppLocalizations.of(context).fromMe;
     }
@@ -44,7 +44,7 @@ enum QuickSearchFilter {
     if (isFilterSelected) {
       return imagePaths.icSelectedSB;
     } else {
-      switch(this) {
+      switch (this) {
         case QuickSearchFilter.hasAttachment:
           return imagePaths.icAttachmentSB;
         case QuickSearchFilter.last7Days:
@@ -77,7 +77,8 @@ enum QuickSearchFilter {
     }
   }
 
-  bool isApplied(List<QuickSearchFilter> listFilter) => listFilter.contains(this);
+  bool isApplied(List<QuickSearchFilter> listFilter) =>
+      listFilter.contains(this);
 
   bool isSelected(SearchEmailFilter filter, UserProfile? userProfile) {
     switch (this) {
@@ -87,8 +88,8 @@ enum QuickSearchFilter {
         return true;
       case QuickSearchFilter.fromMe:
         return userProfile != null &&
-          filter.from.contains(userProfile.email) &&
-          filter.from.length == 1;
+            filter.from.contains(userProfile.email) &&
+            filter.from.length == 1;
     }
   }
 }

@@ -38,61 +38,77 @@ class SettingsView extends GetWidget<SettingsController> {
     return Container(
       color: Colors.white,
       child: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox.fromSize(
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          SizedBox.fromSize(
               size: const Size.fromHeight(52),
               child: Padding(
-                padding: SettingsUtils.getPaddingAppBar(context, _responsiveUtils),
-                child: _buildAppbar(context))),
-            const Divider(color: AppColor.colorDividerComposer, height: 1),
-            Obx(() {
-              if (controller.manageAccountDashboardController.vacationResponse.value?.vacationResponderIsValid == true) {
-                return VacationNotificationMessageWidget(
-                    margin: const EdgeInsets.only(
-                        left: PlatformInfo.isWeb ? 24 : 16,
-                        right: PlatformInfo.isWeb ? 24 : 16,
-                        top: 16),
-                    fromAccountDashBoard: true,
-                    vacationResponse: controller.manageAccountDashboardController.vacationResponse.value!,
-                    actionGotoVacationSetting: !controller.manageAccountDashboardController.inVacationSettings()
-                      ? () => controller.manageAccountDashboardController.selectAccountMenuItem(AccountMenuItem.vacation)
-                      : null,
-                    actionEndNow: () => controller.manageAccountDashboardController.disableVacationResponder());
-              } else if ((controller.manageAccountDashboardController.vacationResponse.value?.vacationResponderIsWaiting == true
-                  || controller.manageAccountDashboardController.vacationResponse.value?.vacationResponderIsStopped == true)
-                  && controller.manageAccountDashboardController.inVacationSettings()) {
-                return VacationNotificationMessageWidget(
+                  padding:
+                      SettingsUtils.getPaddingAppBar(context, _responsiveUtils),
+                  child: _buildAppbar(context))),
+          const Divider(color: AppColor.colorDividerComposer, height: 1),
+          Obx(() {
+            if (controller.manageAccountDashboardController.vacationResponse
+                    .value?.vacationResponderIsValid ==
+                true) {
+              return VacationNotificationMessageWidget(
                   margin: const EdgeInsets.only(
-                    left: PlatformInfo.isWeb ? 24 : 16,
-                    right: PlatformInfo.isWeb ? 24 : 16,
-                    top: 16),
+                      left: PlatformInfo.isWeb ? 24 : 16,
+                      right: PlatformInfo.isWeb ? 24 : 16,
+                      top: 16),
                   fromAccountDashBoard: true,
-                  vacationResponse: controller.manageAccountDashboardController.vacationResponse.value!,
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                  vacationResponse: controller
+                      .manageAccountDashboardController.vacationResponse.value!,
+                  actionGotoVacationSetting: !controller
+                          .manageAccountDashboardController
+                          .inVacationSettings()
+                      ? () => controller.manageAccountDashboardController
+                          .selectAccountMenuItem(AccountMenuItem.vacation)
+                      : null,
+                  actionEndNow: () => controller
+                      .manageAccountDashboardController
+                      .disableVacationResponder());
+            } else if ((controller
+                            .manageAccountDashboardController
+                            .vacationResponse
+                            .value
+                            ?.vacationResponderIsWaiting ==
+                        true ||
+                    controller.manageAccountDashboardController.vacationResponse
+                            .value?.vacationResponderIsStopped ==
+                        true) &&
+                controller.manageAccountDashboardController
+                    .inVacationSettings()) {
+              return VacationNotificationMessageWidget(
+                  margin: const EdgeInsets.only(
+                      left: PlatformInfo.isWeb ? 24 : 16,
+                      right: PlatformInfo.isWeb ? 24 : 16,
+                      top: 16),
+                  fromAccountDashBoard: true,
+                  vacationResponse: controller
+                      .manageAccountDashboardController.vacationResponse.value!,
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                   leadingIcon: Padding(
                     padding: EdgeInsets.only(
                       right: AppUtils.isDirectionRTL(context) ? 0 : 16,
                       left: AppUtils.isDirectionRTL(context) ? 16 : 0,
                     ),
                     child: const Icon(Icons.timer, size: 20),
-                  )
-                );
-              } else {
-                return const SizedBox.shrink();
-              }
-            }),
-            Expanded(child: _bodySettingsScreen())
-          ]
-        ),
+                  ));
+            } else {
+              return const SizedBox.shrink();
+            }
+          }),
+          Expanded(child: _bodySettingsScreen())
+        ]),
       ),
     );
   }
 
   Widget _buildAppbar(BuildContext context) {
     return Obx(() {
-      if (controller.manageAccountDashboardController.settingsPageLevel.value == SettingsPageLevel.universal) {
+      if (controller.manageAccountDashboardController.settingsPageLevel.value ==
+          SettingsPageLevel.universal) {
         return _buildUniversalSettingAppBar(context);
       } else {
         return _buildSettingLevel1AppBar(context);
@@ -101,24 +117,19 @@ class SettingsView extends GetWidget<SettingsController> {
   }
 
   Widget _buildUniversalSettingAppBar(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        Positioned(left: 0,child: _buildCloseSettingButton(context)),
-        Padding(
+    return Stack(alignment: Alignment.center, children: [
+      Positioned(left: 0, child: _buildCloseSettingButton(context)),
+      Padding(
           padding: const EdgeInsets.only(left: 50, right: 50),
-          child: Text(
-            AppLocalizations.of(context).settings,
-            maxLines: 1,
-            softWrap: CommonTextStyle.defaultSoftWrap,
-            overflow: CommonTextStyle.defaultTextOverFlow,
-            style: const TextStyle(
-              fontSize: 20,
-              color: AppColor.colorNameEmail,
-              fontWeight: FontWeight.w700))
-        )
-      ]
-    );
+          child: Text(AppLocalizations.of(context).settings,
+              maxLines: 1,
+              softWrap: CommonTextStyle.defaultSoftWrap,
+              overflow: CommonTextStyle.defaultTextOverFlow,
+              style: const TextStyle(
+                  fontSize: 20,
+                  color: AppColor.colorNameEmail,
+                  fontWeight: FontWeight.w700)))
+    ]);
   }
 
   Widget _buildSettingLevel1AppBar(BuildContext context) {
@@ -128,7 +139,7 @@ class SettingsView extends GetWidget<SettingsController> {
         child: InkWell(
           onTap: controller.backToUniversalSettings,
           customBorder: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(15))),
+              borderRadius: BorderRadius.all(Radius.circular(15))),
           child: Tooltip(
             message: AppLocalizations.of(context).back,
             child: Container(
@@ -137,56 +148,57 @@ class SettingsView extends GetWidget<SettingsController> {
               padding: const EdgeInsets.symmetric(horizontal: 4),
               child: Row(mainAxisSize: MainAxisSize.min, children: [
                 SvgPicture.asset(
-                  DirectionUtils.isDirectionRTLByLanguage(context)
-                    ? _imagePaths.icCollapseFolder
-                    : _imagePaths.icBack,
-                  colorFilter: AppColor.colorTextButton.asFilter(),
-                  fit: BoxFit.fill),
+                    DirectionUtils.isDirectionRTLByLanguage(context)
+                        ? _imagePaths.icCollapseFolder
+                        : _imagePaths.icBack,
+                    colorFilter: AppColor.colorTextButton.asFilter(),
+                    fit: BoxFit.fill),
                 Container(
-                  margin: EdgeInsets.only(
-                    left: AppUtils.isDirectionRTL(context) ? 0 : 4,
-                    right: AppUtils.isDirectionRTL(context) ? 4 : 0,
-                  ),
-                  constraints: const BoxConstraints(maxWidth: 80),
-                  child: Text(
-                    AppLocalizations.of(context).settings,
-                    maxLines: 1,
-                    overflow: CommonTextStyle.defaultTextOverFlow,
-                    softWrap: CommonTextStyle.defaultSoftWrap,
-                    style: const TextStyle(fontSize: 17, color: AppColor.colorTextButton)
-                  )
-                ),
+                    margin: EdgeInsets.only(
+                      left: AppUtils.isDirectionRTL(context) ? 0 : 4,
+                      right: AppUtils.isDirectionRTL(context) ? 4 : 0,
+                    ),
+                    constraints: const BoxConstraints(maxWidth: 80),
+                    child: Text(AppLocalizations.of(context).settings,
+                        maxLines: 1,
+                        overflow: CommonTextStyle.defaultTextOverFlow,
+                        softWrap: CommonTextStyle.defaultSoftWrap,
+                        style: const TextStyle(
+                            fontSize: 17, color: AppColor.colorTextButton))),
               ]),
             ),
           ),
         ),
       ),
-      Expanded(child: Text(
-        controller.manageAccountDashboardController.accountMenuItemSelected.value.getName(context),
-        maxLines: 1,
-        textAlign: TextAlign.center,
-        overflow: CommonTextStyle.defaultTextOverFlow,
-        softWrap: CommonTextStyle.defaultSoftWrap,
-        style: const TextStyle(
-          fontSize: 20,
-          color: Colors.black,
-          fontWeight: FontWeight.bold
-        )
-      )),
+      Expanded(
+          child: Text(
+              controller.manageAccountDashboardController
+                  .accountMenuItemSelected.value
+                  .getName(context),
+              maxLines: 1,
+              textAlign: TextAlign.center,
+              overflow: CommonTextStyle.defaultTextOverFlow,
+              softWrap: CommonTextStyle.defaultSoftWrap,
+              style: const TextStyle(
+                  fontSize: 20,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold))),
       Container(constraints: const BoxConstraints(maxWidth: 80))
     ]);
   }
 
   Widget _buildCloseSettingButton(BuildContext context) {
     return buildIconWeb(
-      icon: SvgPicture.asset(_imagePaths.icClose, width: 28, height: 28, fit: BoxFit.fill),
-      tooltip: AppLocalizations.of(context).close,
-      onTap: closeAction);
+        icon: SvgPicture.asset(_imagePaths.icClose,
+            width: 28, height: 28, fit: BoxFit.fill),
+        tooltip: AppLocalizations.of(context).close,
+        onTap: closeAction);
   }
 
   Widget _bodySettingsScreen() {
     return Obx(() {
-      switch (controller.manageAccountDashboardController.settingsPageLevel.value) {
+      switch (
+          controller.manageAccountDashboardController.settingsPageLevel.value) {
         case SettingsPageLevel.universal:
           return SettingsFirstLevelView();
         case SettingsPageLevel.level1:
@@ -197,25 +209,29 @@ class SettingsView extends GetWidget<SettingsController> {
 
   Widget _viewDisplayedOfAccountMenuItem() {
     return Obx(() {
-      switch(controller.manageAccountDashboardController.accountMenuItemSelected.value) {
+      switch (controller
+          .manageAccountDashboardController.accountMenuItemSelected.value) {
         case AccountMenuItem.profiles:
           return ProfilesView();
         case AccountMenuItem.languageAndRegion:
           return LanguageAndRegionView();
         case AccountMenuItem.emailRules:
-          if (controller.manageAccountDashboardController.isRuleFilterCapabilitySupported) {
+          if (controller.manageAccountDashboardController
+              .isRuleFilterCapabilitySupported) {
             return EmailRulesView();
           } else {
             return const SizedBox.shrink();
           }
         case AccountMenuItem.forward:
-          if (controller.manageAccountDashboardController.isForwardCapabilitySupported) {
+          if (controller
+              .manageAccountDashboardController.isForwardCapabilitySupported) {
             return ForwardView();
           } else {
             return const SizedBox.shrink();
           }
         case AccountMenuItem.vacation:
-          if (controller.manageAccountDashboardController.isVacationCapabilitySupported) {
+          if (controller
+              .manageAccountDashboardController.isVacationCapabilitySupported) {
             return VacationView();
           } else {
             return const SizedBox.shrink();

@@ -11,26 +11,21 @@ class AvatarTagItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: AvatarTagItemStyle.iconSize,
-      height: AvatarTagItemStyle.iconSize,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: AppColor.mapGradientColor[_generateIndex(tagName)],
-        ),
-        border: Border.all(
-          color: AvatarTagItemStyle.iconBorderColor,
-          width: AvatarTagItemStyle.iconBorderSize
-        )
-      ),
-      child: Text(
-        tagName.isNotEmpty ? tagName[0].toUpperCase() : '',
-        style: AvatarTagItemStyle.labelTextStyle
-      )
-    );
+        width: AvatarTagItemStyle.iconSize,
+        height: AvatarTagItemStyle.iconSize,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: AppColor.mapGradientColor[_generateIndex(tagName)],
+            ),
+            border: Border.all(
+                color: AvatarTagItemStyle.iconBorderColor,
+                width: AvatarTagItemStyle.iconBorderSize)),
+        child: Text(tagName.isNotEmpty ? tagName[0].toUpperCase() : '',
+            style: AvatarTagItemStyle.labelTextStyle));
   }
 
   int _generateIndex(String tag) {

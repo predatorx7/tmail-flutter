@@ -6,6 +6,6 @@ class UpdateAuthenticationAccountLoading extends LoadingState {}
 class UpdateAuthenticationAccountSuccess extends UIState {}
 
 class UpdateAuthenticationAccountFailure extends FeatureFailure {
-
-  UpdateAuthenticationAccountFailure(dynamic exception) : super(exception: exception);
+  UpdateAuthenticationAccountFailure(dynamic exception)
+      : super(exception: exception);
 }

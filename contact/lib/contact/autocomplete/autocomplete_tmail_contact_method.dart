@@ -8,27 +8,22 @@ import 'package:jmap_dart_client/jmap/core/capability/capability_identifier.dart
 import 'package:jmap_dart_client/jmap/core/request/request_invocation.dart';
 
 class AutoCompleteTMailContactMethod extends AutoCompleteMethod {
-
-  AutoCompleteTMailContactMethod(
-      AccountId accountId,
-      ContactFilter filter
-  ) : super(accountId, filter);
+  AutoCompleteTMailContactMethod(AccountId accountId, ContactFilter filter)
+      : super(accountId, filter);
 
   @override
   MethodName get methodName => MethodName('TMailContact/autocomplete');
 
   @override
-  Set<CapabilityIdentifier> get requiredCapabilities => {
-    CapabilityIdentifier.jmapCore,
-    tmailContactCapabilityIdentifier
-  };
+  Set<CapabilityIdentifier> get requiredCapabilities =>
+      {CapabilityIdentifier.jmapCore, tmailContactCapabilityIdentifier};
 
   factory AutoCompleteTMailContactMethod.fromJson(Map<String, dynamic> json) {
     return AutoCompleteTMailContactMethod(
       const AccountIdConverter().fromJson(json['accountId'] as String),
       ContactFilter.fromJson(json['filter'] as Map<String, dynamic>),
-    )
-      ..limit = const UnsignedIntNullableConverter().fromJson(json['limit'] as int?);
+    )..limit =
+        const UnsignedIntNullableConverter().fromJson(json['limit'] as int?);
   }
 
   @override
@@ -43,8 +38,7 @@ class AutoCompleteTMailContactMethod extends AutoCompleteMethod {
       }
     }
 
-    writeNotNull(
-        'limit', const UnsignedIntNullableConverter().toJson(limit));
+    writeNotNull('limit', const UnsignedIntNullableConverter().toJson(limit));
     val['filter'] = filter.toJson();
     return val;
   }

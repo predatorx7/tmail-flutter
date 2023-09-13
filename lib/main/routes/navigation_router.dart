@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:jmap_dart_client/jmap/mail/email/email.dart';
 import 'package:jmap_dart_client/jmap/mail/mailbox/mailbox.dart';
@@ -15,12 +14,11 @@ class NavigationRouter with EquatableMixin {
   final DashboardType dashboardType;
   final SearchQuery? searchQuery;
 
-  NavigationRouter({
-    this.emailId,
-    this.mailboxId,
-    this.searchQuery,
-    this.dashboardType = DashboardType.normal
-  });
+  NavigationRouter(
+      {this.emailId,
+      this.mailboxId,
+      this.searchQuery,
+      this.dashboardType = DashboardType.normal});
 
   @override
   List<Object?> get props => [emailId, mailboxId, searchQuery, dashboardType];

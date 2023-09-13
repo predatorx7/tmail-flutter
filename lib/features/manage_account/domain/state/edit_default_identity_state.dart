@@ -7,6 +7,5 @@ class EditDefaultIdentityLoading extends UIState {}
 class EditDefaultIdentitySuccess extends EditIdentitySuccess {}
 
 class EditDefaultIdentityFailure extends FeatureFailure {
-
   EditDefaultIdentityFailure(dynamic exception) : super(exception: exception);
 }

@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
@@ -14,13 +13,13 @@ part 'notification_payload.g.dart';
 @StateNullableConverter()
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class NotificationPayload with EquatableMixin {
-
   final EmailId? emailId;
   final jmap.State? newState;
 
   NotificationPayload({this.emailId, this.newState});
 
-  factory NotificationPayload.fromJson(Map<String, dynamic> json) => _$NotificationPayloadFromJson(json);
+  factory NotificationPayload.fromJson(Map<String, dynamic> json) =>
+      _$NotificationPayloadFromJson(json);
 
   Map<String, dynamic> toJson() => _$NotificationPayloadToJson(this);
 

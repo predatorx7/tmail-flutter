@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/state/failure.dart';
 import 'package:core/presentation/state/success.dart';
 import 'package:dartz/dartz.dart';
@@ -14,19 +13,25 @@ class GetSpamMailboxCachedInteractor {
 
   GetSpamMailboxCachedInteractor(this._spamReportRepository);
 
-   Stream<Either<Failure, Success>> execute(AccountId accountId, UserName userName) async* {
+  Stream<Either<Failure, Success>> execute(
+      AccountId accountId, UserName userName) async* {
     try {
       yield Right<Failure, Success>(GetSpamMailboxCachedLoading());
 
-      final lastTimeDismissedSpamReported = await _spamReportRepository.getLastTimeDismissedSpamReported();
+      final lastTimeDismissedSpamReported =
+          await _spamReportRepository.getLastTimeDismissedSpamReported();
       final timeLast = DateTime.now().difference(lastTimeDismissedSpamReported);
-      final checkTimeCondition = timeLast.inHours > MailboxDashboardConstant.spamReportBannerDisplayTimeOut;
+      final checkTimeCondition = timeLast.inHours >
+          MailboxDashboardConstant.spamReportBannerDisplayTimeOut;
 
       if (checkTimeCondition) {
-        final spamMailbox =  await _spamReportRepository.getSpamMailboxCached(accountId, userName);
-        final countUnreadSpamMailbox = spamMailbox.unreadEmails?.value.value.toInt() ?? 0;
+        final spamMailbox = await _spamReportRepository.getSpamMailboxCached(
+            accountId, userName);
+        final countUnreadSpamMailbox =
+            spamMailbox.unreadEmails?.value.value.toInt() ?? 0;
         if (countUnreadSpamMailbox > 0) {
-          yield Right<Failure, Success>(GetSpamMailboxCachedSuccess(spamMailbox));
+          yield Right<Failure, Success>(
+              GetSpamMailboxCachedSuccess(spamMailbox));
         } else {
           yield Left<Failure, Success>(InvalidSpamReportCondition());
         }

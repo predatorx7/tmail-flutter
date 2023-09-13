@@ -19,27 +19,22 @@ class RefreshChangesEmailsInMailboxInteractor {
   Stream<Either<Failure, Success>> execute(
     Session session,
     AccountId accountId,
-    jmap.State currentState,
-    {
-      Set<Comparator>? sort,
-      Properties? propertiesCreated,
-      Properties? propertiesUpdated,
-      EmailFilter? emailFilter,
-    }
-  ) async* {
+    jmap.State currentState, {
+    Set<Comparator>? sort,
+    Properties? propertiesCreated,
+    Properties? propertiesUpdated,
+    EmailFilter? emailFilter,
+  }) async* {
     yield Right<Failure, Success>(RefreshChangesAllEmailLoading());
 
     try {
       yield* threadRepository
-        .refreshChanges(
-          session,
-          accountId,
-          currentState,
-          sort: sort,
-          propertiesCreated: propertiesCreated,
-          propertiesUpdated: propertiesUpdated,
-          emailFilter: emailFilter)
-        .map(_toGetEmailState);
+          .refreshChanges(session, accountId, currentState,
+              sort: sort,
+              propertiesCreated: propertiesCreated,
+              propertiesUpdated: propertiesUpdated,
+              emailFilter: emailFilter)
+          .map(_toGetEmailState);
     } catch (e) {
       yield Left(RefreshChangesAllEmailFailure(e));
     }
@@ -47,10 +42,12 @@ class RefreshChangesEmailsInMailboxInteractor {
 
   Either<Failure, Success> _toGetEmailState(EmailsResponse emailResponse) {
     final presentationEmailList = emailResponse.emailList
-      ?.map((email) => email.toPresentationEmail()).toList() ?? List.empty();
+            ?.map((email) => email.toPresentationEmail())
+            .toList() ??
+        List.empty();
 
     return Right<Failure, Success>(RefreshChangesAllEmailSuccess(
-      emailList: presentationEmailList,
-      currentEmailState: emailResponse.state));
+        emailList: presentationEmailList,
+        currentEmailState: emailResponse.state));
   }
 }

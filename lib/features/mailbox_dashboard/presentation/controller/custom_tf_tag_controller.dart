@@ -42,7 +42,7 @@ class CustomController extends TextfieldTagsController {
       final splits = value.split(separator);
       final indexer = splits.length > 1 ? splits.length - 2 : splits.length - 1;
       final val = splits.elementAt(indexer).trim();
-      if(val.isNotEmpty){
+      if (val.isNotEmpty) {
         actionAddTag?.call(val);
       }
     }

@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/resources/image_paths.dart';
 import 'package:core/presentation/views/image/avatar_builder.dart';
@@ -36,51 +35,58 @@ class UserInformationWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final imagePaths = Get.find<ImagePaths>();
     return Container(
-      padding: padding ?? const EdgeInsetsDirectional.only(start: 16, end: 4, top: 16, bottom: 16),
+      padding: padding ??
+          const EdgeInsetsDirectional.only(
+              start: 16, end: 4, top: 16, bottom: 16),
       decoration: BoxDecoration(border: border),
       child: Row(children: [
         (AvatarBuilder()
-            ..text(userProfile != null ? userProfile!.getAvatarText() : '')
-            ..backgroundColor(Colors.white)
-            ..textColor(Colors.black)
-            ..addBoxShadows([const BoxShadow(
-                color: AppColor.colorShadowBgContentEmail,
-                spreadRadius: 1, blurRadius: 1, offset: Offset(0, 0.5))])
-            ..size(PlatformInfo.isWeb ? 48 : 56))
-          .build(),
+              ..text(userProfile != null ? userProfile!.getAvatarText() : '')
+              ..backgroundColor(Colors.white)
+              ..textColor(Colors.black)
+              ..addBoxShadows([
+                const BoxShadow(
+                    color: AppColor.colorShadowBgContentEmail,
+                    spreadRadius: 1,
+                    blurRadius: 1,
+                    offset: Offset(0, 0.5))
+              ])
+              ..size(PlatformInfo.isWeb ? 48 : 56))
+            .build(),
         const SizedBox(width: 16),
-        Expanded(child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextOverflowBuilder(
+        Expanded(
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          TextOverflowBuilder(
               userProfile != null ? '${userProfile?.email}' : '',
               style: const TextStyle(
-                fontSize: 17,
-                color: AppColor.colorNameEmail,
-                fontWeight: FontWeight.w600
-              )
-            ),
-            if (subtitle != null)
-              Padding(
-                padding: const EdgeInsetsDirectional.only(top: 10),
-                child: Transform(
-                  transform: Matrix4.translationValues(-8.0, 0.0, 0.0),
-                  child: MaterialTextButton(
-                    label: AppLocalizations.of(context).manage_account,
-                    onTap: onSubtitleClick,
-                    borderRadius: 20,
-                    padding: const EdgeInsetsDirectional.symmetric(horizontal: 8, vertical: 8),
-                    customStyle: const TextStyle(fontSize: 14, color: AppColor.colorTextButton),
-                  ),
+                  fontSize: 17,
+                  color: AppColor.colorNameEmail,
+                  fontWeight: FontWeight.w600)),
+          if (subtitle != null)
+            Padding(
+              padding: const EdgeInsetsDirectional.only(top: 10),
+              child: Transform(
+                transform: Matrix4.translationValues(-8.0, 0.0, 0.0),
+                child: MaterialTextButton(
+                  label: AppLocalizations.of(context).manage_account,
+                  onTap: onSubtitleClick,
+                  borderRadius: 20,
+                  padding: const EdgeInsetsDirectional.symmetric(
+                      horizontal: 8, vertical: 8),
+                  customStyle: const TextStyle(
+                      fontSize: 14, color: AppColor.colorTextButton),
                 ),
-              )
+              ),
+            )
         ])),
         if (PlatformInfo.isMobile)
           SvgPicture.asset(
-            DirectionUtils.isDirectionRTLByLanguage(context) ? imagePaths.icBack : imagePaths.icCollapseFolder,
-            fit: BoxFit.fill,
-            colorFilter: AppColor.colorCollapseMailbox.asFilter()
-          ),
+              DirectionUtils.isDirectionRTLByLanguage(context)
+                  ? imagePaths.icBack
+                  : imagePaths.icCollapseFolder,
+              fit: BoxFit.fill,
+              colorFilter: AppColor.colorCollapseMailbox.asFilter()),
         const SizedBox(width: 16),
       ]),
     );

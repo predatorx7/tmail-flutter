@@ -1,4 +1,3 @@
-
 import 'package:contact/data/datasource_impl/tmail_contact_datasource_impl.dart';
 import 'package:contact/data/network/contact_api.dart';
 import 'package:get/get.dart';
@@ -10,7 +9,6 @@ import 'package:tmail_ui_user/features/composer/domain/usecases/get_autocomplete
 import 'package:tmail_ui_user/features/composer/domain/usecases/get_device_contact_suggestions_interactor.dart';
 
 class TMailAutoCompleteBindings extends BaseBindings {
-
   @override
   void bindingsController() {}
 
@@ -27,8 +25,7 @@ class TMailAutoCompleteBindings extends BaseBindings {
     Get.put(GetAutoCompleteInteractor(Get.find<AutoCompleteRepository>()));
     Get.put(GetAutoCompleteWithDeviceContactInteractor(
         Get.find<GetAutoCompleteInteractor>(),
-        Get.find<GetDeviceContactSuggestionsInteractor>()
-    ));
+        Get.find<GetDeviceContactSuggestionsInteractor>()));
   }
 
   @override
@@ -38,6 +35,7 @@ class TMailAutoCompleteBindings extends BaseBindings {
 
   @override
   void bindingsRepositoryImpl() {
-    Get.put(AutoCompleteRepositoryImpl({Get.find<TMailContactDataSourceImpl>()}));
+    Get.put(
+        AutoCompleteRepositoryImpl({Get.find<TMailContactDataSourceImpl>()}));
   }
 }

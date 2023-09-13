@@ -6,7 +6,6 @@ import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:tmail_ui_user/features/mailbox_dashboard/presentation/widgets/advanced_search/advanced_search_input_form.dart';
 
 class AdvancedSearchFilterOverlay extends StatelessWidget {
-
   const AdvancedSearchFilterOverlay({Key? key}) : super(key: key);
 
   @override
@@ -23,19 +22,18 @@ class AdvancedSearchFilterOverlay extends StatelessWidget {
           margin: const EdgeInsetsDirectional.only(top: 4, bottom: 16, end: 22),
           padding: const EdgeInsets.symmetric(horizontal: 8),
           decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: const [
-              BoxShadow(
-                color: AppColor.colorShadowComposer,
-                blurRadius: 32,
-                offset: Offset.zero),
-              BoxShadow(
-                color: AppColor.colorDropShadow,
-                blurRadius: 4,
-                offset: Offset.zero),
-            ]
-          ),
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: const [
+                BoxShadow(
+                    color: AppColor.colorShadowComposer,
+                    blurRadius: 32,
+                    offset: Offset.zero),
+                BoxShadow(
+                    color: AppColor.colorDropShadow,
+                    blurRadius: 4,
+                    offset: Offset.zero),
+              ]),
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
             child: AdvancedSearchInputForm(),
@@ -45,7 +43,8 @@ class AdvancedSearchFilterOverlay extends StatelessWidget {
     );
   }
 
-  double _getHeightOverlay(BuildContext context, ResponsiveUtils responsiveUtils) {
+  double _getHeightOverlay(
+      BuildContext context, ResponsiveUtils responsiveUtils) {
     const double maxHeightTopBar = 80;
     const double paddingBottom = 16;
     final currentHeight = responsiveUtils.getSizeScreenHeight(context);

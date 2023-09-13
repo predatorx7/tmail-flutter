@@ -25,43 +25,43 @@ class SimpleSearchFilter with EquatableMixin {
   final UTCDate? startDate;
   final UTCDate? endDate;
 
-  SimpleSearchFilter({
-    Set<String>? from,
-    Set<String>? to,
-    EmailReceiveTimeType? emailReceiveTimeType,
-    bool? hasAttachment,
-    this.text,
-    this.before,
-    this.mailbox,
-    this.startDate,
-    this.endDate
-  })  : from = from ?? <String>{},
+  SimpleSearchFilter(
+      {Set<String>? from,
+      Set<String>? to,
+      EmailReceiveTimeType? emailReceiveTimeType,
+      bool? hasAttachment,
+      this.text,
+      this.before,
+      this.mailbox,
+      this.startDate,
+      this.endDate})
+      : from = from ?? <String>{},
         to = to ?? <String>{},
         hasAttachment = hasAttachment ?? false,
-        emailReceiveTimeType = emailReceiveTimeType ?? EmailReceiveTimeType.allTime;
+        emailReceiveTimeType =
+            emailReceiveTimeType ?? EmailReceiveTimeType.allTime;
 
-  SimpleSearchFilter copyWith({
-    Option<Set<String>>? fromOption,
-    Option<Set<String>>? toOption,
-    Option<SearchQuery>? textOption,
-    Option<PresentationMailbox>? mailboxOption,
-    Option<EmailReceiveTimeType>? emailReceiveTimeTypeOption,
-    Option<bool>? hasAttachmentOption,
-    Option<UTCDate>? beforeOption,
-    Option<UTCDate>? startDateOption,
-    Option<UTCDate>? endDateOption
-  }) {
+  SimpleSearchFilter copyWith(
+      {Option<Set<String>>? fromOption,
+      Option<Set<String>>? toOption,
+      Option<SearchQuery>? textOption,
+      Option<PresentationMailbox>? mailboxOption,
+      Option<EmailReceiveTimeType>? emailReceiveTimeTypeOption,
+      Option<bool>? hasAttachmentOption,
+      Option<UTCDate>? beforeOption,
+      Option<UTCDate>? startDateOption,
+      Option<UTCDate>? endDateOption}) {
     return SimpleSearchFilter(
-      from: _getOptionParam(fromOption, from),
-      to: _getOptionParam(toOption, to),
-      text: _getOptionParam(textOption, text),
-      mailbox: _getOptionParam(mailboxOption, mailbox),
-      emailReceiveTimeType: _getOptionParam(emailReceiveTimeTypeOption, emailReceiveTimeType),
-      hasAttachment: _getOptionParam(hasAttachmentOption, hasAttachment),
-      before: _getOptionParam(beforeOption, before),
-      startDate: _getOptionParam(startDateOption, startDate),
-      endDate: _getOptionParam(endDateOption, endDate)
-    );
+        from: _getOptionParam(fromOption, from),
+        to: _getOptionParam(toOption, to),
+        text: _getOptionParam(textOption, text),
+        mailbox: _getOptionParam(mailboxOption, mailbox),
+        emailReceiveTimeType:
+            _getOptionParam(emailReceiveTimeTypeOption, emailReceiveTimeType),
+        hasAttachment: _getOptionParam(hasAttachmentOption, hasAttachment),
+        before: _getOptionParam(beforeOption, before),
+        startDate: _getOptionParam(startDateOption, startDate),
+        endDate: _getOptionParam(endDateOption, endDate));
   }
 
   T? _getOptionParam<T>(Option<T?>? option, T? defaultValue) {
@@ -74,45 +74,40 @@ class SimpleSearchFilter with EquatableMixin {
 
   Filter? mappingToEmailFilterCondition() {
     final emailEmailFilterConditionShared = EmailFilterCondition(
-      text: text?.value.trim().isNotEmpty == true
-        ? text?.value
-        : null,
-      inMailbox: mailbox?.id,
-      after: emailReceiveTimeType.getAfterDate(startDate),
-      hasAttachment: hasAttachment == false ? null : hasAttachment,
-      before: emailReceiveTimeType.getBeforeDate(endDate, before)
-    );
+        text: text?.value.trim().isNotEmpty == true ? text?.value : null,
+        inMailbox: mailbox?.id,
+        after: emailReceiveTimeType.getAfterDate(startDate),
+        hasAttachment: hasAttachment == false ? null : hasAttachment,
+        before: emailReceiveTimeType.getBeforeDate(endDate, before));
 
     final listEmailCondition = {
       if (emailEmailFilterConditionShared.hasCondition)
         emailEmailFilterConditionShared,
       if (from.isNotEmpty)
-        LogicFilterOperator(
-            Operator.AND,
+        LogicFilterOperator(Operator.AND,
             from.map((e) => EmailFilterCondition(from: e)).toSet()),
       if (to.isNotEmpty)
         LogicFilterOperator(
-            Operator.AND,
-            to.map((e) => EmailFilterCondition(to: e)).toSet()),
+            Operator.AND, to.map((e) => EmailFilterCondition(to: e)).toSet()),
     };
 
     return listEmailCondition.isNotEmpty
-      ? LogicFilterOperator(Operator.AND, listEmailCondition)
-      : null;
+        ? LogicFilterOperator(Operator.AND, listEmailCondition)
+        : null;
   }
 
   @override
   List<Object?> get props => [
-    from,
-    to,
-    text,
-    mailbox,
-    emailReceiveTimeType,
-    hasAttachment,
-    before,
-    startDate,
-    endDate
-  ];
+        from,
+        to,
+        text,
+        mailbox,
+        emailReceiveTimeType,
+        hasAttachment,
+        before,
+        startDate,
+        endDate
+      ];
 }
 
 extension SearchEmailFilterExtension on SimpleSearchFilter {
@@ -123,7 +118,7 @@ extension SearchEmailFilterExtension on SimpleSearchFilter {
   bool get searchFilterByToApplied => to.isNotEmpty;
 
   bool searchFilterByContactApplied(PrefixEmailAddress prefixEmailAddress) {
-    switch(prefixEmailAddress) {
+    switch (prefixEmailAddress) {
       case PrefixEmailAddress.from:
         return searchFilterByFromApplied;
       case PrefixEmailAddress.to:
@@ -134,7 +129,7 @@ extension SearchEmailFilterExtension on SimpleSearchFilter {
   }
 
   Set<String> getContactApplied(PrefixEmailAddress prefixEmailAddress) {
-    switch(prefixEmailAddress) {
+    switch (prefixEmailAddress) {
       case PrefixEmailAddress.from:
         return from;
       case PrefixEmailAddress.to:
@@ -144,8 +139,9 @@ extension SearchEmailFilterExtension on SimpleSearchFilter {
     }
   }
 
-  String getNameContactApplied(BuildContext context, PrefixEmailAddress prefixEmailAddress) {
-    switch(prefixEmailAddress) {
+  String getNameContactApplied(
+      BuildContext context, PrefixEmailAddress prefixEmailAddress) {
+    switch (prefixEmailAddress) {
       case PrefixEmailAddress.from:
         return '${AppLocalizations.of(context).from_email_address_prefix} ${from.first}';
       case PrefixEmailAddress.to:
@@ -155,8 +151,9 @@ extension SearchEmailFilterExtension on SimpleSearchFilter {
     }
   }
 
-  String getNameContactDefault(BuildContext context, PrefixEmailAddress prefixEmailAddress) {
-    switch(prefixEmailAddress) {
+  String getNameContactDefault(
+      BuildContext context, PrefixEmailAddress prefixEmailAddress) {
+    switch (prefixEmailAddress) {
       case PrefixEmailAddress.from:
         return AppLocalizations.of(context).from_email_address_prefix;
       case PrefixEmailAddress.to:
@@ -166,5 +163,6 @@ extension SearchEmailFilterExtension on SimpleSearchFilter {
     }
   }
 
-  String getMailboxName(BuildContext context) => mailbox?.getDisplayName(context) ?? '';
+  String getMailboxName(BuildContext context) =>
+      mailbox?.getDisplayName(context) ?? '';
 }

@@ -4,5 +4,6 @@ import 'package:jmap_dart_client/jmap/mail/vacation/vacation_response.dart';
 abstract class VacationRepository {
   Future<List<VacationResponse>> getAllVacationResponse(AccountId accountId);
 
-  Future<List<VacationResponse>> updateVacation(AccountId accountId, VacationResponse vacationResponse);
+  Future<List<VacationResponse>> updateVacation(
+      AccountId accountId, VacationResponse vacationResponse);
 }

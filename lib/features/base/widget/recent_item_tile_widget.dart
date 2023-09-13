@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/resources/image_paths.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -6,15 +5,15 @@ import 'package:tmail_ui_user/features/login/domain/model/recent_login_url.dart'
 import 'package:tmail_ui_user/features/login/domain/model/recent_login_username.dart';
 
 class RecentItemTileWidget<T> extends StatelessWidget {
-
   final T item;
   final EdgeInsets? contentPadding;
   final ImagePaths imagePath;
 
-  const RecentItemTileWidget(this.item, {
-      required this.imagePath,
-      Key? key,
-      this.contentPadding,
+  const RecentItemTileWidget(
+    this.item, {
+    required this.imagePath,
+    Key? key,
+    this.contentPadding,
   }) : super(key: key);
 
   @override
@@ -41,7 +40,7 @@ class RecentItemTileWidget<T> extends StatelessWidget {
     if (item is RecentLoginUrl) {
       return item.url;
     }
-    if(item is RecentLoginUsername) {
+    if (item is RecentLoginUsername) {
       return item.username;
     }
     return '';

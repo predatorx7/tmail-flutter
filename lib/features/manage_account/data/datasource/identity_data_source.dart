@@ -7,13 +7,18 @@ import 'package:tmail_ui_user/features/manage_account/domain/model/edit_identity
 import 'package:tmail_ui_user/features/manage_account/domain/model/identities_response.dart';
 
 abstract class IdentityDataSource {
-  Future<IdentitiesResponse> getAllIdentities(Session session, AccountId accountId, {Properties? properties});
+  Future<IdentitiesResponse> getAllIdentities(
+      Session session, AccountId accountId,
+      {Properties? properties});
 
-  Future<Identity> createNewIdentity(Session session, AccountId accountId, CreateNewIdentityRequest identityRequest);
+  Future<Identity> createNewIdentity(Session session, AccountId accountId,
+      CreateNewIdentityRequest identityRequest);
 
-  Future<bool> deleteIdentity(Session session, AccountId accountId, IdentityId identityId);
+  Future<bool> deleteIdentity(
+      Session session, AccountId accountId, IdentityId identityId);
 
-  Future<bool> editIdentity(Session session, AccountId accountId, EditIdentityRequest editIdentityRequest);
+  Future<bool> editIdentity(Session session, AccountId accountId,
+      EditIdentityRequest editIdentityRequest);
 
   Future<String> transformHtmlSignature(String signature);
 }

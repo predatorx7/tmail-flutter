@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:core/presentation/extensions/color_extension.dart';
@@ -70,14 +69,16 @@ class EditTextModalSheetBuilder {
   }
 
   void setTextSelection(TextSelection textSelection, {required String value}) {
-    _textController = TextEditingController.fromValue(TextEditingValue(text: value, selection: textSelection));
+    _textController = TextEditingController.fromValue(
+        TextEditingValue(text: value, selection: textSelection));
   }
 
   void setErrorString(SetErrorStringModelSheets setErrorString) {
     _setErrorString = setErrorString;
   }
 
-  void onConfirmAction(String confirmText, OnConfirmModelSheetsActionClick onConfirmActionClick) {
+  void onConfirmAction(String confirmText,
+      OnConfirmModelSheetsActionClick onConfirmActionClick) {
     _onConfirmActionClick = onConfirmActionClick;
     _confirmText = confirmText;
   }
@@ -109,56 +110,63 @@ class EditTextModalSheetBuilder {
       context: context,
       constraints: _constraints,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20.0),
-            topRight: Radius.circular(20.0))),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0))),
       builder: (BuildContext context) {
-        return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+        return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
           return Padding(
               key: _key,
               padding: MediaQuery.of(context).viewInsets,
               child: Container(
-                  padding: const EdgeInsets.only(left: 50, right: 50, top: 48, bottom: 20),
+                  padding: const EdgeInsets.only(
+                      left: 50, right: 50, top: 48, bottom: 20),
                   child: Wrap(
                     children: <Widget>[
-                      Text(
-                          _title,
-                          style: const TextStyle(fontSize: 20, color: AppColor.colorNameEmail, fontWeight: FontWeight.w700),
+                      Text(_title,
+                          style: const TextStyle(
+                              fontSize: 20,
+                              color: AppColor.colorNameEmail,
+                              fontWeight: FontWeight.w700),
                           textAlign: TextAlign.center),
                       Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: TextFormFieldBuilder(
                             keyboardType: TextInputType.visiblePassword,
-                            onTextChange: (value) => _onTextChanged(value, setState),
+                            onTextChange: (value) =>
+                                _onTextChanged(value, setState),
                             autoFocus: true,
                             controller: _textController,
                             decoration: InputDecoration(
                                 errorText: _error,
-                                enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: AppColor.colorDividerMailbox)),
+                                enabledBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: AppColor.colorDividerMailbox)),
                                 hintText: _hintText),
-                          )
-                      ),
+                          )),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           TextButton(
                             onPressed: () => _onCancelButtonPress(context),
-                            child: Text(_cancelText.toUpperCase(), style: const TextStyle(color: AppColor.colorTextButton)),
+                            child: Text(_cancelText.toUpperCase(),
+                                style: const TextStyle(
+                                    color: AppColor.colorTextButton)),
                           ),
                           TextButton(
                             onPressed: () => _onConfirmButtonPress(context),
                             child: Text(_confirmText.toUpperCase(),
                                 style: TextStyle(
-                                    color: (_error == null || (_error != null && _error!.isEmpty))
+                                    color: (_error == null ||
+                                            (_error != null && _error!.isEmpty))
                                         ? AppColor.colorTextButton
-                                        : AppColor.colorDisableMailboxCreateButton)),
+                                        : AppColor
+                                            .colorDisableMailboxCreateButton)),
                           )
                         ],
                       )
                     ],
-                  )
-              )
-          );
+                  )));
         });
       },
     );

@@ -48,17 +48,16 @@ class NetworkConnectionController extends BaseController {
   }
 
   void _listenNetworkConnectionChanged() {
-    subscription = _connectivity.onConnectivityChanged.listen(
-      (result) {
-        log('NetworkConnectionController::_listenNetworkConnectionChanged():onConnectivityChanged: $result');
-        _setNetworkConnectivityState(result);
-        _handleNetworkConnectionState();
-      },
-      onError: (error, stackTrace) {
-        logError('NetworkConnectionController::_listenNetworkConnectionChanged():error: $error');
-        logError('NetworkConnectionController::_listenNetworkConnectionChanged():stackTrace: $stackTrace');
-      }
-    );
+    subscription = _connectivity.onConnectivityChanged.listen((result) {
+      log('NetworkConnectionController::_listenNetworkConnectionChanged():onConnectivityChanged: $result');
+      _setNetworkConnectivityState(result);
+      _handleNetworkConnectionState();
+    }, onError: (error, stackTrace) {
+      logError(
+          'NetworkConnectionController::_listenNetworkConnectionChanged():error: $error');
+      logError(
+          'NetworkConnectionController::_listenNetworkConnectionChanged():stackTrace: $stackTrace');
+    });
   }
 
   void _setNetworkConnectivityState(ConnectivityResult newConnectivityResult) {

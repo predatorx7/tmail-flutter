@@ -1,4 +1,3 @@
-
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:model/extensions/presentation_mailbox_extension.dart';
@@ -25,9 +24,8 @@ enum MailboxActions {
 }
 
 extension MailboxActionsExtension on MailboxActions {
-
   String getTitle(BuildContext context) {
-    switch(this) {
+    switch (this) {
       case MailboxActions.create:
         return AppLocalizations.of(context).selectParentFolder;
       case MailboxActions.moveEmail:
@@ -42,7 +40,7 @@ extension MailboxActionsExtension on MailboxActions {
   }
 
   String getTitleContextMenu(BuildContext context) {
-    switch(this) {
+    switch (this) {
       case MailboxActions.openInNewTab:
         return AppLocalizations.of(context).openInNewTab;
       case MailboxActions.disableSpamReport:
@@ -71,7 +69,7 @@ extension MailboxActionsExtension on MailboxActions {
   }
 
   String getContextMenuIcon(ImagePaths imagePaths) {
-    switch(this) {
+    switch (this) {
       case MailboxActions.openInNewTab:
         return imagePaths.icOpenInNewTab;
       case MailboxActions.disableSpamReport:
@@ -100,7 +98,7 @@ extension MailboxActionsExtension on MailboxActions {
   }
 
   Color getColorContextMenuTitle() {
-    switch(this) {
+    switch (this) {
       case MailboxActions.delete:
         return AppColor.colorActionDeleteConfirmDialog;
       default:
@@ -109,7 +107,7 @@ extension MailboxActionsExtension on MailboxActions {
   }
 
   Color getColorContextMenuIcon() {
-    switch(this) {
+    switch (this) {
       case MailboxActions.delete:
         return AppColor.colorActionDeleteConfirmDialog;
       default:
@@ -118,7 +116,7 @@ extension MailboxActionsExtension on MailboxActions {
   }
 
   bool canSearch() {
-    switch(this) {
+    switch (this) {
       case MailboxActions.create:
       case MailboxActions.moveEmail:
       case MailboxActions.move:
@@ -131,7 +129,7 @@ extension MailboxActionsExtension on MailboxActions {
   }
 
   bool hasAllMailboxDefault() {
-    switch(this) {
+    switch (this) {
       case MailboxActions.create:
       case MailboxActions.move:
       case MailboxActions.select:
@@ -142,7 +140,7 @@ extension MailboxActionsExtension on MailboxActions {
   }
 
   bool canCollapseMailboxGroup() {
-    switch(this) {
+    switch (this) {
       case MailboxActions.moveEmail:
       case MailboxActions.move:
       case MailboxActions.select:
@@ -154,7 +152,7 @@ extension MailboxActionsExtension on MailboxActions {
   }
 
   ContextMenuItemState getContextMenuItemState(PresentationMailbox mailbox) {
-    switch(this) {
+    switch (this) {
       case MailboxActions.openInNewTab:
       case MailboxActions.disableSpamReport:
       case MailboxActions.enableSpamReport:
@@ -168,8 +166,8 @@ extension MailboxActionsExtension on MailboxActions {
         return ContextMenuItemState.activated;
       case MailboxActions.markAsRead:
         return mailbox.countUnReadEmailsAsString.isNotEmpty
-          ? ContextMenuItemState.activated
-          : ContextMenuItemState.deactivated;
+            ? ContextMenuItemState.activated
+            : ContextMenuItemState.deactivated;
       default:
         return ContextMenuItemState.deactivated;
     }

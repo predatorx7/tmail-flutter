@@ -1,8 +1,6 @@
-
 import 'package:equatable/equatable.dart';
 
 abstract class CacheException with EquatableMixin implements Exception {
-
   final String? message;
 
   const CacheException({this.message});

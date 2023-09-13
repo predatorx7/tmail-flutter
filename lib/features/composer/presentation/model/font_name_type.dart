@@ -1,4 +1,3 @@
-
 enum FontNameType {
   arial,
   arialBlack,
@@ -16,7 +15,7 @@ enum FontNameType {
   verdana;
 
   String get title {
-    switch(this) {
+    switch (this) {
       case FontNameType.arial:
         return 'Arial';
       case FontNameType.arialBlack:
@@ -49,7 +48,7 @@ enum FontNameType {
   }
 
   String get value {
-    switch(this) {
+    switch (this) {
       case FontNameType.arial:
         return 'Arial';
       case FontNameType.arialBlack:

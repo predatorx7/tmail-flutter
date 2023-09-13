@@ -1,4 +1,3 @@
-
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:jmap_dart_client/jmap/mail/email/email.dart';
@@ -13,9 +12,8 @@ enum FilterMessageOption {
 }
 
 extension FilterMessageOptionExtension on FilterMessageOption {
-
   String getIconToast(ImagePaths imagePaths) {
-    switch(this) {
+    switch (this) {
       case FilterMessageOption.all:
         return imagePaths.icFilterMessageAll;
       case FilterMessageOption.unread:
@@ -28,33 +26,38 @@ extension FilterMessageOptionExtension on FilterMessageOption {
   }
 
   String getMessageToast(BuildContext context) {
-    switch(this) {
+    switch (this) {
       case FilterMessageOption.all:
         return AppLocalizations.of(context).disable_filter_message_toast;
       case FilterMessageOption.unread:
-        return AppLocalizations.of(context).filter_message_toast(AppLocalizations.of(context).unread);
+        return AppLocalizations.of(context)
+            .filter_message_toast(AppLocalizations.of(context).unread);
       case FilterMessageOption.attachments:
-        return AppLocalizations.of(context).filter_message_toast(AppLocalizations.of(context).with_attachments);
+        return AppLocalizations.of(context).filter_message_toast(
+            AppLocalizations.of(context).with_attachments);
       case FilterMessageOption.starred:
-        return AppLocalizations.of(context).filter_message_toast(AppLocalizations.of(context).starred);
+        return AppLocalizations.of(context)
+            .filter_message_toast(AppLocalizations.of(context).starred);
     }
   }
 
   String getTitle(BuildContext context) {
-    switch(this) {
+    switch (this) {
       case FilterMessageOption.all:
         return '';
       case FilterMessageOption.unread:
         return AppLocalizations.of(context).with_unread;
       case FilterMessageOption.attachments:
-        return AppLocalizations.of(context).with_attachments.capitalizeFirstEach;
+        return AppLocalizations.of(context)
+            .with_attachments
+            .capitalizeFirstEach;
       case FilterMessageOption.starred:
         return AppLocalizations.of(context).with_starred;
     }
   }
 
   bool filterPresentationEmail(PresentationEmail email) {
-    switch(this) {
+    switch (this) {
       case FilterMessageOption.all:
         return true;
       case FilterMessageOption.unread:
@@ -67,7 +70,7 @@ extension FilterMessageOptionExtension on FilterMessageOption {
   }
 
   bool filterEmail(Email email) {
-    switch(this) {
+    switch (this) {
       case FilterMessageOption.all:
         return true;
       case FilterMessageOption.unread:
@@ -80,7 +83,7 @@ extension FilterMessageOptionExtension on FilterMessageOption {
   }
 
   String getName(BuildContext context) {
-    switch(this) {
+    switch (this) {
       case FilterMessageOption.all:
         return '';
       case FilterMessageOption.unread:
@@ -93,7 +96,7 @@ extension FilterMessageOptionExtension on FilterMessageOption {
   }
 
   String getIcon(ImagePaths imagePaths) {
-    switch(this) {
+    switch (this) {
       case FilterMessageOption.all:
         return '';
       case FilterMessageOption.unread:
@@ -106,7 +109,7 @@ extension FilterMessageOptionExtension on FilterMessageOption {
   }
 
   String getIconSelected(ImagePaths imagePaths) {
-    switch(this) {
+    switch (this) {
       case FilterMessageOption.all:
         return imagePaths.icFilterAdvanced;
       case FilterMessageOption.unread:
@@ -117,7 +120,7 @@ extension FilterMessageOptionExtension on FilterMessageOption {
   }
 
   Color getBackgroundColor() {
-    switch(this) {
+    switch (this) {
       case FilterMessageOption.all:
         return AppColor.colorButtonHeaderThread;
       case FilterMessageOption.unread:
@@ -128,19 +131,19 @@ extension FilterMessageOptionExtension on FilterMessageOption {
   }
 
   TextStyle getTextStyle() {
-    switch(this) {
+    switch (this) {
       case FilterMessageOption.all:
         return const TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.normal,
-          color: AppColor.colorTextButtonHeaderThread);
+            fontSize: 12,
+            fontWeight: FontWeight.normal,
+            color: AppColor.colorTextButtonHeaderThread);
       case FilterMessageOption.unread:
       case FilterMessageOption.attachments:
       case FilterMessageOption.starred:
         return const TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w500,
-          color: AppColor.colorTextButton);
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            color: AppColor.colorTextButton);
     }
   }
 }

@@ -1,4 +1,3 @@
-
 enum DataSourceType {
   network,
   local,

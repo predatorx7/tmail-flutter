@@ -1,10 +1,10 @@
-
 import 'package:core/presentation/utils/responsive_utils.dart';
 import 'package:core/utils/platform_info.dart';
 import 'package:flutter/material.dart';
 
 class ContactUtils {
-  static EdgeInsets getPaddingAppBar(BuildContext context, ResponsiveUtils responsiveUtils) {
+  static EdgeInsets getPaddingAppBar(
+      BuildContext context, ResponsiveUtils responsiveUtils) {
     if (PlatformInfo.isWeb) {
       return const EdgeInsets.symmetric(horizontal: 16);
     } else {
@@ -16,7 +16,8 @@ class ContactUtils {
     }
   }
 
-  static EdgeInsets getPaddingSearchInputForm(BuildContext context, ResponsiveUtils responsiveUtils) {
+  static EdgeInsets getPaddingSearchInputForm(
+      BuildContext context, ResponsiveUtils responsiveUtils) {
     if (PlatformInfo.isWeb) {
       return const EdgeInsets.symmetric(horizontal: 16, vertical: 10);
     } else {
@@ -28,7 +29,8 @@ class ContactUtils {
     }
   }
 
-  static EdgeInsets getPaddingSearchResultList(BuildContext context, ResponsiveUtils responsiveUtils) {
+  static EdgeInsets getPaddingSearchResultList(
+      BuildContext context, ResponsiveUtils responsiveUtils) {
     if (PlatformInfo.isWeb) {
       return const EdgeInsets.symmetric(horizontal: 16, vertical: 10);
     } else {
@@ -40,7 +42,8 @@ class ContactUtils {
     }
   }
 
-  static EdgeInsets getPaddingDividerSearchResultList(BuildContext context, ResponsiveUtils responsiveUtils) {
+  static EdgeInsets getPaddingDividerSearchResultList(
+      BuildContext context, ResponsiveUtils responsiveUtils) {
     if (PlatformInfo.isWeb) {
       return const EdgeInsets.symmetric(horizontal: 16);
     } else {
@@ -52,14 +55,16 @@ class ContactUtils {
     }
   }
 
-  static bool supportAppBarTopBorder(BuildContext context, ResponsiveUtils responsiveUtils) {
+  static bool supportAppBarTopBorder(
+      BuildContext context, ResponsiveUtils responsiveUtils) {
     if (PlatformInfo.isWeb || responsiveUtils.isLandscapeMobile(context)) {
       return false;
     }
     return true;
   }
 
-  static double getRadiusBorderAppBarTop(BuildContext context, ResponsiveUtils responsiveUtils) {
+  static double getRadiusBorderAppBarTop(
+      BuildContext context, ResponsiveUtils responsiveUtils) {
     if (supportAppBarTopBorder(context, responsiveUtils)) {
       return 16;
     } else {

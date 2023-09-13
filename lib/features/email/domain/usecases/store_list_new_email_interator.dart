@@ -14,16 +14,14 @@ class StoreListNewEmailInteractor {
 
   StoreListNewEmailInteractor(this._emailRepository);
 
-  Stream<Either<Failure, Success>> execute(
-    Session session,
-    AccountId accountId,
-    Map<Email, DetailedEmail> mapDetailedEmails
-  ) async* {
+  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId,
+      Map<Email, DetailedEmail> mapDetailedEmails) async* {
     try {
       yield Right<Failure, Success>(StoreNewEmailLoading());
 
       for (var email in mapDetailedEmails.keys) {
-        await _storeNewEmail(session, accountId, email, mapDetailedEmails[email]!);
+        await _storeNewEmail(
+            session, accountId, email, mapDetailedEmails[email]!);
       }
 
       yield Right<Failure, Success>(StoreNewEmailSuccess());
@@ -33,31 +31,28 @@ class StoreListNewEmailInteractor {
   }
 
   Future<bool> _isNewEmailAlreadyStored(
-    Session session,
-    AccountId accountId,
-    DetailedEmail detailedEmail
-  ) async {
+      Session session, AccountId accountId, DetailedEmail detailedEmail) async {
     try {
-      await _emailRepository.getStoredNewEmail(session, accountId, detailedEmail.emailId);
+      await _emailRepository.getStoredNewEmail(
+          session, accountId, detailedEmail.emailId);
       return true;
     } catch (err) {
-      logError('StoreNewEmailInteractor::_isNewEmailAlreadyStored():EXCEPTION: $err');
+      logError(
+          'StoreNewEmailInteractor::_isNewEmailAlreadyStored():EXCEPTION: $err');
       return false;
     }
   }
 
-  Future<void> _storeNewEmail(
-    Session session,
-    AccountId accountId,
-    Email email,
-    DetailedEmail detailedEmail
-  ) async {
-    final isNewEmailExist = await _isNewEmailAlreadyStored(session, accountId, detailedEmail);
+  Future<void> _storeNewEmail(Session session, AccountId accountId, Email email,
+      DetailedEmail detailedEmail) async {
+    final isNewEmailExist =
+        await _isNewEmailAlreadyStored(session, accountId, detailedEmail);
     log('StoreNewEmailInteractor::execute():isNewEmailExist: $isNewEmailExist');
     if (!isNewEmailExist) {
       await Future.wait([
         _emailRepository.storeEmail(session, accountId, email),
-        _emailRepository.storeDetailedNewEmail(session, accountId, detailedEmail),
+        _emailRepository.storeDetailedNewEmail(
+            session, accountId, detailedEmail),
       ], eagerError: true);
     }
   }

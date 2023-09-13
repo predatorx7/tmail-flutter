@@ -13,14 +13,11 @@ class CreateNewEmailRuleFilterInteractor {
 
   CreateNewEmailRuleFilterInteractor(this._ruleFilterRepository);
 
-  Stream<Either<Failure, Success>> execute(
-      AccountId accountId,
-      CreateNewEmailRuleFilterRequest ruleFilterRequest
-  ) async* {
+  Stream<Either<Failure, Success>> execute(AccountId accountId,
+      CreateNewEmailRuleFilterRequest ruleFilterRequest) async* {
     try {
       final newListRules = await _ruleFilterRepository.createNewEmailRuleFilter(
-          accountId,
-          ruleFilterRequest);
+          accountId, ruleFilterRequest);
       yield Right(CreateNewRuleFilterSuccess(newListRules));
     } catch (exception) {
       yield Left(CreateNewRuleFilterFailure(exception));

@@ -12,17 +12,20 @@ import 'package:tmail_ui_user/main/exceptions/remote_exception.dart';
 import 'package:tmail_ui_user/main/routes/route_navigation.dart';
 
 class RemoteExceptionThrower extends ExceptionThrower {
-
   @override
   throwException(dynamic error, dynamic stackTrace) {
-    logError('RemoteExceptionThrower::throwException():error: $error | stackTrace: $stackTrace');
-    final networkConnectionController = getBinding<NetworkConnectionController>();
+    logError(
+        'RemoteExceptionThrower::throwException():error: $error | stackTrace: $stackTrace');
+    final networkConnectionController =
+        getBinding<NetworkConnectionController>();
     if (networkConnectionController?.isNetworkConnectionAvailable() == false) {
-      logError('RemoteExceptionThrower::throwException():isNetworkConnectionAvailable');
+      logError(
+          'RemoteExceptionThrower::throwException():isNetworkConnectionAvailable');
       throw const NoNetworkError();
     } else {
       if (error is DioError) {
-        logError('RemoteExceptionThrower::throwException():type: ${error.type} | response: ${error.response} | error: ${error.error}');
+        logError(
+            'RemoteExceptionThrower::throwException():type: ${error.type} | response: ${error.response} | error: ${error.error}');
         if (error.response != null) {
           if (error.response!.statusCode == HttpStatus.internalServerError) {
             throw const InternalServerError();
@@ -32,8 +35,8 @@ class RemoteExceptionThrower extends ExceptionThrower {
             throw const BadCredentialsException();
           } else {
             throw UnknownError(
-              code: error.response!.statusCode,
-              message: error.response!.statusMessage);
+                code: error.response!.statusCode,
+                message: error.response!.statusMessage);
           }
         } else {
           switch (error.type) {
@@ -56,9 +59,8 @@ class RemoteExceptionThrower extends ExceptionThrower {
         if (errorResponse is CannotCalculateChangesMethodResponse) {
           throw CannotCalculateChangesMethodResponseException();
         } else {
-          throw MethodLevelErrors(
-            errorResponse.type,
-            message: errorResponse.description);
+          throw MethodLevelErrors(errorResponse.type,
+              message: errorResponse.description);
         }
       } else {
         throw error;

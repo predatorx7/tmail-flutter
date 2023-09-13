@@ -7,10 +7,7 @@ import 'package:tmail_ui_user/features/mailbox/presentation/mailbox_controller.d
 import 'package:tmail_ui_user/features/mailbox/presentation/mixin/mailbox_widget_mixin.dart';
 
 abstract class BaseMailboxView extends GetWidget<MailboxController>
-    with
-        AppLoaderMixin,
-        MailboxWidgetMixin {
-
+    with AppLoaderMixin, MailboxWidgetMixin {
   BaseMailboxView({Key? key}) : super(key: key);
 
   final responsiveUtils = Get.find<ResponsiveUtils>();

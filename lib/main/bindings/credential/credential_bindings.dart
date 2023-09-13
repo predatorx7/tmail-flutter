@@ -32,63 +32,60 @@ class CredentialBindings extends BaseBindings {
     Get.put(GetCredentialInteractor(Get.find<CredentialRepository>()));
     Get.put(DeleteCredentialInteractor(Get.find<CredentialRepository>()));
     Get.lazyPut(() => LogoutOidcInteractor(
-      Get.find<AccountRepository>(),
-      Get.find<AuthenticationOIDCRepository>(),
-    ));
+          Get.find<AccountRepository>(),
+          Get.find<AuthenticationOIDCRepository>(),
+        ));
     Get.lazyPut(() => DeleteAuthorityOidcInteractor(
-      Get.find<AuthenticationOIDCRepository>(),
-      Get.find<CredentialRepository>())
-    );
+        Get.find<AuthenticationOIDCRepository>(),
+        Get.find<CredentialRepository>()));
     Get.lazyPut(() => GetStoredTokenOidcInteractor(
-      Get.find<AuthenticationOIDCRepository>(),
-      Get.find<CredentialRepository>(),
-    ));
+          Get.find<AuthenticationOIDCRepository>(),
+          Get.find<CredentialRepository>(),
+        ));
     Get.lazyPut(() => GetAuthenticatedAccountInteractor(
-      Get.find<AccountRepository>(),
-      Get.find<GetCredentialInteractor>(),
-      Get.find<GetStoredTokenOidcInteractor>(),
-    ));
+          Get.find<AccountRepository>(),
+          Get.find<GetCredentialInteractor>(),
+          Get.find<GetStoredTokenOidcInteractor>(),
+        ));
   }
 
   @override
   void bindingsDataSourceImpl() {
     Get.lazyPut(() => HiveAccountDatasourceImpl(
-      Get.find<AccountCacheManager>(),
-      Get.find<CacheExceptionThrower>())
-    );
+        Get.find<AccountCacheManager>(), Get.find<CacheExceptionThrower>()));
     Get.lazyPut(() => AuthenticationOIDCDataSourceImpl(
-      Get.find<OIDCHttpClient>(),
-      Get.find<AuthenticationClientBase>(),
-      Get.find<TokenOidcCacheManager>(),
-      Get.find<OidcConfigurationCacheManager>(),
-      Get.find<RemoteExceptionThrower>(),
-    ));
+          Get.find<OIDCHttpClient>(),
+          Get.find<AuthenticationClientBase>(),
+          Get.find<TokenOidcCacheManager>(),
+          Get.find<OidcConfigurationCacheManager>(),
+          Get.find<RemoteExceptionThrower>(),
+        ));
   }
 
   @override
   void bindingsDataSource() {
     Get.lazyPut<AccountDatasource>(() => Get.find<HiveAccountDatasourceImpl>());
-    Get.lazyPut<AuthenticationOIDCDataSource>(() => Get.find<AuthenticationOIDCDataSourceImpl>());
+    Get.lazyPut<AuthenticationOIDCDataSource>(
+        () => Get.find<AuthenticationOIDCDataSourceImpl>());
   }
 
   @override
   void bindingsRepository() {
     Get.put<CredentialRepository>(Get.find<CredentialRepositoryImpl>());
     Get.lazyPut<AccountRepository>(() => Get.find<AccountRepositoryImpl>());
-    Get.lazyPut<AuthenticationOIDCRepository>(() => Get.find<AuthenticationOIDCRepositoryImpl>());
+    Get.lazyPut<AuthenticationOIDCRepository>(
+        () => Get.find<AuthenticationOIDCRepositoryImpl>());
   }
 
   @override
   void bindingsRepositoryImpl() {
-    Get.put(CredentialRepositoryImpl(
-      Get.find<SharedPreferences>(),
-      Get.find<AuthenticationInfoCacheManager>())
-    );
+    Get.put(CredentialRepositoryImpl(Get.find<SharedPreferences>(),
+        Get.find<AuthenticationInfoCacheManager>()));
     Get.lazyPut(() => AccountRepositoryImpl(Get.find<AccountDatasource>()));
-    Get.lazyPut(() => AuthenticationOIDCRepositoryImpl(Get.find<AuthenticationOIDCDataSource>()));
+    Get.lazyPut(() => AuthenticationOIDCRepositoryImpl(
+        Get.find<AuthenticationOIDCDataSource>()));
   }
 
   @override
-  void bindingsController() {
-  }
+  void bindingsController() {}
 }

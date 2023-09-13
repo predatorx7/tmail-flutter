@@ -5,30 +5,27 @@ import 'package:tmail_ui_user/features/manage_account/domain/usecases/save_langu
 import 'package:tmail_ui_user/features/manage_account/presentation/language_and_region/language_and_region_controller.dart';
 
 class LanguageAndRegionBindings extends BaseBindings {
-
   @override
   void bindingsController() {
-    Get.lazyPut(() => LanguageAndRegionController(Get.find<SaveLanguageInteractor>()));
+    Get.lazyPut(
+        () => LanguageAndRegionController(Get.find<SaveLanguageInteractor>()));
   }
 
   @override
-  void bindingsDataSource() {
-  }
+  void bindingsDataSource() {}
 
   @override
-  void bindingsDataSourceImpl() {
-  }
+  void bindingsDataSourceImpl() {}
 
   @override
   void bindingsInteractor() {
-    Get.lazyPut(() => SaveLanguageInteractor(Get.find<ManageAccountRepository>()));
+    Get.lazyPut(
+        () => SaveLanguageInteractor(Get.find<ManageAccountRepository>()));
   }
 
   @override
-  void bindingsRepository() {
-  }
+  void bindingsRepository() {}
 
   @override
-  void bindingsRepositoryImpl() {
-  }
+  void bindingsRepositoryImpl() {}
 }

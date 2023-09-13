@@ -12,17 +12,19 @@ import 'package:model/extensions/email_address_extension.dart';
 import 'package:model/mailbox/select_mode.dart';
 import 'package:tmail_ui_user/features/manage_account/presentation/model/recipient_forward.dart';
 
-typedef OnSelectRecipientCallbackAction = Function(RecipientForward recipientForward);
-typedef OnDeleteRecipientCallbackAction = Function(RecipientForward recipientForward);
+typedef OnSelectRecipientCallbackAction = Function(
+    RecipientForward recipientForward);
+typedef OnDeleteRecipientCallbackAction = Function(
+    RecipientForward recipientForward);
 
 class EmailForwardItemWidget extends StatelessWidget {
-
   final RecipientForward recipientForward;
   final SelectMode selectionMode;
   final OnSelectRecipientCallbackAction? onSelectRecipientCallback;
   final OnDeleteRecipientCallbackAction? onDeleteRecipientCallback;
 
-  const EmailForwardItemWidget(this.recipientForward, {
+  const EmailForwardItemWidget(
+    this.recipientForward, {
     Key? key,
     this.selectionMode = SelectMode.INACTIVE,
     this.onSelectRecipientCallback,
@@ -44,57 +46,53 @@ class EmailForwardItemWidget extends StatelessWidget {
             }
           },
           customBorder: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(12))),
+              borderRadius: BorderRadius.all(Radius.circular(12))),
           child: Container(
             padding: const EdgeInsets.only(left: 12, bottom: 12, top: 12),
             decoration: BoxDecoration(
-              color: _getBackgroundColor(),
-              borderRadius: BorderRadius.all(Radius.circular(
-                recipientForward.selectMode == SelectMode.ACTIVE ? 12 : 0))
-            ),
+                color: _getBackgroundColor(),
+                borderRadius: BorderRadius.all(Radius.circular(
+                    recipientForward.selectMode == SelectMode.ACTIVE
+                        ? 12
+                        : 0))),
             child: Row(children: [
               _buildAvatarIcon(imagePaths),
               const SizedBox(width: 12),
-              Expanded(child: Column(
+              Expanded(
+                  child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    recipientForward.emailAddress.asString(),
-                    overflow: CommonTextStyle.defaultTextOverFlow,
-                    softWrap: CommonTextStyle.defaultSoftWrap,
-                    maxLines: 1,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.black
-                    )
-                  ),
+                  Text(recipientForward.emailAddress.asString(),
+                      overflow: CommonTextStyle.defaultTextOverFlow,
+                      softWrap: CommonTextStyle.defaultSoftWrap,
+                      maxLines: 1,
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.black)),
                   if (recipientForward.emailAddress.displayName.isNotEmpty)
                     Padding(
                       padding: const EdgeInsets.only(top: 4),
-                      child: Text(
-                        recipientForward.emailAddress.email ?? '',
-                        overflow: CommonTextStyle.defaultTextOverFlow,
-                        softWrap: CommonTextStyle.defaultSoftWrap,
-                        maxLines: 1,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.normal,
-                          color: AppColor.colorContentEmail
-                        )
-                      ),
+                      child: Text(recipientForward.emailAddress.email ?? '',
+                          overflow: CommonTextStyle.defaultTextOverFlow,
+                          softWrap: CommonTextStyle.defaultSoftWrap,
+                          maxLines: 1,
+                          style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.normal,
+                              color: AppColor.colorContentEmail)),
                     )
                 ],
               )),
               const SizedBox(width: 12),
               if (selectionMode == SelectMode.INACTIVE)
                 buildIconWeb(
-                  iconSize: 30,
-                  splashRadius: 20,
-                  icon: SvgPicture.asset(imagePaths.icDeleteRecipient),
-                  onTap: () => onDeleteRecipientCallback?.call(recipientForward)
-                )
+                    iconSize: 30,
+                    splashRadius: 20,
+                    icon: SvgPicture.asset(imagePaths.icDeleteRecipient),
+                    onTap: () =>
+                        onDeleteRecipientCallback?.call(recipientForward))
             ]),
           ),
         ),
@@ -130,15 +128,15 @@ class EmailForwardItemWidget extends StatelessWidget {
       );
     } else {
       return (AvatarBuilder()
-        ..text(recipientForward.emailAddress.asString().firstLetterToUpperCase)
-        ..size(40)
-        ..addTextStyle(const TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 16,
-            color: Colors.white))
-        ..avatarColor(recipientForward.emailAddress.avatarColors)
-        ..addOnTapActionClick(() => onSelectRecipientCallback?.call(recipientForward))
-      ).build();
+            ..text(
+                recipientForward.emailAddress.asString().firstLetterToUpperCase)
+            ..size(40)
+            ..addTextStyle(const TextStyle(
+                fontWeight: FontWeight.w500, fontSize: 16, color: Colors.white))
+            ..avatarColor(recipientForward.emailAddress.avatarColors)
+            ..addOnTapActionClick(
+                () => onSelectRecipientCallback?.call(recipientForward)))
+          .build();
     }
   }
 }

@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class ResponsiveUtils {
-
   static const double defaultSizeLeftMenuMobile = 375;
   static const double defaultSizeDrawer = 320;
   static const double defaultSizeMenu = 256;
@@ -23,31 +22,40 @@ class ResponsiveUtils {
   static const double desktopVerticalMargin = 120.0;
   static const double desktopHorizontalMargin = 200.0;
 
-  bool isScreenWithShortestSide(BuildContext context) => context.mediaQueryShortestSide < minTabletWidth;
+  bool isScreenWithShortestSide(BuildContext context) =>
+      context.mediaQueryShortestSide < minTabletWidth;
 
   double getSizeScreenWidth(BuildContext context) => context.width;
 
   double getSizeScreenHeight(BuildContext context) => context.height;
 
-  double getSizeScreenShortestSide(BuildContext context) => context.mediaQueryShortestSide;
+  double getSizeScreenShortestSide(BuildContext context) =>
+      context.mediaQueryShortestSide;
 
   double getDeviceWidth(BuildContext context) => context.width;
 
-  bool isMobile(BuildContext context) => getDeviceWidth(context) < minTabletWidth;
+  bool isMobile(BuildContext context) =>
+      getDeviceWidth(context) < minTabletWidth;
 
   bool isTablet(BuildContext context) =>
-      getDeviceWidth(context) >= minTabletWidth && getDeviceWidth(context) < minTabletLargeWidth;
+      getDeviceWidth(context) >= minTabletWidth &&
+      getDeviceWidth(context) < minTabletLargeWidth;
 
-  bool isDesktop(BuildContext context) => getDeviceWidth(context) >= minDesktopWidth;
+  bool isDesktop(BuildContext context) =>
+      getDeviceWidth(context) >= minDesktopWidth;
 
   bool isTabletLarge(BuildContext context) =>
-      getDeviceWidth(context) >= minTabletLargeWidth && getDeviceWidth(context) < minDesktopWidth;
+      getDeviceWidth(context) >= minTabletLargeWidth &&
+      getDeviceWidth(context) < minDesktopWidth;
 
-  bool isPortrait(BuildContext context) =>  context.orientation == Orientation.portrait;
+  bool isPortrait(BuildContext context) =>
+      context.orientation == Orientation.portrait;
 
-  bool isLandscape(BuildContext context) => context.orientation == Orientation.landscape;
+  bool isLandscape(BuildContext context) =>
+      context.orientation == Orientation.landscape;
 
-  bool isLandscapeMobile(BuildContext context) => isScreenWithShortestSide(context) && isLandscape(context);
+  bool isLandscapeMobile(BuildContext context) =>
+      isScreenWithShortestSide(context) && isLandscape(context);
 
   bool isLandscapeTablet(BuildContext context) {
     return context.mediaQueryShortestSide >= minTabletWidth &&
@@ -55,7 +63,8 @@ class ResponsiveUtils {
         isLandscape(context);
   }
 
-  bool isPortraitMobile(BuildContext context) => isScreenWithShortestSide(context) && isPortrait(context);
+  bool isPortraitMobile(BuildContext context) =>
+      isScreenWithShortestSide(context) && isPortrait(context);
 
   bool isPortraitTablet(BuildContext context) {
     return context.mediaQueryShortestSide >= minTabletWidth &&
@@ -63,8 +72,9 @@ class ResponsiveUtils {
         isPortrait(context);
   }
 
-  double getWidthLoginTextField(BuildContext context) =>
-      isMobile(context) ? _loginTextFieldWidthSmallScreen : _loginTextFieldWidthLargeScreen;
+  double getWidthLoginTextField(BuildContext context) => isMobile(context)
+      ? _loginTextFieldWidthSmallScreen
+      : _loginTextFieldWidthLargeScreen;
 
   double getWidthLoginButton() => _loginButtonWidth;
 
@@ -83,9 +93,7 @@ class ResponsiveUtils {
 
   bool hasLeftMenuDrawerActive(BuildContext context) {
     if (PlatformInfo.isWeb) {
-      return isMobile(context) ||
-          isTablet(context) ||
-          isTabletLarge(context);
+      return isMobile(context) || isTablet(context) || isTabletLarge(context);
     } else {
       return true;
     }
@@ -111,9 +119,10 @@ class ResponsiveUtils {
     if (PlatformInfo.isWeb) {
       return isTabletLarge(context);
     } else {
-      return !isLandscapeMobile(context) && (isLandscapeTablet(context) ||
-          isTabletLarge(context) ||
-          isDesktop(context));
+      return !isLandscapeMobile(context) &&
+          (isLandscapeTablet(context) ||
+              isTabletLarge(context) ||
+              isDesktop(context));
     }
   }
 

@@ -24,13 +24,12 @@ class RichTextMobileTabletController extends BaseRichTextController {
     htmlEditorApi?.formatHeader(styleSelected.styleValue);
   }
 
-  void insertImageAsBase64({required PlatformFile platformFile, int? maxWidth}) async {
+  void insertImageAsBase64(
+      {required PlatformFile platformFile, int? maxWidth}) async {
     if (platformFile.bytes != null) {
       await htmlEditorApi?.insertImageData(
-        platformFile.bytes!,
-        'image/${platformFile.extension}',
-        maxWidth: maxWidth
-      );
+          platformFile.bytes!, 'image/${platformFile.extension}',
+          maxWidth: maxWidth);
     } else {
       logError("RichTextWebController::insertImageAsBase64: bytes is null");
     }

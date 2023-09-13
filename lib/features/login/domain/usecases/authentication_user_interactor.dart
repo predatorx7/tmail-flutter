@@ -18,26 +18,24 @@ class AuthenticationInteractor {
   final CredentialRepository credentialRepository;
   final AccountRepository _accountRepository;
 
-  AuthenticationInteractor(
-    this.authenticationRepository,
-    this.credentialRepository,
-    this._accountRepository
-  );
+  AuthenticationInteractor(this.authenticationRepository,
+      this.credentialRepository, this._accountRepository);
 
-  Stream<Either<Failure, Success>> execute({Uri? baseUrl, UserName? userName, Password? password}) async* {
+  Stream<Either<Failure, Success>> execute(
+      {Uri? baseUrl, UserName? userName, Password? password}) async* {
     try {
       yield Right(AuthenticationUserLoading());
 
       if (baseUrl != null && userName != null && password != null) {
-        final user = await authenticationRepository.authenticationUser(baseUrl, userName, password);
+        final user = await authenticationRepository.authenticationUser(
+            baseUrl, userName, password);
         await Future.wait([
           credentialRepository.saveBaseUrl(baseUrl),
-          credentialRepository.storeAuthenticationInfo(AuthenticationInfoCache(userName.value, password.value)),
+          credentialRepository.storeAuthenticationInfo(
+              AuthenticationInfoCache(userName.value, password.value)),
           _accountRepository.setCurrentAccount(PersonalAccount(
-            userName.value,
-            AuthenticationType.basic,
-            isSelected: true
-          ))
+              userName.value, AuthenticationType.basic,
+              isSelected: true))
         ]);
         yield Right(AuthenticationUserSuccess(user));
       } else if (baseUrl == null) {

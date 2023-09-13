@@ -1,18 +1,15 @@
-
 import 'package:core/data/network/dio_client.dart';
 import 'package:core/presentation/utils/html_transformer/base/dom_transformer.dart';
 import 'package:html/dom.dart';
 
 class BlockCodeTransformer extends DomTransformer {
-
   const BlockCodeTransformer();
 
   @override
-  Future<void> process({
-    required Document document,
-    Map<String, String>? mapUrlDownloadCID,
-    DioClient? dioClient
-  }) async {
+  Future<void> process(
+      {required Document document,
+      Map<String, String>? mapUrlDownloadCID,
+      DioClient? dioClient}) async {
     final codeElements = document.getElementsByTagName('pre');
     await Future.wait(codeElements.map((element) async {
       element.attributes['style'] = '''

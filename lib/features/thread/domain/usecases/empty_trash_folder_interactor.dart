@@ -14,12 +14,10 @@ class EmptyTrashFolderInteractor {
   final EmailRepository _emailRepository;
 
   EmptyTrashFolderInteractor(
-    this.threadRepository,
-    this._mailboxRepository,
-    this._emailRepository
-  );
+      this.threadRepository, this._mailboxRepository, this._emailRepository);
 
-  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId, MailboxId trashMailboxId) async* {
+  Stream<Either<Failure, Success>> execute(
+      Session session, AccountId accountId, MailboxId trashMailboxId) async* {
     try {
       yield Right<Failure, Success>(EmptyTrashFolderLoading());
 
@@ -31,7 +29,8 @@ class EmptyTrashFolderInteractor {
       final currentMailboxState = listState.first;
       final currentEmailState = listState.last;
 
-      final emailIdDeleted = await threadRepository.emptyTrashFolder(session, accountId, trashMailboxId);
+      final emailIdDeleted = await threadRepository.emptyTrashFolder(
+          session, accountId, trashMailboxId);
       yield Right<Failure, Success>(EmptyTrashFolderSuccess(
         emailIdDeleted,
         currentMailboxState: currentMailboxState,

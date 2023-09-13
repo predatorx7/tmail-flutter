@@ -37,77 +37,81 @@ import 'package:tmail_ui_user/main/exceptions/remote_exception_thrower.dart';
 import 'package:tmail_ui_user/main/utils/email_receive_manager.dart';
 
 class HomeBindings extends BaseBindings {
-
   @override
   void bindingsController() {
     Get.lazyPut(() => HomeController(
-        Get.find<GetAuthenticatedAccountInteractor>(),
-        Get.find<DynamicUrlInterceptors>(),
-        Get.find<CleanupEmailCacheInteractor>(),
-        Get.find<EmailReceiveManager>(),
-        Get.find<CleanupRecentSearchCacheInteractor>(),
-        Get.find<CleanupRecentLoginUrlCacheInteractor>(),
-        Get.find<CleanupRecentLoginUsernameCacheInteractor>(),
-    ));
+          Get.find<GetAuthenticatedAccountInteractor>(),
+          Get.find<DynamicUrlInterceptors>(),
+          Get.find<CleanupEmailCacheInteractor>(),
+          Get.find<EmailReceiveManager>(),
+          Get.find<CleanupRecentSearchCacheInteractor>(),
+          Get.find<CleanupRecentLoginUrlCacheInteractor>(),
+          Get.find<CleanupRecentLoginUsernameCacheInteractor>(),
+        ));
   }
 
   @override
   void bindingsDataSource() {
     Get.lazyPut<CleanupDataSource>(() => Get.find<CleanupDataSourceImpl>());
     Get.lazyPut<AccountDatasource>(() => Get.find<HiveAccountDatasourceImpl>());
-    Get.lazyPut<AuthenticationOIDCDataSource>(() => Get.find<AuthenticationOIDCDataSourceImpl>());
+    Get.lazyPut<AuthenticationOIDCDataSource>(
+        () => Get.find<AuthenticationOIDCDataSourceImpl>());
   }
 
   @override
   void bindingsDataSourceImpl() {
     Get.lazyPut(() => CleanupDataSourceImpl(
-        Get.find<EmailCacheManager>(),
-        Get.find<RecentSearchCacheManager>(),
-        Get.find<RecentLoginUrlCacheManager>(),
-        Get.find<RecentLoginUsernameCacheManager>(),
-        Get.find<CacheExceptionThrower>(),
-    ));
+          Get.find<EmailCacheManager>(),
+          Get.find<RecentSearchCacheManager>(),
+          Get.find<RecentLoginUrlCacheManager>(),
+          Get.find<RecentLoginUsernameCacheManager>(),
+          Get.find<CacheExceptionThrower>(),
+        ));
     Get.lazyPut(() => HiveAccountDatasourceImpl(
-      Get.find<AccountCacheManager>(),
-      Get.find<CacheExceptionThrower>()));
+        Get.find<AccountCacheManager>(), Get.find<CacheExceptionThrower>()));
     Get.lazyPut(() => AuthenticationOIDCDataSourceImpl(
-      Get.find<OIDCHttpClient>(),
-      Get.find<AuthenticationClientBase>(),
-      Get.find<TokenOidcCacheManager>(),
-      Get.find<OidcConfigurationCacheManager>(),
-      Get.find<RemoteExceptionThrower>(),
-    ));
+          Get.find<OIDCHttpClient>(),
+          Get.find<AuthenticationClientBase>(),
+          Get.find<TokenOidcCacheManager>(),
+          Get.find<OidcConfigurationCacheManager>(),
+          Get.find<RemoteExceptionThrower>(),
+        ));
   }
 
   @override
   void bindingsInteractor() {
     Get.lazyPut(() => GetStoredTokenOidcInteractor(
         Get.find<AuthenticationOIDCRepository>(),
-        Get.find<CredentialRepository>()
-    ));
+        Get.find<CredentialRepository>()));
     Get.lazyPut(() => GetAuthenticatedAccountInteractor(
         Get.find<AccountRepository>(),
         Get.find<GetCredentialInteractor>(),
-        Get.find<GetStoredTokenOidcInteractor>()
-    ));
-    Get.lazyPut(() => CleanupEmailCacheInteractor(Get.find<CleanupRepository>()));
-    Get.lazyPut(() => CleanupRecentSearchCacheInteractor(Get.find<CleanupRepository>()));
-    Get.lazyPut(() => CleanupRecentLoginUrlCacheInteractor(Get.find<CleanupRepository>()));
-    Get.lazyPut(() => CleanupRecentLoginUsernameCacheInteractor(Get.find<CleanupRepository>()));
-    Get.lazyPut(() => CheckOIDCIsAvailableInteractor(Get.find<AuthenticationOIDCRepository>()));
+        Get.find<GetStoredTokenOidcInteractor>()));
+    Get.lazyPut(
+        () => CleanupEmailCacheInteractor(Get.find<CleanupRepository>()));
+    Get.lazyPut(() =>
+        CleanupRecentSearchCacheInteractor(Get.find<CleanupRepository>()));
+    Get.lazyPut(() =>
+        CleanupRecentLoginUrlCacheInteractor(Get.find<CleanupRepository>()));
+    Get.lazyPut(() => CleanupRecentLoginUsernameCacheInteractor(
+        Get.find<CleanupRepository>()));
+    Get.lazyPut(() => CheckOIDCIsAvailableInteractor(
+        Get.find<AuthenticationOIDCRepository>()));
   }
 
   @override
   void bindingsRepository() {
     Get.lazyPut<CleanupRepository>(() => Get.find<CleanupRepositoryImpl>());
     Get.lazyPut<AccountRepository>(() => Get.find<AccountRepositoryImpl>());
-    Get.lazyPut<AuthenticationOIDCRepository>(() => Get.find<AuthenticationOIDCRepositoryImpl>());
+    Get.lazyPut<AuthenticationOIDCRepository>(
+        () => Get.find<AuthenticationOIDCRepositoryImpl>());
   }
 
   @override
   void bindingsRepositoryImpl() {
     Get.lazyPut(() => CleanupRepositoryImpl(Get.find<CleanupDataSource>()));
     Get.lazyPut(() => AccountRepositoryImpl(Get.find<AccountDatasource>()));
-    Get.lazyPut(() => AuthenticationOIDCRepositoryImpl(Get.find<AuthenticationOIDCDataSource>()));
+    Get.lazyPut(() => AuthenticationOIDCRepositoryImpl(
+        Get.find<AuthenticationOIDCDataSource>()));
   }
 }

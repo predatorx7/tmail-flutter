@@ -18,28 +18,24 @@ class GetEmailsInMailboxInteractor {
 
   Stream<Either<Failure, Success>> execute(
     Session session,
-    AccountId accountId,
-    {
-      UnsignedInt? limit,
-      Set<Comparator>? sort,
-      EmailFilter? emailFilter,
-      Properties? propertiesCreated,
-      Properties? propertiesUpdated,
-    }
-  ) async* {
+    AccountId accountId, {
+    UnsignedInt? limit,
+    Set<Comparator>? sort,
+    EmailFilter? emailFilter,
+    Properties? propertiesCreated,
+    Properties? propertiesUpdated,
+  }) async* {
     try {
       yield Right<Failure, Success>(GetAllEmailLoading());
 
       yield* threadRepository
-        .getAllEmail(
-          session,
-          accountId,
-          limit: limit,
-          sort: sort,
-          emailFilter: emailFilter,
-          propertiesCreated: propertiesCreated,
-          propertiesUpdated: propertiesUpdated)
-        .map(_toGetEmailState);
+          .getAllEmail(session, accountId,
+              limit: limit,
+              sort: sort,
+              emailFilter: emailFilter,
+              propertiesCreated: propertiesCreated,
+              propertiesUpdated: propertiesUpdated)
+          .map(_toGetEmailState);
     } catch (e) {
       yield Left(GetAllEmailFailure(e));
     }
@@ -47,10 +43,12 @@ class GetEmailsInMailboxInteractor {
 
   Either<Failure, Success> _toGetEmailState(EmailsResponse emailResponse) {
     final presentationEmailList = emailResponse.emailList
-      ?.map((email) => email.toPresentationEmail()).toList() ?? List.empty();
+            ?.map((email) => email.toPresentationEmail())
+            .toList() ??
+        List.empty();
 
     return Right<Failure, Success>(GetAllEmailSuccess(
-      emailList: presentationEmailList,
-      currentEmailState: emailResponse.state));
+        emailList: presentationEmailList,
+        currentEmailState: emailResponse.state));
   }
 }

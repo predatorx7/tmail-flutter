@@ -7,10 +7,10 @@ import 'package:tmail_ui_user/features/base/state/ui_action_state.dart';
 class LoadingDeleteMultipleMailboxAll extends UIState {}
 
 class DeleteMultipleMailboxAllSuccess extends UIActionState {
-
   final List<MailboxId> listMailboxIdDeleted;
 
-  DeleteMultipleMailboxAllSuccess(this.listMailboxIdDeleted, {
+  DeleteMultipleMailboxAllSuccess(
+    this.listMailboxIdDeleted, {
     jmap.State? currentEmailState,
     jmap.State? currentMailboxState,
   }) : super(currentEmailState, currentMailboxState);
@@ -20,10 +20,10 @@ class DeleteMultipleMailboxAllSuccess extends UIActionState {
 }
 
 class DeleteMultipleMailboxHasSomeSuccess extends UIActionState {
-
   final List<MailboxId> listMailboxIdDeleted;
 
-  DeleteMultipleMailboxHasSomeSuccess(this.listMailboxIdDeleted, {
+  DeleteMultipleMailboxHasSomeSuccess(
+    this.listMailboxIdDeleted, {
     jmap.State? currentEmailState,
     jmap.State? currentMailboxState,
   }) : super(currentEmailState, currentMailboxState);
@@ -35,6 +35,5 @@ class DeleteMultipleMailboxHasSomeSuccess extends UIActionState {
 class DeleteMultipleMailboxAllFailure extends FeatureFailure {}
 
 class DeleteMultipleMailboxFailure extends FeatureFailure {
-
   DeleteMultipleMailboxFailure(dynamic exception) : super(exception: exception);
 }

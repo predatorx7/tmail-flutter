@@ -14,6 +14,5 @@ class SearchEmailSuccess extends UIState {
 }
 
 class SearchEmailFailure extends FeatureFailure {
-
   SearchEmailFailure(dynamic exception) : super(exception: exception);
 }

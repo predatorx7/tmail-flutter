@@ -27,5 +27,6 @@ class CancelDownloadFileException extends DownloadFileException {
 }
 
 class DeviceNotSupportedException extends DownloadFileException {
-  DeviceNotSupportedException() : super('This device is not supported, please try on Android or iOS');
+  DeviceNotSupportedException()
+      : super('This device is not supported, please try on Android or iOS');
 }

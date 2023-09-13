@@ -14,7 +14,8 @@ class GetStoredTokenOidcInteractor {
   final AuthenticationOIDCRepository _authenticationOIDCRepository;
   final CredentialRepository _credentialRepository;
 
-  GetStoredTokenOidcInteractor(this._authenticationOIDCRepository, this._credentialRepository);
+  GetStoredTokenOidcInteractor(
+      this._authenticationOIDCRepository, this._credentialRepository);
 
   Stream<Either<Failure, Success>> execute(String tokenIdHash) async* {
     try {
@@ -33,7 +34,8 @@ class GetStoredTokenOidcInteractor {
       log('GetStoredTokenOidcInteractor::execute(): oidcConfiguration: $oidcConfiguration');
 
       if (_isCredentialValid(baseUrl)) {
-        yield Right(GetStoredTokenOidcSuccess(baseUrl, tokenOidc, oidcConfiguration));
+        yield Right(
+            GetStoredTokenOidcSuccess(baseUrl, tokenOidc, oidcConfiguration));
       } else {
         yield Left(GetStoredTokenOidcFailure(InvalidBaseUrl()));
       }

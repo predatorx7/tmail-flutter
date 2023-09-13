@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/resources/image_paths.dart';
 import 'package:core/presentation/state/failure.dart';
@@ -40,8 +39,8 @@ import 'package:tmail_ui_user/main/routes/dialog_router.dart';
 import 'package:tmail_ui_user/main/routes/route_navigation.dart';
 
 class IdentitiesController extends BaseController {
-
-  final _accountDashBoardController = Get.find<ManageAccountDashBoardController>();
+  final _accountDashBoardController =
+      Get.find<ManageAccountDashBoardController>();
   final _appToast = Get.find<AppToast>();
   final _imagePaths = Get.find<ImagePaths>();
   final _responsiveUtils = Get.find<ResponsiveUtils>();
@@ -59,14 +58,13 @@ class IdentitiesController extends BaseController {
   final listAllIdentities = <Identity>[].obs;
 
   IdentitiesController(
-    this._getAllIdentitiesInteractor,
-    this._deleteIdentityInteractor,
-    this._createNewIdentityInteractor,
-    this._editIdentityInteractor,
-    this._createNewDefaultIdentityInteractor,
-    this._editDefaultIdentityInteractor,
-    this._transformHtmlSignatureInteractor
-  );
+      this._getAllIdentitiesInteractor,
+      this._deleteIdentityInteractor,
+      this._createNewIdentityInteractor,
+      this._editIdentityInteractor,
+      this._createNewDefaultIdentityInteractor,
+      this._editDefaultIdentityInteractor,
+      this._transformHtmlSignatureInteractor);
 
   @override
   void onInit() {
@@ -127,8 +125,8 @@ class IdentitiesController extends BaseController {
   void _handleGetAllIdentitiesSuccess(GetAllIdentitiesSuccess success) {
     if (success.identities?.isNotEmpty == true) {
       final newListIdentities = success.identities!
-        .where((identity) => identity.mayDelete == true)
-        .toList();
+          .where((identity) => identity.mayDelete == true)
+          .toList();
       listAllIdentities.addAll(newListIdentities);
     }
 
@@ -142,7 +140,8 @@ class IdentitiesController extends BaseController {
     identitySelected.value = newIdentity;
 
     if (newIdentity != null) {
-      consumeState(_transformHtmlSignatureInteractor.execute(newIdentity.signatureAsString));
+      consumeState(_transformHtmlSignatureInteractor
+          .execute(newIdentity.signatureAsString));
     }
   }
 
@@ -151,11 +150,13 @@ class IdentitiesController extends BaseController {
     final userProfile = _accountDashBoardController.userProfile.value;
     final session = _accountDashBoardController.sessionCurrent;
     if (accountId != null && session != null && userProfile != null) {
-      final arguments = IdentityCreatorArguments(accountId, session, userProfile);
+      final arguments =
+          IdentityCreatorArguments(accountId, session, userProfile);
 
       final newIdentityArguments = PlatformInfo.isWeb
-        ? await DialogRouter.pushGeneralDialog(routeName: AppRoutes.identityCreator, arguments: arguments)
-        : await push(AppRoutes.identityCreator, arguments: arguments);
+          ? await DialogRouter.pushGeneralDialog(
+              routeName: AppRoutes.identityCreator, arguments: arguments)
+          : await push(AppRoutes.identityCreator, arguments: arguments);
 
       if (newIdentityArguments is CreateNewIdentityRequest) {
         _createNewIdentityAction(session, accountId, newIdentityArguments);
@@ -165,47 +166,48 @@ class IdentitiesController extends BaseController {
     }
   }
 
-  void _createNewIdentityAction(
-    Session session,
-    AccountId accountId, 
-    CreateNewIdentityRequest identityRequest
-  ) async {
+  void _createNewIdentityAction(Session session, AccountId accountId,
+      CreateNewIdentityRequest identityRequest) async {
     if (identityRequest.isDefaultIdentity) {
-      consumeState(_createNewDefaultIdentityInteractor.execute(session, accountId, identityRequest));
+      consumeState(_createNewDefaultIdentityInteractor.execute(
+          session, accountId, identityRequest));
     } else {
-      consumeState(_createNewIdentityInteractor.execute(session, accountId, identityRequest));
+      consumeState(_createNewIdentityInteractor.execute(
+          session, accountId, identityRequest));
     }
   }
 
   void _createNewIdentitySuccess(CreateNewIdentitySuccess success) {
     if (currentOverlayContext != null && currentContext != null) {
-      _appToast.showToastSuccessMessage(
-        currentOverlayContext!,
-        AppLocalizations.of(currentContext!).you_have_created_a_new_identity);
+      _appToast.showToastSuccessMessage(currentOverlayContext!,
+          AppLocalizations.of(currentContext!).you_have_created_a_new_identity);
     }
 
     _refreshAllIdentities();
   }
 
-  void _createNewDefaultIdentitySuccess(CreateNewDefaultIdentitySuccess success) {
+  void _createNewDefaultIdentitySuccess(
+      CreateNewDefaultIdentitySuccess success) {
     if (currentOverlayContext != null && currentContext != null) {
       _appToast.showToastSuccessMessage(
-        currentOverlayContext!,
-        AppLocalizations.of(currentContext!).you_have_created_a_new_default_identity);
+          currentOverlayContext!,
+          AppLocalizations.of(currentContext!)
+              .you_have_created_a_new_default_identity);
     }
 
     _refreshAllIdentities();
   }
 
-  void openConfirmationDialogDeleteIdentityAction(BuildContext context, Identity identity) {
+  void openConfirmationDialogDeleteIdentityAction(
+      BuildContext context, Identity identity) {
     showDialog(
-      context: context,
-      barrierColor: AppColor.colorDefaultCupertinoActionSheet,
-      builder: (BuildContext context) => DeleteIdentityDialogBuilder(
-        responsiveUtils: _responsiveUtils,
-        imagePaths: _imagePaths,
-        onDeleteIdentityAction: () => _deleteIdentityAction(identity),
-      ));
+        context: context,
+        barrierColor: AppColor.colorDefaultCupertinoActionSheet,
+        builder: (BuildContext context) => DeleteIdentityDialogBuilder(
+              responsiveUtils: _responsiveUtils,
+              imagePaths: _imagePaths,
+              onDeleteIdentityAction: () => _deleteIdentityAction(identity),
+            ));
   }
 
   void _deleteIdentityAction(Identity identity) {
@@ -214,16 +216,16 @@ class IdentitiesController extends BaseController {
     final session = _accountDashBoardController.sessionCurrent;
     final accountId = _accountDashBoardController.accountId.value;
     if (accountId != null && session != null && identity.id != null) {
-      consumeState(_deleteIdentityInteractor.execute(session, accountId, identity.id!));
+      consumeState(
+          _deleteIdentityInteractor.execute(session, accountId, identity.id!));
     }
   }
 
   void _deleteIdentitySuccess(DeleteIdentitySuccess success) {
     if (currentOverlayContext != null && currentContext != null) {
-      _appToast.showToastSuccessMessage(
-        currentOverlayContext!,
-        AppLocalizations.of(currentContext!).identity_has_been_deleted,
-        leadingSVGIcon: _imagePaths.icDeleteToast);
+      _appToast.showToastSuccessMessage(currentOverlayContext!,
+          AppLocalizations.of(currentContext!).identity_has_been_deleted,
+          leadingSVGIcon: _imagePaths.icDeleteToast);
     }
 
     _refreshAllIdentities();
@@ -235,21 +237,25 @@ class IdentitiesController extends BaseController {
           context: currentContext!,
           barrierColor: AppColor.colorDefaultCupertinoActionSheet,
           builder: (BuildContext context) => (ConfirmDialogBuilder(_imagePaths)
-              ..key(const Key('dialog_message_delete_identity_failed'))
-              ..title(AppLocalizations.of(context).delete_failed)
-              ..addIcon(SvgPicture.asset(_imagePaths.icDeleteDialogFailed, fit: BoxFit.fill))
-              ..marginIcon(EdgeInsets.zero)
-              ..styleTitle(const TextStyle(fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black))
-              ..colorConfirmButton(AppColor.colorTextButton)
-              ..paddingTitle(const EdgeInsets.symmetric(vertical: 12))
-              ..styleTextConfirmButton(const TextStyle(fontSize: 17,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white))
-              ..onCloseButtonAction(() => popBack())
-              ..onConfirmButtonAction('${AppLocalizations.of(context).got_it}!', () => popBack()))
-            .build());
+                ..key(const Key('dialog_message_delete_identity_failed'))
+                ..title(AppLocalizations.of(context).delete_failed)
+                ..addIcon(SvgPicture.asset(_imagePaths.icDeleteDialogFailed,
+                    fit: BoxFit.fill))
+                ..marginIcon(EdgeInsets.zero)
+                ..styleTitle(const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black))
+                ..colorConfirmButton(AppColor.colorTextButton)
+                ..paddingTitle(const EdgeInsets.symmetric(vertical: 12))
+                ..styleTextConfirmButton(const TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white))
+                ..onCloseButtonAction(() => popBack())
+                ..onConfirmButtonAction(
+                    '${AppLocalizations.of(context).got_it}!', () => popBack()))
+              .build());
     }
   }
 
@@ -259,15 +265,13 @@ class IdentitiesController extends BaseController {
     final session = _accountDashBoardController.sessionCurrent;
     if (accountId != null && session != null && userProfile != null) {
       final arguments = IdentityCreatorArguments(
-        accountId,
-        session,
-        userProfile,
-        identity: identity,
-        actionType: IdentityActionType.edit);
+          accountId, session, userProfile,
+          identity: identity, actionType: IdentityActionType.edit);
 
       final newIdentityArguments = PlatformInfo.isWeb
-        ? await DialogRouter.pushGeneralDialog(routeName: AppRoutes.identityCreator, arguments: arguments)
-        : await push(AppRoutes.identityCreator, arguments: arguments);
+          ? await DialogRouter.pushGeneralDialog(
+              routeName: AppRoutes.identityCreator, arguments: arguments)
+          : await push(AppRoutes.identityCreator, arguments: arguments);
 
       if (newIdentityArguments is CreateNewIdentityRequest) {
         _createNewIdentityAction(session, accountId, newIdentityArguments);
@@ -277,23 +281,23 @@ class IdentitiesController extends BaseController {
     }
   }
 
-  void _editIdentityAction(
-    Session session,
-    AccountId accountId,
-    EditIdentityRequest editIdentityRequest
-  ) async {
+  void _editIdentityAction(Session session, AccountId accountId,
+      EditIdentityRequest editIdentityRequest) async {
     if (editIdentityRequest.isDefaultIdentity) {
-      consumeState(_editDefaultIdentityInteractor.execute(session, accountId, editIdentityRequest));
+      consumeState(_editDefaultIdentityInteractor.execute(
+          session, accountId, editIdentityRequest));
     } else {
-      consumeState(_editIdentityInteractor.execute(session, accountId, editIdentityRequest));
+      consumeState(_editIdentityInteractor.execute(
+          session, accountId, editIdentityRequest));
     }
   }
 
   void _editIdentitySuccess(EditIdentitySuccess success) {
     if (currentOverlayContext != null && currentContext != null) {
       _appToast.showToastSuccessMessage(
-        currentOverlayContext!,
-        AppLocalizations.of(currentContext!).you_are_changed_your_identity_successfully);
+          currentOverlayContext!,
+          AppLocalizations.of(currentContext!)
+              .you_are_changed_your_identity_successfully);
     }
 
     _refreshAllIdentities();

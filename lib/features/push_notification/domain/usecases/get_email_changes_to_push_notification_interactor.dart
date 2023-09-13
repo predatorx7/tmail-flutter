@@ -15,31 +15,24 @@ class GetEmailChangesToPushNotificationInteractor {
 
   GetEmailChangesToPushNotificationInteractor(this._fcmRepository);
 
-  Stream<Either<Failure, Success>> execute(
-    Session session,
-    AccountId accountId,
-    UserName userName,
-    jmap.State currentState,
-    {
-      Properties? propertiesCreated,
-      Properties? propertiesUpdated
-    }
-  ) async* {
+  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId,
+      UserName userName, jmap.State currentState,
+      {Properties? propertiesCreated, Properties? propertiesUpdated}) async* {
     try {
       yield Right<Failure, Success>(GetEmailChangesToPushNotificationLoading());
 
-      final emailsResponse = await _fcmRepository.getEmailChangesToPushNotification(
-        session,
-        accountId,
-        currentState,
-        propertiesCreated: propertiesCreated,
-        propertiesUpdated: propertiesUpdated);
+      final emailsResponse = await _fcmRepository
+          .getEmailChangesToPushNotification(session, accountId, currentState,
+              propertiesCreated: propertiesCreated,
+              propertiesUpdated: propertiesUpdated);
 
       final presentationEmailList = emailsResponse.emailList
-        ?.map((email) => email.toPresentationEmail())
-        .toList() ?? List.empty();
+              ?.map((email) => email.toPresentationEmail())
+              .toList() ??
+          List.empty();
 
-      yield Right<Failure, Success>(GetEmailChangesToPushNotificationSuccess(accountId, userName, presentationEmailList));
+      yield Right<Failure, Success>(GetEmailChangesToPushNotificationSuccess(
+          accountId, userName, presentationEmailList));
     } catch (e) {
       yield Left<Failure, Success>(GetEmailChangesToPushNotificationFailure(e));
     }

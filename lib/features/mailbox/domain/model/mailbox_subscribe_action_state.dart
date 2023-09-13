@@ -7,7 +7,7 @@ enum MailboxSubscribeAction {
   undo;
 
   String getToastMessageSuccess(BuildContext context) {
-    switch(this) {
+    switch (this) {
       case MailboxSubscribeAction.subscribe:
         return AppLocalizations.of(context).toastMessageShowMailboxSuccess;
       case MailboxSubscribeAction.unSubscribe:

@@ -1,4 +1,3 @@
-
 import 'package:core/core.dart';
 import 'package:jmap_dart_client/jmap/core/session/session.dart';
 import 'package:model/model.dart';
@@ -12,35 +11,26 @@ import 'package:tmail_ui_user/features/thread/domain/repository/thread_repositor
 import 'package:tmail_ui_user/features/thread/domain/state/search_email_state.dart';
 
 class SearchEmailInteractor {
-
   final ThreadRepository threadRepository;
 
   SearchEmailInteractor(this.threadRepository);
 
   Stream<Either<Failure, Success>> execute(
     Session session,
-    AccountId accountId,
-    {
-      UnsignedInt? limit,
-      Set<Comparator>? sort,
-      Filter? filter,
-      Properties? properties,
-    }
-  ) async* {
+    AccountId accountId, {
+    UnsignedInt? limit,
+    Set<Comparator>? sort,
+    Filter? filter,
+    Properties? properties,
+  }) async* {
     try {
       yield Right(SearchingState());
 
-      final emailList = await threadRepository.searchEmails(
-        session,
-        accountId,
-        limit: limit,
-        sort: sort,
-        filter: filter,
-        properties: properties);
+      final emailList = await threadRepository.searchEmails(session, accountId,
+          limit: limit, sort: sort, filter: filter, properties: properties);
 
-      final presentationEmailList = emailList
-        .map((email) => email.toPresentationEmail())
-        .toList();
+      final presentationEmailList =
+          emailList.map((email) => email.toPresentationEmail()).toList();
 
       yield Right(SearchEmailSuccess(presentationEmailList));
     } catch (e) {

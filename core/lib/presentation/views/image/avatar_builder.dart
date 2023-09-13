@@ -2,10 +2,10 @@ import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:flutter/material.dart';
 
 typedef OnTapAvatarActionClick = void Function();
-typedef OnTapAvatarActionWithPositionClick = void Function(RelativeRect? position);
+typedef OnTapAvatarActionWithPositionClick = void Function(
+    RelativeRect? position);
 
 class AvatarBuilder {
-
   BuildContext? _context;
   Key? _key;
   String? _text;
@@ -58,13 +58,16 @@ class AvatarBuilder {
     _onTapAvatarActionClick = onTapAvatarActionClick;
   }
 
-  void addOnTapAvatarActionWithPositionClick(OnTapAvatarActionWithPositionClick onTapAvatarActionWithPositionClick) {
+  void addOnTapAvatarActionWithPositionClick(
+      OnTapAvatarActionWithPositionClick onTapAvatarActionWithPositionClick) {
     _onTapAvatarActionWithPositionClick = onTapAvatarActionWithPositionClick;
   }
 
   Widget build() {
     return InkWell(
-      onTap: () => _onTapAvatarActionClick != null ? _onTapAvatarActionClick!.call() : null,
+      onTap: () => _onTapAvatarActionClick != null
+          ? _onTapAvatarActionClick!.call()
+          : null,
       onTapDown: (detail) {
         if (_onTapAvatarActionWithPositionClick != null && _context != null) {
           final screenSize = MediaQuery.of(_context!).size;
@@ -91,15 +94,19 @@ class AvatarBuilder {
               border: Border.all(color: Colors.transparent),
               boxShadow: _boxShadows ?? [],
               gradient: _avatarColors?.isNotEmpty == true
-                  ? LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, tileMode: TileMode.decal, colors: _avatarColors ?? [])
+                  ? LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      tileMode: TileMode.decal,
+                      colors: _avatarColors ?? [])
                   : null,
-              color: _bgColor ?? AppColor.avatarColor
-          ),
-          child: Text(
-              _text ?? '',
-              style: _textStyle ?? TextStyle(fontSize: 20, color: _textColor ?? AppColor.avatarTextColor, fontWeight: FontWeight.w500)
-          )
-      ),
+              color: _bgColor ?? AppColor.avatarColor),
+          child: Text(_text ?? '',
+              style: _textStyle ??
+                  TextStyle(
+                      fontSize: 20,
+                      color: _textColor ?? AppColor.avatarTextColor,
+                      fontWeight: FontWeight.w500))),
     );
   }
 }

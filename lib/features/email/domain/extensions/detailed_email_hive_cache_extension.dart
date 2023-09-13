@@ -14,9 +14,11 @@ extension DetailedEmailHiveCacheExtension on DetailedEmailHiveCache {
       attachments: attachments?.toAttachment(),
       headers: headers?.toSetEmailHeader(),
       keywords: keywords != null
-        ? Map.fromIterables(keywords!.keys.map((value) => KeyWordIdentifier(value)), keywords!.values)
-        : null,
+          ? Map.fromIterables(
+              keywords!.keys.map((value) => KeyWordIdentifier(value)),
+              keywords!.values)
+          : null,
       htmlEmailContent: emailContent,
     );
- }
+  }
 }

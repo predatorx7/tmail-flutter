@@ -1,4 +1,3 @@
-
 import 'package:core/core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,8 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:model/mailbox/presentation_mailbox.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 
-class MailboxBottomSheetActionTileBuilder extends CupertinoActionSheetActionBuilder<PresentationMailbox> {
-
+class MailboxBottomSheetActionTileBuilder
+    extends CupertinoActionSheetActionBuilder<PresentationMailbox> {
   final PresentationMailbox presentationMailbox;
   final SvgPicture? actionSelected;
   final Color? bgColor;
@@ -17,19 +16,17 @@ class MailboxBottomSheetActionTileBuilder extends CupertinoActionSheetActionBuil
   final bool absorbing;
 
   MailboxBottomSheetActionTileBuilder(
-      Key key,
-      SvgPicture actionIcon,
-      String actionName,
-      this.presentationMailbox,
-      {
-        this.actionSelected,
-        this.bgColor,
-        this.iconLeftPadding,
-        this.iconRightPadding,
-        this.opacity = false,
-        this.absorbing = false,
-      }
-  ) : super(key, actionIcon, actionName);
+    Key key,
+    SvgPicture actionIcon,
+    String actionName,
+    this.presentationMailbox, {
+    this.actionSelected,
+    this.bgColor,
+    this.iconLeftPadding,
+    this.iconRightPadding,
+    this.opacity = false,
+    this.absorbing = false,
+  }) : super(key, actionIcon, actionName);
 
   @override
   Widget build() {
@@ -41,14 +38,20 @@ class MailboxBottomSheetActionTileBuilder extends CupertinoActionSheetActionBuil
           child: Container(
             color: bgColor ?? Colors.white,
             child: MouseRegion(
-              cursor: PlatformInfo.isWeb ? MaterialStateMouseCursor.clickable : MouseCursor.defer,
+              cursor: PlatformInfo.isWeb
+                  ? MaterialStateMouseCursor.clickable
+                  : MouseCursor.defer,
               child: CupertinoActionSheetAction(
                 key: key,
-                child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   Padding(
-                      padding: iconLeftPadding ?? const EdgeInsets.only(left: 12, right: 16),
+                      padding: iconLeftPadding ??
+                          const EdgeInsets.only(left: 12, right: 16),
                       child: actionIcon),
-                  Expanded(child: Text(actionName, textAlign: TextAlign.left, style: actionTextStyle())),
+                  Expanded(
+                      child: Text(actionName,
+                          textAlign: TextAlign.left, style: actionTextStyle())),
                 ]),
                 onPressed: () {
                   if (onCupertinoActionSheetActionClick != null) {

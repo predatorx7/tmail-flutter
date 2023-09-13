@@ -9,18 +9,17 @@ class PrivacyLinkWidget extends StatelessWidget {
 
   final String privacyUrlString;
 
-  const PrivacyLinkWidget({Key? key, this.privacyUrlString = linagoraPrivacy}) : super(key: key);
+  const PrivacyLinkWidget({Key? key, this.privacyUrlString = linagoraPrivacy})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return RichText(
-      text: TextSpan(
-        text: AppLocalizations.of(context).privacyPolicy,
-        style: const TextStyle(
-          color: AppColor.loginTextFieldFocusedBorder,
-          fontSize: 14),
-        recognizer: TapGestureRecognizer()..onTap = () => AppUtils.launchLink(privacyUrlString)
-      )
-    );
+        text: TextSpan(
+            text: AppLocalizations.of(context).privacyPolicy,
+            style: const TextStyle(
+                color: AppColor.loginTextFieldFocusedBorder, fontSize: 14),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () => AppUtils.launchLink(privacyUrlString)));
   }
 }

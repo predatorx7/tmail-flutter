@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
 class UnknownRoutePageView extends StatelessWidget {
-
   static const double maxWidthTextDefault = 440.0;
 
   final _imagePath = Get.find<ImagePaths>();
@@ -17,7 +16,6 @@ class UnknownRoutePageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -29,30 +27,25 @@ class UnknownRoutePageView extends StatelessWidget {
               color: Colors.white,
               padding: _getPaddingTitle(context),
               constraints: BoxConstraints(maxWidth: _getMaxWidthTitle(context)),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    AppLocalizations.of(context).titlePageNotFound,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
+              child: Column(mainAxisSize: MainAxisSize.min, children: [
+                Text(
+                  AppLocalizations.of(context).titlePageNotFound,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
                       fontWeight: FontWeight.w500,
                       color: Colors.black,
-                      fontSize: _getFontSizeTitle(context)
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    AppLocalizations.of(context).subTitlePageNotFound,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
+                      fontSize: _getFontSizeTitle(context)),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  AppLocalizations.of(context).subTitlePageNotFound,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
                       fontWeight: FontWeight.w500,
                       color: AppColor.colorSettingExplanation,
-                      fontSize: 16
-                    ),
-                  )
-                ]
-              ),
+                      fontSize: 16),
+                )
+              ]),
             ),
             const SizedBox(height: 48)
           ]),

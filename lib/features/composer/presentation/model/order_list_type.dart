@@ -1,4 +1,3 @@
-
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,7 +8,7 @@ enum OrderListType {
   numberedList;
 
   String get commandAction {
-    switch(this) {
+    switch (this) {
       case OrderListType.bulletedList:
         return 'insertUnorderedList';
       case OrderListType.numberedList:
@@ -18,7 +17,7 @@ enum OrderListType {
   }
 
   String get summernoteNameAPI {
-    switch(this) {
+    switch (this) {
       case OrderListType.bulletedList:
         return 'insertUnorderedList';
       case OrderListType.numberedList:
@@ -44,11 +43,8 @@ enum OrderListType {
     }
   }
 
-  Widget buildButtonWidget(
-      BuildContext context,
-      ImagePaths imagePaths,
-      Function(OrderListType type) onActionCallback
-  ) {
+  Widget buildButtonWidget(BuildContext context, ImagePaths imagePaths,
+      Function(OrderListType type) onActionCallback) {
     return buildIconWeb(
         icon: SvgPicture.asset(getIcon(imagePaths)),
         iconPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),

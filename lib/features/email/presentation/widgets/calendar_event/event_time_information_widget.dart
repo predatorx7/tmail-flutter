@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/utils/responsive_utils.dart';
 import 'package:core/presentation/utils/style_utils.dart';
 import 'package:flutter/material.dart';
@@ -7,13 +6,9 @@ import 'package:tmail_ui_user/features/email/presentation/styles/event_time_info
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
 class EventTimeInformationWidget extends StatelessWidget {
-
   final String timeEvent;
 
-  const EventTimeInformationWidget({
-    super.key,
-    required this.timeEvent
-  });
+  const EventTimeInformationWidget({super.key, required this.timeEvent});
 
   @override
   Widget build(BuildContext context) {
@@ -26,22 +21,25 @@ class EventTimeInformationWidget extends StatelessWidget {
           child: Text(
             AppLocalizations.of(context).when,
             style: const TextStyle(
-              fontSize: EventTimeInformationWidgetStyles.textSize,
-              fontWeight: FontWeight.w500,
-              color: EventTimeInformationWidgetStyles.labelColor
-            ),
+                fontSize: EventTimeInformationWidgetStyles.textSize,
+                fontWeight: FontWeight.w500,
+                color: EventTimeInformationWidgetStyles.labelColor),
           ),
         ),
-        Expanded(child: Text(
+        Expanded(
+            child: Text(
           timeEvent,
-          overflow: responsiveUtils.isPortraitMobile(context) ? null : CommonTextStyle.defaultTextOverFlow,
-          softWrap: responsiveUtils.isPortraitMobile(context) ? null : CommonTextStyle.defaultSoftWrap,
+          overflow: responsiveUtils.isPortraitMobile(context)
+              ? null
+              : CommonTextStyle.defaultTextOverFlow,
+          softWrap: responsiveUtils.isPortraitMobile(context)
+              ? null
+              : CommonTextStyle.defaultSoftWrap,
           maxLines: responsiveUtils.isPortraitMobile(context) ? null : 1,
           style: const TextStyle(
-            fontSize: EventTimeInformationWidgetStyles.textSize,
-            fontWeight: FontWeight.w500,
-            color: EventTimeInformationWidgetStyles.valueColor
-          ),
+              fontSize: EventTimeInformationWidgetStyles.textSize,
+              fontWeight: FontWeight.w500,
+              color: EventTimeInformationWidgetStyles.valueColor),
         ))
       ],
     );

@@ -8,11 +8,11 @@ import 'package:tmail_ui_user/features/session/domain/extensions/session_extensi
 import 'package:tmail_ui_user/main/exceptions/exception_thrower.dart';
 
 class HiveSessionDataSourceImpl extends SessionDataSource {
-
   final SessionHiveCacheClient _sessionHiveCacheClient;
   final ExceptionThrower _exceptionThrower;
 
-  HiveSessionDataSourceImpl(this._sessionHiveCacheClient, this._exceptionThrower);
+  HiveSessionDataSourceImpl(
+      this._sessionHiveCacheClient, this._exceptionThrower);
 
   @override
   Future<Session> getSession() {
@@ -22,14 +22,16 @@ class HiveSessionDataSourceImpl extends SessionDataSource {
   @override
   Future<void> storeSession(Session session) {
     return Future.sync(() async {
-      return _sessionHiveCacheClient.insertItem(SessionHiveObj.keyValue, session.toHiveObj());
+      return _sessionHiveCacheClient.insertItem(
+          SessionHiveObj.keyValue, session.toHiveObj());
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
   Future<Session> getStoredSession() {
     return Future.sync(() async {
-      final sessionHiveObj = await _sessionHiveCacheClient.getItem(SessionHiveObj.keyValue);
+      final sessionHiveObj =
+          await _sessionHiveCacheClient.getItem(SessionHiveObj.keyValue);
       if (sessionHiveObj != null) {
         return sessionHiveObj.toSession();
       } else {

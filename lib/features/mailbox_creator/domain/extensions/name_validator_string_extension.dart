@@ -1,6 +1,5 @@
-
 extension NameValidatorStringExtension on String {
   bool hasSpecialCharactersInName() {
-    return  RegExp(r'(?=.*?[#?!@$%^&*)(=+}{:;?/|\\><.,`~])').hasMatch(this);
+    return RegExp(r'(?=.*?[#?!@$%^&*)(=+}{:;?/|\\><.,`~])').hasMatch(this);
   }
 }

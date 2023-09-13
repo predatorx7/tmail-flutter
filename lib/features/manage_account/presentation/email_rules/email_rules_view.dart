@@ -7,7 +7,8 @@ import 'package:tmail_ui_user/features/manage_account/presentation/email_rules/w
 import 'package:tmail_ui_user/features/manage_account/presentation/email_rules/widgets/list_email_rules_widget.dart';
 import 'package:tmail_ui_user/features/manage_account/presentation/menu/settings_utils.dart';
 
-class EmailRulesView extends GetWidget<EmailRulesController> with AppLoaderMixin {
+class EmailRulesView extends GetWidget<EmailRulesController>
+    with AppLoaderMixin {
   final _responsiveUtils = Get.find<ResponsiveUtils>();
   final _imagePaths = Get.find<ImagePaths>();
 
@@ -21,7 +22,8 @@ class EmailRulesView extends GetWidget<EmailRulesController> with AppLoaderMixin
           : Colors.white,
       body: Container(
         width: double.infinity,
-        margin: SettingsUtils.getMarginViewForSettingDetails(context, _responsiveUtils),
+        margin: SettingsUtils.getMarginViewForSettingDetails(
+            context, _responsiveUtils),
         child: SingleChildScrollView(
           physics: const ClampingScrollPhysics(),
           child: Column(
@@ -32,7 +34,8 @@ class EmailRulesView extends GetWidget<EmailRulesController> with AppLoaderMixin
                 responsiveUtils: _responsiveUtils,
                 createRule: () => controller.goToCreateNewRule(context),
               ),
-              SizedBox(height: _responsiveUtils.isWebDesktop(context) ? 24 : 16),
+              SizedBox(
+                  height: _responsiveUtils.isWebDesktop(context) ? 24 : 16),
               _buildLoadingView(),
               const ListEmailRulesWidget()
             ],
@@ -44,12 +47,11 @@ class EmailRulesView extends GetWidget<EmailRulesController> with AppLoaderMixin
 
   Widget _buildLoadingView() {
     return Obx(() => controller.viewState.value.fold(
-            (failure) => const SizedBox.shrink(),
-            (success) => success is LoadingState
+        (failure) => const SizedBox.shrink(),
+        (success) => success is LoadingState
             ? Padding(
                 padding: const EdgeInsets.only(bottom: 24),
                 child: loadingWidget)
-            : const SizedBox.shrink()
-    ));
+            : const SizedBox.shrink()));
   }
 }

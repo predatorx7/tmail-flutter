@@ -28,20 +28,21 @@ void main() {
 
   HiveTask generateTask(String key, State value) {
     return HiveTask(
-      id: key,
-      runnable: () async {
-        final stateCache = value.toStateCache(StateType.mailbox);
-        await stateCacheClient.insertItem(key, stateCache);
-      },
-      conditionInvoked: () async {
-        final listState = await stateCacheClient.getAll();
-        return listState.length < 2;
-      }
-    );
+        id: key,
+        runnable: () async {
+          final stateCache = value.toStateCache(StateType.mailbox);
+          await stateCacheClient.insertItem(key, stateCache);
+        },
+        conditionInvoked: () async {
+          final listState = await stateCacheClient.getAll();
+          return listState.length < 2;
+        });
   }
 
   group('mailbox_state_worker_queue test', () {
-    test('stateCacheClient should contain only 2 elements when performing 4 more tasks in the queue at the same time.', () async {
+    test(
+        'stateCacheClient should contain only 2 elements when performing 4 more tasks in the queue at the same time.',
+        () async {
       await stateCacheClient.clearAllData();
       final stateCacheStart = await stateCacheClient.getAll();
       log('main():mailbox_state_worker_queue:stateCacheStart: $stateCacheStart | Length: ${stateCacheStart.length}');
@@ -49,9 +50,9 @@ void main() {
 
       await Future.wait([
         workerQueue.addTask(generateTask('Task1', State('value1'))),
-        workerQueue.addTask(generateTask('Task2',  State('value2'))),
-        workerQueue.addTask(generateTask('Task3',  State('value3'))),
-        workerQueue.addTask(generateTask('Task4',  State('value4')))
+        workerQueue.addTask(generateTask('Task2', State('value2'))),
+        workerQueue.addTask(generateTask('Task3', State('value3'))),
+        workerQueue.addTask(generateTask('Task4', State('value4')))
       ], eagerError: true);
 
       await Future.delayed(const Duration(seconds: 5));

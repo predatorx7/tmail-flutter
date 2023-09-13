@@ -6,6 +6,6 @@ class AuthenticateOidcOnBrowserLoading extends LoadingState {}
 class AuthenticateOidcOnBrowserSuccess extends UIState {}
 
 class AuthenticateOidcOnBrowserFailure extends FeatureFailure {
-
-  AuthenticateOidcOnBrowserFailure(dynamic exception) : super(exception: exception);
+  AuthenticateOidcOnBrowserFailure(dynamic exception)
+      : super(exception: exception);
 }

@@ -19,42 +19,46 @@ import 'package:tmail_ui_user/features/manage_account/domain/model/identities_re
 import 'package:tmail_ui_user/main/exceptions/exception_thrower.dart';
 
 class IdentityDataSourceImpl extends IdentityDataSource {
-
   final HtmlTransform _htmlTransform;
   final IdentityAPI _identityAPI;
   final ExceptionThrower _exceptionThrower;
 
   IdentityDataSourceImpl(
-    this._htmlTransform,
-    this._identityAPI,
-    this._exceptionThrower
-  );
+      this._htmlTransform, this._identityAPI, this._exceptionThrower);
 
   @override
-  Future<IdentitiesResponse> getAllIdentities(Session session, AccountId accountId, {Properties? properties}) {
+  Future<IdentitiesResponse> getAllIdentities(
+      Session session, AccountId accountId,
+      {Properties? properties}) {
     return Future.sync(() async {
-      return await _identityAPI.getAllIdentities(session, accountId, properties: properties);
+      return await _identityAPI.getAllIdentities(session, accountId,
+          properties: properties);
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<Identity> createNewIdentity(Session session, AccountId accountId, CreateNewIdentityRequest identityRequest) {
+  Future<Identity> createNewIdentity(Session session, AccountId accountId,
+      CreateNewIdentityRequest identityRequest) {
     return Future.sync(() async {
-      return await _identityAPI.createNewIdentity(session, accountId, identityRequest);
+      return await _identityAPI.createNewIdentity(
+          session, accountId, identityRequest);
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<bool> deleteIdentity(Session session, AccountId accountId, IdentityId identityId) {
+  Future<bool> deleteIdentity(
+      Session session, AccountId accountId, IdentityId identityId) {
     return Future.sync(() async {
       return await _identityAPI.deleteIdentity(session, accountId, identityId);
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<bool> editIdentity(Session session, AccountId accountId, EditIdentityRequest editIdentityRequest) {
+  Future<bool> editIdentity(Session session, AccountId accountId,
+      EditIdentityRequest editIdentityRequest) {
     return Future.sync(() async {
-      return await _identityAPI.editIdentity(session, accountId, editIdentityRequest);
+      return await _identityAPI.editIdentity(
+          session, accountId, editIdentityRequest);
     }).catchError(_exceptionThrower.throwException);
   }
 
@@ -62,15 +66,16 @@ class IdentityDataSourceImpl extends IdentityDataSource {
   Future<String> transformHtmlSignature(String signature) {
     return Future.sync(() async {
       final signatureUnescape = await _htmlTransform.transformToHtml(
-        htmlContent: signature,
-        transformConfiguration: TransformConfiguration.create(customDomTransformers: [
-          const RemoveScriptTransformer(),
-          const BlockQuotedTransformer(),
-          const BlockCodeTransformer(),
-          const AddTargetBlankInTagATransformer(),
-          const ImageTransformer(),
-          if (PlatformInfo.isWeb) const AddTooltipLinkTransformer()
-        ]));
+          htmlContent: signature,
+          transformConfiguration:
+              TransformConfiguration.create(customDomTransformers: [
+            const RemoveScriptTransformer(),
+            const BlockQuotedTransformer(),
+            const BlockCodeTransformer(),
+            const AddTargetBlankInTagATransformer(),
+            const ImageTransformer(),
+            if (PlatformInfo.isWeb) const AddTooltipLinkTransformer()
+          ]));
       return signatureUnescape;
     }).catchError(_exceptionThrower.throwException);
   }

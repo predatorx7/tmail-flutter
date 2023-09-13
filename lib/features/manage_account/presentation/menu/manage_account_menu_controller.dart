@@ -1,4 +1,3 @@
-
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,7 +6,6 @@ import 'package:tmail_ui_user/features/manage_account/presentation/model/account
 import 'package:tmail_ui_user/main/routes/route_navigation.dart';
 
 class ManageAccountMenuController extends GetxController {
-
   final dashBoardController = Get.find<ManageAccountDashBoardController>();
   final _responsiveUtils = Get.find<ResponsiveUtils>();
 
@@ -46,7 +44,8 @@ class ManageAccountMenuController extends GetxController {
     listAccountMenuItem.value = newListMenuSetting;
 
     if (listAccountMenuItem.isNotEmpty) {
-      if (currentContext != null && _responsiveUtils.isWebDesktop(currentContext!)) {
+      if (currentContext != null &&
+          _responsiveUtils.isWebDesktop(currentContext!)) {
         selectAccountMenuItem(listAccountMenuItem.first);
       } else {
         selectAccountMenuItem(AccountMenuItem.none);

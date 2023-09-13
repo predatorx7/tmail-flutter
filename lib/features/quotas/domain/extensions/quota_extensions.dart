@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/resources/image_paths.dart';
 import 'package:filesize/filesize.dart';
@@ -8,12 +7,13 @@ import 'package:jmap_dart_client/jmap/quotas/quota.dart';
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
 extension QuotasExtensions on Quota {
-
   UnsignedInt? get presentationHardLimit => hardLimit ?? limit;
 
   String get usedStorageAsString => used != null ? filesize(used!.value) : '';
 
-  String get hardLimitStorageAsString => presentationHardLimit != null ? filesize(presentationHardLimit!.value) : '';
+  String get hardLimitStorageAsString => presentationHardLimit != null
+      ? filesize(presentationHardLimit!.value)
+      : '';
 
   bool get isWarnLimitReached {
     if (used != null && warnLimit != null) {
@@ -39,7 +39,8 @@ extension QuotasExtensions on Quota {
     }
   }
 
-  bool get allowedDisplayToQuotaBanner => storageAvailable && (isHardLimitReached || isWarnLimitReached);
+  bool get allowedDisplayToQuotaBanner =>
+      storageAvailable && (isHardLimitReached || isWarnLimitReached);
 
   bool get storageAvailable => used != null && presentationHardLimit != null;
 
@@ -47,7 +48,8 @@ extension QuotasExtensions on Quota {
     if (isHardLimitReached) {
       return AppLocalizations.of(context).textQuotasOutOfStorage;
     } else {
-      return AppLocalizations.of(context).quotaStateLabel(usedStorageAsString, hardLimitStorageAsString);
+      return AppLocalizations.of(context)
+          .quotaStateLabel(usedStorageAsString, hardLimitStorageAsString);
     }
   }
 

@@ -13,7 +13,8 @@ class SaveEmailAsDraftsInteractor {
 
   SaveEmailAsDraftsInteractor(this._emailRepository, this._mailboxRepository);
 
-  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId, Email email) async* {
+  Stream<Either<Failure, Success>> execute(
+      Session session, AccountId accountId, Email email) async* {
     try {
       yield Right<Failure, Success>(SaveEmailAsDraftsLoading());
 
@@ -25,14 +26,11 @@ class SaveEmailAsDraftsInteractor {
       final currentMailboxState = listState.first;
       final currentEmailState = listState.last;
 
-      final emailAsDrafts = await _emailRepository.saveEmailAsDrafts(session, accountId, email);
-      yield Right<Failure, Success>(
-        SaveEmailAsDraftsSuccess(
-          emailAsDrafts,
+      final emailAsDrafts =
+          await _emailRepository.saveEmailAsDrafts(session, accountId, email);
+      yield Right<Failure, Success>(SaveEmailAsDraftsSuccess(emailAsDrafts,
           currentEmailState: currentEmailState,
-          currentMailboxState: currentMailboxState
-        )
-      );
+          currentMailboxState: currentMailboxState));
     } catch (e) {
       yield Left<Failure, Success>(SaveEmailAsDraftsFailure(e));
     }

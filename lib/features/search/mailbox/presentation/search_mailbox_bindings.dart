@@ -1,4 +1,3 @@
-
 import 'package:core/data/model/source_type/data_source_type.dart';
 import 'package:get/get.dart';
 import 'package:tmail_ui_user/features/base/base_bindings.dart';
@@ -28,21 +27,20 @@ import 'package:tmail_ui_user/main/exceptions/cache_exception_thrower.dart';
 import 'package:tmail_ui_user/main/exceptions/remote_exception_thrower.dart';
 
 class SearchMailboxBindings extends BaseBindings {
-
   @override
   void bindingsController() {
     Get.lazyPut(() => SearchMailboxController(
-      Get.find<SearchMailboxInteractor>(),
-      Get.find<RenameMailboxInteractor>(),
-      Get.find<MoveMailboxInteractor>(),
-      Get.find<DeleteMultipleMailboxInteractor>(),
-      Get.find<SubscribeMailboxInteractor>(),
-      Get.find<SubscribeMultipleMailboxInteractor>(),
-      Get.find<TreeBuilder>(),
-      Get.find<VerifyNameInteractor>(),
-      Get.find<GetAllMailboxInteractor>(),
-      Get.find<RefreshAllMailboxInteractor>(),
-    ));
+          Get.find<SearchMailboxInteractor>(),
+          Get.find<RenameMailboxInteractor>(),
+          Get.find<MoveMailboxInteractor>(),
+          Get.find<DeleteMultipleMailboxInteractor>(),
+          Get.find<SubscribeMailboxInteractor>(),
+          Get.find<SubscribeMultipleMailboxInteractor>(),
+          Get.find<TreeBuilder>(),
+          Get.find<VerifyNameInteractor>(),
+          Get.find<GetAllMailboxInteractor>(),
+          Get.find<RefreshAllMailboxInteractor>(),
+        ));
   }
 
   @override
@@ -53,32 +51,29 @@ class SearchMailboxBindings extends BaseBindings {
 
   @override
   void bindingsDataSourceImpl() {
-    Get.lazyPut(() => MailboxDataSourceImpl(
-      Get.find<MailboxAPI>(),
-      Get.find<MailboxIsolateWorker>(),
-      Get.find<RemoteExceptionThrower>()
-    ));
+    Get.lazyPut(() => MailboxDataSourceImpl(Get.find<MailboxAPI>(),
+        Get.find<MailboxIsolateWorker>(), Get.find<RemoteExceptionThrower>()));
     Get.lazyPut(() => MailboxCacheDataSourceImpl(
-      Get.find<MailboxCacheManager>(),
-      Get.find<CacheExceptionThrower>()
-    ));
+        Get.find<MailboxCacheManager>(), Get.find<CacheExceptionThrower>()));
     Get.lazyPut(() => StateDataSourceImpl(
-      Get.find<StateCacheClient>(),
-      Get.find<CacheExceptionThrower>()
-    ));
+        Get.find<StateCacheClient>(), Get.find<CacheExceptionThrower>()));
   }
 
   @override
   void bindingsInteractor() {
     Get.lazyPut(() => GetAllMailboxInteractor(Get.find<MailboxRepository>()));
-    Get.lazyPut(() => RefreshAllMailboxInteractor(Get.find<MailboxRepository>()));
+    Get.lazyPut(
+        () => RefreshAllMailboxInteractor(Get.find<MailboxRepository>()));
     Get.lazyPut(() => RenameMailboxInteractor(Get.find<MailboxRepository>()));
     Get.lazyPut(() => MoveMailboxInteractor(Get.find<MailboxRepository>()));
-    Get.lazyPut(() => DeleteMultipleMailboxInteractor(Get.find<MailboxRepository>()));
+    Get.lazyPut(
+        () => DeleteMultipleMailboxInteractor(Get.find<MailboxRepository>()));
     Get.lazyPut(() => VerifyNameInteractor());
     Get.lazyPut(() => SearchMailboxInteractor());
-    Get.lazyPut(() => SubscribeMailboxInteractor(Get.find<MailboxRepository>()));
-    Get.lazyPut(() => SubscribeMultipleMailboxInteractor(Get.find<MailboxRepository>()));
+    Get.lazyPut(
+        () => SubscribeMailboxInteractor(Get.find<MailboxRepository>()));
+    Get.lazyPut(() =>
+        SubscribeMultipleMailboxInteractor(Get.find<MailboxRepository>()));
   }
 
   @override
@@ -88,13 +83,10 @@ class SearchMailboxBindings extends BaseBindings {
 
   @override
   void bindingsRepositoryImpl() {
-    Get.lazyPut(() => MailboxRepositoryImpl(
-      {
-        DataSourceType.network: Get.find<MailboxDataSource>(),
-        DataSourceType.local: Get.find<MailboxCacheDataSourceImpl>()
-      },
-      Get.find<StateDataSource>()
-    ));
+    Get.lazyPut(() => MailboxRepositoryImpl({
+          DataSourceType.network: Get.find<MailboxDataSource>(),
+          DataSourceType.local: Get.find<MailboxCacheDataSourceImpl>()
+        }, Get.find<StateDataSource>()));
   }
 
   void disposeBindings() {

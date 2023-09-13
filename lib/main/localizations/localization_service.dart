@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 
 import 'package:core/utils/app_logger.dart';
@@ -7,7 +6,6 @@ import 'package:tmail_ui_user/features/manage_account/data/local/language_cache_
 import 'package:tmail_ui_user/main/localizations/language_code_constants.dart';
 
 class LocalizationService extends Translations {
-
   static const defaultLocale = Locale(LanguageCodeConstants.english, 'US');
   static const fallbackLocale = Locale(LanguageCodeConstants.english, 'US');
 
@@ -47,8 +45,8 @@ class LocalizationService extends Translations {
       return localeStored;
     } else {
       final languageCodeCurrent = langCode ?? Get.deviceLocale?.languageCode;
-      final localeSelected = supportedLocales
-          .firstWhereOrNull((locale) => locale.languageCode == languageCodeCurrent);
+      final localeSelected = supportedLocales.firstWhereOrNull(
+          (locale) => locale.languageCode == languageCodeCurrent);
       return localeSelected ?? Get.locale ?? defaultLocale;
     }
   }

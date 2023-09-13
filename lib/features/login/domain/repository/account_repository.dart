@@ -1,4 +1,3 @@
-
 import 'package:model/account/personal_account.dart';
 
 abstract class AccountRepository {

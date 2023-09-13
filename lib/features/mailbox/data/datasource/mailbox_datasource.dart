@@ -21,21 +21,31 @@ import 'package:tmail_ui_user/features/mailbox/domain/model/subscribe_mailbox_re
 import 'package:tmail_ui_user/features/mailbox/domain/model/subscribe_multiple_mailbox_request.dart';
 
 abstract class MailboxDataSource {
-  Future<MailboxResponse> getAllMailbox(Session session, AccountId accountId, {Properties? properties});
+  Future<MailboxResponse> getAllMailbox(Session session, AccountId accountId,
+      {Properties? properties});
 
-  Future<List<Mailbox>> getAllMailboxCache(AccountId accountId, UserName userName);
+  Future<List<Mailbox>> getAllMailboxCache(
+      AccountId accountId, UserName userName);
 
-  Future<MailboxChangeResponse> getChanges(Session session, AccountId accountId, State sinceState);
+  Future<MailboxChangeResponse> getChanges(
+      Session session, AccountId accountId, State sinceState);
 
-  Future<void> update(AccountId accountId, UserName userName, {List<Mailbox>? updated, List<Mailbox>? created, List<MailboxId>? destroyed});
+  Future<void> update(AccountId accountId, UserName userName,
+      {List<Mailbox>? updated,
+      List<Mailbox>? created,
+      List<MailboxId>? destroyed});
 
-  Future<Mailbox?> createNewMailbox(Session session, AccountId accountId, CreateNewMailboxRequest newMailboxRequest);
+  Future<Mailbox?> createNewMailbox(Session session, AccountId accountId,
+      CreateNewMailboxRequest newMailboxRequest);
 
-  Future<Map<Id,SetError>> deleteMultipleMailbox(Session session, AccountId accountId, List<MailboxId> mailboxIds);
+  Future<Map<Id, SetError>> deleteMultipleMailbox(
+      Session session, AccountId accountId, List<MailboxId> mailboxIds);
 
-  Future<bool> renameMailbox(Session session, AccountId accountId, RenameMailboxRequest request);
+  Future<bool> renameMailbox(
+      Session session, AccountId accountId, RenameMailboxRequest request);
 
-  Future<bool> moveMailbox(Session session, AccountId accountId, MoveMailboxRequest request);
+  Future<bool> moveMailbox(
+      Session session, AccountId accountId, MoveMailboxRequest request);
 
   Future<List<Email>> markAsMailboxRead(
       Session session,
@@ -44,7 +54,9 @@ abstract class MailboxDataSource {
       int totalEmailUnread,
       StreamController<dartz.Either<Failure, Success>> onProgressController);
 
-  Future<bool> subscribeMailbox(Session session, AccountId accountId, SubscribeMailboxRequest request);
+  Future<bool> subscribeMailbox(
+      Session session, AccountId accountId, SubscribeMailboxRequest request);
 
-  Future<List<MailboxId>> subscribeMultipleMailbox(Session session, AccountId accountId, SubscribeMultipleMailboxRequest subscribeRequest);
+  Future<List<MailboxId>> subscribeMultipleMailbox(Session session,
+      AccountId accountId, SubscribeMultipleMailboxRequest subscribeRequest);
 }

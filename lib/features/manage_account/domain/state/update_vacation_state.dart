@@ -14,6 +14,5 @@ class UpdateVacationSuccess extends UIState {
 }
 
 class UpdateVacationFailure extends FeatureFailure {
-
   UpdateVacationFailure(exception) : super(exception: exception);
 }

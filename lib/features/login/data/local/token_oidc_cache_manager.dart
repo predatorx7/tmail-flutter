@@ -29,7 +29,8 @@ class TokenOidcCacheManager {
     log('TokenOidcCacheManager::persistOneTokenOidc(): key: ${tokenOIDC.tokenId.uuid}');
     log('TokenOidcCacheManager::persistOneTokenOidc(): key\'s hash: ${tokenOIDC.tokenIdHash}');
     log('TokenOidcCacheManager::persistOneTokenOidc(): token: ${tokenOIDC.token}');
-    await _tokenOidcCacheClient.insertItem(tokenOIDC.tokenIdHash, tokenOIDC.toTokenOidcCache());
+    await _tokenOidcCacheClient.insertItem(
+        tokenOIDC.tokenIdHash, tokenOIDC.toTokenOidcCache());
   }
 
   Future<void> deleteTokenOidc() async {

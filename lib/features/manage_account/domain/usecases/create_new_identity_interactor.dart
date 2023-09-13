@@ -13,14 +13,12 @@ class CreateNewIdentityInteractor {
 
   CreateNewIdentityInteractor(this._identityRepository);
 
-  Stream<Either<Failure, Success>> execute(
-    Session session,
-    AccountId accountId,
-    CreateNewIdentityRequest identityRequest
-  ) async* {
+  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId,
+      CreateNewIdentityRequest identityRequest) async* {
     try {
       yield Right(CreateNewIdentityLoading());
-      final newIdentity = await _identityRepository.createNewIdentity(session, accountId, identityRequest);
+      final newIdentity = await _identityRepository.createNewIdentity(
+          session, accountId, identityRequest);
       yield Right(CreateNewIdentitySuccess(newIdentity));
     } catch (exception) {
       yield Left(CreateNewIdentityFailure(exception));

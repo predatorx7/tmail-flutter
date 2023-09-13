@@ -13,7 +13,8 @@ class AccountCacheManager {
   Future<PersonalAccount> getSelectedAccount() async {
     try {
       final allAccounts = await _accountCacheClient.getAll();
-      return allAccounts.firstWhere((account) => account.isSelected)
+      return allAccounts
+          .firstWhere((account) => account.isSelected)
           .toAccount();
     } catch (e) {
       logError('AccountCacheManager::getSelectedAccount(): $e');

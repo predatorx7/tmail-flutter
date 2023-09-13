@@ -81,56 +81,49 @@ class SearchEmailFilter with EquatableMixin {
     }
   }
 
-  Filter? mappingToEmailFilterCondition({EmailFilterCondition? moreFilterCondition}) {
+  Filter? mappingToEmailFilterCondition(
+      {EmailFilterCondition? moreFilterCondition}) {
     final emailEmailFilterConditionShared = EmailFilterCondition(
-      text: text?.value.trim().isNotEmpty == true
-        ? text?.value
-        : null,
-      inMailbox: mailbox?.mailboxId,
-      after: emailReceiveTimeType.getAfterDate(startDate),
-      hasAttachment: hasAttachment == false ? null : hasAttachment,
-      subject: subject?.trim().isNotEmpty == true
-        ? subject
-        : null,
-      before: emailReceiveTimeType.getBeforeDate(endDate, before)
-    );
+        text: text?.value.trim().isNotEmpty == true ? text?.value : null,
+        inMailbox: mailbox?.mailboxId,
+        after: emailReceiveTimeType.getAfterDate(startDate),
+        hasAttachment: hasAttachment == false ? null : hasAttachment,
+        subject: subject?.trim().isNotEmpty == true ? subject : null,
+        before: emailReceiveTimeType.getBeforeDate(endDate, before));
 
     final listEmailCondition = {
       if (emailEmailFilterConditionShared.hasCondition)
         emailEmailFilterConditionShared,
       if (to.isNotEmpty)
         LogicFilterOperator(
-            Operator.AND,
-            to.map((e) => EmailFilterCondition(to: e)).toSet()),
+            Operator.AND, to.map((e) => EmailFilterCondition(to: e)).toSet()),
       if (from.isNotEmpty)
-        LogicFilterOperator(
-            Operator.AND,
+        LogicFilterOperator(Operator.AND,
             from.map((e) => EmailFilterCondition(from: e)).toSet()),
       if (notKeyword.isNotEmpty)
-        LogicFilterOperator(
-          Operator.NOT,
-          notKeyword.map((e) => EmailFilterCondition(text: e)).toSet()),
+        LogicFilterOperator(Operator.NOT,
+            notKeyword.map((e) => EmailFilterCondition(text: e)).toSet()),
       if (moreFilterCondition != null && moreFilterCondition.hasCondition)
         moreFilterCondition
     };
 
     return listEmailCondition.isNotEmpty
-      ? LogicFilterOperator(Operator.AND, listEmailCondition)
-      : null;
+        ? LogicFilterOperator(Operator.AND, listEmailCondition)
+        : null;
   }
 
   @override
   List<Object?> get props => [
-    from,
-    to,
-    text,
-    subject,
-    notKeyword,
-    mailbox,
-    emailReceiveTimeType,
-    hasAttachment,
-    before,
-    startDate,
-    endDate
-  ];
+        from,
+        to,
+        text,
+        subject,
+        notKeyword,
+        mailbox,
+        emailReceiveTimeType,
+        hasAttachment,
+        before,
+        startDate,
+        endDate
+      ];
 }

@@ -1,4 +1,3 @@
-
 import 'package:jmap_dart_client/jmap/core/id.dart';
 import 'package:jmap_dart_client/jmap/core/unsigned_int.dart';
 import 'package:jmap_dart_client/jmap/mail/mailbox/mailbox.dart';
@@ -14,13 +13,19 @@ extension MailboxCacheExtension on MailboxCache {
         parentId: parentId != null ? MailboxId(Id(parentId!)) : null,
         role: role != null ? Role(role!) : null,
         sortOrder: sortOrder != null ? SortOrder(sortValue: sortOrder!) : null,
-        totalEmails: totalEmails != null ? TotalEmails(UnsignedInt(totalEmails!)) : null,
-        unreadEmails: unreadEmails != null ? UnreadEmails(UnsignedInt(unreadEmails!)) : null,
-        totalThreads: totalThreads != null ? TotalThreads(UnsignedInt(totalThreads!)) : null,
-        unreadThreads: unreadThreads != null ? UnreadThreads(UnsignedInt(unreadThreads!)) : null,
+        totalEmails:
+            totalEmails != null ? TotalEmails(UnsignedInt(totalEmails!)) : null,
+        unreadEmails: unreadEmails != null
+            ? UnreadEmails(UnsignedInt(unreadEmails!))
+            : null,
+        totalThreads: totalThreads != null
+            ? TotalThreads(UnsignedInt(totalThreads!))
+            : null,
+        unreadThreads: unreadThreads != null
+            ? UnreadThreads(UnsignedInt(unreadThreads!))
+            : null,
         myRights: myRights != null ? myRights!.toMailboxRights() : null,
         isSubscribed: isSubscribed != null ? IsSubscribed(isSubscribed!) : null,
-        namespace: namespace != null ? Namespace(namespace!) : null
-    );
+        namespace: namespace != null ? Namespace(namespace!) : null);
   }
 }

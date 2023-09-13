@@ -3,7 +3,6 @@ import 'package:core/utils/direction_utils.dart';
 import 'package:flutter/material.dart';
 
 class TextFieldBuilder extends StatefulWidget {
-
   final ValueChanged<String>? onTextChange;
   final ValueChanged<String>? onTextSubmitted;
   final VoidCallback? onTap;
@@ -54,7 +53,6 @@ class TextFieldBuilder extends StatefulWidget {
 }
 
 class _TextFieldBuilderState extends State<TextFieldBuilder> {
-
   late TextEditingController _controller;
   late TextDirection _textDirection;
 
@@ -62,7 +60,8 @@ class _TextFieldBuilderState extends State<TextFieldBuilder> {
   void initState() {
     super.initState();
     if (widget.fromValue != null) {
-      _controller = TextEditingController.fromValue(TextEditingValue(text: widget.fromValue!));
+      _controller = TextEditingController.fromValue(
+          TextEditingValue(text: widget.fromValue!));
     } else {
       _controller = widget.controller ?? TextEditingController();
     }

@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:model/mailbox/select_mode.dart';
@@ -13,8 +12,8 @@ import 'package:tmail_ui_user/features/sending_queue/presentation/widgets/banner
 import 'package:tmail_ui_user/features/sending_queue/presentation/widgets/bottom_bar_sending_queue_widget.dart';
 import 'package:tmail_ui_user/features/sending_queue/presentation/widgets/sending_email_tile_widget.dart';
 
-class SendingQueueView extends GetWidget<SendingQueueController> with AppLoaderMixin {
-
+class SendingQueueView extends GetWidget<SendingQueueController>
+    with AppLoaderMixin {
   const SendingQueueView({super.key});
 
   @override
@@ -22,38 +21,43 @@ class SendingQueueView extends GetWidget<SendingQueueController> with AppLoaderM
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          children: [
-            Obx(() {
-              return AppBarSendingQueueWidget(
-                listSendingEmailSelected: controller.dashboardController!.listSendingEmails.listSelected(),
-                onOpenMailboxMenu: controller.openMailboxMenu,
-                onBackAction: controller.disableSelectionMode,
-                selectMode: controller.selectionState.value,
+        child: Column(children: [
+          Obx(() {
+            return AppBarSendingQueueWidget(
+              listSendingEmailSelected: controller
+                  .dashboardController!.listSendingEmails
+                  .listSelected(),
+              onOpenMailboxMenu: controller.openMailboxMenu,
+              onBackAction: controller.disableSelectionMode,
+              selectMode: controller.selectionState.value,
+            );
+          }),
+          const Divider(color: AppColor.colorDividerComposer, height: 1),
+          Obx(() {
+            if (!controller.isConnectedNetwork) {
+              return const BannerMessageSendingQueueWidget();
+            } else {
+              return const SizedBox.shrink();
+            }
+          }),
+          Expanded(child: _buildListSendingEmails(context)),
+          Obx(() {
+            if (controller.isAllUnSelected) {
+              return const SizedBox.shrink();
+            } else {
+              return BottomBarSendingQueueWidget(
+                listSendingEmailSelected: controller
+                    .dashboardController!.listSendingEmails
+                    .listSelected(),
+                isConnectedNetwork: controller.isConnectedNetwork,
+                onHandleSendingEmailActionType:
+                    (actionType, listSendingEmails) =>
+                        controller.handleSendingEmailActionType(
+                            context, actionType, listSendingEmails),
               );
-            }),
-            const Divider(color: AppColor.colorDividerComposer, height: 1),
-            Obx(() {
-              if (!controller.isConnectedNetwork) {
-                return const BannerMessageSendingQueueWidget();
-              } else {
-                return const SizedBox.shrink();
-              }
-            }),
-            Expanded(child: _buildListSendingEmails(context)),
-            Obx(() {
-              if (controller.isAllUnSelected) {
-                return const SizedBox.shrink();
-              } else {
-               return BottomBarSendingQueueWidget(
-                  listSendingEmailSelected: controller.dashboardController!.listSendingEmails.listSelected(),
-                  isConnectedNetwork: controller.isConnectedNetwork,
-                  onHandleSendingEmailActionType: (actionType, listSendingEmails) => controller.handleSendingEmailActionType(context, actionType, listSendingEmails),
-                );
-              }
-            }),
-          ]
-        ),
+            }
+          }),
+        ]),
       ),
       floatingActionButton: _buildFloatingButtonCompose(),
     );
@@ -63,9 +67,9 @@ class SendingQueueView extends GetWidget<SendingQueueController> with AppLoaderM
     return Obx(() {
       if (controller.selectionState.value == SelectMode.INACTIVE) {
         return RefreshIndicator(
-          color: AppColor.primaryColor,
-          onRefresh: () async => controller.refreshSendingQueue(),
-          child: _buildListViewItemSendingEmails());
+            color: AppColor.primaryColor,
+            onRefresh: () async => controller.refreshSendingQueue(),
+            child: _buildListViewItemSendingEmails());
       } else {
         return _buildListViewItemSendingEmails();
       }
@@ -74,25 +78,28 @@ class SendingQueueView extends GetWidget<SendingQueueController> with AppLoaderM
 
   Widget _buildListViewItemSendingEmails() {
     return Obx(() {
-      final listSendingEmails = controller.dashboardController!.listSendingEmails;
+      final listSendingEmails =
+          controller.dashboardController!.listSendingEmails;
       if (listSendingEmails.isNotEmpty) {
         return ListView.builder(
-          controller: controller.listSendingEmailController,
-          physics: const AlwaysScrollableScrollPhysics(), // Trigger Refresh To pull
-          itemCount: listSendingEmails.length,
-          itemBuilder: (context, index) {
-            return SendingEmailTileWidget(
-              sendingEmail: listSendingEmails[index],
-              selectMode: controller.selectionState.value,
-              onLongPressAction: controller.handleOnLongPressAction,
-              onSelectLeadingAction: controller.toggleSelectionSendingEmail,
-              onTapAction: (actionType, sendingEmail) {
-                if (!controller.isConnectedNetwork && sendingEmail.isWaiting) {
-                  controller.handleSendingEmailActionType(context, actionType, [sendingEmail]);
-                }
-              });
-          }
-        );
+            controller: controller.listSendingEmailController,
+            physics:
+                const AlwaysScrollableScrollPhysics(), // Trigger Refresh To pull
+            itemCount: listSendingEmails.length,
+            itemBuilder: (context, index) {
+              return SendingEmailTileWidget(
+                  sendingEmail: listSendingEmails[index],
+                  selectMode: controller.selectionState.value,
+                  onLongPressAction: controller.handleOnLongPressAction,
+                  onSelectLeadingAction: controller.toggleSelectionSendingEmail,
+                  onTapAction: (actionType, sendingEmail) {
+                    if (!controller.isConnectedNetwork &&
+                        sendingEmail.isWaiting) {
+                      controller.handleSendingEmailActionType(
+                          context, actionType, [sendingEmail]);
+                    }
+                  });
+            });
       } else {
         return const SizedBox.shrink();
       }
@@ -103,16 +110,16 @@ class SendingQueueView extends GetWidget<SendingQueueController> with AppLoaderM
     return Obx(() {
       if (controller.isAllUnSelected) {
         return ComposeFloatingButton(
-          scrollController: controller.listSendingEmailController,
-          onTap: () => controller.dashboardController!.goToComposer(ComposerArguments())
-        );
+            scrollController: controller.listSendingEmailController,
+            onTap: () => controller.dashboardController!
+                .goToComposer(ComposerArguments()));
       } else {
         return Container(
           padding: const EdgeInsets.only(bottom: 70),
           child: ComposeFloatingButton(
-            scrollController: controller.listSendingEmailController,
-            onTap: () => controller.dashboardController!.goToComposer(ComposerArguments())
-          ),
+              scrollController: controller.listSendingEmailController,
+              onTap: () => controller.dashboardController!
+                  .goToComposer(ComposerArguments())),
         );
       }
     });

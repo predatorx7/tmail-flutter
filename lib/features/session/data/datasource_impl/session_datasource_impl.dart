@@ -4,7 +4,6 @@ import 'package:tmail_ui_user/features/session/data/network/session_api.dart';
 import 'package:tmail_ui_user/main/exceptions/exception_thrower.dart';
 
 class SessionDataSourceImpl extends SessionDataSource {
-
   final SessionAPI _sessionAPI;
   final ExceptionThrower _exceptionThrower;
 

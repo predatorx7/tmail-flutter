@@ -14,6 +14,5 @@ class GetEmailByIdSuccess extends UIState {
 }
 
 class GetEmailByIdFailure extends FeatureFailure {
-
   GetEmailByIdFailure(dynamic exception) : super(exception: exception);
 }

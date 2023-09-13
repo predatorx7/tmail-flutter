@@ -41,7 +41,6 @@ import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 import 'package:tmail_ui_user/main/utils/app_utils.dart';
 
 class EmailView extends GetWidget<SingleEmailController> {
-
   final responsiveUtils = Get.find<ResponsiveUtils>();
   final imagePaths = Get.find<ImagePaths>();
 
@@ -50,66 +49,70 @@ class EmailView extends GetWidget<SingleEmailController> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () => controller.backButtonPressedCallbackAction.call(context),
-      child: Scaffold(
-        backgroundColor: responsiveUtils.isWebDesktop(context)
-            ? AppColor.colorBgDesktop
-            : Colors.white,
-        body: Row(children: [
-          if (_supportVerticalDivider(context))
-            const VerticalDivider(
-                color: AppColor.lineItemListColor,
-                width: 12),
-          Expanded(child: SafeArea(
-              right: responsiveUtils.isLandscapeMobile(context),
-              left: responsiveUtils.isLandscapeMobile(context),
-              child: Container(
-                  clipBehavior: Clip.antiAlias,
-                  decoration: responsiveUtils.isWebDesktop(context)
-                      ? BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: AppColor.colorBorderBodyThread, width: 1),
-                          color: Colors.white)
-                      : const BoxDecoration(color: Colors.white),
-                  margin: _getMarginEmailView(context),
-                  child: Obx(() {
-                    if (controller.currentEmail != null) {
-                      return Column(children: [
-                        _buildAppBar(context, controller.currentEmail!),
-                        _buildVacationNotificationMessage(context),
-                        const Divider(color: AppColor.colorDividerHorizontal, height: 1),
-                        Expanded(
+        onWillPop: () =>
+            controller.backButtonPressedCallbackAction.call(context),
+        child: Scaffold(
+            backgroundColor: responsiveUtils.isWebDesktop(context)
+                ? AppColor.colorBgDesktop
+                : Colors.white,
+            body: Row(children: [
+              if (_supportVerticalDivider(context))
+                const VerticalDivider(
+                    color: AppColor.lineItemListColor, width: 12),
+              Expanded(
+                  child: SafeArea(
+                      right: responsiveUtils.isLandscapeMobile(context),
+                      left: responsiveUtils.isLandscapeMobile(context),
+                      child: Container(
+                          clipBehavior: Clip.antiAlias,
+                          decoration: responsiveUtils.isWebDesktop(context)
+                              ? BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(
+                                      color: AppColor.colorBorderBodyThread,
+                                      width: 1),
+                                  color: Colors.white)
+                              : const BoxDecoration(color: Colors.white),
+                          margin: _getMarginEmailView(context),
                           child: Obx(() {
-                            return controller.emailSupervisorController.supportedPageView.isTrue
-                              ? _buildMultipleEmailView(controller.emailSupervisorController.currentListEmail)
-                              : _buildSingleEmailView(context, controller.currentEmail!);
-                          }),
-                        ),
-                        BottomBarMailWidgetBuilder(
-                          controller.currentEmail!,
-                          onPressEmailActionClick: controller.pressEmailAction
-                        ),
-                      ]);
-                    } else {
-                      return const EmailViewEmptyWidget();
-                    }
-                  })
-              )
-          ))
-        ])
-      )
-    );
+                            if (controller.currentEmail != null) {
+                              return Column(children: [
+                                _buildAppBar(context, controller.currentEmail!),
+                                _buildVacationNotificationMessage(context),
+                                const Divider(
+                                    color: AppColor.colorDividerHorizontal,
+                                    height: 1),
+                                Expanded(
+                                  child: Obx(() {
+                                    return controller.emailSupervisorController
+                                            .supportedPageView.isTrue
+                                        ? _buildMultipleEmailView(controller
+                                            .emailSupervisorController
+                                            .currentListEmail)
+                                        : _buildSingleEmailView(
+                                            context, controller.currentEmail!);
+                                  }),
+                                ),
+                                BottomBarMailWidgetBuilder(
+                                    controller.currentEmail!,
+                                    onPressEmailActionClick:
+                                        controller.pressEmailAction),
+                              ]);
+                            } else {
+                              return const EmailViewEmptyWidget();
+                            }
+                          }))))
+            ])));
   }
 
   EdgeInsets _getMarginEmailView(BuildContext context) {
     if (PlatformInfo.isWeb) {
       if (responsiveUtils.isDesktop(context)) {
         return EdgeInsets.only(
-          left: AppUtils.isDirectionRTL(context) ? 16 : 0,
-          right: AppUtils.isDirectionRTL(context) ? 0 : 16,
-          top: 16,
-          bottom: 16
-        );
+            left: AppUtils.isDirectionRTL(context) ? 16 : 0,
+            right: AppUtils.isDirectionRTL(context) ? 0 : 16,
+            top: 16,
+            bottom: 16);
       } else {
         return const EdgeInsets.symmetric(vertical: 16);
       }
@@ -121,13 +124,14 @@ class EmailView extends GetWidget<SingleEmailController> {
   Widget _buildMultipleEmailView(List<PresentationEmail> listEmails) {
     return Obx(
       () => PageView.builder(
-        physics: controller.emailSupervisorController.scrollPhysicsPageView.value,
-        itemCount: listEmails.length,
-        allowImplicitScrolling: true,
-        controller: controller.emailSupervisorController.pageController,
-        onPageChanged: controller.emailSupervisorController.onPageChanged,
-        itemBuilder: (context, index) => _buildSingleEmailView(context, listEmails[index])
-      ),
+          physics:
+              controller.emailSupervisorController.scrollPhysicsPageView.value,
+          itemCount: listEmails.length,
+          allowImplicitScrolling: true,
+          controller: controller.emailSupervisorController.pageController,
+          onPageChanged: controller.emailSupervisorController.onPageChanged,
+          itemBuilder: (context, index) =>
+              _buildSingleEmailView(context, listEmails[index])),
     );
   }
 
@@ -136,121 +140,129 @@ class EmailView extends GetWidget<SingleEmailController> {
       return responsiveUtils.isTabletLarge(context);
     } else {
       return responsiveUtils.isLandscapeTablet(context) ||
-        responsiveUtils.isDesktop(context) ||
-        responsiveUtils.isTabletLarge(context);
+          responsiveUtils.isDesktop(context) ||
+          responsiveUtils.isTabletLarge(context);
     }
   }
 
   Widget _buildVacationNotificationMessage(BuildContext context) {
     return Obx(() {
-      final vacation = controller.mailboxDashBoardController.vacationResponse.value;
+      final vacation =
+          controller.mailboxDashBoardController.vacationResponse.value;
       if (vacation?.vacationResponderIsValid == true &&
           (responsiveUtils.isMobile(context) ||
               responsiveUtils.isTablet(context) ||
               responsiveUtils.isLandscapeMobile(context))) {
         return VacationNotificationMessageWidget(
-          margin: const EdgeInsets.only(left: 12, right: 12, bottom: 5),
-          vacationResponse: vacation!,
-          actionGotoVacationSetting: controller.mailboxDashBoardController.goToVacationSetting,
-          actionEndNow: controller.mailboxDashBoardController.disableVacationResponder);
+            margin: const EdgeInsets.only(left: 12, right: 12, bottom: 5),
+            vacationResponse: vacation!,
+            actionGotoVacationSetting:
+                controller.mailboxDashBoardController.goToVacationSetting,
+            actionEndNow:
+                controller.mailboxDashBoardController.disableVacationResponder);
       } else {
         return const SizedBox.shrink();
       }
     });
   }
 
-  Widget _buildAppBar(BuildContext context, PresentationEmail presentationEmail) {
+  Widget _buildAppBar(
+      BuildContext context, PresentationEmail presentationEmail) {
     return Obx(() => AppBarMailWidgetBuilder(
-      presentationEmail,
-      mailboxContain: _getMailboxContain(presentationEmail),
-      isSearchIsRunning: controller.mailboxDashBoardController.searchController.isSearchEmailRunning,
-      onBackActionClick: () => controller.closeEmailView(context),
-      onEmailActionClick: (email, action) =>
-          controller.handleEmailAction(context, email, action),
-      onMoreActionClick: (email, position) {
-        if (position == null) {
-          controller.openContextMenuAction(
-              context,
-              _emailActionMoreActionTile(context, email));
-        } else {
-          controller.openPopupMenuAction(
-              context,
-              position,
-              _popupMenuEmailActionTile(context, email));
-        }
-      },
-      optionsWidget: PlatformInfo.isWeb && controller.emailSupervisorController.supportedPageView.isTrue
-        ? _buildNavigatorPageViewWidgets(context)
-        : null,
-    ));
+          presentationEmail,
+          mailboxContain: _getMailboxContain(presentationEmail),
+          isSearchIsRunning: controller
+              .mailboxDashBoardController.searchController.isSearchEmailRunning,
+          onBackActionClick: () => controller.closeEmailView(context),
+          onEmailActionClick: (email, action) =>
+              controller.handleEmailAction(context, email, action),
+          onMoreActionClick: (email, position) {
+            if (position == null) {
+              controller.openContextMenuAction(
+                  context, _emailActionMoreActionTile(context, email));
+            } else {
+              controller.openPopupMenuAction(
+                  context, position, _popupMenuEmailActionTile(context, email));
+            }
+          },
+          optionsWidget: PlatformInfo.isWeb &&
+                  controller.emailSupervisorController.supportedPageView.isTrue
+              ? _buildNavigatorPageViewWidgets(context)
+              : null,
+        ));
   }
 
   PresentationMailbox? _getMailboxContain(PresentationEmail currentEmail) {
-    return currentEmail.findMailboxContain(controller.mailboxDashBoardController.mapMailboxById);
+    return currentEmail.findMailboxContain(
+        controller.mailboxDashBoardController.mapMailboxById);
   }
-  
+
   List<Widget> _buildNavigatorPageViewWidgets(BuildContext context) {
     return [
       buildIconWeb(
-        icon: SvgPicture.asset(
-          DirectionUtils.isDirectionRTLByLanguage(context) ? imagePaths.icOlder : imagePaths.icNewer,
-          colorFilter: controller.emailSupervisorController.nextEmailActivated
-            ? AppColor.primaryColor.asFilter()
-            : AppColor.colorAttachmentIcon.asFilter(),
-          width: IconUtils.defaultIconSize,
-          height: IconUtils.defaultIconSize,
-          fit: BoxFit.fill),
-        tooltip: AppLocalizations.of(context).newer,
-        onTap: controller.emailSupervisorController.moveToNextEmail),
+          icon: SvgPicture.asset(
+              DirectionUtils.isDirectionRTLByLanguage(context)
+                  ? imagePaths.icOlder
+                  : imagePaths.icNewer,
+              colorFilter:
+                  controller.emailSupervisorController.nextEmailActivated
+                      ? AppColor.primaryColor.asFilter()
+                      : AppColor.colorAttachmentIcon.asFilter(),
+              width: IconUtils.defaultIconSize,
+              height: IconUtils.defaultIconSize,
+              fit: BoxFit.fill),
+          tooltip: AppLocalizations.of(context).newer,
+          onTap: controller.emailSupervisorController.moveToNextEmail),
       buildIconWeb(
-        icon: SvgPicture.asset(
-          DirectionUtils.isDirectionRTLByLanguage(context) ? imagePaths.icNewer : imagePaths.icOlder,
-          width: IconUtils.defaultIconSize,
-          height: IconUtils.defaultIconSize,
-          colorFilter: controller.emailSupervisorController.previousEmailActivated
-            ? AppColor.primaryColor.asFilter()
-            : AppColor.colorAttachmentIcon.asFilter(),
-          fit: BoxFit.fill),
-        tooltip: AppLocalizations.of(context).older,
-        onTap: controller.emailSupervisorController.backToPreviousEmail),
+          icon: SvgPicture.asset(
+              DirectionUtils.isDirectionRTLByLanguage(context)
+                  ? imagePaths.icNewer
+                  : imagePaths.icOlder,
+              width: IconUtils.defaultIconSize,
+              height: IconUtils.defaultIconSize,
+              colorFilter:
+                  controller.emailSupervisorController.previousEmailActivated
+                      ? AppColor.primaryColor.asFilter()
+                      : AppColor.colorAttachmentIcon.asFilter(),
+              fit: BoxFit.fill),
+          tooltip: AppLocalizations.of(context).older,
+          onTap: controller.emailSupervisorController.backToPreviousEmail),
     ];
   }
 
-  Widget _buildSingleEmailView(BuildContext context, PresentationEmail presentationEmail) {
+  Widget _buildSingleEmailView(
+      BuildContext context, PresentationEmail presentationEmail) {
     if (PlatformInfo.isMobile) {
       return SingleChildScrollView(
-        physics : const ClampingScrollPhysics(),
-        child: Container(
-          width: double.infinity,
-          alignment: Alignment.center,
-          color: Colors.white,
-          child: Obx(() => _buildEmailMessage(
-            context: context,
-            presentationEmail: presentationEmail,
-            calendarEvent: controller.calendarEvent.value
-          ))
-        )
-      );
+          physics: const ClampingScrollPhysics(),
+          child: Container(
+              width: double.infinity,
+              alignment: Alignment.center,
+              color: Colors.white,
+              child: Obx(() => _buildEmailMessage(
+                  context: context,
+                  presentationEmail: presentationEmail,
+                  calendarEvent: controller.calendarEvent.value))));
     } else {
       return Obx(() {
         final calendarEvent = controller.calendarEvent.value;
         if (presentationEmail.hasCalendarEvent && calendarEvent != null) {
           return SingleChildScrollView(
-            physics : const ClampingScrollPhysics(),
-            child: Container(
-              width: double.infinity,
-              alignment: Alignment.center,
-              color: Colors.white,
-              child: _buildEmailMessage(
-                context: context,
-                presentationEmail: presentationEmail,
-                calendarEvent: calendarEvent,
-                emailAddressSender: presentationEmail.listEmailAddressSender.getListAddress(),
-              )
-            )
-          );
+              physics: const ClampingScrollPhysics(),
+              child: Container(
+                  width: double.infinity,
+                  alignment: Alignment.center,
+                  color: Colors.white,
+                  child: _buildEmailMessage(
+                    context: context,
+                    presentationEmail: presentationEmail,
+                    calendarEvent: calendarEvent,
+                    emailAddressSender: presentationEmail.listEmailAddressSender
+                        .getListAddress(),
+                  )));
         } else {
-          return _buildEmailMessage(context: context, presentationEmail: presentationEmail);
+          return _buildEmailMessage(
+              context: context, presentationEmail: presentationEmail);
         }
       });
     }
@@ -262,74 +274,73 @@ class EmailView extends GetWidget<SingleEmailController> {
     CalendarEvent? calendarEvent,
     List<String>? emailAddressSender,
   }) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return Column(crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            EmailSubjectWidget(presentationEmail: presentationEmail),
-            InformationSenderAndReceiverBuilder(
-              controller: controller,
-              emailSelected: presentationEmail,
-              imagePaths: imagePaths,
-              responsiveUtils: responsiveUtils,
-            ),
-            Obx(() {
-              final attachments = controller.attachments.listAttachmentsDisplayedOutSide;
-              if (attachments.isNotEmpty) {
-                return EmailAttachmentsWidget(
-                  attachments: attachments,
-                  onDownloadAttachmentActionCallback: (context, attachment) {
-                    if (PlatformInfo.isWeb) {
-                      controller.downloadAttachmentForWeb(context, attachment);
-                    } else {
-                      controller.exportAttachment(context, attachment);
-                    }
-                  },
-                );
-              } else {
-                return const SizedBox.shrink();
-              }
-            }),
-            Obx(() => EmailViewLoadingBarWidget(
+    return LayoutBuilder(builder: (context, constraints) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          EmailSubjectWidget(presentationEmail: presentationEmail),
+          InformationSenderAndReceiverBuilder(
+            controller: controller,
+            emailSelected: presentationEmail,
+            imagePaths: imagePaths,
+            responsiveUtils: responsiveUtils,
+          ),
+          Obx(() {
+            final attachments =
+                controller.attachments.listAttachmentsDisplayedOutSide;
+            if (attachments.isNotEmpty) {
+              return EmailAttachmentsWidget(
+                attachments: attachments,
+                onDownloadAttachmentActionCallback: (context, attachment) {
+                  if (PlatformInfo.isWeb) {
+                    controller.downloadAttachmentForWeb(context, attachment);
+                  } else {
+                    controller.exportAttachment(context, attachment);
+                  }
+                },
+              );
+            } else {
+              return const SizedBox.shrink();
+            }
+          }),
+          Obx(() => EmailViewLoadingBarWidget(
               viewState: controller.emailLoadedViewState.value,
-              selectedEmail: presentationEmail
-            )),
-            if (calendarEvent != null)
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CalendarEventInformationWidget(
-                    calendarEvent: calendarEvent,
-                    eventActions: controller.eventActions,
-                    onOpenComposerAction: controller.openNewComposerAction,
-                    onOpenNewTabAction: controller.openNewTabAction,
-                  ),
-                  if (calendarEvent.getTitleEventAction(context, emailAddressSender ?? []).isNotEmpty)
-                    CalendarEventActionBannerWidget(
+              selectedEmail: presentationEmail)),
+          if (calendarEvent != null)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CalendarEventInformationWidget(
+                  calendarEvent: calendarEvent,
+                  eventActions: controller.eventActions,
+                  onOpenComposerAction: controller.openNewComposerAction,
+                  onOpenNewTabAction: controller.openNewTabAction,
+                ),
+                if (calendarEvent
+                    .getTitleEventAction(context, emailAddressSender ?? [])
+                    .isNotEmpty)
+                  CalendarEventActionBannerWidget(
                       calendarEvent: calendarEvent,
-                      listEmailAddressSender: emailAddressSender ?? []
-                    ),
-                  CalendarEventDetailWidget(
-                    calendarEvent: calendarEvent,
-                    eventActions: controller.eventActions,
-                    onOpenComposerAction: controller.openNewComposerAction,
-                    onOpenNewTabAction: controller.openNewTabAction,
-                  ),
-                ],
-              )
-            else
-              _buildEmailContentOnHtmlViewer(context, constraints, presentationEmail)
-          ],
-        );
-      });
+                      listEmailAddressSender: emailAddressSender ?? []),
+                CalendarEventDetailWidget(
+                  calendarEvent: calendarEvent,
+                  eventActions: controller.eventActions,
+                  onOpenComposerAction: controller.openNewComposerAction,
+                  onOpenNewTabAction: controller.openNewTabAction,
+                ),
+              ],
+            )
+          else
+            _buildEmailContentOnHtmlViewer(
+                context, constraints, presentationEmail)
+        ],
+      );
+    });
   }
 
-  Widget _buildEmailContentOnHtmlViewer(
-    BuildContext context,
-    BoxConstraints constraints,
-    PresentationEmail email
-  ) {
+  Widget _buildEmailContentOnHtmlViewer(BuildContext context,
+      BoxConstraints constraints, PresentationEmail email) {
     if (email.id != controller.currentEmail?.id) {
       return const SizedBox.shrink();
     }
@@ -354,9 +365,8 @@ class EmailView extends GetWidget<SingleEmailController> {
         } else {
           return Padding(
             padding: const EdgeInsetsDirectional.symmetric(
-              vertical: EmailViewStyles.mobileContentVerticalMargin,
-              horizontal: EmailViewStyles.mobileContentHorizontalMargin
-            ),
+                vertical: EmailViewStyles.mobileContentVerticalMargin,
+                horizontal: EmailViewStyles.mobileContentHorizontalMargin),
             child: HtmlContentViewer(
               heightContent: responsiveUtils.getSizeScreenHeight(context),
               contentHtml: allEmailContents ?? "",
@@ -364,7 +374,8 @@ class EmailView extends GetWidget<SingleEmailController> {
               onScrollHorizontalEnd: controller.toggleScrollPhysicsPagerView,
               onWebViewLoaded: (isScrollPageViewActivated) {
                 log('EmailView::_buildEmailContent(): isScrollPageViewActivated: $isScrollPageViewActivated');
-                controller.emailSupervisorController.updateScrollPhysicPageView(isScrollPageViewActivated: isScrollPageViewActivated);
+                controller.emailSupervisorController.updateScrollPhysicPageView(
+                    isScrollPageViewActivated: isScrollPageViewActivated);
               },
               direction: AppUtils.getCurrentDirection(context),
             ),
@@ -376,7 +387,8 @@ class EmailView extends GetWidget<SingleEmailController> {
     });
   }
 
-  List<Widget> _emailActionMoreActionTile(BuildContext context, PresentationEmail email) {
+  List<Widget> _emailActionMoreActionTile(
+      BuildContext context, PresentationEmail email) {
     return <Widget>[
       _markAsEmailUnreadAction(context, email),
       _markAsEmailSpamOrUnSpamAction(context, email),
@@ -384,111 +396,112 @@ class EmailView extends GetWidget<SingleEmailController> {
     ];
   }
 
-  Widget _markAsEmailUnreadAction(BuildContext context, PresentationEmail email) {
+  Widget _markAsEmailUnreadAction(
+      BuildContext context, PresentationEmail email) {
     return (EmailActionCupertinoActionSheetActionBuilder(
-          const Key('mark_as_unread_action'),
-          SvgPicture.asset(
-            imagePaths.icUnreadEmail,
-            width: 24,
-            height: 24,
-            fit: BoxFit.fill,
-            colorFilter: AppColor.colorTextButton.asFilter()
-          ),
-          AppLocalizations.of(context).mark_as_unread,
-          email,
-          iconLeftPadding: responsiveUtils.isMobile(context)
-            ? EdgeInsets.only(
-                left: AppUtils.isDirectionRTL(context) ? 16 : 12,
-                right: AppUtils.isDirectionRTL(context) ? 12 : 16,
-              )
-            : EdgeInsets.only(
-                left: AppUtils.isDirectionRTL(context) ? 12 : 0,
-                right: AppUtils.isDirectionRTL(context) ? 0 : 12,
-              ),
-          iconRightPadding: responsiveUtils.isMobile(context)
-            ? EdgeInsets.only(
-                left: AppUtils.isDirectionRTL(context) ? 12 : 0,
-                right: AppUtils.isDirectionRTL(context) ? 0 : 12,
-              )
-            : EdgeInsets.zero)
-      ..onActionClick((email) => controller.handleEmailAction(
-        context,
-        email,
-        EmailActionType.markAsUnread)
-      )
-    ).build();
+            const Key('mark_as_unread_action'),
+            SvgPicture.asset(imagePaths.icUnreadEmail,
+                width: 24,
+                height: 24,
+                fit: BoxFit.fill,
+                colorFilter: AppColor.colorTextButton.asFilter()),
+            AppLocalizations.of(context).mark_as_unread,
+            email,
+            iconLeftPadding: responsiveUtils.isMobile(context)
+                ? EdgeInsets.only(
+                    left: AppUtils.isDirectionRTL(context) ? 16 : 12,
+                    right: AppUtils.isDirectionRTL(context) ? 12 : 16,
+                  )
+                : EdgeInsets.only(
+                    left: AppUtils.isDirectionRTL(context) ? 12 : 0,
+                    right: AppUtils.isDirectionRTL(context) ? 0 : 12,
+                  ),
+            iconRightPadding: responsiveUtils.isMobile(context)
+                ? EdgeInsets.only(
+                    left: AppUtils.isDirectionRTL(context) ? 12 : 0,
+                    right: AppUtils.isDirectionRTL(context) ? 0 : 12,
+                  )
+                : EdgeInsets.zero)
+          ..onActionClick((email) => controller.handleEmailAction(
+              context, email, EmailActionType.markAsUnread)))
+        .build();
   }
 
-  Widget _markAsEmailSpamOrUnSpamAction(BuildContext context, PresentationEmail email) {
+  Widget _markAsEmailSpamOrUnSpamAction(
+      BuildContext context, PresentationEmail email) {
     final currentMailbox = controller.getMailboxContain(email);
 
     return (EmailActionCupertinoActionSheetActionBuilder(
-          const Key('mark_as_spam_or_un_spam_action'),
-          SvgPicture.asset(
-            currentMailbox?.isSpam == true ? imagePaths.icNotSpam : imagePaths.icSpam,
-            width: 24,
-            height: 24,
-            fit: BoxFit.fill,
-            colorFilter: AppColor.colorTextButton.asFilter()
-          ),
-          currentMailbox?.isSpam == true
-            ? AppLocalizations.of(context).remove_from_spam
-            : AppLocalizations.of(context).mark_as_spam,
-          email,
-          iconLeftPadding: responsiveUtils.isMobile(context)
-            ? EdgeInsets.only(
-                left: AppUtils.isDirectionRTL(context) ? 16 : 12,
-                right: AppUtils.isDirectionRTL(context) ? 12 : 16,
-              )
-            : EdgeInsets.only(
-                left: AppUtils.isDirectionRTL(context) ? 12 : 0,
-                right: AppUtils.isDirectionRTL(context) ? 0 : 12,
-              ),
-          iconRightPadding: responsiveUtils.isMobile(context)
-            ? EdgeInsets.only(
-                left: AppUtils.isDirectionRTL(context) ? 12 : 0,
-                right: AppUtils.isDirectionRTL(context) ? 0 : 12,
-              )
-            : EdgeInsets.zero)
-      ..onActionClick((email) => controller.handleEmailAction(
-        context,
-        email,
-        currentMailbox?.isSpam == true ? EmailActionType.unSpam : EmailActionType.moveToSpam)
-      )
-    ).build();
+            const Key('mark_as_spam_or_un_spam_action'),
+            SvgPicture.asset(
+                currentMailbox?.isSpam == true
+                    ? imagePaths.icNotSpam
+                    : imagePaths.icSpam,
+                width: 24,
+                height: 24,
+                fit: BoxFit.fill,
+                colorFilter: AppColor.colorTextButton.asFilter()),
+            currentMailbox?.isSpam == true
+                ? AppLocalizations.of(context).remove_from_spam
+                : AppLocalizations.of(context).mark_as_spam,
+            email,
+            iconLeftPadding: responsiveUtils.isMobile(context)
+                ? EdgeInsets.only(
+                    left: AppUtils.isDirectionRTL(context) ? 16 : 12,
+                    right: AppUtils.isDirectionRTL(context) ? 12 : 16,
+                  )
+                : EdgeInsets.only(
+                    left: AppUtils.isDirectionRTL(context) ? 12 : 0,
+                    right: AppUtils.isDirectionRTL(context) ? 0 : 12,
+                  ),
+            iconRightPadding: responsiveUtils.isMobile(context)
+                ? EdgeInsets.only(
+                    left: AppUtils.isDirectionRTL(context) ? 12 : 0,
+                    right: AppUtils.isDirectionRTL(context) ? 0 : 12,
+                  )
+                : EdgeInsets.zero)
+          ..onActionClick((email) => controller.handleEmailAction(
+              context,
+              email,
+              currentMailbox?.isSpam == true
+                  ? EmailActionType.unSpam
+                  : EmailActionType.moveToSpam)))
+        .build();
   }
 
-  Widget _quickCreatingRuleAction(BuildContext context, PresentationEmail email) {
+  Widget _quickCreatingRuleAction(
+      BuildContext context, PresentationEmail email) {
     return (EmailActionCupertinoActionSheetActionBuilder(
-          const Key('quick_creating_rule_action'),
-          SvgPicture.asset(
-            imagePaths.icQuickCreatingRule,
-            width: 24,
-            height: 24,
-            fit: BoxFit.fill,
-            colorFilter: AppColor.colorTextButton.asFilter()),
-          AppLocalizations.of(context).quickCreatingRule,
-          email,
-          iconLeftPadding: responsiveUtils.isMobile(context)
-            ? EdgeInsets.only(
-                left: AppUtils.isDirectionRTL(context) ? 16 : 12,
-                right: AppUtils.isDirectionRTL(context) ? 12 : 16,
-              )
-            : EdgeInsets.only(
-                left: AppUtils.isDirectionRTL(context) ? 12 : 0,
-                right: AppUtils.isDirectionRTL(context) ? 0 : 12,
-              ),
-          iconRightPadding: responsiveUtils.isMobile(context)
-            ? EdgeInsets.only(
-                left: AppUtils.isDirectionRTL(context) ? 12 : 0,
-                right: AppUtils.isDirectionRTL(context) ? 0 : 12,
-              )
-            : EdgeInsets.zero)
-        ..onActionClick((email) => controller.quickCreatingRule(context, email.from!.first)))
-      .build();
+            const Key('quick_creating_rule_action'),
+            SvgPicture.asset(imagePaths.icQuickCreatingRule,
+                width: 24,
+                height: 24,
+                fit: BoxFit.fill,
+                colorFilter: AppColor.colorTextButton.asFilter()),
+            AppLocalizations.of(context).quickCreatingRule,
+            email,
+            iconLeftPadding: responsiveUtils.isMobile(context)
+                ? EdgeInsets.only(
+                    left: AppUtils.isDirectionRTL(context) ? 16 : 12,
+                    right: AppUtils.isDirectionRTL(context) ? 12 : 16,
+                  )
+                : EdgeInsets.only(
+                    left: AppUtils.isDirectionRTL(context) ? 12 : 0,
+                    right: AppUtils.isDirectionRTL(context) ? 0 : 12,
+                  ),
+            iconRightPadding: responsiveUtils.isMobile(context)
+                ? EdgeInsets.only(
+                    left: AppUtils.isDirectionRTL(context) ? 12 : 0,
+                    right: AppUtils.isDirectionRTL(context) ? 0 : 12,
+                  )
+                : EdgeInsets.zero)
+          ..onActionClick((email) =>
+              controller.quickCreatingRule(context, email.from!.first)))
+        .build();
   }
 
-  List<PopupMenuEntry> _popupMenuEmailActionTile(BuildContext context, PresentationEmail email) {
+  List<PopupMenuEntry> _popupMenuEmailActionTile(
+      BuildContext context, PresentationEmail email) {
     final mailboxContain = controller.getMailboxContain(email);
     return [
       _markAsEmailUnreadPopupItemAction(context, email),
@@ -497,68 +510,51 @@ class EmailView extends GetWidget<SingleEmailController> {
     ];
   }
 
-  PopupMenuEntry _markAsEmailUnreadPopupItemAction(BuildContext context, PresentationEmail email) {
+  PopupMenuEntry _markAsEmailUnreadPopupItemAction(
+      BuildContext context, PresentationEmail email) {
     return PopupMenuItem(
-      padding: EdgeInsets.zero,
-      child: PopupItemWidget(
-        imagePaths.icUnreadEmail,
-        AppLocalizations.of(context).mark_as_unread,
-        colorIcon: AppColor.colorTextButton,
-        styleName: const TextStyle(
-          fontWeight: FontWeight.w500,
-          fontSize: 16,
-          color: Colors.black
-        ),
-        onCallbackAction: () => controller.handleEmailAction(
-          context,
-          email,
-          EmailActionType.markAsUnread
-        )
-      )
-    );
+        padding: EdgeInsets.zero,
+        child: PopupItemWidget(imagePaths.icUnreadEmail,
+            AppLocalizations.of(context).mark_as_unread,
+            colorIcon: AppColor.colorTextButton,
+            styleName: const TextStyle(
+                fontWeight: FontWeight.w500, fontSize: 16, color: Colors.black),
+            onCallbackAction: () => controller.handleEmailAction(
+                context, email, EmailActionType.markAsUnread)));
   }
 
-  PopupMenuEntry _markAsEmailSpamOrUnSpamPopupItemAction(
-    BuildContext context,
-    PresentationEmail email,
-    PresentationMailbox? mailboxContain
-  ) {
+  PopupMenuEntry _markAsEmailSpamOrUnSpamPopupItemAction(BuildContext context,
+      PresentationEmail email, PresentationMailbox? mailboxContain) {
     return PopupMenuItem(
-      padding: EdgeInsets.zero,
-      child: PopupItemWidget(
-        mailboxContain?.isSpam == true ? imagePaths.icNotSpam : imagePaths.icSpam,
-        mailboxContain?.isSpam == true
-          ? AppLocalizations.of(context).remove_from_spam
-          : AppLocalizations.of(context).mark_as_spam,
-        colorIcon: AppColor.colorTextButton,
-        styleName: const TextStyle(
-          fontWeight: FontWeight.w500,
-          fontSize: 16,
-          color: Colors.black
-        ),
-        onCallbackAction: () => controller.handleEmailAction(
-          context,
-          email,
-          mailboxContain?.isSpam == true ? EmailActionType.unSpam : EmailActionType.moveToSpam
-        )
-      )
-    );
+        padding: EdgeInsets.zero,
+        child: PopupItemWidget(
+            mailboxContain?.isSpam == true
+                ? imagePaths.icNotSpam
+                : imagePaths.icSpam,
+            mailboxContain?.isSpam == true
+                ? AppLocalizations.of(context).remove_from_spam
+                : AppLocalizations.of(context).mark_as_spam,
+            colorIcon: AppColor.colorTextButton,
+            styleName: const TextStyle(
+                fontWeight: FontWeight.w500, fontSize: 16, color: Colors.black),
+            onCallbackAction: () => controller.handleEmailAction(
+                context,
+                email,
+                mailboxContain?.isSpam == true
+                    ? EmailActionType.unSpam
+                    : EmailActionType.moveToSpam)));
   }
 
-  PopupMenuEntry _quickCreatingRulePopupItemAction(BuildContext context, PresentationEmail email) {
+  PopupMenuEntry _quickCreatingRulePopupItemAction(
+      BuildContext context, PresentationEmail email) {
     return PopupMenuItem(
-      padding: EdgeInsets.zero,
-      child: PopupItemWidget(
-        imagePaths.icQuickCreatingRule,
-        AppLocalizations.of(context).quickCreatingRule,
-        colorIcon: AppColor.colorTextButton,
-        styleName: const TextStyle(
-          fontWeight: FontWeight.w500,
-          fontSize: 16,
-          color: Colors.black
-        ),
-        onCallbackAction: () => controller.quickCreatingRule(context, email.from!.first)
-      )
-    );
+        padding: EdgeInsets.zero,
+        child: PopupItemWidget(imagePaths.icQuickCreatingRule,
+            AppLocalizations.of(context).quickCreatingRule,
+            colorIcon: AppColor.colorTextButton,
+            styleName: const TextStyle(
+                fontWeight: FontWeight.w500, fontSize: 16, color: Colors.black),
+            onCallbackAction: () =>
+                controller.quickCreatingRule(context, email.from!.first)));
   }
 }

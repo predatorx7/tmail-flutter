@@ -1,4 +1,3 @@
-
 import 'package:tmail_ui_user/features/cleanup/domain/model/cleanup_rule.dart';
 
 class RecentLoginUrlCleanupRule extends CleanupRule {

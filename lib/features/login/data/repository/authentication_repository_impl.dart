@@ -10,7 +10,8 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
   AuthenticationRepositoryImpl(this.loginDataSource);
 
   @override
-  Future<UserProfile> authenticationUser(Uri baseUrl, UserName userName, Password password) {
+  Future<UserProfile> authenticationUser(
+      Uri baseUrl, UserName userName, Password password) {
     return loginDataSource.authenticationUser(baseUrl, userName, password);
   }
 }

@@ -5,7 +5,6 @@ import 'package:core/presentation/state/success.dart';
 class SavingLanguage extends UIState {}
 
 class SaveLanguageSuccess extends UIState {
-
   final Locale localeStored;
 
   SaveLanguageSuccess(this.localeStored);
@@ -15,6 +14,5 @@ class SaveLanguageSuccess extends UIState {
 }
 
 class SaveLanguageFailure extends FeatureFailure {
-
   SaveLanguageFailure(dynamic exception) : super(exception: exception);
 }

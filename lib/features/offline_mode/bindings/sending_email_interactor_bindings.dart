@@ -33,7 +33,6 @@ import 'package:tmail_ui_user/main/exceptions/cache_exception_thrower.dart';
 import 'package:tmail_ui_user/main/exceptions/remote_exception_thrower.dart';
 
 class SendEmailInteractorBindings extends InteractorsBindings {
-
   @override
   void bindingsDataSource() {
     Get.lazyPut<EmailDataSource>(() => Get.find<EmailDataSourceImpl>());
@@ -45,35 +44,30 @@ class SendEmailInteractorBindings extends InteractorsBindings {
   @override
   void bindingsDataSourceImpl() {
     Get.lazyPut(() => EmailDataSourceImpl(
-      Get.find<EmailAPI>(),
-      Get.find<RemoteExceptionThrower>()));
-    Get.lazyPut(() => MailboxDataSourceImpl(
-      Get.find<MailboxAPI>(),
-      Get.find<MailboxIsolateWorker>(),
-      Get.find<RemoteExceptionThrower>()));
+        Get.find<EmailAPI>(), Get.find<RemoteExceptionThrower>()));
+    Get.lazyPut(() => MailboxDataSourceImpl(Get.find<MailboxAPI>(),
+        Get.find<MailboxIsolateWorker>(), Get.find<RemoteExceptionThrower>()));
     Get.lazyPut(() => MailboxCacheDataSourceImpl(
-      Get.find<MailboxCacheManager>(),
-      Get.find<CacheExceptionThrower>()));
+        Get.find<MailboxCacheManager>(), Get.find<CacheExceptionThrower>()));
     Get.lazyPut(() => HtmlDataSourceImpl(
-      Get.find<HtmlAnalyzer>(),
-      Get.find<RemoteExceptionThrower>()));
+        Get.find<HtmlAnalyzer>(), Get.find<RemoteExceptionThrower>()));
     Get.lazyPut(() => StateDataSourceImpl(
-      Get.find<StateCacheClient>(),
-      Get.find<CacheExceptionThrower>()));
+        Get.find<StateCacheClient>(), Get.find<CacheExceptionThrower>()));
     Get.lazyPut(() => EmailHiveCacheDataSourceImpl(
-      Get.find<NewEmailCacheManager>(),
-      Get.find<OpenedEmailCacheManager>(),
-      Get.find<NewEmailCacheWorkerQueue>(),
-      Get.find<OpenedEmailCacheWorkerQueue>(),
-      Get.find<EmailCacheManager>(),
-      Get.find<SendingEmailCacheManager>(),
-      Get.find<FileUtils>(),
-      Get.find<CacheExceptionThrower>()));
+        Get.find<NewEmailCacheManager>(),
+        Get.find<OpenedEmailCacheManager>(),
+        Get.find<NewEmailCacheWorkerQueue>(),
+        Get.find<OpenedEmailCacheWorkerQueue>(),
+        Get.find<EmailCacheManager>(),
+        Get.find<SendingEmailCacheManager>(),
+        Get.find<FileUtils>(),
+        Get.find<CacheExceptionThrower>()));
   }
 
   @override
   void bindingsInteractor() {
-    Get.lazyPut(() => SendEmailInteractor(Get.find<EmailRepository>(), Get.find<MailboxRepository>()));
+    Get.lazyPut(() => SendEmailInteractor(
+        Get.find<EmailRepository>(), Get.find<MailboxRepository>()));
   }
 
   @override
@@ -85,20 +79,19 @@ class SendEmailInteractorBindings extends InteractorsBindings {
   @override
   void bindingsRepositoryImpl() {
     Get.lazyPut(() => EmailRepositoryImpl(
-      {
-        DataSourceType.network: Get.find<EmailDataSource>(),
-        DataSourceType.hiveCache: Get.find<EmailHiveCacheDataSourceImpl>()
-      },
-      Get.find<HtmlDataSource>(),
-      Get.find<StateDataSource>(),
-    ));
+          {
+            DataSourceType.network: Get.find<EmailDataSource>(),
+            DataSourceType.hiveCache: Get.find<EmailHiveCacheDataSourceImpl>()
+          },
+          Get.find<HtmlDataSource>(),
+          Get.find<StateDataSource>(),
+        ));
     Get.lazyPut(() => MailboxRepositoryImpl(
-      {
-        DataSourceType.network: Get.find<MailboxDataSource>(),
-        DataSourceType.local: Get.find<MailboxCacheDataSourceImpl>()
-      },
-      Get.find<StateDataSource>(),
-    ));
+          {
+            DataSourceType.network: Get.find<MailboxDataSource>(),
+            DataSourceType.local: Get.find<MailboxCacheDataSourceImpl>()
+          },
+          Get.find<StateDataSource>(),
+        ));
   }
-
 }

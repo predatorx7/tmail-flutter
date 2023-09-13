@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/extensions/tap_down_details_extension.dart';
 import 'package:core/presentation/views/button/icon_button_web.dart';
@@ -15,7 +14,6 @@ import 'package:tmail_ui_user/features/thread/presentation/mixin/base_email_item
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
 class EmailTileBuilder with BaseEmailItemTile {
-
   final PresentationEmail _presentationEmail;
   final BuildContext _context;
   final SelectMode _selectModeAll;
@@ -38,15 +36,13 @@ class EmailTileBuilder with BaseEmailItemTile {
     this._presentationEmail,
     this._selectModeAll,
     this._searchQuery,
-    this._isShowingEmailContent,
-      {
-      this.isSearchEmailRunning = false,
-      this.mailboxContain,
-      this.padding,
-      this.paddingDivider,
-      this.isDrag = false,
-    }
-  );
+    this._isShowingEmailContent, {
+    this.isSearchEmailRunning = false,
+    this.mailboxContain,
+    this.padding,
+    this.paddingDivider,
+    this.isDrag = false,
+  });
 
   void addOnPressEmailActionClick(OnPressEmailActionClick actionClick) {
     _emailActionClick = actionClick;
@@ -79,12 +75,11 @@ class EmailTileBuilder with BaseEmailItemTile {
 
   Widget _wrapContainerForTile(Widget tile) {
     return Container(
-      margin: _getMarginItem(),
-      padding: _getPaddingItem(),
-      decoration: _getDecorationItem(),
-      alignment: Alignment.center,
-      child: tile
-    );
+        margin: _getMarginItem(),
+        padding: _getPaddingItem(),
+        decoration: _getDecorationItem(),
+        alignment: Alignment.center,
+        child: tile);
   }
 
   EdgeInsetsGeometry _getMarginItem() {
@@ -104,151 +99,147 @@ class EmailTileBuilder with BaseEmailItemTile {
   }
 
   BoxDecoration _getDecorationItem() {
-    if ((_selectModeAll == SelectMode.ACTIVE && _presentationEmail.selectMode == SelectMode.ACTIVE) || isDrag || _isShowingEmailContent) {
+    if ((_selectModeAll == SelectMode.ACTIVE &&
+            _presentationEmail.selectMode == SelectMode.ACTIVE) ||
+        isDrag ||
+        _isShowingEmailContent) {
       return BoxDecoration(
-        borderRadius: BorderRadius.circular(14),
-        color: AppColor.colorItemEmailSelectedDesktop);
+          borderRadius: BorderRadius.circular(14),
+          color: AppColor.colorItemEmailSelectedDesktop);
     } else {
       return BoxDecoration(
-        borderRadius: BorderRadius.circular(0),
-        color: Colors.white);
+          borderRadius: BorderRadius.circular(0), color: Colors.white);
     }
   }
 
   Widget _buildListTile() {
-    return Stack(alignment: Alignment.bottomCenter,
+    return Stack(
+      alignment: Alignment.bottomCenter,
       children: [
         InkWell(
-          onTap: () => _emailActionClick?.call(
-              EmailActionType.preview,
-              _presentationEmail),
-          onLongPress: () => _emailActionClick?.call(
-              EmailActionType.selection,
-              _presentationEmail),
-          child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            InkWell(
-              onTap: () => _emailActionClick?.call(
-                  _selectModeAll == SelectMode.ACTIVE
-                      ? EmailActionType.selection
-                      : EmailActionType.preview,
-                  _presentationEmail),
-              child: Padding(
-                padding: const EdgeInsetsDirectional.only(top: 8, end: 12),
-                child: _buildAvatarIcon(),
-              ),
-            ),
-            Expanded(
-              child: Column(children: [
-                Row(children: [
-                  if (!_presentationEmail.hasRead)
-                    Padding(
-                        padding: const EdgeInsetsDirectional.only(end: 5),
-                        child: SvgPicture.asset(
-                            imagePaths.icUnreadStatus,
-                            width: 9,
-                            height: 9,
-                            fit: BoxFit.fill)),
-                  Expanded(child: buildInformationSender(
-                    _context,
-                    _presentationEmail,
-                    mailboxContain,
-                    isSearchEmailRunning,
-                    _searchQuery
-                  )),
-                  buildIconAnsweredOrForwarded(width: 16, height: 16, presentationEmail: _presentationEmail),
-                  if (_presentationEmail.hasAttachment == true)
-                    Padding(
-                        padding: const EdgeInsetsDirectional.only(start: 8),
-                        child: SvgPicture.asset(
-                            imagePaths.icAttachment,
-                            width: 16,
-                            height: 16,
-                            fit: BoxFit.fill)),
-                  Padding(
-                      padding: const EdgeInsetsDirectional.only(end: 4, start: 8),
-                      child: buildDateTime(_context, _presentationEmail)),
-                  buildIconChevron()
-                ]),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (_presentationEmail.hasCalendarEvent)
-                      buildCalendarEventIcon(context: _context, presentationEmail: _presentationEmail),
-                    Expanded(child: buildEmailTitle(
-                      _context,
-                      _presentationEmail,
-                      isSearchEmailRunning,
-                      _searchQuery
-                    )),
-                    buildMailboxContain(
-                      _context,
-                      isSearchEmailRunning,
-                      _presentationEmail
-                    ),
-                    if (_presentationEmail.hasStarred)
-                      Padding(
-                        padding: const EdgeInsetsDirectional.only(start: 8),
-                        child: buildIconStar(),
-                      ),
-                  ],
+            onTap: () => _emailActionClick?.call(
+                EmailActionType.preview, _presentationEmail),
+            onLongPress: () => _emailActionClick?.call(
+                EmailActionType.selection, _presentationEmail),
+            child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              InkWell(
+                onTap: () => _emailActionClick?.call(
+                    _selectModeAll == SelectMode.ACTIVE
+                        ? EmailActionType.selection
+                        : EmailActionType.preview,
+                    _presentationEmail),
+                child: Padding(
+                  padding: const EdgeInsetsDirectional.only(top: 8, end: 12),
+                  child: _buildAvatarIcon(),
                 ),
-                const SizedBox(height: 8),
-                Row(children: [
-                  Expanded(child: buildEmailPartialContent(
-                    _context,
-                    _presentationEmail,
-                    isSearchEmailRunning,
-                    _searchQuery
-                  )),
+              ),
+              Expanded(
+                child: Column(children: [
+                  Row(children: [
+                    if (!_presentationEmail.hasRead)
+                      Padding(
+                          padding: const EdgeInsetsDirectional.only(end: 5),
+                          child: SvgPicture.asset(imagePaths.icUnreadStatus,
+                              width: 9, height: 9, fit: BoxFit.fill)),
+                    Expanded(
+                        child: buildInformationSender(
+                            _context,
+                            _presentationEmail,
+                            mailboxContain,
+                            isSearchEmailRunning,
+                            _searchQuery)),
+                    buildIconAnsweredOrForwarded(
+                        width: 16,
+                        height: 16,
+                        presentationEmail: _presentationEmail),
+                    if (_presentationEmail.hasAttachment == true)
+                      Padding(
+                          padding: const EdgeInsetsDirectional.only(start: 8),
+                          child: SvgPicture.asset(imagePaths.icAttachment,
+                              width: 16, height: 16, fit: BoxFit.fill)),
+                    Padding(
+                        padding:
+                            const EdgeInsetsDirectional.only(end: 4, start: 8),
+                        child: buildDateTime(_context, _presentationEmail)),
+                    buildIconChevron()
+                  ]),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (_presentationEmail.hasCalendarEvent)
+                        buildCalendarEventIcon(
+                            context: _context,
+                            presentationEmail: _presentationEmail),
+                      Expanded(
+                          child: buildEmailTitle(_context, _presentationEmail,
+                              isSearchEmailRunning, _searchQuery)),
+                      buildMailboxContain(
+                          _context, isSearchEmailRunning, _presentationEmail),
+                      if (_presentationEmail.hasStarred)
+                        Padding(
+                          padding: const EdgeInsetsDirectional.only(start: 8),
+                          child: buildIconStar(),
+                        ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Row(children: [
+                    Expanded(
+                        child: buildEmailPartialContent(
+                            _context,
+                            _presentationEmail,
+                            isSearchEmailRunning,
+                            _searchQuery)),
+                  ]),
                 ]),
-              ]),
-            )
-          ])
-        ),
+              )
+            ])),
         if (_selectModeAll == SelectMode.INACTIVE)
           Transform(
-            transform: Matrix4.translationValues(0.0, 10.0, 0.0),
-            child: const Divider(color: AppColor.lineItemListColor, height: 1)),
+              transform: Matrix4.translationValues(0.0, 10.0, 0.0),
+              child:
+                  const Divider(color: AppColor.lineItemListColor, height: 1)),
       ],
     );
   }
 
   Widget _buildListTileTablet() {
-    return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+    return StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState) {
       return InkWell(
         onTap: () => _emailActionClick?.call(
-            EmailActionType.preview,
-            _presentationEmail),
+            EmailActionType.preview, _presentationEmail),
         onHover: (value) => _onHoverItemChanged(value, setState),
         child: Stack(
           children: [
             Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
               InkWell(
-                onTap: () => _emailActionClick?.call(EmailActionType.selection, _presentationEmail),
-                onHover: (value) => _onHoverIconChanged(value, setState),
-                child: Padding(
-                  padding: const EdgeInsetsDirectional.only(top: 8, end: 12),
-                  child: _buildAvatarIcon())),
-              Expanded(child: Stack(alignment: Alignment.bottomCenter,
+                  onTap: () => _emailActionClick?.call(
+                      EmailActionType.selection, _presentationEmail),
+                  onHover: (value) => _onHoverIconChanged(value, setState),
+                  child: Padding(
+                      padding:
+                          const EdgeInsetsDirectional.only(top: 8, end: 12),
+                      child: _buildAvatarIcon())),
+              Expanded(
+                  child: Stack(
+                alignment: Alignment.bottomCenter,
                 children: [
                   Column(children: [
                     Row(children: [
                       if (!_presentationEmail.hasRead)
                         Padding(
-                          padding: const EdgeInsetsDirectional.only(end: 5),
-                          child: SvgPicture.asset(
-                            imagePaths.icUnreadStatus,
-                            width: 9,
-                            height: 9,
-                            fit: BoxFit.fill)),
-                      Expanded(child: buildInformationSender(
-                        _context,
-                        _presentationEmail,
-                        mailboxContain,
-                        isSearchEmailRunning,
-                        _searchQuery
-                      )),
+                            padding: const EdgeInsetsDirectional.only(end: 5),
+                            child: SvgPicture.asset(imagePaths.icUnreadStatus,
+                                width: 9, height: 9, fit: BoxFit.fill)),
+                      Expanded(
+                          child: buildInformationSender(
+                              _context,
+                              _presentationEmail,
+                              mailboxContain,
+                              isSearchEmailRunning,
+                              _searchQuery)),
                       if (isHoverItem)
                         const SizedBox(width: 120)
                       else
@@ -259,18 +250,14 @@ class EmailTileBuilder with BaseEmailItemTile {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         if (_presentationEmail.hasCalendarEvent)
-                          buildCalendarEventIcon(context: _context, presentationEmail: _presentationEmail),
-                        Expanded(child: buildEmailTitle(
-                          _context,
-                          _presentationEmail,
-                          isSearchEmailRunning,
-                          _searchQuery
-                        )),
+                          buildCalendarEventIcon(
+                              context: _context,
+                              presentationEmail: _presentationEmail),
+                        Expanded(
+                            child: buildEmailTitle(_context, _presentationEmail,
+                                isSearchEmailRunning, _searchQuery)),
                         buildMailboxContain(
-                          _context,
-                          isSearchEmailRunning,
-                          _presentationEmail
-                        ),
+                            _context, isSearchEmailRunning, _presentationEmail),
                         if (_presentationEmail.hasStarred)
                           Padding(
                             padding: const EdgeInsetsDirectional.only(start: 8),
@@ -280,32 +267,33 @@ class EmailTileBuilder with BaseEmailItemTile {
                     ),
                     const SizedBox(height: 8),
                     Row(children: [
-                      Expanded(child: buildEmailPartialContent(
-                        _context,
-                        _presentationEmail,
-                        isSearchEmailRunning,
-                        _searchQuery
-                      )),
+                      Expanded(
+                          child: buildEmailPartialContent(
+                              _context,
+                              _presentationEmail,
+                              isSearchEmailRunning,
+                              _searchQuery)),
                     ]),
                   ]),
                   if (_selectModeAll == SelectMode.INACTIVE)
                     Transform(
                       transform: Matrix4.translationValues(0.0, 10.0, 0.0),
-                      child: const Divider(color: AppColor.lineItemListColor, height: 1),
+                      child: const Divider(
+                          color: AppColor.lineItemListColor, height: 1),
                     ),
                 ],
               ))
             ]),
             if (isHoverItem)
               Positioned(
-                top: 0,
-                right: 0,
-                child: Transform(
-                    transform: Matrix4.translationValues(
-                        0.0,
-                        _selectModeAll == SelectMode.INACTIVE ? -5.0 : 0.0,
-                        0.0),
-                    child: _buildListActionButtonWhenHover()))
+                  top: 0,
+                  right: 0,
+                  child: Transform(
+                      transform: Matrix4.translationValues(
+                          0.0,
+                          _selectModeAll == SelectMode.INACTIVE ? -5.0 : 0.0,
+                          0.0),
+                      child: _buildListActionButtonWhenHover()))
           ],
         ),
       );
@@ -313,11 +301,11 @@ class EmailTileBuilder with BaseEmailItemTile {
   }
 
   Widget _buildListTileForDesktop() {
-    return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+    return StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState) {
       return InkWell(
         onTap: () => _emailActionClick?.call(
-            EmailActionType.preview,
-            _presentationEmail),
+            EmailActionType.preview, _presentationEmail),
         onHover: (value) => _onHoverItemChanged(value, setState),
         child: Stack(alignment: Alignment.bottomCenter, children: [
           Row(children: [
@@ -325,11 +313,8 @@ class EmailTileBuilder with BaseEmailItemTile {
                 padding: const EdgeInsetsDirectional.symmetric(horizontal: 16),
                 alignment: Alignment.center,
                 child: !_presentationEmail.hasRead
-                    ? SvgPicture.asset(
-                        imagePaths.icUnreadStatus,
-                        width: 9,
-                        height: 9,
-                        fit: BoxFit.fill)
+                    ? SvgPicture.asset(imagePaths.icUnreadStatus,
+                        width: 9, height: 9, fit: BoxFit.fill)
                     : const SizedBox(width: 9)),
             buildIconWeb(
                 icon: SvgPicture.asset(
@@ -348,32 +333,28 @@ class EmailTileBuilder with BaseEmailItemTile {
                         : EmailActionType.markAsStarred,
                     _presentationEmail)),
             buildIconWeb(
-              icon: buildIconAnsweredOrForwarded(presentationEmail: _presentationEmail),
-              tooltip: messageToolTipForAnsweredOrForwarded(context, _presentationEmail),
-              iconPadding: const EdgeInsetsDirectional.only(end: 12),
-              splashRadius: 1),
+                icon: buildIconAnsweredOrForwarded(
+                    presentationEmail: _presentationEmail),
+                tooltip: messageToolTipForAnsweredOrForwarded(
+                    context, _presentationEmail),
+                iconPadding: const EdgeInsetsDirectional.only(end: 12),
+                splashRadius: 1),
             InkWell(
-              onTap: () => _emailActionClick?.call(EmailActionType.selection, _presentationEmail),
+              onTap: () => _emailActionClick?.call(
+                  EmailActionType.selection, _presentationEmail),
               onHover: (value) => _onHoverIconChanged(value, setState),
               child: _buildAvatarIcon(
-                iconSize: 32,
-                textStyle: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white
-                )
-              ),
+                  iconSize: 32,
+                  textStyle: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white)),
             ),
             const SizedBox(width: 10),
             SizedBox(
-              width: 160,
-              child: buildInformationSender(
-                _context,
-                _presentationEmail,
-                mailboxContain,
-                isSearchEmailRunning,
-                _searchQuery
-              )),
+                width: 160,
+                child: buildInformationSender(_context, _presentationEmail,
+                    mailboxContain, isSearchEmailRunning, _searchQuery)),
             const SizedBox(width: 24),
             Expanded(child: _buildSubjectAndContent()),
             const SizedBox(width: 16),
@@ -382,7 +363,7 @@ class EmailTileBuilder with BaseEmailItemTile {
             else
               _buildDateTimeForDesktopScreen()
           ]),
-          if ( _selectModeAll == SelectMode.INACTIVE)
+          if (_selectModeAll == SelectMode.INACTIVE)
             Transform(
               transform: Matrix4.translationValues(0.0, 10, 0.0),
               child: const Padding(
@@ -400,78 +381,73 @@ class EmailTileBuilder with BaseEmailItemTile {
 
   EdgeInsets _getPaddingIcon() {
     return responsiveUtils.isDesktop(_context)
-      ? const EdgeInsets.all(8)
-      : const EdgeInsets.all(5);
+        ? const EdgeInsets.all(8)
+        : const EdgeInsets.all(5);
   }
 
   Widget _buildListActionButtonWhenHover() {
     return Row(children: [
       buildSVGIconButton(
-        icon: imagePaths.icOpenInNewTab,
-        iconColor: AppColor.colorActionButtonHover,
-        iconSize: _getIconSize(),
-        padding: _getPaddingIcon(),
-        tooltip: AppLocalizations.of(_context).openInNewTab,
-        onTap: () => _emailActionClick?.call(
-          EmailActionType.openInNewTab,
-          _presentationEmail
-        )
-      ),
-      if(!_presentationEmail.isDraft)
-        buildSVGIconButton(
-          icon: _presentationEmail.hasRead ? imagePaths.icRead: imagePaths.icUnread,
+          icon: imagePaths.icOpenInNewTab,
           iconColor: AppColor.colorActionButtonHover,
           iconSize: _getIconSize(),
           padding: _getPaddingIcon(),
-          tooltip: _presentationEmail.hasRead
-            ? AppLocalizations.of(_context).mark_as_unread
-            : AppLocalizations.of(_context).mark_as_read,
+          tooltip: AppLocalizations.of(_context).openInNewTab,
           onTap: () => _emailActionClick?.call(
-            _presentationEmail.hasRead ? EmailActionType.markAsUnread : EmailActionType.markAsRead,
-            _presentationEmail
-          )
-        ),
-      if (mailboxContain != null && mailboxContain?.isDrafts == false)
-        ... [
-          buildSVGIconButton(
+              EmailActionType.openInNewTab, _presentationEmail)),
+      if (!_presentationEmail.isDraft)
+        buildSVGIconButton(
+            icon: _presentationEmail.hasRead
+                ? imagePaths.icRead
+                : imagePaths.icUnread,
+            iconColor: AppColor.colorActionButtonHover,
+            iconSize: _getIconSize(),
+            padding: _getPaddingIcon(),
+            tooltip: _presentationEmail.hasRead
+                ? AppLocalizations.of(_context).mark_as_unread
+                : AppLocalizations.of(_context).mark_as_read,
+            onTap: () => _emailActionClick?.call(
+                _presentationEmail.hasRead
+                    ? EmailActionType.markAsUnread
+                    : EmailActionType.markAsRead,
+                _presentationEmail)),
+      if (mailboxContain != null && mailboxContain?.isDrafts == false) ...[
+        buildSVGIconButton(
             icon: imagePaths.icMove,
             iconColor: AppColor.colorActionButtonHover,
             iconSize: _getIconSize(),
             padding: _getPaddingIcon(),
             tooltip: AppLocalizations.of(_context).move,
             onTap: () => _emailActionClick?.call(
-              EmailActionType.moveToMailbox,
-              _presentationEmail
-            )
-          ),
-        ],
+                EmailActionType.moveToMailbox, _presentationEmail)),
+      ],
       buildSVGIconButton(
-        icon: imagePaths.icDeleteComposer,
-        iconColor: AppColor.colorActionButtonHover,
-        iconSize: responsiveUtils.isDesktop(_context) ? 16 : 14,
-        padding: _getPaddingIcon(),
-        tooltip: canDeletePermanently
-          ? AppLocalizations.of(_context).delete_permanently
-          : AppLocalizations.of(_context).move_to_trash,
-        onTap: () => _emailActionClick?.call(
-          canDeletePermanently ? EmailActionType.deletePermanently : EmailActionType.moveToTrash,
-          _presentationEmail
-        )
-      ),
+          icon: imagePaths.icDeleteComposer,
+          iconColor: AppColor.colorActionButtonHover,
+          iconSize: responsiveUtils.isDesktop(_context) ? 16 : 14,
+          padding: _getPaddingIcon(),
+          tooltip: canDeletePermanently
+              ? AppLocalizations.of(_context).delete_permanently
+              : AppLocalizations.of(_context).move_to_trash,
+          onTap: () => _emailActionClick?.call(
+              canDeletePermanently
+                  ? EmailActionType.deletePermanently
+                  : EmailActionType.moveToTrash,
+              _presentationEmail)),
       buildSVGIconButton(
-        icon: imagePaths.icMore,
-        iconColor: AppColor.colorActionButtonHover,
-        iconSize: _getIconSize(),
-        padding: _getPaddingIcon(),
-        tooltip: AppLocalizations.of(_context).more,
-        onTapDown: (tapDetails) {
-          if (responsiveUtils.isScreenWithShortestSide(_context)) {
-            _onMoreActionClick?.call(_presentationEmail, null);
-          } else {
-            _onMoreActionClick?.call(_presentationEmail, tapDetails.getPosition(_context));
-          }
-        }
-      ),
+          icon: imagePaths.icMore,
+          iconColor: AppColor.colorActionButtonHover,
+          iconSize: _getIconSize(),
+          padding: _getPaddingIcon(),
+          tooltip: AppLocalizations.of(_context).more,
+          onTapDown: (tapDetails) {
+            if (responsiveUtils.isScreenWithShortestSide(_context)) {
+              _onMoreActionClick?.call(_presentationEmail, null);
+            } else {
+              _onMoreActionClick?.call(
+                  _presentationEmail, tapDetails.getPosition(_context));
+            }
+          }),
       if (responsiveUtils.isDesktop(_context)) const SizedBox(width: 16),
     ]);
   }
@@ -482,31 +458,28 @@ class EmailTileBuilder with BaseEmailItemTile {
 
   Widget _buildDateTimeForDesktopScreen() {
     return Row(children: [
-      buildMailboxContain(
-        _context,
-        isSearchEmailRunning,
-        _presentationEmail
-      ),
+      buildMailboxContain(_context, isSearchEmailRunning, _presentationEmail),
       if (_presentationEmail.hasAttachment == true)
         Padding(
-          padding: const EdgeInsetsDirectional.only(start: 8),
-          child: buildIconAttachment()),
+            padding: const EdgeInsetsDirectional.only(start: 8),
+            child: buildIconAttachment()),
       Padding(
-        padding: const EdgeInsetsDirectional.only(end: 20, start: 8),
-        child: buildDateTime(_context, _presentationEmail))
+          padding: const EdgeInsetsDirectional.only(end: 20, start: 8),
+          child: buildDateTime(_context, _presentationEmail))
     ]);
   }
 
   Widget _buildDateTimeForMobileTabletScreen() {
     return Row(children: [
-      buildIconAnsweredOrForwarded(width: 16, height: 16, presentationEmail: _presentationEmail),
+      buildIconAnsweredOrForwarded(
+          width: 16, height: 16, presentationEmail: _presentationEmail),
       if (_presentationEmail.hasAttachment == true)
         Padding(
-          padding: const EdgeInsetsDirectional.only(start: 8),
-          child: buildIconAttachment()),
+            padding: const EdgeInsetsDirectional.only(start: 8),
+            child: buildIconAttachment()),
       Padding(
-        padding: const EdgeInsetsDirectional.only(end: 4, start: 8),
-        child: buildDateTime(_context, _presentationEmail)),
+          padding: const EdgeInsetsDirectional.only(end: 4, start: 8),
+          child: buildDateTime(_context, _presentationEmail)),
       buildIconChevron()
     ]);
   }
@@ -515,50 +488,37 @@ class EmailTileBuilder with BaseEmailItemTile {
     return LayoutBuilder(builder: (context, constraints) {
       return Row(children: [
         if (_presentationEmail.hasCalendarEvent)
-          buildCalendarEventIcon(context: _context, presentationEmail: _presentationEmail),
+          buildCalendarEventIcon(
+              context: _context, presentationEmail: _presentationEmail),
         if (_presentationEmail.getEmailTitle().isNotEmpty)
-            Container(
+          Container(
               constraints: BoxConstraints(maxWidth: constraints.maxWidth / 2),
               padding: const EdgeInsetsDirectional.only(end: 12),
-              child: buildEmailTitle(
-                _context,
-                _presentationEmail,
-                isSearchEmailRunning,
-                _searchQuery
-              )),
-        Expanded(child: Container(
-          child: buildEmailPartialContent(
-            _context,
-            _presentationEmail,
-            isSearchEmailRunning,
-            _searchQuery
-          ))
-        ),
+              child: buildEmailTitle(_context, _presentationEmail,
+                  isSearchEmailRunning, _searchQuery)),
+        Expanded(
+            child: Container(
+                child: buildEmailPartialContent(_context, _presentationEmail,
+                    isSearchEmailRunning, _searchQuery))),
       ]);
     });
   }
 
   bool get _isSelectionActivated {
     return isHoverIcon ||
-      isHoverItem ||
-      _presentationEmail.selectMode == SelectMode.ACTIVE ||
-      (responsiveUtils.isMobile(_context) && _selectModeAll == SelectMode.ACTIVE);
+        isHoverItem ||
+        _presentationEmail.selectMode == SelectMode.ACTIVE ||
+        (responsiveUtils.isMobile(_context) &&
+            _selectModeAll == SelectMode.ACTIVE);
   }
 
   Widget _buildAvatarIcon({double? iconSize, TextStyle? textStyle}) {
     if (_isSelectionActivated) {
-      return buildIconAvatarSelection(
-        _context,
-        _presentationEmail,
-        iconSize: iconSize ?? 48,
-        textStyle: textStyle
-      );
+      return buildIconAvatarSelection(_context, _presentationEmail,
+          iconSize: iconSize ?? 48, textStyle: textStyle);
     } else {
-      return buildIconAvatarText(
-        _presentationEmail,
-        iconSize: iconSize ?? 48,
-        textStyle: textStyle
-      );
+      return buildIconAvatarText(_presentationEmail,
+          iconSize: iconSize ?? 48, textStyle: textStyle);
     }
   }
 }

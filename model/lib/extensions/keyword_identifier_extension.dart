@@ -9,9 +9,8 @@ extension KeyWordIdentifierExtension on KeyWordIdentifier {
   }
 
   PatchObject generateReadActionPath(ReadActions readActions) {
-    return PatchObject({
-      generatePath(): readActions == ReadActions.markAsRead ? true : null
-    });
+    return PatchObject(
+        {generatePath(): readActions == ReadActions.markAsRead ? true : null});
   }
 
   PatchObject generateMarkStarActionPath(MarkStarAction markStarAction) {
@@ -21,14 +20,10 @@ extension KeyWordIdentifierExtension on KeyWordIdentifier {
   }
 
   PatchObject generateAnsweredActionPath() {
-    return PatchObject({
-      generatePath(): true
-    });
+    return PatchObject({generatePath(): true});
   }
 
   PatchObject generateForwardedActionPath() {
-    return PatchObject({
-      generatePath(): true
-    });
+    return PatchObject({generatePath(): true});
   }
 }

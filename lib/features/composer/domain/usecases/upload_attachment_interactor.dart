@@ -11,21 +11,16 @@ class UploadAttachmentInteractor {
 
   UploadAttachmentInteractor(this._composerRepository);
 
-  Stream<Either<Failure, Success>> execute(
-    FileInfo fileInfo,
-    Uri uploadUri, {
-    CancelToken? cancelToken,
-    bool isInline = false
-  }) async* {
+  Stream<Either<Failure, Success>> execute(FileInfo fileInfo, Uri uploadUri,
+      {CancelToken? cancelToken, bool isInline = false}) async* {
     try {
-      final uploadAttachment = await _composerRepository.uploadAttachment(
-        fileInfo,
-        uploadUri,
-        cancelToken: cancelToken
-      );
-      yield Right<Failure, Success>(UploadAttachmentSuccess(uploadAttachment, isInline: isInline));
+      final uploadAttachment = await _composerRepository
+          .uploadAttachment(fileInfo, uploadUri, cancelToken: cancelToken);
+      yield Right<Failure, Success>(
+          UploadAttachmentSuccess(uploadAttachment, isInline: isInline));
     } catch (e) {
-      yield Left<Failure, Success>(UploadAttachmentFailure(e, isInline: isInline));
+      yield Left<Failure, Success>(
+          UploadAttachmentFailure(e, isInline: isInline));
     }
   }
 }

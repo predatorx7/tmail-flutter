@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/state/failure.dart';
 import 'package:core/presentation/state/success.dart';
 import 'package:core/utils/app_logger.dart';
@@ -9,12 +8,12 @@ import 'package:tmail_ui_user/features/login/domain/repository/authentication_oi
 import 'package:tmail_ui_user/features/login/domain/state/authenticate_oidc_on_browser_state.dart';
 
 class AuthenticateOidcOnBrowserInteractor {
-
   final AuthenticationOIDCRepository authenticationOIDCRepository;
 
   AuthenticateOidcOnBrowserInteractor(this.authenticationOIDCRepository);
 
-  Stream<Either<Failure, Success>> execute(Uri baseUrl, OIDCConfiguration config) async* {
+  Stream<Either<Failure, Success>> execute(
+      Uri baseUrl, OIDCConfiguration config) async* {
     try {
       yield Right<Failure, Success>(AuthenticateOidcOnBrowserLoading());
       await authenticationOIDCRepository.authenticateOidcOnBrowser(

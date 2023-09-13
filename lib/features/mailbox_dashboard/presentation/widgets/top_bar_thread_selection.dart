@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/resources/image_paths.dart';
 import 'package:core/presentation/views/button/icon_button_web.dart';
@@ -12,10 +11,10 @@ import 'package:model/extensions/list_presentation_email_extension.dart';
 import 'package:model/mailbox/presentation_mailbox.dart';
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
-typedef OnEmailActionTypeAction = Function(List<PresentationEmail> listEmail, EmailActionType actionType);
+typedef OnEmailActionTypeAction = Function(
+    List<PresentationEmail> listEmail, EmailActionType actionType);
 
 class TopBarThreadSelection {
-
   final imagePaths = Get.find<ImagePaths>();
 
   final BuildContext context;
@@ -33,15 +32,16 @@ class TopBarThreadSelection {
   });
 
   Widget build() {
-    final canDeletePermanently = listEmail.isAllCanDeletePermanently(mapMailbox);
+    final canDeletePermanently =
+        listEmail.isAllCanDeletePermanently(mapMailbox);
     final canSpamAndMove = listEmail.isAllCanSpamAndMove(mapMailbox);
     final isAllSpam = listEmail.isAllSpam(mapMailbox);
-    final isAllBelongToTheSameMailbox = listEmail.isAllBelongToTheSameMailbox(mapMailbox);
+    final isAllBelongToTheSameMailbox =
+        listEmail.isAllBelongToTheSameMailbox(mapMailbox);
 
     return Row(children: [
       buildIconWeb(
-          icon: SvgPicture.asset(
-              imagePaths.icCloseComposer,
+          icon: SvgPicture.asset(imagePaths.icCloseComposer,
               colorFilter: AppColor.colorTextButton.asFilter(),
               fit: BoxFit.fill),
           tooltip: AppLocalizations.of(context).cancel,
@@ -80,59 +80,54 @@ class TopBarThreadSelection {
               listEmail.isAllEmailStarred
                   ? EmailActionType.unMarkAsStarred
                   : EmailActionType.markAsStarred)),
-    if (canSpamAndMove)
-     ...[
-       buildIconWeb(
-           icon: SvgPicture.asset(imagePaths.icMove, fit: BoxFit.fill),
-           tooltip: AppLocalizations.of(context).move,
-           onTap: () => onEmailActionTypeAction?.call(
-               List.from(listEmail),
-               EmailActionType.moveToMailbox)),
-       buildIconWeb(
-           icon: SvgPicture.asset(
-               isAllSpam ? imagePaths.icNotSpam : imagePaths.icSpam,
-               fit: BoxFit.fill),
-           tooltip: isAllSpam
-               ? AppLocalizations.of(context).un_spam
-               : AppLocalizations.of(context).mark_as_spam,
-           onTap: () {
-             if (isAllSpam) {
-               onEmailActionTypeAction?.call(
-                   List.from(listEmail),
-                   EmailActionType.unSpam);
-             } else {
-               onEmailActionTypeAction?.call(
-                   List.from(listEmail.listEmailCanSpam(mapMailbox)),
-                   EmailActionType.moveToSpam);
-             }
-           })
+      if (canSpamAndMove) ...[
+        buildIconWeb(
+            icon: SvgPicture.asset(imagePaths.icMove, fit: BoxFit.fill),
+            tooltip: AppLocalizations.of(context).move,
+            onTap: () => onEmailActionTypeAction?.call(
+                List.from(listEmail), EmailActionType.moveToMailbox)),
+        buildIconWeb(
+            icon: SvgPicture.asset(
+                isAllSpam ? imagePaths.icNotSpam : imagePaths.icSpam,
+                fit: BoxFit.fill),
+            tooltip: isAllSpam
+                ? AppLocalizations.of(context).un_spam
+                : AppLocalizations.of(context).mark_as_spam,
+            onTap: () {
+              if (isAllSpam) {
+                onEmailActionTypeAction?.call(
+                    List.from(listEmail), EmailActionType.unSpam);
+              } else {
+                onEmailActionTypeAction?.call(
+                    List.from(listEmail.listEmailCanSpam(mapMailbox)),
+                    EmailActionType.moveToSpam);
+              }
+            })
       ],
       if (isAllBelongToTheSameMailbox)
         buildIconWeb(
-          icon: SvgPicture.asset(
-              canDeletePermanently
-                  ? imagePaths.icDeleteComposer
-                  : imagePaths.icDelete,
-              colorFilter: canDeletePermanently
-                  ? AppColor.colorDeletePermanentlyButton.asFilter()
-                  : AppColor.primaryColor.asFilter(),
-              width: 20,
-              height: 20,
-              fit: BoxFit.fill),
-          tooltip: canDeletePermanently
-              ? AppLocalizations.of(context).delete_permanently
-              : AppLocalizations.of(context).move_to_trash,
-          onTap: () {
-            if (canDeletePermanently) {
-              onEmailActionTypeAction?.call(
-                  List.from(listEmail),
-                  EmailActionType.deletePermanently);
-            } else {
-              onEmailActionTypeAction?.call(
-                  List.from(listEmail),
-                  EmailActionType.moveToTrash);
-            }
-          }),
+            icon: SvgPicture.asset(
+                canDeletePermanently
+                    ? imagePaths.icDeleteComposer
+                    : imagePaths.icDelete,
+                colorFilter: canDeletePermanently
+                    ? AppColor.colorDeletePermanentlyButton.asFilter()
+                    : AppColor.primaryColor.asFilter(),
+                width: 20,
+                height: 20,
+                fit: BoxFit.fill),
+            tooltip: canDeletePermanently
+                ? AppLocalizations.of(context).delete_permanently
+                : AppLocalizations.of(context).move_to_trash,
+            onTap: () {
+              if (canDeletePermanently) {
+                onEmailActionTypeAction?.call(
+                    List.from(listEmail), EmailActionType.deletePermanently);
+              } else {
+                onEmailActionTypeAction?.call(
+                    List.from(listEmail), EmailActionType.moveToTrash);
+              }
+            }),
     ]);
   }
 }

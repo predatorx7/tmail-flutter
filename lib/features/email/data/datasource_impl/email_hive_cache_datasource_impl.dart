@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'dart:typed_data';
@@ -47,7 +46,6 @@ import 'package:tmail_ui_user/features/thread/data/local/email_cache_manager.dar
 import 'package:tmail_ui_user/main/exceptions/exception_thrower.dart';
 
 class EmailHiveCacheDataSourceImpl extends EmailDataSource {
-
   final NewEmailCacheManager _newEmailCacheManager;
   final OpenedEmailCacheManager _openedEmailCacheManager;
   final NewEmailCacheWorkerQueue _newEmailCacheWorkerQueue;
@@ -58,150 +56,182 @@ class EmailHiveCacheDataSourceImpl extends EmailDataSource {
   final ExceptionThrower _exceptionThrower;
 
   EmailHiveCacheDataSourceImpl(
-    this._newEmailCacheManager,
-    this._openedEmailCacheManager,
-    this._newEmailCacheWorkerQueue,
-    this._openedEmailCacheWorkerQueue,
-    this._emailCacheManager,
-    this._sendingEmailCacheManager,
-    this._fileUtils,
-    this._exceptionThrower
-  );
+      this._newEmailCacheManager,
+      this._openedEmailCacheManager,
+      this._newEmailCacheWorkerQueue,
+      this._openedEmailCacheWorkerQueue,
+      this._emailCacheManager,
+      this._sendingEmailCacheManager,
+      this._fileUtils,
+      this._exceptionThrower);
 
   @override
-  Future<bool> deleteEmailPermanently(Session session, AccountId accountId, EmailId emailId) {
+  Future<bool> deleteEmailPermanently(
+      Session session, AccountId accountId, EmailId emailId) {
     throw UnimplementedError();
   }
 
   @override
-  Future<List<EmailId>> deleteMultipleEmailsPermanently(Session session, AccountId accountId, List<EmailId> emailIds) {
+  Future<List<EmailId>> deleteMultipleEmailsPermanently(
+      Session session, AccountId accountId, List<EmailId> emailIds) {
     throw UnimplementedError();
   }
 
   @override
-  Future<Uint8List> downloadAttachmentForWeb(DownloadTaskId taskId, Attachment attachment, AccountId accountId, String baseDownloadUrl, AccountRequest accountRequest, StreamController<Either<Failure, Success>> onReceiveController) {
+  Future<Uint8List> downloadAttachmentForWeb(
+      DownloadTaskId taskId,
+      Attachment attachment,
+      AccountId accountId,
+      String baseDownloadUrl,
+      AccountRequest accountRequest,
+      StreamController<Either<Failure, Success>> onReceiveController) {
     throw UnimplementedError();
   }
 
   @override
-  Future<List<DownloadTaskId>> downloadAttachments(List<Attachment> attachments, AccountId accountId, String baseDownloadUrl, AccountRequest accountRequest) {
+  Future<List<DownloadTaskId>> downloadAttachments(
+      List<Attachment> attachments,
+      AccountId accountId,
+      String baseDownloadUrl,
+      AccountRequest accountRequest) {
     throw UnimplementedError();
   }
 
   @override
-  Future<DownloadedResponse> exportAttachment(Attachment attachment, AccountId accountId, String baseDownloadUrl, AccountRequest accountRequest, CancelToken cancelToken) {
+  Future<DownloadedResponse> exportAttachment(
+      Attachment attachment,
+      AccountId accountId,
+      String baseDownloadUrl,
+      AccountRequest accountRequest,
+      CancelToken cancelToken) {
     throw UnimplementedError();
   }
 
   @override
-  Future<Email> getEmailContent(Session session, AccountId accountId, EmailId emailId) {
+  Future<Email> getEmailContent(
+      Session session, AccountId accountId, EmailId emailId) {
     throw UnimplementedError();
   }
 
   @override
-  Future<List<Email>> markAsRead(Session session, AccountId accountId, List<Email> emails, ReadActions readActions) {
+  Future<List<Email>> markAsRead(Session session, AccountId accountId,
+      List<Email> emails, ReadActions readActions) {
     throw UnimplementedError();
   }
 
   @override
-  Future<List<Email>> markAsStar(Session session, AccountId accountId, List<Email> emails, MarkStarAction markStarAction) {
+  Future<List<Email>> markAsStar(Session session, AccountId accountId,
+      List<Email> emails, MarkStarAction markStarAction) {
     throw UnimplementedError();
   }
 
   @override
-  Future<List<EmailId>> moveToMailbox(Session session, AccountId accountId, MoveToMailboxRequest moveRequest) {
+  Future<List<EmailId>> moveToMailbox(
+      Session session, AccountId accountId, MoveToMailboxRequest moveRequest) {
     throw UnimplementedError();
   }
 
   @override
-  Future<bool> removeEmailDrafts(Session session, AccountId accountId, EmailId emailId) {
+  Future<bool> removeEmailDrafts(
+      Session session, AccountId accountId, EmailId emailId) {
     throw UnimplementedError();
   }
 
   @override
-  Future<Email> saveEmailAsDrafts(Session session, AccountId accountId, Email email) {
+  Future<Email> saveEmailAsDrafts(
+      Session session, AccountId accountId, Email email) {
     throw UnimplementedError();
   }
 
   @override
-  Future<bool> sendEmail(Session session, AccountId accountId, EmailRequest emailRequest, {CreateNewMailboxRequest? mailboxRequest}) {
+  Future<bool> sendEmail(
+      Session session, AccountId accountId, EmailRequest emailRequest,
+      {CreateNewMailboxRequest? mailboxRequest}) {
     throw UnimplementedError();
   }
 
   @override
-  Future<void> storeDetailedNewEmail(Session session, AccountId accountId, DetailedEmail detailedEmail) {
+  Future<void> storeDetailedNewEmail(
+      Session session, AccountId accountId, DetailedEmail detailedEmail) {
     return Future.sync(() async {
       final task = HiveTask(
-        id: detailedEmail.emailId.asString,
-        runnable: () async {
-          final fileSaved = await _fileUtils.saveToFile(
-            nameFile: detailedEmail.emailId.asString,
-            content: detailedEmail.htmlEmailContent ?? '',
-            folderPath: detailedEmail.newEmailFolderPath
-          );
+          id: detailedEmail.emailId.asString,
+          runnable: () async {
+            final fileSaved = await _fileUtils.saveToFile(
+                nameFile: detailedEmail.emailId.asString,
+                content: detailedEmail.htmlEmailContent ?? '',
+                folderPath: detailedEmail.newEmailFolderPath);
 
-          final detailedEmailSaved = detailedEmail.fromEmailContentPath(fileSaved.path);
-          final detailedEmailCacheSaved = detailedEmailSaved.toHiveCache();
+            final detailedEmailSaved =
+                detailedEmail.fromEmailContentPath(fileSaved.path);
+            final detailedEmailCacheSaved = detailedEmailSaved.toHiveCache();
 
-          final detailedEmailCache = await _newEmailCacheManager.storeDetailedNewEmail(
-            accountId,
-            session.username,
-            detailedEmailCacheSaved);
+            final detailedEmailCache =
+                await _newEmailCacheManager.storeDetailedNewEmail(
+                    accountId, session.username, detailedEmailCacheSaved);
 
-          return detailedEmailCache;
-        });
+            return detailedEmailCache;
+          });
       return _newEmailCacheWorkerQueue.addTask(task);
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<Email> updateEmailDrafts(Session session, AccountId accountId, Email newEmail, EmailId oldEmailId) {
+  Future<Email> updateEmailDrafts(Session session, AccountId accountId,
+      Email newEmail, EmailId oldEmailId) {
     throw UnimplementedError();
   }
 
   @override
-  Future<List<Email>> getListDetailedEmailById(Session session, AccountId accountId, Set<EmailId> emailIds, {Set<Comparator>? sort}) {
+  Future<List<Email>> getListDetailedEmailById(
+      Session session, AccountId accountId, Set<EmailId> emailIds,
+      {Set<Comparator>? sort}) {
     throw UnimplementedError();
   }
 
   @override
   Future<void> storeEmail(Session session, AccountId accountId, Email email) {
     return Future.sync(() async {
-      return await _emailCacheManager.storeEmail(accountId, session.username, email.toEmailCache());
+      return await _emailCacheManager.storeEmail(
+          accountId, session.username, email.toEmailCache());
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<void> storeOpenedEmail(Session session, AccountId accountId, DetailedEmail detailedEmail) {
+  Future<void> storeOpenedEmail(
+      Session session, AccountId accountId, DetailedEmail detailedEmail) {
     return Future.sync(() async {
       final task = HiveTask(
-        id: detailedEmail.emailId.asString,
-        runnable: () async {
-          final fileSaved = await _fileUtils.saveToFile(
-            nameFile: detailedEmail.emailId.asString,
-            content: detailedEmail.htmlEmailContent ?? '',
-            folderPath: detailedEmail.openedEmailFolderPath
-          );
+          id: detailedEmail.emailId.asString,
+          runnable: () async {
+            final fileSaved = await _fileUtils.saveToFile(
+                nameFile: detailedEmail.emailId.asString,
+                content: detailedEmail.htmlEmailContent ?? '',
+                folderPath: detailedEmail.openedEmailFolderPath);
 
-          final detailedEmailSaved = detailedEmail.fromEmailContentPath(fileSaved.path);
+            final detailedEmailSaved =
+                detailedEmail.fromEmailContentPath(fileSaved.path);
 
-          final detailedEmailCache = await _openedEmailCacheManager.storeOpenedEmail(
-            accountId,
-            session.username,
-            detailedEmailSaved.toHiveCache());
+            final detailedEmailCache =
+                await _openedEmailCacheManager.storeOpenedEmail(accountId,
+                    session.username, detailedEmailSaved.toHiveCache());
 
-          return detailedEmailCache;
-        });
+            return detailedEmailCache;
+          });
       return _openedEmailCacheWorkerQueue.addTask(task);
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<DetailedEmail> getStoredOpenedEmail(Session session, AccountId accountId, EmailId emailId) {
+  Future<DetailedEmail> getStoredOpenedEmail(
+      Session session, AccountId accountId, EmailId emailId) {
     return Future.sync(() async {
       final listResult = await Future.wait([
-        _openedEmailCacheManager.getStoredOpenedEmail(accountId, session.username, emailId),
-        _fileUtils.getContentFromFile(nameFile: emailId.asString, folderPath: CachingConstants.openedEmailContentFolderName)
+        _openedEmailCacheManager.getStoredOpenedEmail(
+            accountId, session.username, emailId),
+        _fileUtils.getContentFromFile(
+            nameFile: emailId.asString,
+            folderPath: CachingConstants.openedEmailContentFolderName)
       ], eagerError: true);
 
       final detailedEmailCache = listResult[0] as DetailedEmailHiveCache;
@@ -212,11 +242,15 @@ class EmailHiveCacheDataSourceImpl extends EmailDataSource {
   }
 
   @override
-  Future<DetailedEmail> getStoredNewEmail(Session session, AccountId accountId, EmailId emailId) {
+  Future<DetailedEmail> getStoredNewEmail(
+      Session session, AccountId accountId, EmailId emailId) {
     return Future.sync(() async {
       final listResult = await Future.wait([
-        _newEmailCacheManager.getStoredNewEmail(accountId, session.username, emailId),
-        _fileUtils.getContentFromFile(nameFile: emailId.asString, folderPath: CachingConstants.newEmailsContentFolderName)
+        _newEmailCacheManager.getStoredNewEmail(
+            accountId, session.username, emailId),
+        _fileUtils.getContentFromFile(
+            nameFile: emailId.asString,
+            folderPath: CachingConstants.newEmailsContentFolderName)
       ], eagerError: true);
 
       final detailedEmailCache = listResult[0] as DetailedEmailHiveCache;
@@ -227,63 +261,81 @@ class EmailHiveCacheDataSourceImpl extends EmailDataSource {
   }
 
   @override
-  Future<Email> getStoredEmail(Session session, AccountId accountId, EmailId emailId) {
+  Future<Email> getStoredEmail(
+      Session session, AccountId accountId, EmailId emailId) {
     return Future.sync(() async {
-      final email = await _emailCacheManager.getStoredEmail(accountId, session.username, emailId);
+      final email = await _emailCacheManager.getStoredEmail(
+          accountId, session.username, emailId);
       return email.toEmail();
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<SendingEmail> storeSendingEmail(AccountId accountId, UserName userName, SendingEmail sendingEmail) {
+  Future<SendingEmail> storeSendingEmail(
+      AccountId accountId, UserName userName, SendingEmail sendingEmail) {
     return Future.sync(() async {
-      final sendingEmailsCache = await _sendingEmailCacheManager.storeSendingEmail(accountId, userName, sendingEmail.toHiveCache());
+      final sendingEmailsCache = await _sendingEmailCacheManager
+          .storeSendingEmail(accountId, userName, sendingEmail.toHiveCache());
       return sendingEmailsCache.toSendingEmail();
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<List<SendingEmail>> getAllSendingEmails(AccountId accountId, UserName userName) {
+  Future<List<SendingEmail>> getAllSendingEmails(
+      AccountId accountId, UserName userName) {
     return Future.sync(() async {
-      final sendingEmailsCache = await _sendingEmailCacheManager.getAllSendingEmailsByTupleKey(accountId, userName);
+      final sendingEmailsCache = await _sendingEmailCacheManager
+          .getAllSendingEmailsByTupleKey(accountId, userName);
       return sendingEmailsCache.toSendingEmails();
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<void> deleteSendingEmail(AccountId accountId, UserName userName, String sendingId) {
+  Future<void> deleteSendingEmail(
+      AccountId accountId, UserName userName, String sendingId) {
     return Future.sync(() async {
-      return await _sendingEmailCacheManager.deleteSendingEmail(accountId, userName, sendingId);
+      return await _sendingEmailCacheManager.deleteSendingEmail(
+          accountId, userName, sendingId);
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<SendingEmail> updateSendingEmail(AccountId accountId, UserName userName, SendingEmail newSendingEmail) {
+  Future<SendingEmail> updateSendingEmail(
+      AccountId accountId, UserName userName, SendingEmail newSendingEmail) {
     return Future.sync(() async {
-      final sendingEmailsCache = await _sendingEmailCacheManager.updateSendingEmail(accountId, userName, newSendingEmail.toHiveCache());
+      final sendingEmailsCache =
+          await _sendingEmailCacheManager.updateSendingEmail(
+              accountId, userName, newSendingEmail.toHiveCache());
       return sendingEmailsCache.toSendingEmail();
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<List<SendingEmail>> updateMultipleSendingEmail(AccountId accountId, UserName userName, List<SendingEmail> newSendingEmails) {
+  Future<List<SendingEmail>> updateMultipleSendingEmail(AccountId accountId,
+      UserName userName, List<SendingEmail> newSendingEmails) {
     return Future.sync(() async {
-      final listSendingEmailsCache = await _sendingEmailCacheManager.updateMultipleSendingEmail(accountId, userName, newSendingEmails.toHiveCache());
+      final listSendingEmailsCache =
+          await _sendingEmailCacheManager.updateMultipleSendingEmail(
+              accountId, userName, newSendingEmails.toHiveCache());
       return listSendingEmailsCache.toSendingEmails();
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<void> deleteMultipleSendingEmail(AccountId accountId, UserName userName, List<String> sendingIds) {
+  Future<void> deleteMultipleSendingEmail(
+      AccountId accountId, UserName userName, List<String> sendingIds) {
     return Future.sync(() async {
-      return await _sendingEmailCacheManager.deleteMultipleSendingEmail(accountId, userName, sendingIds);
+      return await _sendingEmailCacheManager.deleteMultipleSendingEmail(
+          accountId, userName, sendingIds);
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<SendingEmail> getStoredSendingEmail(AccountId accountId, UserName userName, String sendingId) {
+  Future<SendingEmail> getStoredSendingEmail(
+      AccountId accountId, UserName userName, String sendingId) {
     return Future.sync(() async {
-      final sendingEmailCache = await _sendingEmailCacheManager.getStoredSendingEmail(accountId, userName, sendingId);
+      final sendingEmailCache = await _sendingEmailCacheManager
+          .getStoredSendingEmail(accountId, userName, sendingId);
       return sendingEmailCache.toSendingEmail();
     }).catchError(_exceptionThrower.throwException);
   }

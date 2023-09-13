@@ -13,6 +13,6 @@ class TransformHtmlEmailContentSuccess extends UIState {
 }
 
 class TransformHtmlEmailContentFailure extends FeatureFailure {
-
-  TransformHtmlEmailContentFailure(dynamic exception) : super(exception: exception);
+  TransformHtmlEmailContentFailure(dynamic exception)
+      : super(exception: exception);
 }

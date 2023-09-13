@@ -38,7 +38,6 @@ void main() {
     ],
   );
 
-
   group('rule_filter_datasource_impl_test', () {
     late RuleFilterAPI ruleFilterAPI;
     late RuleFilterDataSourceImpl ruleFilterDataSourceImpl;

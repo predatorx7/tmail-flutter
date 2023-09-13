@@ -4,7 +4,6 @@ import 'package:core/presentation/state/success.dart';
 class DestroySubscriptionLoading extends UIState {}
 
 class DestroySubscriptionSuccess extends UIState {
-
   final bool destroyedSubscription;
 
   DestroySubscriptionSuccess(this.destroyedSubscription);
@@ -14,6 +13,5 @@ class DestroySubscriptionSuccess extends UIState {
 }
 
 class DestroySubscriptionFailure extends FeatureFailure {
-
   DestroySubscriptionFailure(dynamic exception) : super(exception: exception);
 }

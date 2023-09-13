@@ -12,13 +12,14 @@ class QuotasAPI {
   QuotasAPI(this._httpClient);
 
   Future<List<Quota>> getQuotas(AccountId accountId) async {
-    final requestBuilder = JmapRequestBuilder(_httpClient, ProcessingInvocation());
+    final requestBuilder =
+        JmapRequestBuilder(_httpClient, ProcessingInvocation());
     final getQuotaMethod = GetQuotaMethod(accountId);
     final getQuotaInvocation = requestBuilder.invocation(getQuotaMethod);
     final response = await (requestBuilder
-        ..usings(getQuotaMethod.requiredCapabilities))
-      .build()
-      .execute();
+          ..usings(getQuotaMethod.requiredCapabilities))
+        .build()
+        .execute();
 
     final getQuotaResponse = response.parse<GetQuotaResponse>(
       getQuotaInvocation.methodCallId,

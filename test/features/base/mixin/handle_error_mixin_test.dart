@@ -13,9 +13,10 @@ void main() {
     testHandler = TestSetErrorHandler();
   });
 
-
   group('Handle Not Destroyed Error', () {
-    test('should not invoke notDestroyedHandler when notDestroyedError null but notDestroyedHandlers non-null', () {
+    test(
+        'should not invoke notDestroyedHandler when notDestroyedError null but notDestroyedHandlers non-null',
+        () {
       var counterWillNotBeChange = 0;
 
       bool notDestroyedHandler(MapEntry<Id, SetError> setError) {
@@ -24,13 +25,13 @@ void main() {
       }
 
       testHandler.handleSetErrors(
-        notDestroyedError: null,
-        notDestroyedHandlers: {notDestroyedHandler}
-      );
+          notDestroyedError: null, notDestroyedHandlers: {notDestroyedHandler});
 
       expect(counterWillNotBeChange, equals(0));
     });
-    test('should invoke unCatchErrorHandler when notDestroyedError null but notDestroyedHandlers null', () {
+    test(
+        'should invoke unCatchErrorHandler when notDestroyedError null but notDestroyedHandlers null',
+        () {
       SetMethodErrors? notDestroyedError = {
         Id("c1"): SetError(SetError.notFound),
       };
@@ -43,14 +44,15 @@ void main() {
       }
 
       testHandler.handleSetErrors(
-        notDestroyedError: notDestroyedError,
-        notDestroyedHandlers: null,
-        unCatchErrorHandler: unCatchErrorHandler
-      );
+          notDestroyedError: notDestroyedError,
+          notDestroyedHandlers: null,
+          unCatchErrorHandler: unCatchErrorHandler);
 
       expect(counterWillBeEqualOne, equals(1));
     });
-    test('should handle error successfully when notDestroyedHandlers non-null and one of them handle notDestroyedError', () {
+    test(
+        'should handle error successfully when notDestroyedHandlers non-null and one of them handle notDestroyedError',
+        () {
       SetMethodErrors? notDestroyedError = {
         Id("c1"): SetError(SetError.notFound),
       };
@@ -76,12 +78,13 @@ void main() {
       testHandler.handleSetErrors(
           notDestroyedError: notDestroyedError,
           notDestroyedHandlers: {notDestroyedHandler1, notDestroyedHandler2},
-          unCatchErrorHandler: unCatchErrorHandler
-      );
+          unCatchErrorHandler: unCatchErrorHandler);
 
       expect(counterWillBeIncreaseWhenHandleSucceeded, equals(1));
     });
-    test('should stop handler error when notDestroyedHandlers non-null and one of them handle notDestroyedError successfully', () {
+    test(
+        'should stop handler error when notDestroyedHandlers non-null and one of them handle notDestroyedError successfully',
+        () {
       SetMethodErrors? notDestroyedError = {
         Id("c1"): SetError(SetError.notFound),
       };
@@ -112,13 +115,18 @@ void main() {
 
       testHandler.handleSetErrors(
           notDestroyedError: notDestroyedError,
-          notDestroyedHandlers: {notDestroyedHandler1, notDestroyedHandler2, notDestroyedHandler3},
-          unCatchErrorHandler: unCatchErrorHandler
-      );
+          notDestroyedHandlers: {
+            notDestroyedHandler1,
+            notDestroyedHandler2,
+            notDestroyedHandler3
+          },
+          unCatchErrorHandler: unCatchErrorHandler);
 
       expect(counterWillBeIncreaseWhenInvokeHandler, equals(2));
     });
-    test('should call unCatchErrorHandler when notDestroyedHandlers non-null and no-one can handle notDestroyedError', () {
+    test(
+        'should call unCatchErrorHandler when notDestroyedHandlers non-null and no-one can handle notDestroyedError',
+        () {
       SetMethodErrors? notDestroyedError = {
         Id("c1"): SetError(SetError.notFound),
       };
@@ -142,12 +150,13 @@ void main() {
       testHandler.handleSetErrors(
           notDestroyedError: notDestroyedError,
           notDestroyedHandlers: {notDestroyedHandler1, notDestroyedHandler2},
-          unCatchErrorHandler: unCatchErrorHandler
-      );
+          unCatchErrorHandler: unCatchErrorHandler);
 
       expect(counterWillBeIncreaseWhenInvokeHandler, equals(3));
     });
-    test('should invoke both unCatchErrorHandler and handler when have some kinds of error were handle successfully', () {
+    test(
+        'should invoke both unCatchErrorHandler and handler when have some kinds of error were handle successfully',
+        () {
       SetMethodErrors? notDestroyedError = {
         Id("c1"): SetError(SetError.notFound),
         Id("c2"): SetError(SetError.forbidden),
@@ -180,9 +189,12 @@ void main() {
 
       testHandler.handleSetErrors(
           notDestroyedError: notDestroyedError,
-          notDestroyedHandlers: {notDestroyedHandler1, notDestroyedHandler2, notDestroyedHandler3},
-          unCatchErrorHandler: unCatchErrorHandler
-      );
+          notDestroyedHandlers: {
+            notDestroyedHandler1,
+            notDestroyedHandler2,
+            notDestroyedHandler3
+          },
+          unCatchErrorHandler: unCatchErrorHandler);
 
       expect(counterWillBeIncreaseWhenInvokeHandler, equals(5));
       expect(counterWillBeIncreaseWhenInvokeUnCatchHandler, equals(1));
@@ -190,7 +202,9 @@ void main() {
   });
 
   group('Handle Not Updated Error', () {
-    test('should not invoke notUpdatedHandlers when notUpdatedError null but notUpdatedHandlers non-null', () {
+    test(
+        'should not invoke notUpdatedHandlers when notUpdatedError null but notUpdatedHandlers non-null',
+        () {
       var counterWillNotBeChange = 0;
 
       bool notUpdateHandler(MapEntry<Id, SetError> setError) {
@@ -199,13 +213,13 @@ void main() {
       }
 
       testHandler.handleSetErrors(
-          notUpdatedError: null,
-          notUpdatedHandlers: {notUpdateHandler}
-      );
+          notUpdatedError: null, notUpdatedHandlers: {notUpdateHandler});
 
       expect(counterWillNotBeChange, equals(0));
     });
-    test('should invoke unCatchErrorHandler when notUpdatedError null but notUpdatedHandlers null', () {
+    test(
+        'should invoke unCatchErrorHandler when notUpdatedError null but notUpdatedHandlers null',
+        () {
       SetMethodErrors? notUpdatedError = {
         Id("c1"): SetError(SetError.notFound),
       };
@@ -220,12 +234,13 @@ void main() {
       testHandler.handleSetErrors(
           notUpdatedError: notUpdatedError,
           notUpdatedHandlers: null,
-          unCatchErrorHandler: unCatchErrorHandler
-      );
+          unCatchErrorHandler: unCatchErrorHandler);
 
       expect(counterWillBeEqualOne, equals(1));
     });
-    test('should handle error successfully when notUpdatedHandlers non-null and one of them handle notUpdatedError', () {
+    test(
+        'should handle error successfully when notUpdatedHandlers non-null and one of them handle notUpdatedError',
+        () {
       SetMethodErrors? notUpdatedError = {
         Id("c1"): SetError(SetError.notFound),
       };
@@ -252,12 +267,13 @@ void main() {
       testHandler.handleSetErrors(
           notUpdatedError: notUpdatedError,
           notUpdatedHandlers: {notUpdatedHandler1, notUpdatedHandler2},
-          unCatchErrorHandler: unCatchErrorHandler
-      );
+          unCatchErrorHandler: unCatchErrorHandler);
 
       expect(counterWillBeIncreaseWhenInvokeHandler, equals(2));
     });
-    test('should stop handler error when notUpdatedHandlers non-null and one of them handle notUpdatedError successfully', () {
+    test(
+        'should stop handler error when notUpdatedHandlers non-null and one of them handle notUpdatedError successfully',
+        () {
       SetMethodErrors? notUpdatedError = {
         Id("c1"): SetError(SetError.notFound),
       };
@@ -288,13 +304,18 @@ void main() {
 
       testHandler.handleSetErrors(
           notUpdatedError: notUpdatedError,
-          notUpdatedHandlers: {notUpdatedHandler1, notUpdatedHandler2, notUpdatedHandler3},
-          unCatchErrorHandler: unCatchErrorHandler
-      );
+          notUpdatedHandlers: {
+            notUpdatedHandler1,
+            notUpdatedHandler2,
+            notUpdatedHandler3
+          },
+          unCatchErrorHandler: unCatchErrorHandler);
 
       expect(counterWillBeIncreaseWhenInvokeHandler, equals(2));
     });
-    test('should call unCatchErrorHandler when notUpdatedHandlers non-null and no-one can handle notUpdatedError', () {
+    test(
+        'should call unCatchErrorHandler when notUpdatedHandlers non-null and no-one can handle notUpdatedError',
+        () {
       SetMethodErrors? notUpdatedError = {
         Id("c1"): SetError(SetError.notFound),
       };
@@ -318,15 +339,16 @@ void main() {
       testHandler.handleSetErrors(
           notUpdatedError: notUpdatedError,
           notUpdatedHandlers: {notUpdatedHandler1, notUpdatedHandler2},
-          unCatchErrorHandler: unCatchErrorHandler
-      );
+          unCatchErrorHandler: unCatchErrorHandler);
 
       expect(counterWillBeIncreaseWhenInvokeHandler, equals(3));
     });
   });
 
   group('Handle Not Created Error', () {
-    test('should not invoke notCreatedHandlers when notCreatedError null but notCreatedHandlers non-null', () {
+    test(
+        'should not invoke notCreatedHandlers when notCreatedError null but notCreatedHandlers non-null',
+        () {
       var counterWillNotBeChange = 0;
 
       bool notCreatedHandler(MapEntry<Id, SetError> setError) {
@@ -335,13 +357,13 @@ void main() {
       }
 
       testHandler.handleSetErrors(
-          notCreatedError: null,
-          notCreatedHandlers: {notCreatedHandler}
-      );
+          notCreatedError: null, notCreatedHandlers: {notCreatedHandler});
 
       expect(counterWillNotBeChange, equals(0));
     });
-    test('should invoke unCatchErrorHandler when notCreatedError null but notCreatedHandlers null', () {
+    test(
+        'should invoke unCatchErrorHandler when notCreatedError null but notCreatedHandlers null',
+        () {
       SetMethodErrors? notCreatedError = {
         Id("c1"): SetError(SetError.notFound),
       };
@@ -356,12 +378,13 @@ void main() {
       testHandler.handleSetErrors(
           notCreatedError: notCreatedError,
           notCreatedHandlers: null,
-          unCatchErrorHandler: unCatchErrorHandler
-      );
+          unCatchErrorHandler: unCatchErrorHandler);
 
       expect(counterWillBeEqualOne, equals(1));
     });
-    test('should handle error successfully when notCreatedHandlers non-null and one of them handle notCreatedError', () {
+    test(
+        'should handle error successfully when notCreatedHandlers non-null and one of them handle notCreatedError',
+        () {
       SetMethodErrors? notCreatedError = {
         Id("c1"): SetError(SetError.notFound),
       };
@@ -388,12 +411,13 @@ void main() {
       testHandler.handleSetErrors(
           notCreatedError: notCreatedError,
           notCreatedHandlers: {notCreatedHandler1, notCreatedHandler2},
-          unCatchErrorHandler: unCatchErrorHandler
-      );
+          unCatchErrorHandler: unCatchErrorHandler);
 
       expect(counterWillBeIncreaseWhenInvokeHandler, equals(2));
     });
-    test('should stop handler error when notCreatedHandlers non-null and one of them handle notCreatedError successfully', () {
+    test(
+        'should stop handler error when notCreatedHandlers non-null and one of them handle notCreatedError successfully',
+        () {
       SetMethodErrors? notCreatedError = {
         Id("c1"): SetError(SetError.notFound),
       };
@@ -424,13 +448,18 @@ void main() {
 
       testHandler.handleSetErrors(
           notCreatedError: notCreatedError,
-          notCreatedHandlers: {notCreatedHandler1, notCreatedHandler2, notCreatedHandler3},
-          unCatchErrorHandler: unCatchErrorHandler
-      );
+          notCreatedHandlers: {
+            notCreatedHandler1,
+            notCreatedHandler2,
+            notCreatedHandler3
+          },
+          unCatchErrorHandler: unCatchErrorHandler);
 
       expect(counterWillBeIncreaseWhenInvokeHandler, equals(2));
     });
-    test('should call unCatchErrorHandler when notCreatedHandlers non-null and no-one can handle notCreatedError', () {
+    test(
+        'should call unCatchErrorHandler when notCreatedHandlers non-null and no-one can handle notCreatedError',
+        () {
       SetMethodErrors? notCreatedError = {
         Id("c1"): SetError(SetError.notFound),
       };
@@ -454,8 +483,7 @@ void main() {
       testHandler.handleSetErrors(
           notCreatedError: notCreatedError,
           notCreatedHandlers: {notCreatedHandler1, notCreatedHandler2},
-          unCatchErrorHandler: unCatchErrorHandler
-      );
+          unCatchErrorHandler: unCatchErrorHandler);
 
       expect(counterWillBeIncreaseWhenInvokeHandler, equals(3));
     });

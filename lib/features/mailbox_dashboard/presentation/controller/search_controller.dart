@@ -68,8 +68,10 @@ class SearchController extends BaseController with DateRangePickerMixin {
     searchEmailFilter.value = SearchEmailFilter.initial();
   }
 
-  void selectQuickSearchFilter(QuickSearchFilter quickSearchFilter, UserProfile userProfile) {
-    final isFilterSelected = quickSearchFilter.isSelected(searchEmailFilter.value, userProfile);
+  void selectQuickSearchFilter(
+      QuickSearchFilter quickSearchFilter, UserProfile userProfile) {
+    final isFilterSelected =
+        quickSearchFilter.isSelected(searchEmailFilter.value, userProfile);
 
     switch (quickSearchFilter) {
       case QuickSearchFilter.hasAttachment:
@@ -80,8 +82,9 @@ class SearchController extends BaseController with DateRangePickerMixin {
         return;
       case QuickSearchFilter.fromMe:
         isFilterSelected
-          ? searchEmailFilter.value.from.removeWhere((e) => e == userProfile.email)
-          : searchEmailFilter.value.from.add(userProfile.email);
+            ? searchEmailFilter.value.from
+                .removeWhere((e) => e == userProfile.email)
+            : searchEmailFilter.value.from.add(userProfile.email);
         updateFilterEmail(fromOption: Some(searchEmailFilter.value.from));
         return;
     }
@@ -101,52 +104,54 @@ class SearchController extends BaseController with DateRangePickerMixin {
     required String query,
     required UserProfile userProfile,
   }) async {
-    return await _quickSearchEmailInteractor.execute(
-      session,
-      accountId,
-      limit: UnsignedInt(5),
-      sort: <Comparator>{}..add(
-        EmailComparator(EmailComparatorProperty.receivedAt)
-          ..setIsAscending(false)),
-      filter: _mappingToFilterOnSuggestionForm(userProfile: userProfile, query: query),
-      properties: ThreadConstants.propertiesQuickSearch
-    ).then((result) => result.fold(
-      (failure) => <PresentationEmail>[],
-      (success) => success is QuickSearchEmailSuccess
-        ? success.emailList
-        : <PresentationEmail>[]
-    ));
+    return await _quickSearchEmailInteractor
+        .execute(session, accountId,
+            limit: UnsignedInt(5),
+            sort: <Comparator>{}..add(
+                EmailComparator(EmailComparatorProperty.receivedAt)
+                  ..setIsAscending(false)),
+            filter: _mappingToFilterOnSuggestionForm(
+                userProfile: userProfile, query: query),
+            properties: ThreadConstants.propertiesQuickSearch)
+        .then((result) => result.fold(
+            (failure) => <PresentationEmail>[],
+            (success) => success is QuickSearchEmailSuccess
+                ? success.emailList
+                : <PresentationEmail>[]));
   }
 
-  Filter? _mappingToFilterOnSuggestionForm({required String query, required UserProfile userProfile}) {
+  Filter? _mappingToFilterOnSuggestionForm(
+      {required String query, required UserProfile userProfile}) {
     log('SearchController::_mappingToFilterOnSuggestionForm():query: $query');
     final filterCondition = EmailFilterCondition(
-      text: query.isNotEmpty == true ? query : null,
-      after: listFilterOnSuggestionForm.contains(QuickSearchFilter.last7Days)
-        ? EmailReceiveTimeType.last7Days.toOldestUTCDate()
-        : null,
-      before: listFilterOnSuggestionForm.contains(QuickSearchFilter.last7Days)
-        ? EmailReceiveTimeType.last7Days.toLatestUTCDate()
-        : null,
-      hasAttachment: listFilterOnSuggestionForm.contains(QuickSearchFilter.hasAttachment)
-        ? true
-        : null,
-      from: listFilterOnSuggestionForm.contains(QuickSearchFilter.fromMe)
-        ? userProfile.email
-        : null
-    );
+        text: query.isNotEmpty == true ? query : null,
+        after: listFilterOnSuggestionForm.contains(QuickSearchFilter.last7Days)
+            ? EmailReceiveTimeType.last7Days.toOldestUTCDate()
+            : null,
+        before: listFilterOnSuggestionForm.contains(QuickSearchFilter.last7Days)
+            ? EmailReceiveTimeType.last7Days.toLatestUTCDate()
+            : null,
+        hasAttachment:
+            listFilterOnSuggestionForm.contains(QuickSearchFilter.hasAttachment)
+                ? true
+                : null,
+        from: listFilterOnSuggestionForm.contains(QuickSearchFilter.fromMe)
+            ? userProfile.email
+            : null);
 
-    return filterCondition.hasCondition
-      ? filterCondition
-      : null;
+    return filterCondition.hasCondition ? filterCondition : null;
   }
 
   void applyFilterSuggestionToSearchFilter(UserProfile? userProfile) {
-    final receiveTime = listFilterOnSuggestionForm.contains(QuickSearchFilter.last7Days)
-      ? EmailReceiveTimeType.last7Days
-      : EmailReceiveTimeType.allTime;
+    final receiveTime =
+        listFilterOnSuggestionForm.contains(QuickSearchFilter.last7Days)
+            ? EmailReceiveTimeType.last7Days
+            : EmailReceiveTimeType.allTime;
 
-    final hasAttachment = listFilterOnSuggestionForm.contains(QuickSearchFilter.hasAttachment) ? true : false;
+    final hasAttachment =
+        listFilterOnSuggestionForm.contains(QuickSearchFilter.hasAttachment)
+            ? true
+            : false;
 
     var listFromAddress = searchEmailFilter.value.from;
     if (userProfile != null) {
@@ -158,10 +163,9 @@ class SearchController extends BaseController with DateRangePickerMixin {
     }
 
     updateFilterEmail(
-      emailReceiveTimeType: receiveTime,
-      hasAttachment: hasAttachment,
-      fromOption: Some(listFromAddress)
-    );
+        emailReceiveTimeType: receiveTime,
+        hasAttachment: hasAttachment,
+        fromOption: Some(listFromAddress));
 
     clearFilterSuggestion();
   }
@@ -170,19 +174,18 @@ class SearchController extends BaseController with DateRangePickerMixin {
     listFilterOnSuggestionForm.clear();
   }
 
-  void updateFilterEmail({
-    Option<Set<String>>? fromOption,
-    Set<String>? to,
-    SearchQuery? text,
-    Option<String>? subjectOption,
-    Set<String>? notKeyword,
-    PresentationMailbox? mailbox,
-    EmailReceiveTimeType? emailReceiveTimeType,
-    bool? hasAttachment,
-    Option<UTCDate>? beforeOption,
-    Option<UTCDate>? startDateOption,
-    Option<UTCDate>? endDateOption
-  }) {
+  void updateFilterEmail(
+      {Option<Set<String>>? fromOption,
+      Set<String>? to,
+      SearchQuery? text,
+      Option<String>? subjectOption,
+      Set<String>? notKeyword,
+      PresentationMailbox? mailbox,
+      EmailReceiveTimeType? emailReceiveTimeType,
+      bool? hasAttachment,
+      Option<UTCDate>? beforeOption,
+      Option<UTCDate>? startDateOption,
+      Option<UTCDate>? endDateOption}) {
     searchEmailFilter.value = searchEmailFilter.value.copyWith(
       fromOption: fromOption,
       to: to,
@@ -199,16 +202,20 @@ class SearchController extends BaseController with DateRangePickerMixin {
     searchEmailFilter.refresh();
   }
 
-  EmailReceiveTimeType get receiveTimeFiltered => searchEmailFilter.value.emailReceiveTimeType;
+  EmailReceiveTimeType get receiveTimeFiltered =>
+      searchEmailFilter.value.emailReceiveTimeType;
 
-  DateTime? get startDateFiltered => searchEmailFilter.value.startDate?.value.toLocal();
+  DateTime? get startDateFiltered =>
+      searchEmailFilter.value.startDate?.value.toLocal();
 
-  DateTime? get endDateFiltered => searchEmailFilter.value.endDate?.value.toLocal();
+  DateTime? get endDateFiltered =>
+      searchEmailFilter.value.endDate?.value.toLocal();
 
   bool isSearchActive() =>
       searchState.value.searchStatus == SearchStatus.ACTIVE;
 
-  bool get isSearchEmailRunning => simpleSearchIsActivated.isTrue || advancedSearchIsActivated.isTrue;
+  bool get isSearchEmailRunning =>
+      simpleSearchIsActivated.isTrue || advancedSearchIsActivated.isTrue;
 
   void enableSearch() {
     searchState.value = searchState.value.enableSearchState();

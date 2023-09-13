@@ -24,54 +24,65 @@ import 'package:tmail_ui_user/features/mailbox/domain/model/subscribe_multiple_m
 import 'package:tmail_ui_user/main/exceptions/exception_thrower.dart';
 
 class MailboxCacheDataSourceImpl extends MailboxDataSource {
-
   final MailboxCacheManager _mailboxCacheManager;
   final ExceptionThrower _exceptionThrower;
 
   MailboxCacheDataSourceImpl(this._mailboxCacheManager, this._exceptionThrower);
 
   @override
-  Future<MailboxResponse> getAllMailbox(Session session, AccountId accountId, {Properties? properties}) {
+  Future<MailboxResponse> getAllMailbox(Session session, AccountId accountId,
+      {Properties? properties}) {
     throw UnimplementedError();
   }
 
   @override
-  Future<MailboxChangeResponse> getChanges(Session session, AccountId accountId, State sinceState) {
+  Future<MailboxChangeResponse> getChanges(
+      Session session, AccountId accountId, State sinceState) {
     throw UnimplementedError();
   }
 
   @override
-  Future<void> update(AccountId accountId, UserName userName, {List<Mailbox>? updated, List<Mailbox>? created, List<MailboxId>? destroyed}) {
+  Future<void> update(AccountId accountId, UserName userName,
+      {List<Mailbox>? updated,
+      List<Mailbox>? created,
+      List<MailboxId>? destroyed}) {
     return Future.sync(() async {
-      return await _mailboxCacheManager.update(accountId, userName, updated: updated, created: created, destroyed: destroyed);
+      return await _mailboxCacheManager.update(accountId, userName,
+          updated: updated, created: created, destroyed: destroyed);
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<List<Mailbox>> getAllMailboxCache(AccountId accountId, UserName userName) {
+  Future<List<Mailbox>> getAllMailboxCache(
+      AccountId accountId, UserName userName) {
     return Future.sync(() async {
-      final listMailboxes = await _mailboxCacheManager.getAllMailbox(accountId, userName);
+      final listMailboxes =
+          await _mailboxCacheManager.getAllMailbox(accountId, userName);
       return listMailboxes;
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<Mailbox?> createNewMailbox(Session session, AccountId accountId, CreateNewMailboxRequest newMailboxRequest) {
+  Future<Mailbox?> createNewMailbox(Session session, AccountId accountId,
+      CreateNewMailboxRequest newMailboxRequest) {
     throw UnimplementedError();
   }
 
   @override
-  Future<Map<Id,SetError>> deleteMultipleMailbox(Session session, AccountId accountId, List<MailboxId> mailboxIds) {
+  Future<Map<Id, SetError>> deleteMultipleMailbox(
+      Session session, AccountId accountId, List<MailboxId> mailboxIds) {
     throw UnimplementedError();
   }
 
   @override
-  Future<bool> renameMailbox(Session session, AccountId accountId, RenameMailboxRequest request) {
+  Future<bool> renameMailbox(
+      Session session, AccountId accountId, RenameMailboxRequest request) {
     throw UnimplementedError();
   }
 
   @override
-  Future<bool> moveMailbox(Session session, AccountId accountId, MoveMailboxRequest request) {
+  Future<bool> moveMailbox(
+      Session session, AccountId accountId, MoveMailboxRequest request) {
     throw UnimplementedError();
   }
 
@@ -86,12 +97,14 @@ class MailboxCacheDataSourceImpl extends MailboxDataSource {
   }
 
   @override
-  Future<bool> subscribeMailbox(Session session, AccountId accountId, SubscribeMailboxRequest request) {
+  Future<bool> subscribeMailbox(
+      Session session, AccountId accountId, SubscribeMailboxRequest request) {
     throw UnimplementedError();
   }
 
   @override
-  Future<List<MailboxId>> subscribeMultipleMailbox(Session session, AccountId accountId, SubscribeMultipleMailboxRequest subscribeRequest) {
+  Future<List<MailboxId>> subscribeMultipleMailbox(Session session,
+      AccountId accountId, SubscribeMultipleMailboxRequest subscribeRequest) {
     throw UnimplementedError();
   }
 }

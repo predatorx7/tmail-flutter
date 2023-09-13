@@ -5,38 +5,41 @@ import 'package:jmap_dart_client/jmap/core/id.dart';
 import 'package:model/error_type_handler/set_method_error_handler_mixin.dart';
 
 mixin HandleSetErrorMixin {
-  void handleSetErrors({
-    SetMethodErrors? notDestroyedError,
-    SetMethodErrors? notUpdatedError,
-    SetMethodErrors? notCreatedError,
-    Set<SetMethodErrorHandler>? notDestroyedHandlers,
-    Set<SetMethodErrorHandler>? notUpdatedHandlers,
-    Set<SetMethodErrorHandler>? notCreatedHandlers,
-    SetMethodErrorHandler? unCatchErrorHandler
-  }) {
+  void handleSetErrors(
+      {SetMethodErrors? notDestroyedError,
+      SetMethodErrors? notUpdatedError,
+      SetMethodErrors? notCreatedError,
+      Set<SetMethodErrorHandler>? notDestroyedHandlers,
+      Set<SetMethodErrorHandler>? notUpdatedHandlers,
+      Set<SetMethodErrorHandler>? notCreatedHandlers,
+      SetMethodErrorHandler? unCatchErrorHandler}) {
     if (notDestroyedError != null && notDestroyedError.isNotEmpty) {
       notDestroyedError.entries
-        .map((e) => _handleInChain(e, notDestroyedHandlers))
-        .map((optionError) => _handleRemainedError(unCatchErrorHandler, optionError))
-        .toSet();
+          .map((e) => _handleInChain(e, notDestroyedHandlers))
+          .map((optionError) =>
+              _handleRemainedError(unCatchErrorHandler, optionError))
+          .toSet();
     }
 
     if (notCreatedError != null && notCreatedError.isNotEmpty) {
       notCreatedError.entries
-        .map((e) => _handleInChain(e, notCreatedHandlers))
-        .map((optionError) => _handleRemainedError(unCatchErrorHandler, optionError))
-        .toSet();
+          .map((e) => _handleInChain(e, notCreatedHandlers))
+          .map((optionError) =>
+              _handleRemainedError(unCatchErrorHandler, optionError))
+          .toSet();
     }
 
     if (notUpdatedError != null && notUpdatedError.isNotEmpty) {
       notUpdatedError.entries
-        .map((e) => _handleInChain(e, notUpdatedHandlers))
-        .map((optionError) => _handleRemainedError(unCatchErrorHandler, optionError))
-        .toSet();
+          .map((e) => _handleInChain(e, notUpdatedHandlers))
+          .map((optionError) =>
+              _handleRemainedError(unCatchErrorHandler, optionError))
+          .toSet();
     }
   }
 
-  Option<MapEntry<Id, SetError>> _handleInChain(MapEntry<Id, SetError> setError, Set<SetMethodErrorHandler>? handlers) {
+  Option<MapEntry<Id, SetError>> _handleInChain(
+      MapEntry<Id, SetError> setError, Set<SetMethodErrorHandler>? handlers) {
     try {
       handlers!.firstWhere((handler) => handler.call(setError));
       return const None<MapEntry<Id, SetError>>();
@@ -46,7 +49,8 @@ mixin HandleSetErrorMixin {
     }
   }
 
-  void _handleRemainedError(SetMethodErrorHandler? unCatchErrorHandler, Option<MapEntry<Id, SetError>> optionError) {
+  void _handleRemainedError(SetMethodErrorHandler? unCatchErrorHandler,
+      Option<MapEntry<Id, SetError>> optionError) {
     final remainedError = optionError.toNullable();
     if (remainedError != null) {
       logError('HandleSetErrorMixin::_handleRemainedError(): $remainedError');

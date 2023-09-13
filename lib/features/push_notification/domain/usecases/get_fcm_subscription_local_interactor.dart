@@ -13,7 +13,8 @@ class GetFCMSubscriptionLocalInteractor {
     try {
       yield Right<Failure, Success>(GetFCMSubscriptionLocalLoading());
       final subscription = await _fcmRepository.getSubscription();
-      yield Right<Failure, Success>(GetFCMSubscriptionLocalSuccess(subscription));
+      yield Right<Failure, Success>(
+          GetFCMSubscriptionLocalSuccess(subscription));
     } catch (e) {
       yield Left<Failure, Success>(GetFCMSubscriptionLocalFailure(e));
     }

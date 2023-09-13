@@ -63,7 +63,6 @@ import 'package:uuid/uuid.dart';
 import 'package:worker_manager/worker_manager.dart';
 
 class ComposerBindings extends BaseBindings {
-
   @override
   void dependencies() {
     _bindingsUtils();
@@ -71,46 +70,42 @@ class ComposerBindings extends BaseBindings {
   }
 
   void _bindingsUtils() {
-    Get.lazyPut(() => FileUploader(Get.find<DioClient>(tag: BindingTag.isolateTag), Get.find<Executor>()));
+    Get.lazyPut(() => FileUploader(
+        Get.find<DioClient>(tag: BindingTag.isolateTag), Get.find<Executor>()));
   }
 
   @override
   void bindingsDataSourceImpl() {
-    Get.lazyPut(() => AttachmentUploadDataSourceImpl(
-      Get.find<FileUploader>(),
-      Get.find<Uuid>(),
-      Get.find<RemoteExceptionThrower>()
-    ));
-    Get.lazyPut(() => ComposerDataSourceImpl(Get.find<DownloadClient>(), Get.find<RemoteExceptionThrower>()));
+    Get.lazyPut(() => AttachmentUploadDataSourceImpl(Get.find<FileUploader>(),
+        Get.find<Uuid>(), Get.find<RemoteExceptionThrower>()));
+    Get.lazyPut(() => ComposerDataSourceImpl(
+        Get.find<DownloadClient>(), Get.find<RemoteExceptionThrower>()));
     Get.lazyPut(() => ContactDataSourceImpl(Get.find<CacheExceptionThrower>()));
-    Get.lazyPut(() => MailboxDataSourceImpl(
-      Get.find<MailboxAPI>(),
-      Get.find<MailboxIsolateWorker>(),
-      Get.find<RemoteExceptionThrower>()));
+    Get.lazyPut(() => MailboxDataSourceImpl(Get.find<MailboxAPI>(),
+        Get.find<MailboxIsolateWorker>(), Get.find<RemoteExceptionThrower>()));
     Get.lazyPut(() => MailboxCacheDataSourceImpl(
-        Get.find<MailboxCacheManager>(),
-        Get.find<CacheExceptionThrower>()));
+        Get.find<MailboxCacheManager>(), Get.find<CacheExceptionThrower>()));
     Get.lazyPut(() => EmailDataSourceImpl(
-      Get.find<EmailAPI>(),
-      Get.find<RemoteExceptionThrower>()));
+        Get.find<EmailAPI>(), Get.find<RemoteExceptionThrower>()));
     Get.lazyPut(() => HtmlDataSourceImpl(
-      Get.find<HtmlAnalyzer>(),
-      Get.find<RemoteExceptionThrower>()));
-    Get.lazyPut(() => StateDataSourceImpl(Get.find<StateCacheClient>(), Get.find<CacheExceptionThrower>()));
+        Get.find<HtmlAnalyzer>(), Get.find<RemoteExceptionThrower>()));
+    Get.lazyPut(() => StateDataSourceImpl(
+        Get.find<StateCacheClient>(), Get.find<CacheExceptionThrower>()));
     Get.lazyPut(() => EmailHiveCacheDataSourceImpl(
-      Get.find<NewEmailCacheManager>(),
-      Get.find<OpenedEmailCacheManager>(),
-      Get.find<NewEmailCacheWorkerQueue>(),
-      Get.find<OpenedEmailCacheWorkerQueue>(),
-      Get.find<EmailCacheManager>(),
-      Get.find<SendingEmailCacheManager>(),
-      Get.find<FileUtils>(),
-      Get.find<CacheExceptionThrower>()));
+        Get.find<NewEmailCacheManager>(),
+        Get.find<OpenedEmailCacheManager>(),
+        Get.find<NewEmailCacheWorkerQueue>(),
+        Get.find<OpenedEmailCacheWorkerQueue>(),
+        Get.find<EmailCacheManager>(),
+        Get.find<SendingEmailCacheManager>(),
+        Get.find<FileUtils>(),
+        Get.find<CacheExceptionThrower>()));
   }
 
   @override
   void bindingsDataSource() {
-    Get.lazyPut<AttachmentUploadDataSource>(() => Get.find<AttachmentUploadDataSourceImpl>());
+    Get.lazyPut<AttachmentUploadDataSource>(
+        () => Get.find<AttachmentUploadDataSourceImpl>());
     Get.lazyPut<ComposerDataSource>(() => Get.find<ComposerDataSourceImpl>());
     Get.lazyPut<ContactDataSource>(() => Get.find<ContactDataSourceImpl>());
     Get.lazyPut<MailboxDataSource>(() => Get.find<MailboxDataSourceImpl>());
@@ -126,20 +121,20 @@ class ComposerBindings extends BaseBindings {
         Get.find<ComposerDataSource>()));
     Get.lazyPut(() => ContactRepositoryImpl(Get.find<ContactDataSource>()));
     Get.lazyPut(() => MailboxRepositoryImpl(
-      {
-        DataSourceType.network: Get.find<MailboxDataSource>(),
-        DataSourceType.local: Get.find<MailboxCacheDataSourceImpl>()
-      },
-      Get.find<StateDataSource>(),
-    ));
+          {
+            DataSourceType.network: Get.find<MailboxDataSource>(),
+            DataSourceType.local: Get.find<MailboxCacheDataSourceImpl>()
+          },
+          Get.find<StateDataSource>(),
+        ));
     Get.lazyPut(() => EmailRepositoryImpl(
-      {
-        DataSourceType.network: Get.find<EmailDataSource>(),
-        DataSourceType.hiveCache: Get.find<EmailHiveCacheDataSourceImpl>()
-      },
-      Get.find<HtmlDataSource>(),
-      Get.find<StateDataSource>(),
-    ));
+          {
+            DataSourceType.network: Get.find<EmailDataSource>(),
+            DataSourceType.hiveCache: Get.find<EmailHiveCacheDataSourceImpl>()
+          },
+          Get.find<HtmlDataSource>(),
+          Get.find<StateDataSource>(),
+        ));
   }
 
   @override
@@ -153,18 +148,21 @@ class ComposerBindings extends BaseBindings {
   @override
   void bindingsInteractor() {
     Get.lazyPut(() => LocalFilePickerInteractor());
-    Get.lazyPut(() => UploadAttachmentInteractor(Get.find<ComposerRepository>()));
+    Get.lazyPut(
+        () => UploadAttachmentInteractor(Get.find<ComposerRepository>()));
     Get.lazyPut(() => SaveEmailAsDraftsInteractor(
-        Get.find<EmailRepository>(),
-        Get.find<MailboxRepository>()));
+        Get.find<EmailRepository>(), Get.find<MailboxRepository>()));
     Get.lazyPut(() => GetEmailContentInteractor(Get.find<EmailRepository>()));
     Get.lazyPut(() => UpdateEmailDraftsInteractor(
-        Get.find<EmailRepository>(),
-        Get.find<MailboxRepository>()));
-    Get.lazyPut(() => RemoveComposerCacheOnWebInteractor(Get.find<ComposerCacheRepository>()));
-    Get.lazyPut(() => SaveComposerCacheOnWebInteractor(Get.find<ComposerCacheRepository>()));
-    Get.lazyPut(() => DownloadImageAsBase64Interactor(Get.find<ComposerRepository>()));
-    Get.lazyPut(() => TransformHtmlEmailContentInteractor(Get.find<EmailRepository>()));
+        Get.find<EmailRepository>(), Get.find<MailboxRepository>()));
+    Get.lazyPut(() => RemoveComposerCacheOnWebInteractor(
+        Get.find<ComposerCacheRepository>()));
+    Get.lazyPut(() =>
+        SaveComposerCacheOnWebInteractor(Get.find<ComposerCacheRepository>()));
+    Get.lazyPut(
+        () => DownloadImageAsBase64Interactor(Get.find<ComposerRepository>()));
+    Get.lazyPut(
+        () => TransformHtmlEmailContentInteractor(Get.find<EmailRepository>()));
 
     IdentityInteractorsBindings().dependencies();
   }
@@ -175,19 +173,19 @@ class ComposerBindings extends BaseBindings {
     Get.lazyPut(() => UploadController(Get.find<UploadAttachmentInteractor>()));
     Get.lazyPut(() => RichTextWebController());
     Get.lazyPut(() => ComposerController(
-        Get.find<DeviceInfoPlugin>(),
-        Get.find<LocalFilePickerInteractor>(),
-        Get.find<SaveEmailAsDraftsInteractor>(),
-        Get.find<GetEmailContentInteractor>(),
-        Get.find<UpdateEmailDraftsInteractor>(),
-        Get.find<GetAllIdentitiesInteractor>(),
-        Get.find<UploadController>(),
-        Get.find<RemoveComposerCacheOnWebInteractor>(),
-        Get.find<SaveComposerCacheOnWebInteractor>(),
-        Get.find<RichTextWebController>(),
-        Get.find<DownloadImageAsBase64Interactor>(),
-        Get.find<TransformHtmlEmailContentInteractor>(),
-    ));
+          Get.find<DeviceInfoPlugin>(),
+          Get.find<LocalFilePickerInteractor>(),
+          Get.find<SaveEmailAsDraftsInteractor>(),
+          Get.find<GetEmailContentInteractor>(),
+          Get.find<UpdateEmailDraftsInteractor>(),
+          Get.find<GetAllIdentitiesInteractor>(),
+          Get.find<UploadController>(),
+          Get.find<RemoveComposerCacheOnWebInteractor>(),
+          Get.find<SaveComposerCacheOnWebInteractor>(),
+          Get.find<RichTextWebController>(),
+          Get.find<DownloadImageAsBase64Interactor>(),
+          Get.find<TransformHtmlEmailContentInteractor>(),
+        ));
   }
 
   void dispose() {

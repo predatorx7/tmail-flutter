@@ -1,2 +1,1 @@
-
 class NotFoundEmailsDeletedException implements Exception {}

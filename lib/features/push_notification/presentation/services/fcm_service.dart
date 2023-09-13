@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:core/utils/app_logger.dart';
@@ -7,22 +6,25 @@ import 'package:tmail_ui_user/features/push_notification/presentation/controller
 import 'package:tmail_ui_user/features/push_notification/presentation/notification/local_notification_manager.dart';
 
 class FcmService {
-
   static const int durationMessageComing = 2000;
   static const int durationRefreshToken = 2000;
 
   late StreamController<RemoteMessage> foregroundMessageStreamController;
-  Stream<RemoteMessage> get foregroundMessageStream => foregroundMessageStreamController.stream;
+  Stream<RemoteMessage> get foregroundMessageStream =>
+      foregroundMessageStreamController.stream;
 
   late StreamController<RemoteMessage> backgroundMessageStreamController;
-  Stream<RemoteMessage> get backgroundMessageStream => backgroundMessageStreamController.stream;
+  Stream<RemoteMessage> get backgroundMessageStream =>
+      backgroundMessageStreamController.stream;
 
   late StreamController<String?> fcmTokenStreamController;
   Stream<String?> get fcmTokenStream => fcmTokenStreamController.stream;
 
   FcmService._internal() {
-    foregroundMessageStreamController = StreamController<RemoteMessage>.broadcast();
-    backgroundMessageStreamController = StreamController<RemoteMessage>.broadcast();
+    foregroundMessageStreamController =
+        StreamController<RemoteMessage>.broadcast();
+    backgroundMessageStreamController =
+        StreamController<RemoteMessage>.broadcast();
     fcmTokenStreamController = StreamController<String?>.broadcast();
   }
 
@@ -75,11 +77,13 @@ class FcmService {
 
   Future<void> recreateStreamController() async {
     if (foregroundMessageStreamController.isClosed) {
-      foregroundMessageStreamController = StreamController<RemoteMessage>.broadcast();
+      foregroundMessageStreamController =
+          StreamController<RemoteMessage>.broadcast();
       await FcmMessageController.instance.listenForegroundMessageStream();
     }
     if (backgroundMessageStreamController.isClosed) {
-      backgroundMessageStreamController = StreamController<RemoteMessage>.broadcast();
+      backgroundMessageStreamController =
+          StreamController<RemoteMessage>.broadcast();
       await FcmMessageController.instance.listenBackgroundMessageStream();
     }
     if (fcmTokenStreamController.isClosed) {

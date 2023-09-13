@@ -38,8 +38,10 @@ class HomeController extends BaseController {
   final CleanupEmailCacheInteractor _cleanupEmailCacheInteractor;
   final EmailReceiveManager _emailReceiveManager;
   final CleanupRecentSearchCacheInteractor _cleanupRecentSearchCacheInteractor;
-  final CleanupRecentLoginUrlCacheInteractor _cleanupRecentLoginUrlCacheInteractor;
-  final CleanupRecentLoginUsernameCacheInteractor _cleanupRecentLoginUsernameCacheInteractor;
+  final CleanupRecentLoginUrlCacheInteractor
+      _cleanupRecentLoginUrlCacheInteractor;
+  final CleanupRecentLoginUsernameCacheInteractor
+      _cleanupRecentLoginUsernameCacheInteractor;
 
   HomeController(
     this._getAuthenticatedAccountInteractor,
@@ -69,21 +71,23 @@ class HomeController extends BaseController {
   }
 
   void _initFlutterDownloader() {
-    FlutterDownloader
-      .initialize(debug: kDebugMode)
-      .then((_) => FlutterDownloader.registerCallback(downloadCallback));
+    FlutterDownloader.initialize(debug: kDebugMode)
+        .then((_) => FlutterDownloader.registerCallback(downloadCallback));
   }
 
-  static void downloadCallback(String id, DownloadTaskStatus status, int progress) {}
+  static void downloadCallback(String id, int status, int progress) {}
 
   void _cleanupCache() async {
     await HiveCacheConfig().onUpgradeDatabase(cachingManager);
 
     await Future.wait([
-      _cleanupEmailCacheInteractor.execute(EmailCleanupRule(Duration.defaultCacheInternal)),
+      _cleanupEmailCacheInteractor
+          .execute(EmailCleanupRule(Duration.defaultCacheInternal)),
       _cleanupRecentSearchCacheInteractor.execute(RecentSearchCleanupRule()),
-      _cleanupRecentLoginUrlCacheInteractor.execute(RecentLoginUrlCleanupRule()),
-      _cleanupRecentLoginUsernameCacheInteractor.execute(RecentLoginUsernameCleanupRule()),
+      _cleanupRecentLoginUrlCacheInteractor
+          .execute(RecentLoginUrlCleanupRule()),
+      _cleanupRecentLoginUsernameCacheInteractor
+          .execute(RecentLoginUsernameCleanupRule()),
     ]).then((value) => _getAuthenticatedAccount());
   }
 
@@ -98,13 +102,16 @@ class HomeController extends BaseController {
       if (uri != null) {
         if (GetUtils.isEmail(uri.path)) {
           log('HomeController::onReady(): Address: ${uri.path}');
-          _emailReceiveManager.setPendingEmailAddress(EmailAddress(null, uri.path));
+          _emailReceiveManager
+              .setPendingEmailAddress(EmailAddress(null, uri.path));
         } else if (uri.scheme == "file") {
           log('HomeController::onReady(): SharedMediaFilePath: ${uri.path}');
-          _emailReceiveManager.setPendingFileInfo([SharedMediaFile(uri.path, null, null, SharedMediaType.FILE)]);
+          _emailReceiveManager.setPendingFileInfo(
+              [SharedMediaFile(uri.path, null, null, SharedMediaType.FILE)]);
         } else {
           log('HomeController::onReady(): EmailContent: ${uri.path}');
-          _emailReceiveManager.setPendingEmailContent(EmailContent(EmailContentType.textPlain, Uri.decodeComponent(uri.path)));
+          _emailReceiveManager.setPendingEmailContent(EmailContent(
+              EmailContentType.textPlain, Uri.decodeComponent(uri.path)));
         }
       }
     });
@@ -139,9 +146,12 @@ class HomeController extends BaseController {
     }
   }
 
-  void _goToSessionWithTokenOidc(GetStoredTokenOidcSuccess storedTokenOidcSuccess) {
-    _dynamicUrlInterceptors.setJmapUrl(storedTokenOidcSuccess.baseUrl.toString());
-    _dynamicUrlInterceptors.changeBaseUrl(storedTokenOidcSuccess.baseUrl.toString());
+  void _goToSessionWithTokenOidc(
+      GetStoredTokenOidcSuccess storedTokenOidcSuccess) {
+    _dynamicUrlInterceptors
+        .setJmapUrl(storedTokenOidcSuccess.baseUrl.toString());
+    _dynamicUrlInterceptors
+        .changeBaseUrl(storedTokenOidcSuccess.baseUrl.toString());
     authorizationInterceptors.setTokenAndAuthorityOidc(
         newToken: storedTokenOidcSuccess.tokenOidc.toToken(),
         newConfig: storedTokenOidcSuccess.oidcConfiguration);

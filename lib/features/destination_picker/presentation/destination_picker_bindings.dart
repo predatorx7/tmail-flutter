@@ -30,7 +30,6 @@ import 'package:tmail_ui_user/main/exceptions/cache_exception_thrower.dart';
 import 'package:tmail_ui_user/main/exceptions/remote_exception_thrower.dart';
 
 class DestinationPickerBindings extends BaseBindings {
-
   @override
   void dependencies() {
     _bindingsUtils();
@@ -44,13 +43,13 @@ class DestinationPickerBindings extends BaseBindings {
   @override
   void bindingsController() {
     Get.lazyPut(() => DestinationPickerController(
-      Get.find<SearchMailboxInteractor>(),
-      Get.find<CreateNewMailboxInteractor>(),
-      Get.find<TreeBuilder>(),
-      Get.find<VerifyNameInteractor>(),
-      Get.find<GetAllMailboxInteractor>(),
-      Get.find<RefreshAllMailboxInteractor>(),
-    ));
+          Get.find<SearchMailboxInteractor>(),
+          Get.find<CreateNewMailboxInteractor>(),
+          Get.find<TreeBuilder>(),
+          Get.find<VerifyNameInteractor>(),
+          Get.find<GetAllMailboxInteractor>(),
+          Get.find<RefreshAllMailboxInteractor>(),
+        ));
   }
 
   @override
@@ -63,29 +62,26 @@ class DestinationPickerBindings extends BaseBindings {
 
   @override
   void bindingsDataSourceImpl() {
-    Get.lazyPut(() => MailboxDataSourceImpl(
-      Get.find<MailboxAPI>(),
-      Get.find<MailboxIsolateWorker>(),
-      Get.find<RemoteExceptionThrower>()));
+    Get.lazyPut(() => MailboxDataSourceImpl(Get.find<MailboxAPI>(),
+        Get.find<MailboxIsolateWorker>(), Get.find<RemoteExceptionThrower>()));
     Get.lazyPut(() => MailboxCacheDataSourceImpl(
-      Get.find<MailboxCacheManager>(),
-      Get.find<CacheExceptionThrower>()));
-    Get.lazyPut(() => StateDataSourceImpl(Get.find<StateCacheClient>(), Get.find<CacheExceptionThrower>()));
+        Get.find<MailboxCacheManager>(), Get.find<CacheExceptionThrower>()));
+    Get.lazyPut(() => StateDataSourceImpl(
+        Get.find<StateCacheClient>(), Get.find<CacheExceptionThrower>()));
     Get.lazyPut(() => EmailDataSourceImpl(
-      Get.find<EmailAPI>(),
-      Get.find<RemoteExceptionThrower>()));
-    Get.lazyPut(() => ThreadDataSourceImpl(
-      Get.find<ThreadAPI>(),
-      Get.find<ThreadIsolateWorker>(),
-      Get.find<RemoteExceptionThrower>()));
+        Get.find<EmailAPI>(), Get.find<RemoteExceptionThrower>()));
+    Get.lazyPut(() => ThreadDataSourceImpl(Get.find<ThreadAPI>(),
+        Get.find<ThreadIsolateWorker>(), Get.find<RemoteExceptionThrower>()));
   }
 
   @override
   void bindingsInteractor() {
     Get.lazyPut(() => GetAllMailboxInteractor(Get.find<MailboxRepository>()));
     Get.lazyPut(() => SearchMailboxInteractor());
-    Get.lazyPut(() => CreateNewMailboxInteractor(Get.find<MailboxRepository>()));
-    Get.lazyPut(() => RefreshAllMailboxInteractor(Get.find<MailboxRepository>()));
+    Get.lazyPut(
+        () => CreateNewMailboxInteractor(Get.find<MailboxRepository>()));
+    Get.lazyPut(
+        () => RefreshAllMailboxInteractor(Get.find<MailboxRepository>()));
     Get.lazyPut(() => VerifyNameInteractor());
   }
 
@@ -97,11 +93,11 @@ class DestinationPickerBindings extends BaseBindings {
   @override
   void bindingsRepositoryImpl() {
     Get.lazyPut(() => MailboxRepositoryImpl(
-        {
-          DataSourceType.network: Get.find<MailboxDataSource>(),
-          DataSourceType.local: Get.find<MailboxCacheDataSourceImpl>()
-        },
-        Get.find<StateDataSource>(),
-    ));
+          {
+            DataSourceType.network: Get.find<MailboxDataSource>(),
+            DataSourceType.local: Get.find<MailboxCacheDataSourceImpl>()
+          },
+          Get.find<StateDataSource>(),
+        ));
   }
 }

@@ -14,6 +14,5 @@ class AuthenticationUserSuccess extends UIState {
 }
 
 class AuthenticationUserFailure extends FeatureFailure {
-
   AuthenticationUserFailure(dynamic exception) : super(exception: exception);
 }

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class DocumentUti with EquatableMixin{
+class DocumentUti with EquatableMixin {
   final String? value;
 
   DocumentUti(this.value);

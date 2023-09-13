@@ -7,23 +7,18 @@ import 'package:get/get.dart';
 import 'package:model/mailbox/presentation_mailbox.dart';
 import 'package:tmail_ui_user/features/mailbox/presentation/model/mailbox_actions.dart';
 
-typedef OnMailboxActionsClick = void Function(MailboxActions, List<PresentationMailbox>);
+typedef OnMailboxActionsClick = void Function(
+    MailboxActions, List<PresentationMailbox>);
 
 class BottomBarSelectionMailboxWidget extends StatelessWidget {
-
   final List<PresentationMailbox> _listSelectionMailbox;
   final List<MailboxActions> _listMailboxActions;
   final OnMailboxActionsClick onMailboxActionsClick;
 
   const BottomBarSelectionMailboxWidget(
-    this._listSelectionMailbox,
-    this._listMailboxActions,
-    {
-      Key? key,
-      required this.onMailboxActionsClick
-    }
-  ) : super(key: key);
-
+      this._listSelectionMailbox, this._listMailboxActions,
+      {Key? key, required this.onMailboxActionsClick})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,30 +27,32 @@ class BottomBarSelectionMailboxWidget extends StatelessWidget {
 
     return Container(
       decoration: const BoxDecoration(
-        border: Border(top: BorderSide(
+        border: Border(
+            top: BorderSide(
           color: AppColor.colorDividerHorizontal,
           width: 0.5,
         )),
       ),
       child: IntrinsicHeight(
-        child: Row(children: _listMailboxActions
-          .map((action) {
-            return Expanded(child: TMailButtonWidget(
-              key: Key('${action.name}_button'),
-              text: responsiveUtils.isLandscapeMobile(context)
+        child: Row(
+            children: _listMailboxActions.map((action) {
+          return Expanded(
+              child: TMailButtonWidget(
+            key: Key('${action.name}_button'),
+            text: responsiveUtils.isLandscapeMobile(context)
                 ? ''
                 : action.getTitleContextMenu(context),
-              icon: action.getContextMenuIcon(imagePaths),
-              borderRadius: 0,
-              backgroundColor: Colors.transparent,
-              flexibleText: true,
-              tooltipMessage: action.getTitleContextMenu(context),
-              textStyle: const TextStyle(fontSize: 12, color: AppColor.colorTextButton),
-              onTapActionCallback: () => onMailboxActionsClick.call(action, _listSelectionMailbox),
-            ));
-          })
-          .toList()
-        ),
+            icon: action.getContextMenuIcon(imagePaths),
+            borderRadius: 0,
+            backgroundColor: Colors.transparent,
+            flexibleText: true,
+            tooltipMessage: action.getTitleContextMenu(context),
+            textStyle:
+                const TextStyle(fontSize: 12, color: AppColor.colorTextButton),
+            onTapActionCallback: () =>
+                onMailboxActionsClick.call(action, _listSelectionMailbox),
+          ));
+        }).toList()),
       ),
     );
   }

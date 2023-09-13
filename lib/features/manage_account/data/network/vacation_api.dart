@@ -12,29 +12,29 @@ class VacationAPI {
 
   VacationAPI(this._httpClient);
 
-  Future<List<VacationResponse>> getAllVacationResponse(AccountId accountId) async {
+  Future<List<VacationResponse>> getAllVacationResponse(
+      AccountId accountId) async {
     final processingInvocation = ProcessingInvocation();
-    final requestBuilder = JmapRequestBuilder(_httpClient, processingInvocation);
+    final requestBuilder =
+        JmapRequestBuilder(_httpClient, processingInvocation);
 
     final getVacationMethod = GetVacationMethod(accountId);
     final getVacationInvocation = requestBuilder.invocation(getVacationMethod);
-    final response = await(requestBuilder
-        ..usings(getVacationMethod.requiredCapabilities))
-      .build()
-      .execute();
+    final response = await (requestBuilder
+          ..usings(getVacationMethod.requiredCapabilities))
+        .build()
+        .execute();
 
     final resultList = response.parse<GetVacationResponse>(
-        getVacationInvocation.methodCallId,
-        GetVacationResponse.deserialize);
+        getVacationInvocation.methodCallId, GetVacationResponse.deserialize);
 
     return resultList?.list ?? <VacationResponse>[];
   }
 
-  Future<List<VacationResponse>> updateVacation(AccountId accountId, VacationResponse vacationResponse) async {
+  Future<List<VacationResponse>> updateVacation(
+      AccountId accountId, VacationResponse vacationResponse) async {
     final setVacationMethod = SetVacationMethod(accountId)
-      ..addUpdatesSingleton({
-        VacationId.singleton().id : vacationResponse
-      });
+      ..addUpdatesSingleton({VacationId.singleton().id: vacationResponse});
 
     final processingInvocation = ProcessingInvocation();
     final requestBuilder = JmapRequestBuilder(_httpClient, processingInvocation)
@@ -44,13 +44,12 @@ class VacationAPI {
     final getVacationInvocation = requestBuilder.invocation(getVacationMethod);
 
     final response = await (requestBuilder
-        ..usings(setVacationMethod.requiredCapabilities))
-      .build()
-      .execute();
+          ..usings(setVacationMethod.requiredCapabilities))
+        .build()
+        .execute();
 
     final resultList = response.parse<GetVacationResponse>(
-        getVacationInvocation.methodCallId,
-        GetVacationResponse.deserialize);
+        getVacationInvocation.methodCallId, GetVacationResponse.deserialize);
 
     return resultList?.list ?? <VacationResponse>[];
   }

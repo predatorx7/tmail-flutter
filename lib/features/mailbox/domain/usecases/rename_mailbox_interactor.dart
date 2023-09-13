@@ -11,15 +11,19 @@ class RenameMailboxInteractor {
 
   RenameMailboxInteractor(this._mailboxRepository);
 
-  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId, RenameMailboxRequest request) async* {
+  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId,
+      RenameMailboxRequest request) async* {
     try {
       yield Right<Failure, Success>(LoadingRenameMailbox());
 
-      final currentMailboxState = await _mailboxRepository.getMailboxState(session, accountId);
+      final currentMailboxState =
+          await _mailboxRepository.getMailboxState(session, accountId);
 
-      final result = await _mailboxRepository.renameMailbox(session, accountId, request);
+      final result =
+          await _mailboxRepository.renameMailbox(session, accountId, request);
       if (result) {
-        yield Right<Failure, Success>(RenameMailboxSuccess(currentMailboxState: currentMailboxState));
+        yield Right<Failure, Success>(
+            RenameMailboxSuccess(currentMailboxState: currentMailboxState));
       } else {
         yield Left<Failure, Success>(RenameMailboxFailure(null));
       }

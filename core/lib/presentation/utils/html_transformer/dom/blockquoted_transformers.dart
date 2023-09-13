@@ -1,18 +1,15 @@
-
 import 'package:core/data/network/dio_client.dart';
 import 'package:core/presentation/utils/html_transformer/base/dom_transformer.dart';
 import 'package:html/dom.dart';
 
 class BlockQuotedTransformer extends DomTransformer {
-
   const BlockQuotedTransformer();
 
   @override
-  Future<void> process({
-    required Document document,
-    Map<String, String>? mapUrlDownloadCID,
-    DioClient? dioClient
-  }) async {
+  Future<void> process(
+      {required Document document,
+      Map<String, String>? mapUrlDownloadCID,
+      DioClient? dioClient}) async {
     final quotedElements = document.getElementsByTagName('blockquote');
     await Future.wait(quotedElements.map((quotedElement) async {
       quotedElement.attributes['style'] = '''

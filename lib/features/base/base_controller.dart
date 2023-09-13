@@ -54,16 +54,18 @@ import 'package:tmail_ui_user/main/utils/app_config.dart';
 import 'package:tmail_ui_user/main/utils/app_utils.dart';
 
 abstract class BaseController extends GetxController
-    with MessageDialogActionMixin,
-        PopupContextMenuActionMixin {
-
+    with MessageDialogActionMixin, PopupContextMenuActionMixin {
   final CachingManager cachingManager = Get.find<CachingManager>();
   final languageCacheManager = Get.find<LanguageCacheManager>();
   final authorizationInterceptors = Get.find<AuthorizationInterceptors>();
-  final authorizationIsolateInterceptors = Get.find<AuthorizationInterceptors>(tag: BindingTag.isolateTag);
-  final DeleteCredentialInteractor deleteCredentialInteractor = Get.find<DeleteCredentialInteractor>();
-  final LogoutOidcInteractor logoutOidcInteractor = Get.find<LogoutOidcInteractor>();
-  final DeleteAuthorityOidcInteractor deleteAuthorityOidcInteractor = Get.find<DeleteAuthorityOidcInteractor>();
+  final authorizationIsolateInterceptors =
+      Get.find<AuthorizationInterceptors>(tag: BindingTag.isolateTag);
+  final DeleteCredentialInteractor deleteCredentialInteractor =
+      Get.find<DeleteCredentialInteractor>();
+  final LogoutOidcInteractor logoutOidcInteractor =
+      Get.find<LogoutOidcInteractor>();
+  final DeleteAuthorityOidcInteractor deleteAuthorityOidcInteractor =
+      Get.find<DeleteAuthorityOidcInteractor>();
   final _fcmReceiver = FcmReceiver.instance;
   bool _isFcmEnabled = false;
 
@@ -90,24 +92,23 @@ abstract class BaseController extends GetxController
 
   void onData(Either<Failure, Success> newState) {
     viewState.value = newState;
-    viewState.value.fold(
-      (failure) {
-        if (failure is FeatureFailure) {
-          final exception = _performFilterExceptionInError(failure.exception);
-          if (exception != null) {
-            handleExceptionAction(failure: failure, exception: exception);
-          } else {
-            handleFailureViewState(failure);
-          }
+    viewState.value.fold((failure) {
+      if (failure is FeatureFailure) {
+        final exception = _performFilterExceptionInError(failure.exception);
+        if (exception != null) {
+          handleExceptionAction(failure: failure, exception: exception);
         } else {
           handleFailureViewState(failure);
         }
-      },
-      handleSuccessViewState);
+      } else {
+        handleFailureViewState(failure);
+      }
+    }, handleSuccessViewState);
   }
 
   void onError(Object error, StackTrace stackTrace) {
-    logError('BaseController::onError():error: $error | stackTrace: $stackTrace');
+    logError(
+        'BaseController::onError():error: $error | stackTrace: $stackTrace');
     final exception = _performFilterExceptionInError(error);
     if (exception != null) {
       handleExceptionAction(exception: exception);
@@ -120,8 +121,11 @@ abstract class BaseController extends GetxController
 
   Exception? _performFilterExceptionInError(dynamic error) {
     logError('BaseController::_performFilterExceptionInError(): $error');
-    if (error is NoNetworkError || error is ConnectionTimeout || error is InternalServerError) {
-      logError('BaseController::_performFilterExceptionInError(): NoNetworkError');
+    if (error is NoNetworkError ||
+        error is ConnectionTimeout ||
+        error is InternalServerError) {
+      logError(
+          'BaseController::_performFilterExceptionInError(): NoNetworkError');
       if (PlatformInfo.isWeb) {
         if (currentOverlayContext != null && currentContext != null) {
           _appToast.showToastMessage(
@@ -138,23 +142,23 @@ abstract class BaseController extends GetxController
       }
       return error;
     } else if (error is BadCredentialsException) {
-      logError('BaseController::_performFilterExceptionInError(): BadCredentialsException');
+      logError(
+          'BaseController::_performFilterExceptionInError(): BadCredentialsException');
       if (currentOverlayContext != null && currentContext != null) {
-        _appToast.showToastErrorMessage(
-          currentOverlayContext!,
-          AppLocalizations.of(currentContext!).badCredentials);
+        _appToast.showToastErrorMessage(currentOverlayContext!,
+            AppLocalizations.of(currentContext!).badCredentials);
       }
       if (authorizationInterceptors.isAppRunning) {
         performInvokeLogoutAction();
       }
       return error;
     } else if (error is ConnectionError) {
-      logError('BaseController::_performFilterExceptionInError(): ConnectionError');
+      logError(
+          'BaseController::_performFilterExceptionInError(): ConnectionError');
       if (authorizationInterceptors.isAppRunning) {
         if (currentOverlayContext != null && currentContext != null) {
-          _appToast.showToastErrorMessage(
-            currentOverlayContext!,
-            AppLocalizations.of(currentContext!).connectionError);
+          _appToast.showToastErrorMessage(currentOverlayContext!,
+              AppLocalizations.of(currentContext!).connectionError);
         }
         performInvokeLogoutAction();
       }
@@ -171,7 +175,8 @@ abstract class BaseController extends GetxController
   }
 
   void handleFailureViewState(Failure failure) {
-    logError('BaseController::handleFailureViewState(): ${failure.runtimeType}');
+    logError(
+        'BaseController::handleFailureViewState(): ${failure.runtimeType}');
     if (failure is LogoutOidcFailure) {
       if (_isFcmEnabled) {
         _getSubscriptionLocalAction();
@@ -221,7 +226,8 @@ abstract class BaseController extends GetxController
   void injectAutoCompleteBindings(Session? session, AccountId? accountId) {
     try {
       ContactAutoCompleteBindings().dependencies();
-      requireCapability(session!, accountId!, [tmailContactCapabilityIdentifier]);
+      requireCapability(
+          session!, accountId!, [tmailContactCapabilityIdentifier]);
       TMailAutoCompleteBindings().dependencies();
     } catch (e) {
       logError('BaseController::injectAutoCompleteBindings(): exception: $e');
@@ -232,7 +238,7 @@ abstract class BaseController extends GetxController
     try {
       requireCapability(session!, accountId!, [CapabilityIdentifier.jmapMdn]);
       MdnInteractorBindings().dependencies();
-    } catch(e) {
+    } catch (e) {
       logError('BaseController::injectMdnBindings(): exception: $e');
     }
   }
@@ -241,7 +247,7 @@ abstract class BaseController extends GetxController
     try {
       requireCapability(session!, accountId!, [capabilityForward]);
       ForwardingInteractorsBindings().dependencies();
-    } catch(e) {
+    } catch (e) {
       logError('BaseController::injectForwardBindings(): exception: $e');
     }
   }
@@ -250,34 +256,39 @@ abstract class BaseController extends GetxController
     try {
       requireCapability(session!, accountId!, [capabilityRuleFilter]);
       EmailRulesInteractorBindings().dependencies();
-    } catch(e) {
+    } catch (e) {
       logError('BaseController::injectRuleFilterBindings(): exception: $e');
     }
   }
 
   void injectFCMBindings(Session? session, AccountId? accountId) async {
     try {
-      requireCapability(session!, accountId!, [FirebaseCapability.fcmIdentifier]);
+      requireCapability(
+          session!, accountId!, [FirebaseCapability.fcmIdentifier]);
       if (AppConfig.fcmAvailable) {
         final mapEnvData = Map<String, String>.from(dotenv.env);
         await AppUtils.loadFcmConfigFileToEnv(currentMapEnvData: mapEnvData);
         FcmConfiguration.initialize();
         FcmInteractorBindings().dependencies();
-        FcmMessageController.instance.initializeFromAccountId(accountId, session);
+        FcmMessageController.instance
+            .initializeFromAccountId(accountId, session);
       } else {
         throw NotSupportFCMException();
       }
-    } catch(e) {
+    } catch (e) {
       logError('BaseController::injectFCMBindings(): exception: $e');
     }
   }
 
-  AuthenticationType get authenticationType => authorizationInterceptors.authenticationType;
+  AuthenticationType get authenticationType =>
+      authorizationInterceptors.authenticationType;
 
-  bool get isAuthenticatedWithOidc => authenticationType == AuthenticationType.oidc;
+  bool get isAuthenticatedWithOidc =>
+      authenticationType == AuthenticationType.oidc;
 
   bool _isFcmActivated(Session session, AccountId accountId) =>
-    [FirebaseCapability.fcmIdentifier].isSupported(session, accountId) && AppConfig.fcmAvailable;
+      [FirebaseCapability.fcmIdentifier].isSupported(session, accountId) &&
+      AppConfig.fcmAvailable;
 
   void goToLogin({LoginArguments? arguments}) {
     if (Get.currentRoute != AppRoutes.login) {
@@ -287,7 +298,8 @@ abstract class BaseController extends GetxController
 
   void logout(Session? session, AccountId? accountId) {
     if (session == null || accountId == null) {
-      logError('BaseController::logout(): Session is $session OR AccountId is $accountId');
+      logError(
+          'BaseController::logout(): Session is $session OR AccountId is $accountId');
       performInvokeLogoutAction();
       return;
     }
@@ -305,9 +317,10 @@ abstract class BaseController extends GetxController
 
   void _destroySubscriptionAction(String subscriptionId) {
     try {
-      _destroySubscriptionInteractor = Get.find<DestroySubscriptionInteractor>();
+      _destroySubscriptionInteractor =
+          Get.find<DestroySubscriptionInteractor>();
       consumeState(_destroySubscriptionInteractor!.execute(subscriptionId));
-    } catch(e) {
+    } catch (e) {
       logError('BaseController::destroySubscriptionAction(): exception: $e');
       performInvokeLogoutAction();
     }
@@ -315,7 +328,8 @@ abstract class BaseController extends GetxController
 
   void _getSubscriptionLocalAction() {
     try {
-      _getSubscriptionLocalInteractor = Get.find<GetFCMSubscriptionLocalInteractor>();
+      _getSubscriptionLocalInteractor =
+          Get.find<GetFCMSubscriptionLocalInteractor>();
       consumeState(_getSubscriptionLocalInteractor!.execute());
     } catch (e) {
       logError('BaseController::getSubscriptionLocalAction(): exception: $e');

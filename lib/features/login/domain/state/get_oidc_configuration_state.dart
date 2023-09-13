@@ -5,7 +5,6 @@ import 'package:model/oidc/oidc_configuration.dart';
 class GetOIDCConfigurationLoading extends LoadingState {}
 
 class GetOIDCConfigurationSuccess extends UIState {
-
   final OIDCConfiguration oidcConfiguration;
 
   GetOIDCConfigurationSuccess(this.oidcConfiguration);
@@ -15,6 +14,5 @@ class GetOIDCConfigurationSuccess extends UIState {
 }
 
 class GetOIDCConfigurationFailure extends FeatureFailure {
-
   GetOIDCConfigurationFailure(dynamic exception) : super(exception: exception);
 }

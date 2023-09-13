@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/state/failure.dart';
 import 'package:core/presentation/state/success.dart';
 import 'package:dartz/dartz.dart';
@@ -15,27 +14,25 @@ class GetUnreadSpamMailboxInteractor {
 
   GetUnreadSpamMailboxInteractor(this._spamReportRepository);
 
-   Stream<Either<Failure, Success>> execute(
+  Stream<Either<Failure, Success>> execute(
     Session session,
-    AccountId accountId,
-    {
-      UnsignedInt? limit,
-      MailboxFilterCondition? mailboxFilterCondition,
-    }
-  ) async* {
+    AccountId accountId, {
+    UnsignedInt? limit,
+    MailboxFilterCondition? mailboxFilterCondition,
+  }) async* {
     try {
       yield Right(GetUnreadSpamMailboxLoading());
-      final lastTimeDismissedSpamReported = await _spamReportRepository.getLastTimeDismissedSpamReported();
+      final lastTimeDismissedSpamReported =
+          await _spamReportRepository.getLastTimeDismissedSpamReported();
       final timeLast = DateTime.now().difference(lastTimeDismissedSpamReported);
 
-      final checkTimeCondition = (timeLast.inHours > 0) && (timeLast.inHours > conditionsForDisplayingSpamReportBanner);
+      final checkTimeCondition = (timeLast.inHours > 0) &&
+          (timeLast.inHours > conditionsForDisplayingSpamReportBanner);
 
       if (checkTimeCondition) {
-        final response =  await _spamReportRepository.getUnreadSpamMailbox(
-          session,
-          accountId,
-          mailboxFilterCondition: mailboxFilterCondition,
-          limit: limit);
+        final response = await _spamReportRepository.getUnreadSpamMailbox(
+            session, accountId,
+            mailboxFilterCondition: mailboxFilterCondition, limit: limit);
         final unreadSpamMailbox = response.unreadSpamMailbox;
 
         if (unreadSpamMailbox!.unreadEmails!.value.value > 0) {

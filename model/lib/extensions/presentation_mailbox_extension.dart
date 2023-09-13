@@ -5,7 +5,6 @@ import 'package:model/mailbox/presentation_mailbox.dart';
 import 'package:model/mailbox/select_mode.dart';
 
 extension PresentationMailboxExtension on PresentationMailbox {
-
   bool get isActivated => state == MailboxState.activated;
 
   bool hasParentId() => parentId != null && parentId!.id.value.isNotEmpty;
@@ -14,7 +13,8 @@ extension PresentationMailboxExtension on PresentationMailbox {
 
   bool get isDefault => hasRole();
 
-  bool get isPersonal => namespace == null || namespace == Namespace('Personal');
+  bool get isPersonal =>
+      namespace == null || namespace == Namespace('Personal');
 
   bool get isTeamMailboxes => !isPersonal && !hasParentId();
 
@@ -39,13 +39,19 @@ extension PresentationMailboxExtension on PresentationMailbox {
 
   bool get isSent => role == PresentationMailbox.roleSent;
 
-  bool get isOutbox => name == PresentationMailbox.lowerCaseOutboxMailboxName || role == PresentationMailbox.roleOutbox;
+  bool get isOutbox =>
+      name == PresentationMailbox.lowerCaseOutboxMailboxName ||
+      role == PresentationMailbox.roleOutbox;
 
-  bool get isSubscribedMailbox => isSubscribed != null && isSubscribed?.value == true;
+  bool get isSubscribedMailbox =>
+      isSubscribed != null && isSubscribed?.value == true;
 
-  bool get allowedToDisplayCountOfUnreadEmails => !(isTrash || isSpam || isDrafts || isTemplates || isSent) && countUnreadEmails > 0;
+  bool get allowedToDisplayCountOfUnreadEmails =>
+      !(isTrash || isSpam || isDrafts || isTemplates || isSent) &&
+      countUnreadEmails > 0;
 
-  bool get allowedToDisplayCountOfTotalEmails => (isTrash || isSpam) && countTotalEmails > 0;
+  bool get allowedToDisplayCountOfTotalEmails =>
+      (isTrash || isSpam) && countTotalEmails > 0;
 
   bool get allowedHasEmptyAction => (isTrash || isSpam) && countTotalEmails > 0;
 
@@ -74,7 +80,8 @@ extension PresentationMailboxExtension on PresentationMailbox {
     }
   }
 
-  bool get pushNotificationDeactivated => isOutbox || isSent || isDrafts || isTrash || isSpam;
+  bool get pushNotificationDeactivated =>
+      isOutbox || isSent || isDrafts || isTrash || isSpam;
 
   PresentationMailbox toPresentationMailboxWithMailboxPath(String mailboxPath) {
     return PresentationMailbox(
@@ -170,14 +177,17 @@ extension PresentationMailboxExtension on PresentationMailbox {
       myRights: myRights,
       isSubscribed: isSubscribed,
       mailboxPath: mailboxPath,
-      selectMode: selectMode == SelectMode.INACTIVE ? SelectMode.ACTIVE : SelectMode.INACTIVE,
+      selectMode: selectMode == SelectMode.INACTIVE
+          ? SelectMode.ACTIVE
+          : SelectMode.INACTIVE,
       state: state,
       namespace: namespace,
       displayName: displayName,
     );
   }
 
-  PresentationMailbox toSelectedPresentationMailbox({required SelectMode selectMode}) {
+  PresentationMailbox toSelectedPresentationMailbox(
+      {required SelectMode selectMode}) {
     return PresentationMailbox(
       id,
       name: name,

@@ -6,7 +6,6 @@ import 'package:model/oidc/token_oidc.dart';
 class GetTokenOIDCLoading extends LoadingState {}
 
 class GetTokenOIDCSuccess extends UIState {
-
   final TokenOIDC tokenOIDC;
   final OIDCConfiguration configuration;
 
@@ -17,6 +16,5 @@ class GetTokenOIDCSuccess extends UIState {
 }
 
 class GetTokenOIDCFailure extends FeatureFailure {
-
   GetTokenOIDCFailure(dynamic exception) : super(exception: exception);
 }

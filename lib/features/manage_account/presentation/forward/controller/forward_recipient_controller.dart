@@ -1,4 +1,3 @@
-
 import 'package:contact/contact/model/capability_contact.dart';
 import 'package:core/utils/app_logger.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,11 +15,13 @@ import 'package:tmail_ui_user/features/mailbox_dashboard/presentation/bindings/t
 import 'package:tmail_ui_user/main/error/capability_validator.dart';
 
 class ForwardRecipientController {
+  final ContactSuggestionSource _contactSuggestionSource =
+      ContactSuggestionSource.tMailContact;
+  final TextEditingController inputRecipientController =
+      TextEditingController();
 
-  final ContactSuggestionSource _contactSuggestionSource = ContactSuggestionSource.tMailContact;
-  final TextEditingController inputRecipientController = TextEditingController();
-
-  GetAutoCompleteWithDeviceContactInteractor? _getAutoCompleteWithDeviceContactInteractor;
+  GetAutoCompleteWithDeviceContactInteractor?
+      _getAutoCompleteWithDeviceContactInteractor;
   GetAutoCompleteInteractor? _getAutoCompleteInteractor;
   AccountId? _accountId;
   Session? _session;
@@ -41,29 +42,33 @@ class ForwardRecipientController {
   void injectAutoCompleteBindings(Session? session, AccountId? accountId) {
     try {
       ContactAutoCompleteBindings().dependencies();
-      requireCapability(session!, accountId!, [tmailContactCapabilityIdentifier]);
+      requireCapability(
+          session!, accountId!, [tmailContactCapabilityIdentifier]);
       TMailAutoCompleteBindings().dependencies();
-      _getAutoCompleteWithDeviceContactInteractor = Get.find<GetAutoCompleteWithDeviceContactInteractor>();
+      _getAutoCompleteWithDeviceContactInteractor =
+          Get.find<GetAutoCompleteWithDeviceContactInteractor>();
       _getAutoCompleteInteractor = Get.find<GetAutoCompleteInteractor>();
     } catch (e) {
-      logError('ForwardRecipientController::injectAutoCompleteBindings(): exception: $e');
+      logError(
+          'ForwardRecipientController::injectAutoCompleteBindings(): exception: $e');
     }
   }
 
   Future<List<EmailAddress>> getAutoCompleteSuggestion(String word) async {
     log('ForwardRecipientController::getAutoCompleteSuggestion(): $word');
     if (_contactSuggestionSource == ContactSuggestionSource.all) {
-      if (_getAutoCompleteWithDeviceContactInteractor == null || _getAutoCompleteInteractor == null) {
+      if (_getAutoCompleteWithDeviceContactInteractor == null ||
+          _getAutoCompleteInteractor == null) {
         log('ForwardRecipientController::getAutoCompleteSuggestion(): _getAutoCompleteWithDeviceContactInteractor is NULL');
         return <EmailAddress>[];
       } else {
         return await _getAutoCompleteWithDeviceContactInteractor!
-          .execute(AutoCompletePattern(word: word, accountId: _accountId))
-          .then((value) => value.fold(
-            (failure) => <EmailAddress>[],
-            (success) => success is GetAutoCompleteSuccess
-              ? success.listEmailAddress
-              : <EmailAddress>[]));
+            .execute(AutoCompletePattern(word: word, accountId: _accountId))
+            .then((value) => value.fold(
+                (failure) => <EmailAddress>[],
+                (success) => success is GetAutoCompleteSuccess
+                    ? success.listEmailAddress
+                    : <EmailAddress>[]));
       }
     } else {
       if (_getAutoCompleteInteractor == null) {
@@ -71,12 +76,12 @@ class ForwardRecipientController {
         return <EmailAddress>[];
       } else {
         return await _getAutoCompleteInteractor!
-          .execute(AutoCompletePattern(word: word, accountId: _accountId))
-          .then((value) => value.fold(
-            (failure) => <EmailAddress>[],
-            (success) => success is GetAutoCompleteSuccess
-              ? success.listEmailAddress
-              : <EmailAddress>[]));
+            .execute(AutoCompletePattern(word: word, accountId: _accountId))
+            .then((value) => value.fold(
+                (failure) => <EmailAddress>[],
+                (success) => success is GetAutoCompleteSuccess
+                    ? success.listEmailAddress
+                    : <EmailAddress>[]));
       }
     }
   }

@@ -12,10 +12,13 @@ class LoadMoreEmailsInMailboxInteractor {
 
   LoadMoreEmailsInMailboxInteractor(this.threadRepository);
 
-  Stream<Either<Failure, Success>> execute(GetEmailRequest emailRequest) async* {
+  Stream<Either<Failure, Success>> execute(
+      GetEmailRequest emailRequest) async* {
     try {
       yield Right<Failure, Success>(LoadingMoreEmails());
-      yield* threadRepository.loadMoreEmails(emailRequest).map(_toGetEmailState);
+      yield* threadRepository
+          .loadMoreEmails(emailRequest)
+          .map(_toGetEmailState);
     } catch (e) {
       yield Left(LoadMoreEmailsFailure(e));
     }
@@ -23,8 +26,11 @@ class LoadMoreEmailsInMailboxInteractor {
 
   Either<Failure, Success> _toGetEmailState(EmailsResponse emailResponse) {
     final presentationEmailList = emailResponse.emailList
-      ?.map((email) => email.toPresentationEmail()).toList() ?? List.empty();
+            ?.map((email) => email.toPresentationEmail())
+            .toList() ??
+        List.empty();
 
-    return Right<Failure, Success>(LoadMoreEmailsSuccess(presentationEmailList));
+    return Right<Failure, Success>(
+        LoadMoreEmailsSuccess(presentationEmailList));
   }
 }

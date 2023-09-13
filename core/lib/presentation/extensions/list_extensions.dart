@@ -12,8 +12,6 @@ extension ListExtensions<T> on List<T> {
         invalidBuilder.add(element);
       }
     });
-    return Tuple2(
-      validBuilder.build().toList(),
-      validBuilder.build().toList());
+    return Tuple2(validBuilder.build().toList(), validBuilder.build().toList());
   }
 }

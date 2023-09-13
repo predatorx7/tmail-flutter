@@ -21,29 +21,27 @@ class GetListDetailedEmailByIdInteractor {
 
   GetListDetailedEmailByIdInteractor(this._emailRepository);
 
-  Stream<Either<Failure, Success>> execute(
-    Session session,
-    AccountId accountId,
-    Set<EmailId> emailIds,
-    String baseDownloadUrl,
-    {Set<Comparator>? sort}
-  ) async* {
+  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId,
+      Set<EmailId> emailIds, String baseDownloadUrl,
+      {Set<Comparator>? sort}) async* {
     try {
       yield Right<Failure, Success>(GetDetailedEmailByIdLoading());
 
-      final listEmails = await _emailRepository.getListDetailedEmailById(session, accountId, emailIds, sort: sort);
+      final listEmails = await _emailRepository
+          .getListDetailedEmailById(session, accountId, emailIds, sort: sort);
 
       final listTuple2Email = await Future.wait(
-        listEmails.map((email) => _parsingEmailToDetailedEmail(accountId, email, baseDownloadUrl)),
-        eagerError: true);
+          listEmails.map((email) =>
+              _parsingEmailToDetailedEmail(accountId, email, baseDownloadUrl)),
+          eagerError: true);
 
       listTuple2Email.sort((detailedEmail1, detailedEmail2) {
-        return detailedEmail1.value1.receivedAt.compareToSort(detailedEmail1.value1.receivedAt, true);
+        return detailedEmail1.value1.receivedAt
+            .compareToSort(detailedEmail1.value1.receivedAt, true);
       });
 
       final mapDetailedEmails = {
-        for (var tuple2 in listTuple2Email)
-          tuple2.value1 : tuple2.value2
+        for (var tuple2 in listTuple2Email) tuple2.value1: tuple2.value2
       };
 
       yield Right<Failure, Success>(GetDetailedEmailByIdSuccess(
@@ -57,34 +55,32 @@ class GetListDetailedEmailByIdInteractor {
   }
 
   Future<Tuple2<Email, DetailedEmail>> _parsingEmailToDetailedEmail(
-    AccountId accountId,
-    Email email,
-    String baseDownloadUrl
-  ) async {
+      AccountId accountId, Email email, String baseDownloadUrl) async {
     String? htmlEmailContent;
 
     final listEmailContent = email.emailContentList;
     if (listEmailContent.isNotEmpty) {
-      final mapCidImageDownloadUrl = email.attachmentsWithCid.toMapCidImageDownloadUrl(
-        accountId: accountId,
-        downloadUrl: baseDownloadUrl
-      );
-      TransformConfiguration transformConfiguration = TransformConfiguration.standardConfiguration;
+      final mapCidImageDownloadUrl = email.attachmentsWithCid
+          .toMapCidImageDownloadUrl(
+              accountId: accountId, downloadUrl: baseDownloadUrl);
+      TransformConfiguration transformConfiguration =
+          TransformConfiguration.standardConfiguration;
       if (email.isDraft) {
         transformConfiguration = TransformConfiguration.forDraftsEmail();
       } else if (PlatformInfo.isWeb) {
-        transformConfiguration = TransformConfiguration.forPreviewEmailPlatformWeb();
+        transformConfiguration =
+            TransformConfiguration.forPreviewEmailPlatformWeb();
       }
       final newEmailContents = await _emailRepository.transformEmailContent(
-        email.emailContentList,
-        mapCidImageDownloadUrl,
-        transformConfiguration
-      );
+          email.emailContentList,
+          mapCidImageDownloadUrl,
+          transformConfiguration);
 
       htmlEmailContent = newEmailContents.asHtmlString;
     }
 
-    final detailedEmail = email.toDetailedEmail(htmlEmailContent: htmlEmailContent);
+    final detailedEmail =
+        email.toDetailedEmail(htmlEmailContent: htmlEmailContent);
 
     return Tuple2(email, detailedEmail);
   }

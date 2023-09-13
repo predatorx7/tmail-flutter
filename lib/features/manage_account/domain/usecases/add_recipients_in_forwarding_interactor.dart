@@ -19,7 +19,8 @@ class AddRecipientsInForwardingInteractor {
   ) async* {
     try {
       yield Right<Failure, Success>(LoadingState());
-      final result = await _forwardingRepository.addRecipientsInForwarding(accountId, addRequest);
+      final result = await _forwardingRepository.addRecipientsInForwarding(
+          accountId, addRequest);
       yield Right<Failure, Success>(AddRecipientsInForwardingSuccess(result));
     } catch (exception) {
       yield Left<Failure, Success>(AddRecipientsInForwardingFailure(exception));

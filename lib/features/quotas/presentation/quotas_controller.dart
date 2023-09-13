@@ -13,7 +13,6 @@ import 'package:tmail_ui_user/features/quotas/domain/use_case/get_quotas_interac
 import 'package:tmail_ui_user/main/error/capability_validator.dart';
 
 class QuotasController extends BaseController {
-
   final mailboxDashBoardController = Get.find<MailboxDashBoardController>();
   final responsiveUtils = Get.find<ResponsiveUtils>();
   final imagePaths = Get.find<ImagePaths>();
@@ -39,8 +38,7 @@ class QuotasController extends BaseController {
       final session = mailboxDashBoardController.sessionCurrent;
       if (accountId is AccountId &&
           session != null &&
-          CapabilityIdentifier.jmapQuota.isSupported(session, accountId)
-      ) {
+          CapabilityIdentifier.jmapQuota.isSupported(session, accountId)) {
         _getQuotasAction(accountId);
       }
     });

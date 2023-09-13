@@ -10,50 +10,58 @@ import 'package:tmail_ui_user/features/push_notification/domain/model/register_n
 import 'package:tmail_ui_user/main/exceptions/exception_thrower.dart';
 
 class CacheFCMDatasourceImpl extends FCMDatasource {
-
   final FCMCacheManager _firebaseCacheManager;
   final ExceptionThrower _exceptionThrower;
 
   CacheFCMDatasourceImpl(this._firebaseCacheManager, this._exceptionThrower);
 
   @override
-  Future<void> storeStateToRefresh(AccountId accountId, UserName userName, TypeName typeName, jmap.State newState) {
+  Future<void> storeStateToRefresh(AccountId accountId, UserName userName,
+      TypeName typeName, jmap.State newState) {
     return Future.sync(() async {
-      return await _firebaseCacheManager.storeStateToRefresh(accountId, userName, typeName, newState);
+      return await _firebaseCacheManager.storeStateToRefresh(
+          accountId, userName, typeName, newState);
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<jmap.State> getStateToRefresh(AccountId accountId,UserName userName, TypeName typeName) {
+  Future<jmap.State> getStateToRefresh(
+      AccountId accountId, UserName userName, TypeName typeName) {
     return Future.sync(() async {
-      return await _firebaseCacheManager.getStateToRefresh(accountId, userName, typeName);
+      return await _firebaseCacheManager.getStateToRefresh(
+          accountId, userName, typeName);
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<void> deleteStateToRefresh(AccountId accountId, UserName userName, TypeName typeName) {
+  Future<void> deleteStateToRefresh(
+      AccountId accountId, UserName userName, TypeName typeName) {
     return Future.sync(() async {
-      return await _firebaseCacheManager.deleteStateToRefresh(accountId, userName, typeName);
+      return await _firebaseCacheManager.deleteStateToRefresh(
+          accountId, userName, typeName);
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<FirebaseSubscription> getFirebaseSubscriptionByDeviceId(String deviceId) {
+  Future<FirebaseSubscription> getFirebaseSubscriptionByDeviceId(
+      String deviceId) {
     throw UnimplementedError();
   }
 
   @override
-  Future<FirebaseSubscription> registerNewToken(RegisterNewTokenRequest newTokenRequest) {
+  Future<FirebaseSubscription> registerNewToken(
+      RegisterNewTokenRequest newTokenRequest) {
     throw UnimplementedError();
   }
-  
+
   @override
   Future<void> storeSubscription(FCMSubscriptionCache fcmSubscriptionCache) {
-   return Future.sync(() async {
-      return await _firebaseCacheManager.storeSubscription(fcmSubscriptionCache);
+    return Future.sync(() async {
+      return await _firebaseCacheManager
+          .storeSubscription(fcmSubscriptionCache);
     }).catchError(_exceptionThrower.throwException);
   }
-  
+
   @override
   Future<FCMSubscriptionCache> geSubscription() {
     return Future.sync(() async {

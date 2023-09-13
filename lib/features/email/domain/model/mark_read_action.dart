@@ -1,5 +1,1 @@
-enum MarkReadAction {
-  tap,
-  swipeOnThread,
-  undo
-}
+enum MarkReadAction { tap, swipeOnThread, undo }

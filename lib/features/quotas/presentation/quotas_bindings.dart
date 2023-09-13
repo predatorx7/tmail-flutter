@@ -10,7 +10,6 @@ import 'package:tmail_ui_user/features/quotas/presentation/quotas_controller.dar
 import 'package:tmail_ui_user/main/exceptions/remote_exception_thrower.dart';
 
 class QuotasBindings extends BaseBindings {
-
   @override
   void bindingsController() {
     Get.put(QuotasController(Get.find<GetQuotasInteractor>()));
@@ -23,7 +22,8 @@ class QuotasBindings extends BaseBindings {
 
   @override
   void bindingsDataSourceImpl() {
-    Get.lazyPut(() => QuotasDataSourceImpl(Get.find<QuotasAPI>(), Get.find<RemoteExceptionThrower>()));
+    Get.lazyPut(() => QuotasDataSourceImpl(
+        Get.find<QuotasAPI>(), Get.find<RemoteExceptionThrower>()));
   }
 
   @override

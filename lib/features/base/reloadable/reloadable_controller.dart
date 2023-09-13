@@ -24,15 +24,16 @@ import 'package:tmail_ui_user/features/session/domain/usecases/get_session_inter
 import 'package:tmail_ui_user/main/error/capability_validator.dart';
 
 abstract class ReloadableController extends BaseController {
-  final DynamicUrlInterceptors dynamicUrlInterceptors = Get.find<DynamicUrlInterceptors>();
-  final GetSessionInteractor _getSessionInteractor = Get.find<GetSessionInteractor>();
+  final DynamicUrlInterceptors dynamicUrlInterceptors =
+      Get.find<DynamicUrlInterceptors>();
+  final GetSessionInteractor _getSessionInteractor =
+      Get.find<GetSessionInteractor>();
   final GetAuthenticatedAccountInteractor _getAuthenticatedAccountInteractor;
-  final UpdateAuthenticationAccountInteractor _updateAuthenticationAccountInteractor;
+  final UpdateAuthenticationAccountInteractor
+      _updateAuthenticationAccountInteractor;
 
-  ReloadableController(
-    this._getAuthenticatedAccountInteractor,
-    this._updateAuthenticationAccountInteractor
-  );
+  ReloadableController(this._getAuthenticatedAccountInteractor,
+      this._updateAuthenticationAccountInteractor);
 
   @override
   void handleFailureViewState(Failure failure) {
@@ -100,21 +101,25 @@ abstract class ReloadableController extends BaseController {
   void _handleGetSessionSuccess(GetSessionSuccess success) {
     final session = success.session;
     final personalAccount = session.personalAccount;
-    final apiUrl = session.getQualifiedApiUrl(baseUrl: dynamicUrlInterceptors.jmapUrl);
+    final apiUrl =
+        session.getQualifiedApiUrl(baseUrl: dynamicUrlInterceptors.jmapUrl);
     log('ReloadableController::_handleGetSessionSuccess():apiUrl: $apiUrl');
     if (apiUrl.isNotEmpty) {
       dynamicUrlInterceptors.changeBaseUrl(apiUrl);
-      updateAuthenticationAccount(session, personalAccount.accountId, session.username);
+      updateAuthenticationAccount(
+          session, personalAccount.accountId, session.username);
       handleReloaded(session);
     } else {
-      logError('ReloadableController::_handleGetSessionSuccess(): apiUrl is NULL');
+      logError(
+          'ReloadableController::_handleGetSessionSuccess(): apiUrl is NULL');
       performInvokeLogoutAction();
     }
   }
 
   void handleReloaded(Session session) {}
 
-  void _handleGetStoredTokenOIDCSuccess(GetStoredTokenOidcSuccess tokenOidcSuccess) {
+  void _handleGetStoredTokenOIDCSuccess(
+      GetStoredTokenOidcSuccess tokenOidcSuccess) {
     _setUpInterceptorsOidc(tokenOidcSuccess);
     _getSessionAction();
   }
@@ -132,18 +137,22 @@ abstract class ReloadableController extends BaseController {
 
   void injectVacationBindings(Session? session, AccountId? accountId) {
     try {
-      requireCapability(session!, accountId!, [CapabilityIdentifier.jmapVacationResponse]);
+      requireCapability(
+          session!, accountId!, [CapabilityIdentifier.jmapVacationResponse]);
       VacationInteractorsBindings().dependencies();
-    } catch(e) {
+    } catch (e) {
       logError('ReloadableController::injectVacationBindings(): exception: $e');
     }
   }
 
-  void updateAuthenticationAccount(Session session, AccountId accountId, UserName userName) {
-    final apiUrl = session.getQualifiedApiUrl(baseUrl: dynamicUrlInterceptors.jmapUrl);
+  void updateAuthenticationAccount(
+      Session session, AccountId accountId, UserName userName) {
+    final apiUrl =
+        session.getQualifiedApiUrl(baseUrl: dynamicUrlInterceptors.jmapUrl);
     log('ReloadableController::updateAuthenticationAccount():apiUrl: $apiUrl');
     if (apiUrl.isNotEmpty) {
-      consumeState(_updateAuthenticationAccountInteractor.execute(accountId, apiUrl, userName));
+      consumeState(_updateAuthenticationAccountInteractor.execute(
+          accountId, apiUrl, userName));
     }
   }
 }

@@ -5,7 +5,8 @@ class SuggestionEmailAddress with EquatableMixin {
   final EmailAddress emailAddress;
   final SuggestionEmailState state;
 
-  SuggestionEmailAddress(this.emailAddress, {this.state = SuggestionEmailState.valid});
+  SuggestionEmailAddress(this.emailAddress,
+      {this.state = SuggestionEmailState.valid});
 
   @override
   List<Object?> get props => [emailAddress, state];

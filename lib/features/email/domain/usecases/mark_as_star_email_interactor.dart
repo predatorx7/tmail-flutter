@@ -12,15 +12,17 @@ class MarkAsStarEmailInteractor {
 
   MarkAsStarEmailInteractor(this.emailRepository);
 
-  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId, Email email, MarkStarAction markStarAction) async* {
+  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId,
+      Email email, MarkStarAction markStarAction) async* {
     try {
-      final currentEmailState = await emailRepository.getEmailState(session, accountId);
-      final result = await emailRepository.markAsStar(session, accountId, [email], markStarAction);
+      final currentEmailState =
+          await emailRepository.getEmailState(session, accountId);
+      final result = await emailRepository.markAsStar(
+          session, accountId, [email], markStarAction);
       if (result.isNotEmpty) {
-        final updatedEmail = email.updatedEmail(newKeywords: result.first.keywords);
-        yield Right(MarkAsStarEmailSuccess(
-            updatedEmail,
-            markStarAction,
+        final updatedEmail =
+            email.updatedEmail(newKeywords: result.first.keywords);
+        yield Right(MarkAsStarEmailSuccess(updatedEmail, markStarAction,
             currentEmailState: currentEmailState));
       } else {
         yield Left(MarkAsStarEmailFailure(markStarAction));

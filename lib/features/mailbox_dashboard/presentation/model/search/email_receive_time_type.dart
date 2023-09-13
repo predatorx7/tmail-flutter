@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:jmap_dart_client/jmap/core/utc_date.dart';
 import 'package:tmail_ui_user/features/manage_account/presentation/extensions/datetime_extension.dart';
@@ -12,8 +11,9 @@ enum EmailReceiveTimeType {
   lastYear,
   customRange;
 
-  String getTitle(BuildContext context, {DateTime? startDate, DateTime? endDate}) {
-    switch(this) {
+  String getTitle(BuildContext context,
+      {DateTime? startDate, DateTime? endDate}) {
+    switch (this) {
       case EmailReceiveTimeType.allTime:
         return AppLocalizations.of(context).allTime;
       case EmailReceiveTimeType.last7Days:
@@ -28,9 +28,8 @@ enum EmailReceiveTimeType {
         if (startDate != null && endDate != null) {
           final startDateString = startDate.formatDate(pattern: 'yyyy-dd-MM');
           final endDateString = endDate.formatDate(pattern: 'yyyy-dd-MM');
-          return AppLocalizations.of(context).dateRangeAdvancedSearchFilter(
-              startDateString,
-              endDateString);
+          return AppLocalizations.of(context)
+              .dateRangeAdvancedSearchFilter(startDateString, endDateString);
         } else {
           return AppLocalizations.of(context).customRange;
         }
@@ -38,7 +37,7 @@ enum EmailReceiveTimeType {
   }
 
   UTCDate? toOldestUTCDate() {
-    switch(this) {
+    switch (this) {
       case EmailReceiveTimeType.last7Days:
         final today = DateTime.now();
         final last7Days = today.subtract(const Duration(days: 7));
@@ -61,7 +60,7 @@ enum EmailReceiveTimeType {
   }
 
   UTCDate? toLatestUTCDate() {
-    switch(this) {
+    switch (this) {
       case EmailReceiveTimeType.last7Days:
       case EmailReceiveTimeType.last30Days:
       case EmailReceiveTimeType.last6Months:
@@ -90,7 +89,8 @@ enum EmailReceiveTimeType {
     } else {
       final latestDate = toLatestUTCDate();
       if (latestDate != null) {
-        if (loadMoreDate != null && loadMoreDate.value.isBefore(latestDate.value)) {
+        if (loadMoreDate != null &&
+            loadMoreDate.value.isBefore(latestDate.value)) {
           return loadMoreDate;
         } else {
           return latestDate;

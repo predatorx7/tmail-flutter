@@ -17,22 +17,19 @@ class DeleteMultipleMailboxInteractor {
       Session session,
       AccountId accountId,
       Map<MailboxId, List<MailboxId>> mapMailboxIdToDelete,
-      List<MailboxId> listMailboxIdToDelete
-  ) async* {
+      List<MailboxId> listMailboxIdToDelete) async* {
     try {
       yield Right<Failure, Success>(LoadingDeleteMultipleMailboxAll());
 
-      final currentMailboxState = await _mailboxRepository.getMailboxState(session, accountId);
+      final currentMailboxState =
+          await _mailboxRepository.getMailboxState(session, accountId);
 
-      final listResult = await Future.wait(
-          mapMailboxIdToDelete.keys.map((mailboxId) {
-            final mailboxIdsToDelete = mapMailboxIdToDelete[mailboxId]!;
-            return _mailboxRepository.deleteMultipleMailbox(
-                session,
-                accountId,
-                mailboxIdsToDelete);
-          })
-      );
+      final listResult =
+          await Future.wait(mapMailboxIdToDelete.keys.map((mailboxId) {
+        final mailboxIdsToDelete = mapMailboxIdToDelete[mailboxId]!;
+        return _mailboxRepository.deleteMultipleMailbox(
+            session, accountId, mailboxIdsToDelete);
+      }));
 
       final allSuccess = listResult.every((result) => result.isEmpty);
       final allFailed = listResult.every((result) => result.isNotEmpty);

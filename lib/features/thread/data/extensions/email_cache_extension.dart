@@ -1,4 +1,3 @@
-
 import 'package:core/core.dart';
 import 'package:jmap_dart_client/jmap/core/id.dart';
 import 'package:jmap_dart_client/jmap/core/unsigned_int.dart';
@@ -14,28 +13,44 @@ import 'package:tmail_ui_user/features/thread/data/extensions/email_address_hive
 extension EmailCacheExtension on EmailCache {
   Email toEmail() {
     return Email(
-      id: EmailId(Id(id)),
-      keywords: keywords != null
-        ? Map.fromIterables(keywords!.keys.map((value) => KeyWordIdentifier(value)), keywords!.values)
-        : null,
-      size: size != null ? UnsignedInt(size!) : null,
-      receivedAt: receivedAt != null ? UTCDate(receivedAt!) : null,
-      hasAttachment: hasAttachment,
-      preview: preview,
-      subject: subject,
-      sentAt: sentAt != null ? UTCDate(sentAt!) : null,
-      from: from?.map((emailAddressCache) => emailAddressCache.toEmailAddress()).toSet(),
-      to: to?.map((emailAddressCache) => emailAddressCache.toEmailAddress()).toSet(),
-      cc: cc?.map((emailAddressCache) => emailAddressCache.toEmailAddress()).toSet(),
-      bcc: bcc?.map((emailAddressCache) => emailAddressCache.toEmailAddress()).toSet(),
-      replyTo: replyTo?.map((emailAddressCache) => emailAddressCache.toEmailAddress()).toSet(),
-      mailboxIds: mailboxIds != null
-        ? Map.fromIterables(mailboxIds!.keys.map((value) => MailboxId(Id(value))), mailboxIds!.values)
-        : null,
-      headerCalendarEvent: headerCalendarEvent != null
-        ? Map.fromIterables(headerCalendarEvent!.keys.map((value) => IndividualHeaderIdentifier(value)), headerCalendarEvent!.values)
-        : null
-    );
+        id: EmailId(Id(id)),
+        keywords: keywords != null
+            ? Map.fromIterables(
+                keywords!.keys.map((value) => KeyWordIdentifier(value)),
+                keywords!.values)
+            : null,
+        size: size != null ? UnsignedInt(size!) : null,
+        receivedAt: receivedAt != null ? UTCDate(receivedAt!) : null,
+        hasAttachment: hasAttachment,
+        preview: preview,
+        subject: subject,
+        sentAt: sentAt != null ? UTCDate(sentAt!) : null,
+        from: from
+            ?.map((emailAddressCache) => emailAddressCache.toEmailAddress())
+            .toSet(),
+        to: to
+            ?.map((emailAddressCache) => emailAddressCache.toEmailAddress())
+            .toSet(),
+        cc: cc
+            ?.map((emailAddressCache) => emailAddressCache.toEmailAddress())
+            .toSet(),
+        bcc: bcc
+            ?.map((emailAddressCache) => emailAddressCache.toEmailAddress())
+            .toSet(),
+        replyTo: replyTo
+            ?.map((emailAddressCache) => emailAddressCache.toEmailAddress())
+            .toSet(),
+        mailboxIds: mailboxIds != null
+            ? Map.fromIterables(
+                mailboxIds!.keys.map((value) => MailboxId(Id(value))),
+                mailboxIds!.values)
+            : null,
+        headerCalendarEvent: headerCalendarEvent != null
+            ? Map.fromIterables(
+                headerCalendarEvent!.keys
+                    .map((value) => IndividualHeaderIdentifier(value)),
+                headerCalendarEvent!.values)
+            : null);
   }
 
   bool expireTimeCaching(EmailCleanupRule cleanupRule) {

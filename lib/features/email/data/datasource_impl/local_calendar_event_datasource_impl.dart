@@ -1,4 +1,3 @@
-
 import 'package:collection/collection.dart';
 import 'package:jmap_dart_client/jmap/account_id.dart';
 import 'package:jmap_dart_client/jmap/core/id.dart';
@@ -9,7 +8,6 @@ import 'package:tmail_ui_user/features/email/domain/model/event_action.dart';
 import 'package:tmail_ui_user/main/exceptions/exception_thrower.dart';
 
 class LocalCalendarEventDataSourceImpl extends CalendarEventDataSource {
-
   final HtmlAnalyzer _htmlAnalyzer;
   final ExceptionThrower _exceptionThrower;
 
@@ -23,11 +21,12 @@ class LocalCalendarEventDataSourceImpl extends CalendarEventDataSource {
   @override
   Future<List<EventAction>> getListEventAction(String emailContents) {
     return Future.sync(() async {
-      final listLink = await _htmlAnalyzer.getListLinkCalendarEvent(emailContents);
+      final listLink =
+          await _htmlAnalyzer.getListLinkCalendarEvent(emailContents);
       if (listLink.length >= EventActionType.values.length) {
         return EventActionType.values
-          .mapIndexed((index, type) => EventAction(type, listLink[index]))
-          .toList();
+            .mapIndexed((index, type) => EventAction(type, listLink[index]))
+            .toList();
       } else {
         return <EventAction>[];
       }

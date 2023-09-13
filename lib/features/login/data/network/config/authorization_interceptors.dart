@@ -14,7 +14,6 @@ import 'package:tmail_ui_user/features/login/data/local/token_oidc_cache_manager
 import 'package:tmail_ui_user/features/login/data/network/authentication_client/authentication_client_base.dart';
 
 class AuthorizationInterceptors extends QueuedInterceptorsWrapper {
-
   final Dio _dio;
   final AuthenticationClientBase _authenticationClient;
   final TokenOidcCacheManager _tokenOidcCacheManager;
@@ -25,19 +24,16 @@ class AuthorizationInterceptors extends QueuedInterceptorsWrapper {
   Token? _token;
   String? _authorization;
 
-  AuthorizationInterceptors(
-    this._dio,
-    this._authenticationClient,
-    this._tokenOidcCacheManager,
-    this._accountCacheManager
-  );
+  AuthorizationInterceptors(this._dio, this._authenticationClient,
+      this._tokenOidcCacheManager, this._accountCacheManager);
 
   void setBasicAuthorization(String? userName, String? password) {
     _authorization = base64Encode(utf8.encode('$userName:$password'));
     _authenticationType = AuthenticationType.basic;
   }
 
-  void setTokenAndAuthorityOidc({Token? newToken, OIDCConfiguration? newConfig}) {
+  void setTokenAndAuthorityOidc(
+      {Token? newToken, OIDCConfiguration? newConfig}) {
     _token = newToken;
     _configOIDC = newConfig;
     _authenticationType = AuthenticationType.oidc;
@@ -54,15 +50,17 @@ class AuthorizationInterceptors extends QueuedInterceptorsWrapper {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    switch(_authenticationType) {
+    switch (_authenticationType) {
       case AuthenticationType.basic:
         if (_authorization != null) {
-          options.headers[HttpHeaders.authorizationHeader] = _getAuthorizationAsBasicHeader(_authorization);
+          options.headers[HttpHeaders.authorizationHeader] =
+              _getAuthorizationAsBasicHeader(_authorization);
         }
         break;
       case AuthenticationType.oidc:
         if (_token != null && _token?.isTokenValid() == true) {
-          options.headers[HttpHeaders.authorizationHeader] = _getTokenAsBearerHeader(_token!.token);
+          options.headers[HttpHeaders.authorizationHeader] =
+              _getTokenAsBearerHeader(_token!.token);
         }
         break;
       case AuthenticationType.none:
@@ -73,17 +71,17 @@ class AuthorizationInterceptors extends QueuedInterceptorsWrapper {
 
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) async {
-    logError('AuthorizationInterceptors::onError():dioType: ${err.type} | statusCode: ${err.response?.statusCode} | message: ${err.message} | statusMessage: ${err.response?.statusMessage}');
+    logError(
+        'AuthorizationInterceptors::onError():dioType: ${err.type} | statusCode: ${err.response?.statusCode} | message: ${err.message} | statusMessage: ${err.response?.statusMessage}');
     try {
       if (_validateToRefreshToken(err)) {
         log('AuthorizationInterceptors::onError:RefreshTokenCalled:configOIDC: $_configOIDC | refreshTokenCurrent: ${_token?.refreshToken}');
         final newToken = await _authenticationClient.refreshingTokensOIDC(
-          _configOIDC!.clientId,
-          _configOIDC!.redirectUrl,
-          _configOIDC!.discoveryUrl,
-          _configOIDC!.scopes,
-          _token!.refreshToken
-        );
+            _configOIDC!.clientId,
+            _configOIDC!.redirectUrl,
+            _configOIDC!.discoveryUrl,
+            _configOIDC!.scopes,
+            _token!.refreshToken);
 
         final accountCurrent = await _accountCacheManager.getSelectedAccount();
 
@@ -91,22 +89,19 @@ class AuthorizationInterceptors extends QueuedInterceptorsWrapper {
 
         await Future.wait([
           _tokenOidcCacheManager.persistOneTokenOidc(newToken),
-          _accountCacheManager.setSelectedAccount(
-            PersonalAccount(
-              newToken.tokenIdHash,
-              AuthenticationType.oidc,
+          _accountCacheManager.setSelectedAccount(PersonalAccount(
+              newToken.tokenIdHash, AuthenticationType.oidc,
               isSelected: true,
               accountId: accountCurrent.accountId,
               apiUrl: accountCurrent.apiUrl,
-              userName: accountCurrent.userName
-            )
-          )
+              userName: accountCurrent.userName))
         ]);
         log('AuthorizationInterceptors::onError():NewToken: $newToken');
         _updateNewToken(newToken.toToken());
 
         final requestOptions = err.requestOptions;
-        requestOptions.headers[HttpHeaders.authorizationHeader] = _getTokenAsBearerHeader(newToken.token);
+        requestOptions.headers[HttpHeaders.authorizationHeader] =
+            _getTokenAsBearerHeader(newToken.token);
 
         final response = await _dio.fetch(requestOptions);
         return handler.resolve(response);
@@ -137,7 +132,8 @@ class AuthorizationInterceptors extends QueuedInterceptorsWrapper {
     return false;
   }
 
-  bool _isRefreshTokenNotEmpty() => _token != null && _token!.refreshToken.isNotEmpty;
+  bool _isRefreshTokenNotEmpty() =>
+      _token != null && _token!.refreshToken.isNotEmpty;
 
   bool _validateToRefreshToken(DioError dioError) {
     if (_isTokenExpired() &&
@@ -149,12 +145,13 @@ class AuthorizationInterceptors extends QueuedInterceptorsWrapper {
     return false;
   }
 
-  String _getAuthorizationAsBasicHeader(String? authorization) => 'Basic $authorization';
+  String _getAuthorizationAsBasicHeader(String? authorization) =>
+      'Basic $authorization';
 
   String _getTokenAsBearerHeader(String token) => 'Bearer $token';
 
   bool get isAppRunning {
-    switch(_authenticationType) {
+    switch (_authenticationType) {
       case AuthenticationType.basic:
         return _authorization != null;
       case AuthenticationType.oidc:

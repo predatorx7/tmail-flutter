@@ -14,7 +14,8 @@ class GetAllRulesInteractor {
   Stream<Either<Failure, Success>> execute(AccountId accountId) async* {
     try {
       yield Right<Failure, Success>(LoadingState());
-      final rulesResponse = await _ruleFilterRepository.getAllTMailRule(accountId);
+      final rulesResponse =
+          await _ruleFilterRepository.getAllTMailRule(accountId);
       yield Right(GetAllRulesSuccess(rulesResponse));
     } catch (exception) {
       yield Left(GetAllRulesFailure(exception));

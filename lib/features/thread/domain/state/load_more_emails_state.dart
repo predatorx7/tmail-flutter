@@ -14,6 +14,5 @@ class LoadMoreEmailsSuccess extends UIState {
 }
 
 class LoadMoreEmailsFailure extends FeatureFailure {
-
   LoadMoreEmailsFailure(dynamic exception) : super(exception: exception);
 }

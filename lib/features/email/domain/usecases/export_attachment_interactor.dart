@@ -29,20 +29,21 @@ class ExportAttachmentInteractor {
       Attachment attachment,
       AccountId accountId,
       String baseDownloadUrl,
-      CancelToken cancelToken
-  ) async* {
+      CancelToken cancelToken) async* {
     try {
       final currentAccount = await _accountRepository.getCurrentAccount();
 
       AccountRequest? accountRequest;
 
       if (currentAccount.authenticationType == AuthenticationType.oidc) {
-        final tokenOidc = await _authenticationOIDCRepository.getStoredTokenOIDC(currentAccount.id);
+        final tokenOidc = await _authenticationOIDCRepository
+            .getStoredTokenOIDC(currentAccount.id);
         accountRequest = AccountRequest(
             token: tokenOidc.toToken(),
             authenticationType: AuthenticationType.oidc);
       } else {
-        final authenticationInfoCache = await credentialRepository.getAuthenticationInfoStored();
+        final authenticationInfoCache =
+            await credentialRepository.getAuthenticationInfoStored();
         if (authenticationInfoCache != null) {
           accountRequest = AccountRequest(
               userName: UserName(authenticationInfoCache.username),
@@ -59,7 +60,8 @@ class ExportAttachmentInteractor {
             accountRequest,
             cancelToken);
 
-        yield Right<Failure, Success>(ExportAttachmentSuccess(downloadedResponse));
+        yield Right<Failure, Success>(
+            ExportAttachmentSuccess(downloadedResponse));
       } else {
         yield Left<Failure, Success>(ExportAttachmentFailure(null));
       }

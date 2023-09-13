@@ -1,4 +1,1 @@
-enum MailboxSubscribeState {
-  enabled,
-  disabled
-}
+enum MailboxSubscribeState { enabled, disabled }

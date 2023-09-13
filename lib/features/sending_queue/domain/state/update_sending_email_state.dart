@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/state/failure.dart';
 import 'package:core/presentation/state/success.dart';
 import 'package:tmail_ui_user/features/sending_queue/domain/model/sending_email.dart';
@@ -15,6 +14,5 @@ class UpdateSendingEmailSuccess extends UIState {
 }
 
 class UpdateSendingEmailFailure extends FeatureFailure {
-
   UpdateSendingEmailFailure(dynamic exception) : super(exception: exception);
 }

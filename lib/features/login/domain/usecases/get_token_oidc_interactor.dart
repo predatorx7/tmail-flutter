@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/state/failure.dart';
 import 'package:core/presentation/state/success.dart';
 import 'package:core/utils/app_logger.dart';
@@ -14,14 +13,15 @@ import 'package:tmail_ui_user/features/login/domain/repository/credential_reposi
 import 'package:tmail_ui_user/features/login/domain/state/get_token_oidc_state.dart';
 
 class GetTokenOIDCInteractor {
-
   final AuthenticationOIDCRepository authenticationOIDCRepository;
   final AccountRepository _accountRepository;
   final CredentialRepository _credentialRepository;
 
-  GetTokenOIDCInteractor(this._credentialRepository, this.authenticationOIDCRepository, this._accountRepository);
+  GetTokenOIDCInteractor(this._credentialRepository,
+      this.authenticationOIDCRepository, this._accountRepository);
 
-  Stream<Either<Failure, Success>> execute(Uri baseUrl, OIDCConfiguration config) async* {
+  Stream<Either<Failure, Success>> execute(
+      Uri baseUrl, OIDCConfiguration config) async* {
     try {
       yield Right<Failure, Success>(GetTokenOIDCLoading());
       final tokenOIDC = await authenticationOIDCRepository.getTokenOIDC(
@@ -32,9 +32,8 @@ class GetTokenOIDCInteractor {
       await Future.wait([
         _credentialRepository.saveBaseUrl(baseUrl),
         _accountRepository.setCurrentAccount(PersonalAccount(
-          tokenOIDC.tokenIdHash,
-          AuthenticationType.oidc,
-          isSelected: true)),
+            tokenOIDC.tokenIdHash, AuthenticationType.oidc,
+            isSelected: true)),
         authenticationOIDCRepository.persistTokenOIDC(tokenOIDC),
         authenticationOIDCRepository.persistAuthorityOidc(config.authority),
       ]);

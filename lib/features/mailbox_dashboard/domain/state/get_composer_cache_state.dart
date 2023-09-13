@@ -3,7 +3,6 @@ import 'package:core/presentation/state/success.dart';
 import 'package:tmail_ui_user/features/mailbox_dashboard/data/model/composer_cache.dart';
 
 class GetComposerCacheSuccess extends UIState {
-
   final ComposerCache composerCache;
 
   GetComposerCacheSuccess(this.composerCache);
@@ -13,6 +12,5 @@ class GetComposerCacheSuccess extends UIState {
 }
 
 class GetComposerCacheFailure extends FeatureFailure {
-
   GetComposerCacheFailure(dynamic exception) : super(exception: exception);
 }

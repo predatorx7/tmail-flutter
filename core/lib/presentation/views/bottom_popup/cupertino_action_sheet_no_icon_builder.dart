@@ -11,13 +11,13 @@ abstract class CupertinoActionSheetNoIconBuilder<T> {
   OnCupertinoActionSheetNoIconActionClick<T>? onCupertinoActionSheetActionClick;
 
   CupertinoActionSheetNoIconBuilder(
-    this.actionName,
-    {
-      this.key,
-    }
-  );
+    this.actionName, {
+    this.key,
+  });
 
-  void onActionClick(OnCupertinoActionSheetNoIconActionClick<T> onCupertinoActionSheetActionClick) {
+  void onActionClick(
+      OnCupertinoActionSheetNoIconActionClick<T>
+          onCupertinoActionSheetActionClick) {
     this.onCupertinoActionSheetActionClick = onCupertinoActionSheetActionClick;
   }
 

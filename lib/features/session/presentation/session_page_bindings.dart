@@ -23,57 +23,61 @@ import 'package:tmail_ui_user/features/session/presentation/session_controller.d
 import 'package:tmail_ui_user/main/exceptions/remote_exception_thrower.dart';
 
 class SessionPageBindings extends BaseBindings {
-
   @override
   void bindingsController() {
     Get.lazyPut(() => SessionController(
-      Get.find<GetAuthenticatedAccountInteractor>(),
-      Get.find<UpdateAuthenticationAccountInteractor>(),
-      Get.find<GetSessionInteractor>(),
-      Get.find<AppToast>(),
-      Get.find<DynamicUrlInterceptors>(),
-      Get.find<GetStoredSessionInteractor>(),
-    ));
+          Get.find<GetAuthenticatedAccountInteractor>(),
+          Get.find<UpdateAuthenticationAccountInteractor>(),
+          Get.find<GetSessionInteractor>(),
+          Get.find<AppToast>(),
+          Get.find<DynamicUrlInterceptors>(),
+          Get.find<GetStoredSessionInteractor>(),
+        ));
   }
 
   @override
   void bindingsDataSource() {
-    Get.lazyPut<AuthenticationOIDCDataSource>(() => Get.find<AuthenticationOIDCDataSourceImpl>());
+    Get.lazyPut<AuthenticationOIDCDataSource>(
+        () => Get.find<AuthenticationOIDCDataSourceImpl>());
   }
 
   @override
   void bindingsDataSourceImpl() {
     Get.lazyPut(() => AuthenticationOIDCDataSourceImpl(
-      Get.find<OIDCHttpClient>(),
-      Get.find<AuthenticationClientBase>(),
-      Get.find<TokenOidcCacheManager>(),
-      Get.find<OidcConfigurationCacheManager>(),
-      Get.find<RemoteExceptionThrower>(),
-    ));
+          Get.find<OIDCHttpClient>(),
+          Get.find<AuthenticationClientBase>(),
+          Get.find<TokenOidcCacheManager>(),
+          Get.find<OidcConfigurationCacheManager>(),
+          Get.find<RemoteExceptionThrower>(),
+        ));
   }
 
   @override
   void bindingsInteractor() {
     Get.lazyPut(() => GetStoredTokenOidcInteractor(
-      Get.find<AuthenticationOIDCRepository>(),
-      Get.find<CredentialRepository>(),
-    ));
+          Get.find<AuthenticationOIDCRepository>(),
+          Get.find<CredentialRepository>(),
+        ));
     Get.lazyPut(() => GetAuthenticatedAccountInteractor(
-      Get.find<AccountRepository>(),
-      Get.find<GetCredentialInteractor>(),
-      Get.find<GetStoredTokenOidcInteractor>(),
-    ));
-    Get.lazyPut(() => UpdateAuthenticationAccountInteractor(Get.find<AccountRepository>()));
-    Get.lazyPut(() => GetStoredSessionInteractor(Get.find<SessionRepository>()));
+          Get.find<AccountRepository>(),
+          Get.find<GetCredentialInteractor>(),
+          Get.find<GetStoredTokenOidcInteractor>(),
+        ));
+    Get.lazyPut(() =>
+        UpdateAuthenticationAccountInteractor(Get.find<AccountRepository>()));
+    Get.lazyPut(
+        () => GetStoredSessionInteractor(Get.find<SessionRepository>()));
   }
 
   @override
   void bindingsRepository() {
-    Get.lazyPut<AuthenticationOIDCRepository>(() => Get.find<AuthenticationOIDCRepositoryImpl>());
+    Get.lazyPut<AuthenticationOIDCRepository>(
+        () => Get.find<AuthenticationOIDCRepositoryImpl>());
   }
 
   @override
   void bindingsRepositoryImpl() {
-    Get.lazyPut(() => AuthenticationOIDCRepositoryImpl(Get.find<AuthenticationOIDCDataSource>()));
+    Get.lazyPut(() => AuthenticationOIDCRepositoryImpl(
+        Get.find<AuthenticationOIDCDataSource>()));
   }
 }

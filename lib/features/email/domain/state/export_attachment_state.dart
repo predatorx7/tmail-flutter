@@ -12,6 +12,5 @@ class ExportAttachmentSuccess extends UIState {
 }
 
 class ExportAttachmentFailure extends FeatureFailure {
-
   ExportAttachmentFailure(dynamic exception) : super(exception: exception);
 }

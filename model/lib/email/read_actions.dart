@@ -1,5 +1,1 @@
-
-enum ReadActions {
-  markAsRead,
-  markAsUnread
-}
+enum ReadActions { markAsRead, markAsUnread }

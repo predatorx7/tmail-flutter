@@ -10,11 +10,12 @@ class SaveLoginUrlOnMobileInteractor {
 
   SaveLoginUrlOnMobileInteractor(this.loginUrlRepository);
 
-  Future<Either<Failure, Success>> execute(RecentLoginUrl recentLoginUrl) async {
-    try{
+  Future<Either<Failure, Success>> execute(
+      RecentLoginUrl recentLoginUrl) async {
+    try {
       await loginUrlRepository.saveRecentLoginUrl(recentLoginUrl);
       return Right(SaveRecentLoginUrlSuccess());
-    } catch(e) {
+    } catch (e) {
       return Left(SaveRecentLoginUrlFailed(e));
     }
   }

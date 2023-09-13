@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:math';
 import 'dart:io';
@@ -14,12 +13,14 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 typedef SuggestionsCallback<T> = FutureOr<Iterable<T>> Function(String pattern);
-typedef FetchRecentActionCallback<R> = FutureOr<Iterable<R>> Function(String pattern);
+typedef FetchRecentActionCallback<R> = FutureOr<Iterable<R>> Function(
+    String pattern);
 typedef ItemBuilder<T> = Widget Function(BuildContext context, T itemData);
 typedef SuggestionSelectionCallback<T> = void Function(T suggestion);
 typedef RecentSelectionCallback<R> = void Function(R recent);
 typedef ErrorBuilder = Widget Function(BuildContext context, Object? error);
-typedef ButtonActionBuilder = Widget Function(BuildContext context, dynamic action);
+typedef ButtonActionBuilder = Widget Function(
+    BuildContext context, dynamic action);
 typedef ButtonActionCallback = void Function(dynamic action);
 
 typedef AnimationTransitionBuilder = Widget Function(
@@ -41,118 +42,118 @@ class QuickSearchInputForm<T, R> extends FormField<String> {
   final QuickSearchTextFieldConfiguration textFieldConfiguration;
 
   /// Creates a [QuickSearchInputForm]
-  QuickSearchInputForm(
-      {Key? key,
-        String? initialValue,
-        bool getImmediateSuggestions = false,
-        bool enabled = true,
-        AutovalidateMode autovalidateMode = AutovalidateMode.disabled,
-        FormFieldSetter<String>? onSaved,
-        FormFieldValidator<String>? validator,
-        ErrorBuilder? errorBuilder,
-        WidgetBuilder? noItemsFoundBuilder,
-        WidgetBuilder? loadingBuilder,
-        Duration debounceDuration = const Duration(milliseconds: 300),
-        QuickSearchSuggestionsBoxDecoration suggestionsBoxDecoration =
+  QuickSearchInputForm({
+    Key? key,
+    String? initialValue,
+    bool getImmediateSuggestions = false,
+    bool enabled = true,
+    AutovalidateMode autovalidateMode = AutovalidateMode.disabled,
+    FormFieldSetter<String>? onSaved,
+    FormFieldValidator<String>? validator,
+    ErrorBuilder? errorBuilder,
+    WidgetBuilder? noItemsFoundBuilder,
+    WidgetBuilder? loadingBuilder,
+    Duration debounceDuration = const Duration(milliseconds: 300),
+    QuickSearchSuggestionsBoxDecoration suggestionsBoxDecoration =
         const QuickSearchSuggestionsBoxDecoration(),
-        QuickSearchSuggestionsBoxController? suggestionsBoxController,
-        required SuggestionSelectionCallback<T> onSuggestionSelected,
-        required ItemBuilder<T> itemBuilder,
-        required SuggestionsCallback<T> suggestionsCallback,
-        double suggestionsBoxVerticalOffset = 5.0,
-        this.textFieldConfiguration = const QuickSearchTextFieldConfiguration(),
-        AnimationTransitionBuilder? transitionBuilder,
-        Duration animationDuration = const Duration(milliseconds: 500),
-        double animationStart = 0.25,
-        AxisDirection direction = AxisDirection.down,
-        bool hideOnLoading = false,
-        bool hideOnEmpty = false,
-        bool hideOnError = false,
-        bool hideSuggestionsOnKeyboardHide = true,
-        bool keepSuggestionsOnLoading = true,
-        bool keepSuggestionsOnSuggestionSelected = false,
-        bool autoFlipDirection = false,
-        bool hideKeyboard = false,
-        int minCharsForSuggestions = 0,
-        List<dynamic>? listActionButton,
-        ButtonActionBuilder? actionButtonBuilder,
-        ButtonActionCallback? buttonActionCallback,
-        ButtonActionBuilder? buttonShowAllResult,
-        Widget? titleHeaderRecent,
-        ItemBuilder<R>? itemRecentBuilder,
-        FetchRecentActionCallback<R>? fetchRecentActionCallback,
-        RecentSelectionCallback<R>? onRecentSelected,
-        EdgeInsets? listActionPadding,
-        bool hideSuggestionsBox = false,
-        BoxDecoration? decoration,
-        double? maxHeight,
-        bool isDirectionRTL = false,
-      }) : assert(
-  initialValue == null || textFieldConfiguration.controller == null),
+    QuickSearchSuggestionsBoxController? suggestionsBoxController,
+    required SuggestionSelectionCallback<T> onSuggestionSelected,
+    required ItemBuilder<T> itemBuilder,
+    required SuggestionsCallback<T> suggestionsCallback,
+    double suggestionsBoxVerticalOffset = 5.0,
+    this.textFieldConfiguration = const QuickSearchTextFieldConfiguration(),
+    AnimationTransitionBuilder? transitionBuilder,
+    Duration animationDuration = const Duration(milliseconds: 500),
+    double animationStart = 0.25,
+    AxisDirection direction = AxisDirection.down,
+    bool hideOnLoading = false,
+    bool hideOnEmpty = false,
+    bool hideOnError = false,
+    bool hideSuggestionsOnKeyboardHide = true,
+    bool keepSuggestionsOnLoading = true,
+    bool keepSuggestionsOnSuggestionSelected = false,
+    bool autoFlipDirection = false,
+    bool hideKeyboard = false,
+    int minCharsForSuggestions = 0,
+    List<dynamic>? listActionButton,
+    ButtonActionBuilder? actionButtonBuilder,
+    ButtonActionCallback? buttonActionCallback,
+    ButtonActionBuilder? buttonShowAllResult,
+    Widget? titleHeaderRecent,
+    ItemBuilder<R>? itemRecentBuilder,
+    FetchRecentActionCallback<R>? fetchRecentActionCallback,
+    RecentSelectionCallback<R>? onRecentSelected,
+    EdgeInsets? listActionPadding,
+    bool hideSuggestionsBox = false,
+    BoxDecoration? decoration,
+    double? maxHeight,
+    bool isDirectionRTL = false,
+  })  : assert(
+            initialValue == null || textFieldConfiguration.controller == null),
         assert(minCharsForSuggestions >= 0),
         super(
-          key: key,
-          onSaved: onSaved,
-          validator: validator,
-          initialValue: textFieldConfiguration.controller != null
-              ? textFieldConfiguration.controller!.text
-              : (initialValue ?? ''),
-          enabled: enabled,
-          autovalidateMode: autovalidateMode,
-          builder: (FormFieldState<String> field) {
-            final _TypeAheadFormFieldState state =
-            field as _TypeAheadFormFieldState<dynamic, dynamic>;
+            key: key,
+            onSaved: onSaved,
+            validator: validator,
+            initialValue: textFieldConfiguration.controller != null
+                ? textFieldConfiguration.controller!.text
+                : (initialValue ?? ''),
+            enabled: enabled,
+            autovalidateMode: autovalidateMode,
+            builder: (FormFieldState<String> field) {
+              final _TypeAheadFormFieldState state =
+                  field as _TypeAheadFormFieldState<dynamic, dynamic>;
 
-            return TypeAheadFieldQuickSearch(
-              getImmediateSuggestions: getImmediateSuggestions,
-              transitionBuilder: transitionBuilder,
-              errorBuilder: errorBuilder,
-              noItemsFoundBuilder: noItemsFoundBuilder,
-              loadingBuilder: loadingBuilder,
-              debounceDuration: debounceDuration,
-              suggestionsBoxDecoration: suggestionsBoxDecoration,
-              suggestionsBoxController: suggestionsBoxController,
-              textFieldConfiguration: textFieldConfiguration.copyWith(
-                decoration: textFieldConfiguration.decoration
-                    .copyWith(errorText: state.errorText),
-                onChanged: (text) {
-                  state.didChange(text);
-                  textFieldConfiguration.onChanged?.call(text);
-                },
-                controller: state._effectiveController,
-              ),
-              suggestionsBoxVerticalOffset: suggestionsBoxVerticalOffset,
-              onSuggestionSelected: onSuggestionSelected,
-              itemBuilder: itemBuilder,
-              suggestionsCallback: suggestionsCallback,
-              animationStart: animationStart,
-              animationDuration: animationDuration,
-              direction: direction,
-              hideOnLoading: hideOnLoading,
-              hideOnEmpty: hideOnEmpty,
-              hideOnError: hideOnError,
-              hideSuggestionsOnKeyboardHide: hideSuggestionsOnKeyboardHide,
-              keepSuggestionsOnLoading: keepSuggestionsOnLoading,
-              keepSuggestionsOnSuggestionSelected:
-              keepSuggestionsOnSuggestionSelected,
-              autoFlipDirection: autoFlipDirection,
-              hideKeyboard: hideKeyboard,
-              minCharsForSuggestions: minCharsForSuggestions,
-              listActionButton: listActionButton,
-              actionButtonBuilder: actionButtonBuilder,
-              buttonActionCallback: buttonActionCallback,
-              buttonShowAllResult: buttonShowAllResult,
-              titleHeaderRecent: titleHeaderRecent,
-              itemRecentBuilder: itemRecentBuilder,
-              fetchRecentActionCallback: fetchRecentActionCallback,
-              onRecentSelected: onRecentSelected,
-              listActionPadding: listActionPadding,
-              hideSuggestionsBox: hideSuggestionsBox,
-              decoration: decoration,
-              maxHeight: maxHeight,
-              isDirectionRTL: isDirectionRTL,
-            );
-          });
+              return TypeAheadFieldQuickSearch(
+                getImmediateSuggestions: getImmediateSuggestions,
+                transitionBuilder: transitionBuilder,
+                errorBuilder: errorBuilder,
+                noItemsFoundBuilder: noItemsFoundBuilder,
+                loadingBuilder: loadingBuilder,
+                debounceDuration: debounceDuration,
+                suggestionsBoxDecoration: suggestionsBoxDecoration,
+                suggestionsBoxController: suggestionsBoxController,
+                textFieldConfiguration: textFieldConfiguration.copyWith(
+                  decoration: textFieldConfiguration.decoration
+                      .copyWith(errorText: state.errorText),
+                  onChanged: (text) {
+                    state.didChange(text);
+                    textFieldConfiguration.onChanged?.call(text);
+                  },
+                  controller: state._effectiveController,
+                ),
+                suggestionsBoxVerticalOffset: suggestionsBoxVerticalOffset,
+                onSuggestionSelected: onSuggestionSelected,
+                itemBuilder: itemBuilder,
+                suggestionsCallback: suggestionsCallback,
+                animationStart: animationStart,
+                animationDuration: animationDuration,
+                direction: direction,
+                hideOnLoading: hideOnLoading,
+                hideOnEmpty: hideOnEmpty,
+                hideOnError: hideOnError,
+                hideSuggestionsOnKeyboardHide: hideSuggestionsOnKeyboardHide,
+                keepSuggestionsOnLoading: keepSuggestionsOnLoading,
+                keepSuggestionsOnSuggestionSelected:
+                    keepSuggestionsOnSuggestionSelected,
+                autoFlipDirection: autoFlipDirection,
+                hideKeyboard: hideKeyboard,
+                minCharsForSuggestions: minCharsForSuggestions,
+                listActionButton: listActionButton,
+                actionButtonBuilder: actionButtonBuilder,
+                buttonActionCallback: buttonActionCallback,
+                buttonShowAllResult: buttonShowAllResult,
+                titleHeaderRecent: titleHeaderRecent,
+                itemRecentBuilder: itemRecentBuilder,
+                fetchRecentActionCallback: fetchRecentActionCallback,
+                onRecentSelected: onRecentSelected,
+                listActionPadding: listActionPadding,
+                hideSuggestionsBox: hideSuggestionsBox,
+                decoration: decoration,
+                maxHeight: maxHeight,
+                isDirectionRTL: isDirectionRTL,
+              );
+            });
 
   @override
   FormFieldState<String> createState() => _TypeAheadFormFieldState<T, R>();
@@ -165,7 +166,8 @@ class _TypeAheadFormFieldState<T, R> extends FormFieldState<String> {
       widget.textFieldConfiguration.controller ?? _controller;
 
   @override
-  QuickSearchInputForm get widget => super.widget as QuickSearchInputForm<dynamic, dynamic>;
+  QuickSearchInputForm get widget =>
+      super.widget as QuickSearchInputForm<dynamic, dynamic>;
 
   @override
   void initState() {
@@ -504,76 +506,83 @@ class TypeAheadFieldQuickSearch<T, R> extends StatefulWidget {
 
   /// Title header recent suggestion box
   final Widget? titleHeaderRecent;
+
   ///  Widget item recent
   final ItemBuilder<R>? itemRecentBuilder;
+
   ///  Get all recent callback
   final FetchRecentActionCallback<R>? fetchRecentActionCallback;
+
   ///  On listen select recent
   final RecentSelectionCallback<R>? onRecentSelected;
+
   /// Padding button action
   final EdgeInsets? listActionPadding;
   final bool hideSuggestionsBox;
+
   /// Box decoration search input
   final BoxDecoration? decoration;
+
   /// Max height search input
   final double? maxHeight;
 
   final bool isDirectionRTL;
 
   /// Creates a [TypeAheadFieldQuickSearch]
-  const TypeAheadFieldQuickSearch(
-      {Key? key,
-        required this.suggestionsCallback,
-        required this.itemBuilder,
-        required this.onSuggestionSelected,
-        this.textFieldConfiguration = const QuickSearchTextFieldConfiguration(),
-        this.suggestionsBoxDecoration = const QuickSearchSuggestionsBoxDecoration(),
-        this.debounceDuration = const Duration(milliseconds: 300),
-        this.suggestionsBoxController,
-        this.scrollController,
-        this.loadingBuilder,
-        this.noItemsFoundBuilder,
-        this.errorBuilder,
-        this.transitionBuilder,
-        this.animationStart = 0.25,
-        this.animationDuration = const Duration(milliseconds: 500),
-        this.getImmediateSuggestions = false,
-        this.suggestionsBoxVerticalOffset = 5.0,
-        this.direction = AxisDirection.down,
-        this.hideOnLoading = false,
-        this.hideOnEmpty = false,
-        this.hideOnError = false,
-        this.hideSuggestionsOnKeyboardHide = true,
-        this.keepSuggestionsOnLoading = true,
-        this.keepSuggestionsOnSuggestionSelected = false,
-        this.autoFlipDirection = false,
-        this.hideKeyboard = false,
-        this.minCharsForSuggestions = 0,
-        this.listActionButton,
-        this.actionButtonBuilder,
-        this.buttonActionCallback,
-        this.buttonShowAllResult,
-        this.titleHeaderRecent,
-        this.itemRecentBuilder,
-        this.fetchRecentActionCallback,
-        this.onRecentSelected,
-        this.listActionPadding,
-        this.hideSuggestionsBox = false,
-        this.decoration,
-        this.maxHeight,
-        this.isDirectionRTL = false,
-      }) : assert(animationStart >= 0.0 && animationStart <= 1.0),
+  const TypeAheadFieldQuickSearch({
+    Key? key,
+    required this.suggestionsCallback,
+    required this.itemBuilder,
+    required this.onSuggestionSelected,
+    this.textFieldConfiguration = const QuickSearchTextFieldConfiguration(),
+    this.suggestionsBoxDecoration = const QuickSearchSuggestionsBoxDecoration(),
+    this.debounceDuration = const Duration(milliseconds: 300),
+    this.suggestionsBoxController,
+    this.scrollController,
+    this.loadingBuilder,
+    this.noItemsFoundBuilder,
+    this.errorBuilder,
+    this.transitionBuilder,
+    this.animationStart = 0.25,
+    this.animationDuration = const Duration(milliseconds: 500),
+    this.getImmediateSuggestions = false,
+    this.suggestionsBoxVerticalOffset = 5.0,
+    this.direction = AxisDirection.down,
+    this.hideOnLoading = false,
+    this.hideOnEmpty = false,
+    this.hideOnError = false,
+    this.hideSuggestionsOnKeyboardHide = true,
+    this.keepSuggestionsOnLoading = true,
+    this.keepSuggestionsOnSuggestionSelected = false,
+    this.autoFlipDirection = false,
+    this.hideKeyboard = false,
+    this.minCharsForSuggestions = 0,
+    this.listActionButton,
+    this.actionButtonBuilder,
+    this.buttonActionCallback,
+    this.buttonShowAllResult,
+    this.titleHeaderRecent,
+    this.itemRecentBuilder,
+    this.fetchRecentActionCallback,
+    this.onRecentSelected,
+    this.listActionPadding,
+    this.hideSuggestionsBox = false,
+    this.decoration,
+    this.maxHeight,
+    this.isDirectionRTL = false,
+  })  : assert(animationStart >= 0.0 && animationStart <= 1.0),
         assert(
-        direction == AxisDirection.down || direction == AxisDirection.up),
+            direction == AxisDirection.down || direction == AxisDirection.up),
         assert(minCharsForSuggestions >= 0),
         super(key: key);
 
   @override
-  State<TypeAheadFieldQuickSearch<T, R>> createState() => _TypeAheadFieldQuickSearchState<T, R>();
+  State<TypeAheadFieldQuickSearch<T, R>> createState() =>
+      _TypeAheadFieldQuickSearchState<T, R>();
 }
 
-class _TypeAheadFieldQuickSearchState<T, R> extends State<TypeAheadFieldQuickSearch<T, R>>
-    with WidgetsBindingObserver {
+class _TypeAheadFieldQuickSearchState<T, R>
+    extends State<TypeAheadFieldQuickSearch<T, R>> with WidgetsBindingObserver {
   FocusNode? _focusNode;
   TextEditingController? _textEditingController;
   _SuggestionsBox? _suggestionsBox;
@@ -596,7 +605,7 @@ class _TypeAheadFieldQuickSearchState<T, R> extends State<TypeAheadFieldQuickSea
 
   // Keyboard detection
   final Stream<bool>? _keyboardVisibility =
-  (supportedPlatform) ? KeyboardVisibilityController().onChange : null;
+      (supportedPlatform) ? KeyboardVisibilityController().onChange : null;
   late StreamSubscription<bool>? _keyboardVisibilitySubscription;
 
   @override
@@ -624,7 +633,8 @@ class _TypeAheadFieldQuickSearchState<T, R> extends State<TypeAheadFieldQuickSea
     super.initState();
     WidgetsBinding.instance.addObserver(this);
 
-    _textDirection = widget.textFieldConfiguration.textDirection ?? TextDirection.ltr;
+    _textDirection =
+        widget.textFieldConfiguration.textDirection ?? TextDirection.ltr;
 
     if (widget.textFieldConfiguration.controller == null) {
       _textEditingController = TextEditingController();
@@ -634,20 +644,16 @@ class _TypeAheadFieldQuickSearchState<T, R> extends State<TypeAheadFieldQuickSea
       _focusNode = FocusNode();
     }
 
-    _suggestionsBox = _SuggestionsBox(
-        context,
-        widget.direction,
-        widget.autoFlipDirection,
-        widget.hideSuggestionsBox);
+    _suggestionsBox = _SuggestionsBox(context, widget.direction,
+        widget.autoFlipDirection, widget.hideSuggestionsBox);
     widget.suggestionsBoxController?._suggestionsBox = _suggestionsBox;
-    widget.suggestionsBoxController?._effectiveFocusNode =
-        _effectiveFocusNode;
+    widget.suggestionsBoxController?._effectiveFocusNode = _effectiveFocusNode;
 
     _focusNodeListener = () {
       if (_effectiveFocusNode!.hasFocus) {
         _suggestionsBox!.open();
       } else {
-        if (widget.hideSuggestionsOnKeyboardHide){
+        if (widget.hideSuggestionsOnKeyboardHide) {
           _suggestionsBox!.close();
         }
       }
@@ -659,10 +665,10 @@ class _TypeAheadFieldQuickSearchState<T, R> extends State<TypeAheadFieldQuickSea
     // hide suggestions box on keyboard closed
     _keyboardVisibilitySubscription =
         _keyboardVisibility?.listen((bool isVisible) {
-          if (widget.hideSuggestionsOnKeyboardHide && !isVisible) {
-            _effectiveFocusNode!.unfocus();
-          }
-        });
+      if (widget.hideSuggestionsOnKeyboardHide && !isVisible) {
+        _effectiveFocusNode!.unfocus();
+      }
+    });
 
     WidgetsBinding.instance.addPostFrameCallback((duration) {
       if (mounted) {
@@ -697,8 +703,8 @@ class _TypeAheadFieldQuickSearchState<T, R> extends State<TypeAheadFieldQuickSea
       // Scroll started
       _resizeOnScrollTimer =
           Timer.periodic(_resizeOnScrollRefreshRate, (timer) {
-            _suggestionsBox!.resize();
-          });
+        _suggestionsBox!.resize();
+      });
     } else {
       // Scroll finished
       _suggestionsBox!.resize();
@@ -762,14 +768,14 @@ class _TypeAheadFieldQuickSearchState<T, R> extends State<TypeAheadFieldQuickSea
             widget.suggestionsBoxDecoration.constraints!.maxWidth !=
                 double.infinity) {
           w = (widget.suggestionsBoxDecoration.constraints!.minWidth +
-              widget.suggestionsBoxDecoration.constraints!.maxWidth) /
+                  widget.suggestionsBoxDecoration.constraints!.maxWidth) /
               2;
         } else if (widget.suggestionsBoxDecoration.constraints!.minWidth !=
-            0.0 &&
+                0.0 &&
             widget.suggestionsBoxDecoration.constraints!.minWidth > w) {
           w = widget.suggestionsBoxDecoration.constraints!.minWidth;
         } else if (widget.suggestionsBoxDecoration.constraints!.maxWidth !=
-            double.infinity &&
+                double.infinity &&
             widget.suggestionsBoxDecoration.constraints!.maxWidth < w) {
           w = widget.suggestionsBoxDecoration.constraints!.maxWidth;
         }
@@ -783,16 +789,17 @@ class _TypeAheadFieldQuickSearchState<T, R> extends State<TypeAheadFieldQuickSea
           offset: Offset(
               widget.suggestionsBoxDecoration.offsetX,
               _suggestionsBox!.direction == AxisDirection.down
-                  ? _suggestionsBox!.textBoxHeight + widget.suggestionsBoxVerticalOffset
+                  ? _suggestionsBox!.textBoxHeight +
+                      widget.suggestionsBoxVerticalOffset
                   : _suggestionsBox!.directionUpOffset),
           child: TextFieldTapRegion(
-            child: _suggestionsBox!.direction == AxisDirection.down
-              ? suggestionsList
-              : FractionalTranslation(
-                  translation: const Offset(0.0, -1.0), // visually flips list to go up
-                  child: suggestionsList,
-                )
-          ),
+              child: _suggestionsBox!.direction == AxisDirection.down
+                  ? suggestionsList
+                  : FractionalTranslation(
+                      translation: const Offset(
+                          0.0, -1.0), // visually flips list to go up
+                      child: suggestionsList,
+                    )),
         ),
       );
     });
@@ -804,22 +811,19 @@ class _TypeAheadFieldQuickSearchState<T, R> extends State<TypeAheadFieldQuickSea
       link: _layerLink,
       child: Container(
         decoration: _suggestionsBox?.isOpened == true
-          ? const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(16),
-                  topLeft: Radius.circular(16)),
-              boxShadow: [
-                BoxShadow(
-                    color: AppColor.colorShadowComposer,
-                    blurRadius: 32),
-                BoxShadow(
-                    color: AppColor.colorShadowComposer,
-                    blurRadius: 4),
-              ],
-              color: Colors.white)
-          : const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(12)),
-              color: AppColor.colorBgSearchBar),
+            ? const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(16),
+                    topLeft: Radius.circular(16)),
+                boxShadow: [
+                  BoxShadow(
+                      color: AppColor.colorShadowComposer, blurRadius: 32),
+                  BoxShadow(color: AppColor.colorShadowComposer, blurRadius: 4),
+                ],
+                color: Colors.white)
+            : const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+                color: AppColor.colorBgSearchBar),
         height: widget.maxHeight,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -839,15 +843,18 @@ class _TypeAheadFieldQuickSearchState<T, R> extends State<TypeAheadFieldQuickSea
                 inputFormatters: widget.textFieldConfiguration.inputFormatters,
                 autocorrect: widget.textFieldConfiguration.autocorrect,
                 maxLines: widget.textFieldConfiguration.maxLines,
-                textAlignVertical: widget.textFieldConfiguration.textAlignVertical,
+                textAlignVertical:
+                    widget.textFieldConfiguration.textAlignVertical,
                 minLines: widget.textFieldConfiguration.minLines,
                 maxLength: widget.textFieldConfiguration.maxLength,
-                maxLengthEnforcement: widget.textFieldConfiguration.maxLengthEnforcement,
+                maxLengthEnforcement:
+                    widget.textFieldConfiguration.maxLengthEnforcement,
                 obscureText: widget.textFieldConfiguration.obscureText,
                 onChanged: (input) {
                   widget.textFieldConfiguration.onChanged?.call(input);
                   if (input.isNotEmpty) {
-                    final directionByText = DirectionUtils.getDirectionByEndsText(input);
+                    final directionByText =
+                        DirectionUtils.getDirectionByEndsText(input);
                     if (directionByText != _textDirection) {
                       setState(() {
                         _textDirection = directionByText;
@@ -856,22 +863,26 @@ class _TypeAheadFieldQuickSearchState<T, R> extends State<TypeAheadFieldQuickSea
                   }
                 },
                 onSubmitted: widget.textFieldConfiguration.onSubmitted,
-                onEditingComplete: widget.textFieldConfiguration.onEditingComplete,
+                onEditingComplete:
+                    widget.textFieldConfiguration.onEditingComplete,
                 onTap: widget.textFieldConfiguration.onTap,
                 scrollPadding: widget.textFieldConfiguration.scrollPadding,
                 textInputAction: widget.textFieldConfiguration.textInputAction,
-                textCapitalization: widget.textFieldConfiguration.textCapitalization,
-                keyboardAppearance: widget.textFieldConfiguration.keyboardAppearance,
+                textCapitalization:
+                    widget.textFieldConfiguration.textCapitalization,
+                keyboardAppearance:
+                    widget.textFieldConfiguration.keyboardAppearance,
                 cursorWidth: widget.textFieldConfiguration.cursorWidth,
                 cursorRadius: widget.textFieldConfiguration.cursorRadius,
                 cursorColor: widget.textFieldConfiguration.cursorColor,
                 textDirection: _textDirection,
-                enableInteractiveSelection: widget.textFieldConfiguration.enableInteractiveSelection,
+                enableInteractiveSelection:
+                    widget.textFieldConfiguration.enableInteractiveSelection,
                 readOnly: widget.hideKeyboard,
               ),
             ),
-            if (widget.textFieldConfiguration.clearTextButton != null
-                && _effectiveController?.text.isNotEmpty == true)
+            if (widget.textFieldConfiguration.clearTextButton != null &&
+                _effectiveController?.text.isNotEmpty == true)
               widget.textFieldConfiguration.clearTextButton!,
             if (widget.textFieldConfiguration.rightButton != null)
               widget.textFieldConfiguration.rightButton!,
@@ -982,7 +993,8 @@ class _SuggestionsListState<T, R> extends State<_SuggestionsList<T, R>>
           Iterable<R>? recentItems;
           try {
             if (widget.fetchRecentActionCallback != null) {
-              recentItems = await widget.fetchRecentActionCallback!(widget.controller!.text);
+              recentItems = await widget
+                  .fetchRecentActionCallback!(widget.controller!.text);
             }
           } catch (e) {
             logError('_SuggestionsListState::_SuggestionsListState(): $e');
@@ -1070,9 +1082,11 @@ class _SuggestionsListState<T, R> extends State<_SuggestionsList<T, R>>
       Object? error;
 
       try {
-        suggestions = await widget.suggestionsCallback!(widget.controller!.text);
+        suggestions =
+            await widget.suggestionsCallback!(widget.controller!.text);
         if (widget.fetchRecentActionCallback != null) {
-          recentItems = await widget.fetchRecentActionCallback!(widget.controller!.text);
+          recentItems =
+              await widget.fetchRecentActionCallback!(widget.controller!.text);
         }
       } catch (e) {
         error = e;
@@ -1111,7 +1125,8 @@ class _SuggestionsListState<T, R> extends State<_SuggestionsList<T, R>>
 
     Widget child;
 
-    if (_suggestions?.isNotEmpty == true && widget.controller?.text.isNotEmpty == true) {
+    if (_suggestions?.isNotEmpty == true &&
+        widget.controller?.text.isNotEmpty == true) {
       child = createSuggestionsWidget();
     } else {
       child = createRecentWidget();
@@ -1122,8 +1137,7 @@ class _SuggestionsListState<T, R> extends State<_SuggestionsList<T, R>>
         : SizeTransition(
             axisAlignment: -1.0,
             sizeFactor: CurvedAnimation(
-                parent: _animationController!,
-                curve: Curves.fastOutSlowIn),
+                parent: _animationController!, curve: Curves.fastOutSlowIn),
             child: child,
           );
 
@@ -1143,15 +1157,14 @@ class _SuggestionsListState<T, R> extends State<_SuggestionsList<T, R>>
 
     var container = Material(
       elevation: widget.suggestionsBox?.isOpened == true
-        ? 1
-        : widget.decoration!.elevation,
+          ? 1
+          : widget.decoration!.elevation,
       color: widget.decoration!.color,
       shape: widget.decoration!.shape,
-      borderRadius:  widget.suggestionsBox?.isOpened == true
-        ? const BorderRadius.only(
-            bottomLeft: Radius.circular(16),
-            bottomRight: Radius.circular(16))
-        : widget.decoration!.borderRadius,
+      borderRadius: widget.suggestionsBox?.isOpened == true
+          ? const BorderRadius.only(
+              bottomLeft: Radius.circular(16), bottomRight: Radius.circular(16))
+          : widget.decoration!.borderRadius,
       shadowColor: widget.decoration!.shadowColor,
       clipBehavior: widget.decoration!.clipBehavior,
       child: ConstrainedBox(
@@ -1165,17 +1178,18 @@ class _SuggestionsListState<T, R> extends State<_SuggestionsList<T, R>>
 
   Widget createSuggestionsWidget() {
     final listItemSuggestionWidget = _suggestions?.map((T suggestion) {
-      if ( widget.itemBuilder != null) {
-        return InkWell(
-          child: widget.itemBuilder!(context, suggestion),
-          onTap: () {
-            widget.onSuggestionSelected!(suggestion);
-          },
-        );
-      } else {
-        return const SizedBox.shrink();
-      }
-    }).toList() ?? [];
+          if (widget.itemBuilder != null) {
+            return InkWell(
+              child: widget.itemBuilder!(context, suggestion),
+              onTap: () {
+                widget.onSuggestionSelected!(suggestion);
+              },
+            );
+          } else {
+            return const SizedBox.shrink();
+          }
+        }).toList() ??
+        [];
 
     final loadingWidget = widget.loadingBuilder != null
         ? widget.loadingBuilder!(context)
@@ -1189,50 +1203,54 @@ class _SuggestionsListState<T, R> extends State<_SuggestionsList<T, R>>
 
     final listAction = Wrap(
         children: widget.listActionButton!.map((dynamic action) {
-          if (widget.actionButtonBuilder != null) {
-            return Padding(
-              padding: EdgeInsets.only(
-                right: widget.isDirectionRTL ? 0 : 8,
-                left: widget.isDirectionRTL ? 8 : 0,
-                bottom: kIsWeb ? 8 : 0
-              ),
-              child: InkWell(
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
-                onTap: () {
-                  if (widget.buttonActionCallback != null) {
-                    widget.buttonActionCallback!(action);
-                    invalidateSuggestions();
-                  }
-                },
-                child: widget.actionButtonBuilder!(context, action),
-              ),
-            );
-          } else {
-            return const SizedBox.shrink();
-          }
-        }).toList());
+      if (widget.actionButtonBuilder != null) {
+        return Padding(
+          padding: EdgeInsets.only(
+              right: widget.isDirectionRTL ? 0 : 8,
+              left: widget.isDirectionRTL ? 8 : 0,
+              bottom: kIsWeb ? 8 : 0),
+          child: InkWell(
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            onTap: () {
+              if (widget.buttonActionCallback != null) {
+                widget.buttonActionCallback!(action);
+                invalidateSuggestions();
+              }
+            },
+            child: widget.actionButtonBuilder!(context, action),
+          ),
+        );
+      } else {
+        return const SizedBox.shrink();
+      }
+    }).toList());
 
     Widget child = ListView(
       padding: EdgeInsets.zero,
       primary: false,
       shrinkWrap: true,
       controller: _scrollController,
-      reverse: widget.suggestionsBox!.direction == AxisDirection.down ? false : true, // reverses the list to start at the bottom
+      reverse: widget.suggestionsBox!.direction == AxisDirection.down
+          ? false
+          : true, // reverses the list to start at the bottom
       children: [
-        if (widget.listActionButton != null && widget.listActionButton?.isNotEmpty == true)
+        if (widget.listActionButton != null &&
+            widget.listActionButton?.isNotEmpty == true)
           Padding(
             padding: widget.listActionPadding ?? EdgeInsets.zero,
             child: listAction,
           ),
-        if (_isLoading == true && widget.hideOnLoading == false && widget.keepSuggestionsOnLoading == false)
+        if (_isLoading == true &&
+            widget.hideOnLoading == false &&
+            widget.keepSuggestionsOnLoading == false)
           loadingWidget,
-        if (widget.buttonShowAllResult != null && widget.controller?.text.isNotEmpty == true)
+        if (widget.buttonShowAllResult != null &&
+            widget.controller?.text.isNotEmpty == true)
           widget.buttonShowAllResult!(context, widget.controller?.text),
-        if (listItemSuggestionWidget.isNotEmpty)
-          ... [
-            ... listItemSuggestionWidget,
-            const SizedBox(height: 16)
-          ],
+        if (listItemSuggestionWidget.isNotEmpty) ...[
+          ...listItemSuggestionWidget,
+          const SizedBox(height: 16)
+        ],
       ],
     );
 
@@ -1248,19 +1266,20 @@ class _SuggestionsListState<T, R> extends State<_SuggestionsList<T, R>>
 
   Widget createRecentWidget() {
     final listItemRecent = _recentItems?.map((R recent) {
-      if (widget.itemRecentBuilder != null) {
-        return InkWell(
-          child: widget.itemRecentBuilder!(context, recent),
-          onTap: () {
-            if (widget.onRecentSelected != null) {
-              widget.onRecentSelected!(recent);
-            }
-          },
-        );
-      } else {
-        return const SizedBox.shrink();
-      }
-    }).toList() ?? [];
+          if (widget.itemRecentBuilder != null) {
+            return InkWell(
+              child: widget.itemRecentBuilder!(context, recent),
+              onTap: () {
+                if (widget.onRecentSelected != null) {
+                  widget.onRecentSelected!(recent);
+                }
+              },
+            );
+          } else {
+            return const SizedBox.shrink();
+          }
+        }).toList() ??
+        [];
 
     final loadingWidget = widget.loadingBuilder != null
         ? widget.loadingBuilder!(context)
@@ -1274,52 +1293,58 @@ class _SuggestionsListState<T, R> extends State<_SuggestionsList<T, R>>
 
     final listAction = Wrap(
         children: widget.listActionButton!.map((dynamic action) {
-          if (widget.actionButtonBuilder != null) {
-            return Padding(
-              padding: EdgeInsets.only(
-                right: widget.isDirectionRTL ? 0 : 8,
-                left: widget.isDirectionRTL ? 8 : 0,
-                bottom: kIsWeb ? 8 : 0
-              ),
-              child: InkWell(
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
-                onTap: () {
-                  if (widget.buttonActionCallback != null) {
-                    widget.buttonActionCallback!(action);
-                    invalidateSuggestions();
-                  }
-                },
-                child: widget.actionButtonBuilder!(context, action),
-              ),
-            );
-          } else {
-            return const SizedBox.shrink();
-          }
-        }).toList());
+      if (widget.actionButtonBuilder != null) {
+        return Padding(
+          padding: EdgeInsets.only(
+              right: widget.isDirectionRTL ? 0 : 8,
+              left: widget.isDirectionRTL ? 8 : 0,
+              bottom: kIsWeb ? 8 : 0),
+          child: InkWell(
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            onTap: () {
+              if (widget.buttonActionCallback != null) {
+                widget.buttonActionCallback!(action);
+                invalidateSuggestions();
+              }
+            },
+            child: widget.actionButtonBuilder!(context, action),
+          ),
+        );
+      } else {
+        return const SizedBox.shrink();
+      }
+    }).toList());
 
     Widget child = ListView(
       padding: EdgeInsets.zero,
       primary: false,
       shrinkWrap: true,
       controller: _scrollController,
-      reverse: widget.suggestionsBox!.direction == AxisDirection.down ? false : true, // reverses the list to start at the bottom
+      reverse: widget.suggestionsBox!.direction == AxisDirection.down
+          ? false
+          : true, // reverses the list to start at the bottom
       children: [
-        if (widget.listActionButton != null && widget.listActionButton?.isNotEmpty == true)
+        if (widget.listActionButton != null &&
+            widget.listActionButton?.isNotEmpty == true)
           Padding(
             padding: widget.listActionPadding ?? EdgeInsets.zero,
             child: listAction,
           ),
-        if (_isLoading == true && widget.hideOnLoading == false && widget.keepSuggestionsOnLoading == false)
+        if (_isLoading == true &&
+            widget.hideOnLoading == false &&
+            widget.keepSuggestionsOnLoading == false)
           loadingWidget,
-        if (widget.buttonShowAllResult != null && widget.controller?.text.isNotEmpty == true)
+        if (widget.buttonShowAllResult != null &&
+            widget.controller?.text.isNotEmpty == true)
           widget.buttonShowAllResult!(context, widget.controller?.text),
-        if (_recentItems?.isNotEmpty == true && widget.itemRecentBuilder != null && widget.titleHeaderRecent != null)
+        if (_recentItems?.isNotEmpty == true &&
+            widget.itemRecentBuilder != null &&
+            widget.titleHeaderRecent != null)
           widget.titleHeaderRecent!,
-        if (listItemRecent.isNotEmpty)
-          ... [
-            ... listItemRecent,
-            const SizedBox(height: 16)
-          ],
+        if (listItemRecent.isNotEmpty) ...[
+          ...listItemRecent,
+          const SizedBox(height: 16)
+        ],
       ],
     );
 
@@ -1380,14 +1405,14 @@ class QuickSearchSuggestionsBoxDecoration {
   /// Creates a QuickSearchSuggestionsBoxDecoration
   const QuickSearchSuggestionsBoxDecoration(
       {this.elevation = 4.0,
-        this.color,
-        this.shape,
-        this.hasScrollbar = true,
-        this.borderRadius,
-        this.shadowColor = const Color(0xFF000000),
-        this.constraints,
-        this.clipBehavior = Clip.none,
-        this.offsetX = 0.0});
+      this.color,
+      this.shape,
+      this.hasScrollbar = true,
+      this.borderRadius,
+      this.shadowColor = const Color(0xFF000000),
+      this.constraints,
+      this.clipBehavior = Clip.none,
+      this.offsetX = 0.0});
 }
 
 /// Supply an instance of this class to the [TypeAhead.textFieldConfiguration]
@@ -1603,38 +1628,38 @@ class QuickSearchTextFieldConfiguration {
   /// properties
   QuickSearchTextFieldConfiguration copyWith(
       {InputDecoration? decoration,
-        TextStyle? style,
-        TextEditingController? controller,
-        ValueChanged<String>? onChanged,
-        ValueChanged<String>? onSubmitted,
-        bool? obscureText,
-        MaxLengthEnforcement? maxLengthEnforcement,
-        int? maxLength,
-        int? maxLines,
-        int? minLines,
-        bool? autocorrect,
-        List<TextInputFormatter>? inputFormatters,
-        bool? autofocus,
-        TextInputType? keyboardType,
-        bool? enabled,
-        bool? enableSuggestions,
-        TextAlign? textAlign,
-        FocusNode? focusNode,
-        Color? cursorColor,
-        TextAlignVertical? textAlignVertical,
-        Radius? cursorRadius,
-        double? cursorWidth,
-        Brightness? keyboardAppearance,
-        VoidCallback? onEditingComplete,
-        GestureTapCallback? onTap,
-        EdgeInsets? scrollPadding,
-        TextCapitalization? textCapitalization,
-        TextDirection? textDirection,
-        TextInputAction? textInputAction,
-        bool? enableInteractiveSelection,
-        Widget? leftButton,
-        Widget? rightButton,
-        Widget? clearTextButton}) {
+      TextStyle? style,
+      TextEditingController? controller,
+      ValueChanged<String>? onChanged,
+      ValueChanged<String>? onSubmitted,
+      bool? obscureText,
+      MaxLengthEnforcement? maxLengthEnforcement,
+      int? maxLength,
+      int? maxLines,
+      int? minLines,
+      bool? autocorrect,
+      List<TextInputFormatter>? inputFormatters,
+      bool? autofocus,
+      TextInputType? keyboardType,
+      bool? enabled,
+      bool? enableSuggestions,
+      TextAlign? textAlign,
+      FocusNode? focusNode,
+      Color? cursorColor,
+      TextAlignVertical? textAlignVertical,
+      Radius? cursorRadius,
+      double? cursorWidth,
+      Brightness? keyboardAppearance,
+      VoidCallback? onEditingComplete,
+      GestureTapCallback? onTap,
+      EdgeInsets? scrollPadding,
+      TextCapitalization? textCapitalization,
+      TextDirection? textDirection,
+      TextInputAction? textInputAction,
+      bool? enableInteractiveSelection,
+      Widget? leftButton,
+      Widget? rightButton,
+      Widget? clearTextButton}) {
     return QuickSearchTextFieldConfiguration(
       decoration: decoration ?? this.decoration,
       style: style ?? this.style,
@@ -1666,7 +1691,7 @@ class QuickSearchTextFieldConfiguration {
       textInputAction: textInputAction ?? this.textInputAction,
       textDirection: textDirection ?? this.textDirection,
       enableInteractiveSelection:
-      enableInteractiveSelection ?? this.enableInteractiveSelection,
+          enableInteractiveSelection ?? this.enableInteractiveSelection,
       leftButton: leftButton ?? this.leftButton,
       rightButton: rightButton ?? this.rightButton,
       clearTextButton: clearTextButton ?? this.clearTextButton,
@@ -1693,12 +1718,9 @@ class _SuggestionsBox {
   double textBoxHeight = 100.0;
   late double directionUpOffset;
 
-  _SuggestionsBox(
-      this.context,
-      this.direction,
-      this.autoFlipDirection,
-      this.hideSuggestionBox
-      ) : desiredDirection = direction;
+  _SuggestionsBox(this.context, this.direction, this.autoFlipDirection,
+      this.hideSuggestionBox)
+      : desiredDirection = direction;
 
   void open() {
     if (hideSuggestionBox) return;
@@ -1751,7 +1773,8 @@ class _SuggestionsBox {
         await Future<void>.delayed(const Duration(milliseconds: 170));
         timer += 170;
 
-        if (widgetMounted && context.mounted &&
+        if (widgetMounted &&
+            context.mounted &&
             (MediaQuery.of(context).viewInsets != initial ||
                 _findRootMediaQuery() != initialRootMediaQuery)) {
           return true;
@@ -1774,7 +1797,8 @@ class _SuggestionsBox {
   // See if there's enough room in the desired direction for the overlay to display
   // correctly. If not, try the opposite direction if things look more roomy there
   void _adjustMaxHeightAndOrientation() {
-    TypeAheadFieldQuickSearch widget = context.widget as TypeAheadFieldQuickSearch;
+    TypeAheadFieldQuickSearch widget =
+        context.widget as TypeAheadFieldQuickSearch;
 
     RenderBox? box = context.findRenderObject() as RenderBox?;
     if (box == null || box.hasSize == false) {
@@ -1831,9 +1855,9 @@ class _SuggestionsBox {
       double textBoxAbsY) {
     return direction == AxisDirection.down
         ? _calculateMaxHeightDown(box, widget, windowHeight, rootMediaQuery,
-        keyboardHeight, textBoxAbsY)
+            keyboardHeight, textBoxAbsY)
         : _calculateMaxHeightUp(box, widget, windowHeight, rootMediaQuery,
-        keyboardHeight, textBoxAbsY);
+            keyboardHeight, textBoxAbsY);
   }
 
   double _calculateMaxHeightDown(
@@ -1846,7 +1870,7 @@ class _SuggestionsBox {
     // unsafe area, ie: iPhone X 'home button'
     // keyboardHeight includes unsafeAreaHeight, if keyboard is showing, set to 0
     double unsafeAreaHeight =
-    keyboardHeight == 0 ? rootMediaQuery.data.padding.bottom : 0;
+        keyboardHeight == 0 ? rootMediaQuery.data.padding.bottom : 0;
 
     return windowHeight -
         keyboardHeight -
@@ -1875,11 +1899,11 @@ class _SuggestionsBox {
 
     return textBoxAbsY > keyboardAbsY
         ? keyboardAbsY -
-        unsafeAreaHeight -
-        2 * widget.suggestionsBoxVerticalOffset
+            unsafeAreaHeight -
+            2 * widget.suggestionsBoxVerticalOffset
         : textBoxAbsY -
-        unsafeAreaHeight -
-        2 * widget.suggestionsBoxVerticalOffset;
+            unsafeAreaHeight -
+            2 * widget.suggestionsBoxVerticalOffset;
   }
 
   Future<void> onChangeMetrics() async {

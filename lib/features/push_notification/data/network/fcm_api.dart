@@ -1,4 +1,3 @@
-
 import 'package:fcm/method/set/firebase_subscription_set_method.dart';
 import 'package:fcm/method/set/firebase_subscription_set_response.dart';
 import 'package:fcm/method/get/firebase_subscription_get_method.dart';
@@ -13,29 +12,31 @@ import 'package:tmail_ui_user/features/push_notification/domain/exceptions/fcm_e
 import 'package:tmail_ui_user/features/push_notification/domain/model/register_new_token_request.dart';
 
 class FcmApi {
-
   final HttpClient _httpClient;
 
   FcmApi(this._httpClient);
 
-  Future<FirebaseSubscription> getFirebaseSubscriptionByDeviceId(String deviceId) async {
+  Future<FirebaseSubscription> getFirebaseSubscriptionByDeviceId(
+      String deviceId) async {
     final processingInvocation = ProcessingInvocation();
-    final requestBuilder = JmapRequestBuilder(_httpClient, processingInvocation);
+    final requestBuilder =
+        JmapRequestBuilder(_httpClient, processingInvocation);
 
     final firebaseSubscriptionGetMethod = FirebaseSubscriptionGetMethod();
-    final firebaseSubscriptionGetInvocation = requestBuilder.invocation(firebaseSubscriptionGetMethod);
+    final firebaseSubscriptionGetInvocation =
+        requestBuilder.invocation(firebaseSubscriptionGetMethod);
     final response = await (requestBuilder
-        ..usings(firebaseSubscriptionGetMethod.requiredCapabilities))
-      .build()
-      .execute();
+          ..usings(firebaseSubscriptionGetMethod.requiredCapabilities))
+        .build()
+        .execute();
 
     final getResponse = response.parse<FirebaseSubscriptionGetResponse>(
-      firebaseSubscriptionGetInvocation.methodCallId,
-      FirebaseSubscriptionGetResponse.deserialize);
+        firebaseSubscriptionGetInvocation.methodCallId,
+        FirebaseSubscriptionGetResponse.deserialize);
 
     final matchedFirebaseSubscription = getResponse?.list
-      .where((fcmSub) => fcmSub.deviceClientId?.value == deviceId)
-      .toList();
+        .where((fcmSub) => fcmSub.deviceClientId?.value == deviceId)
+        .toList();
 
     if (matchedFirebaseSubscription?.isNotEmpty == true) {
       return matchedFirebaseSubscription!.first;
@@ -44,48 +45,57 @@ class FcmApi {
     }
   }
 
-  Future<FirebaseSubscription> registerNewToken(RegisterNewTokenRequest newTokenRequest) async {
+  Future<FirebaseSubscription> registerNewToken(
+      RegisterNewTokenRequest newTokenRequest) async {
     final processingInvocation = ProcessingInvocation();
-    final requestBuilder = JmapRequestBuilder(_httpClient, processingInvocation);
+    final requestBuilder =
+        JmapRequestBuilder(_httpClient, processingInvocation);
 
     final firebaseSubscriptionSetMethod = FirebaseSubscriptionSetMethod()
-      ..addCreate(
-        newTokenRequest.createRequestId,
-        newTokenRequest.firebaseSubscription
-      );
-    final firebaseSubscriptionSetInvocation = requestBuilder.invocation(firebaseSubscriptionSetMethod);
+      ..addCreate(newTokenRequest.createRequestId,
+          newTokenRequest.firebaseSubscription);
+    final firebaseSubscriptionSetInvocation =
+        requestBuilder.invocation(firebaseSubscriptionSetMethod);
     final response = await (requestBuilder
-        ..usings(firebaseSubscriptionSetMethod.requiredCapabilities))
-      .build()
-      .execute();
+          ..usings(firebaseSubscriptionSetMethod.requiredCapabilities))
+        .build()
+        .execute();
 
-    final firebaseSubscriptionSetResponse = response.parse<FirebaseSubscriptionSetResponse>(
-      firebaseSubscriptionSetInvocation.methodCallId,
-      FirebaseSubscriptionSetResponse.deserialize);
+    final firebaseSubscriptionSetResponse =
+        response.parse<FirebaseSubscriptionSetResponse>(
+            firebaseSubscriptionSetInvocation.methodCallId,
+            FirebaseSubscriptionSetResponse.deserialize);
 
-    return firebaseSubscriptionSetResponse!.created![newTokenRequest.createRequestId]!;
+    return firebaseSubscriptionSetResponse!
+        .created![newTokenRequest.createRequestId]!;
   }
 
   Future<bool> destroySubscription(String subscriptionId) async {
     final processingInvocation = ProcessingInvocation();
-    final requestBuilder = JmapRequestBuilder(_httpClient, processingInvocation);
+    final requestBuilder =
+        JmapRequestBuilder(_httpClient, processingInvocation);
 
-    final firebaseSubscriptionSetMethod = FirebaseSubscriptionSetMethod()..addDestroy({Id(subscriptionId)});
-    final firebaseSubscriptionSetInvocation = requestBuilder.invocation(firebaseSubscriptionSetMethod);
+    final firebaseSubscriptionSetMethod = FirebaseSubscriptionSetMethod()
+      ..addDestroy({Id(subscriptionId)});
+    final firebaseSubscriptionSetInvocation =
+        requestBuilder.invocation(firebaseSubscriptionSetMethod);
     final response = await (requestBuilder
-        ..usings({
-          CapabilityIdentifier.jmapCore,
-          FirebaseCapability.fcmIdentifier,
+          ..usings({
+            CapabilityIdentifier.jmapCore,
+            FirebaseCapability.fcmIdentifier,
           }))
-      .build()
-      .execute();
+        .build()
+        .execute();
 
-    final firebaseSubscriptionSetResponse = response.parse<FirebaseSubscriptionSetResponse>(
-      firebaseSubscriptionSetInvocation.methodCallId,
-      FirebaseSubscriptionSetResponse.deserialize);
+    final firebaseSubscriptionSetResponse =
+        response.parse<FirebaseSubscriptionSetResponse>(
+            firebaseSubscriptionSetInvocation.methodCallId,
+            FirebaseSubscriptionSetResponse.deserialize);
 
-     return Future.sync(() async {
-      return firebaseSubscriptionSetResponse?.destroyed?.contains(Id(subscriptionId)) == true;
+    return Future.sync(() async {
+      return firebaseSubscriptionSetResponse?.destroyed
+              ?.contains(Id(subscriptionId)) ==
+          true;
     }).catchError((error) {
       throw error;
     });

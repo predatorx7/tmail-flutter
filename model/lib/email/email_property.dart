@@ -1,4 +1,3 @@
-
 class EmailProperty {
   static const String id = 'id';
   static const String keywords = 'keywords';

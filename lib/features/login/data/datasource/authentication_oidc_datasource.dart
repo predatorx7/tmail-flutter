@@ -1,4 +1,3 @@
-
 import 'package:model/model.dart';
 
 abstract class AuthenticationOIDCDataSource {
@@ -6,9 +5,11 @@ abstract class AuthenticationOIDCDataSource {
 
   Future<OIDCConfiguration> getOIDCConfiguration(OIDCResponse oidcResponse);
 
-  Future<OIDCDiscoveryResponse> discoverOIDC(OIDCConfiguration oidcConfiguration);
+  Future<OIDCDiscoveryResponse> discoverOIDC(
+      OIDCConfiguration oidcConfiguration);
 
-  Future<TokenOIDC> getTokenOIDC(String clientId, String redirectUrl, String discoveryUrl, List<String> scopes);
+  Future<TokenOIDC> getTokenOIDC(String clientId, String redirectUrl,
+      String discoveryUrl, List<String> scopes);
 
   Future<void> persistTokenOIDC(TokenOIDC tokenOidc);
 
@@ -22,20 +23,14 @@ abstract class AuthenticationOIDCDataSource {
 
   Future<OIDCConfiguration> getStoredOidcConfiguration();
 
-  Future<TokenOIDC> refreshingTokensOIDC(
-      String clientId,
-      String redirectUrl,
-      String discoveryUrl,
-      List<String> scopes,
-      String refreshToken);
+  Future<TokenOIDC> refreshingTokensOIDC(String clientId, String redirectUrl,
+      String discoveryUrl, List<String> scopes, String refreshToken);
 
-  Future<bool> logout(TokenId tokenId, OIDCConfiguration config, OIDCDiscoveryResponse oidcRescovery);
+  Future<bool> logout(TokenId tokenId, OIDCConfiguration config,
+      OIDCDiscoveryResponse oidcRescovery);
 
-  Future<void> authenticateOidcOnBrowser(
-      String clientId,
-      String redirectUrl,
-      String discoveryUrl,
-      List<String> scopes);
+  Future<void> authenticateOidcOnBrowser(String clientId, String redirectUrl,
+      String discoveryUrl, List<String> scopes);
 
   Future<String> getAuthenticationInfo();
 }

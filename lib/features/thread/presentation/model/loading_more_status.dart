@@ -1,4 +1,3 @@
-
 enum LoadingMoreStatus {
   idle,
   running,

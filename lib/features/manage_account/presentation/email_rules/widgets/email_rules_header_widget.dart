@@ -56,7 +56,7 @@ class EmailRulesHeaderWidget extends StatelessWidget {
             backgroundColor: AppColor.colorTextButton,
             iconColor: Colors.white,
             minWidth: 130,
-            padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 8),
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
             iconSize: 20,
             textStyle: const TextStyle(
               fontSize: 17,

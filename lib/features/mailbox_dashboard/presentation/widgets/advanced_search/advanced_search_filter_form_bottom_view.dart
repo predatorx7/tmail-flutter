@@ -10,8 +10,8 @@ import 'package:tmail_ui_user/features/mailbox_dashboard/presentation/controller
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 import 'package:tmail_ui_user/main/routes/route_navigation.dart';
 
-class AdvancedSearchFilterFormBottomView extends GetWidget<AdvancedFilterController> {
-
+class AdvancedSearchFilterFormBottomView
+    extends GetWidget<AdvancedFilterController> {
   final InputFieldFocusManager? focusManager;
 
   const AdvancedSearchFilterFormBottomView({
@@ -24,16 +24,16 @@ class AdvancedSearchFilterFormBottomView extends GetWidget<AdvancedFilterControl
     final responsiveUtils = Get.find<ResponsiveUtils>();
 
     return Padding(
-      padding: EdgeInsets.only(top: !responsiveUtils.isWebDesktop(context) ? 8 : 20),
+      padding:
+          EdgeInsets.only(top: !responsiveUtils.isWebDesktop(context) ? 8 : 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Transform(
             transform: Matrix4.translationValues(-8.0, 0.0, 0.0),
-            child: _buildCheckboxHasAttachment(
-              context,
-              currentFocusNode: focusManager?.attachmentCheckboxFocusNode,
-              nextFocusNode: focusManager?.searchButtonFocusNode),
+            child: _buildCheckboxHasAttachment(context,
+                currentFocusNode: focusManager?.attachmentCheckboxFocusNode,
+                nextFocusNode: focusManager?.searchButtonFocusNode),
           ),
           _buildListButton(context, responsiveUtils),
         ],
@@ -41,7 +41,8 @@ class AdvancedSearchFilterFormBottomView extends GetWidget<AdvancedFilterControl
     );
   }
 
-  Widget _buildListButton(BuildContext context, ResponsiveUtils responsiveUtils) {
+  Widget _buildListButton(
+      BuildContext context, ResponsiveUtils responsiveUtils) {
     if (!responsiveUtils.isWebDesktop(context)) {
       return Row(children: [
         Expanded(
@@ -60,6 +61,35 @@ class AdvancedSearchFilterFormBottomView extends GetWidget<AdvancedFilterControl
         const SizedBox(width: 12),
         Expanded(
           child: _buildButton(
+              onAction: () {
+                controller.applyAdvancedSearchFilter(context);
+                popBack();
+              },
+              colorButton: AppColor.primaryColor,
+              colorText: AppColor.primaryLightColor,
+              text: AppLocalizations.of(context).search,
+              context: context,
+              responsiveUtils: responsiveUtils,
+              currentFocusNode: focusManager?.searchButtonFocusNode,
+              nextFocusNode: focusManager?.fromFieldFocusNode),
+        ),
+      ]);
+    } else {
+      return Row(children: [
+        const Spacer(),
+        _buildButton(
+            onAction: () {
+              controller.cleanSearchFilter(context);
+              popBack();
+            },
+            colorButton: Colors.transparent,
+            colorText: AppColor.colorContentEmail,
+            text: AppLocalizations.of(context).clearFilter,
+            context: context,
+            responsiveUtils: responsiveUtils,
+            minWidth: 92),
+        const SizedBox(width: 12),
+        _buildButton(
             onAction: () {
               controller.applyAdvancedSearchFilter(context);
               popBack();
@@ -69,52 +99,18 @@ class AdvancedSearchFilterFormBottomView extends GetWidget<AdvancedFilterControl
             text: AppLocalizations.of(context).search,
             context: context,
             responsiveUtils: responsiveUtils,
+            minWidth: 144,
             currentFocusNode: focusManager?.searchButtonFocusNode,
-            nextFocusNode: focusManager?.fromFieldFocusNode
-          ),
-        ),
-      ]);
-    } else {
-      return Row(children: [
-        const Spacer(),
-        _buildButton(
-          onAction: () {
-            controller.cleanSearchFilter(context);
-            popBack();
-          },
-          colorButton: Colors.transparent,
-          colorText: AppColor.colorContentEmail,
-          text: AppLocalizations.of(context).clearFilter,
-          context: context,
-          responsiveUtils: responsiveUtils,
-          minWidth: 92
-        ),
-        const SizedBox(width: 12),
-        _buildButton(
-          onAction: () {
-            controller.applyAdvancedSearchFilter(context);
-            popBack();
-          },
-          colorButton: AppColor.primaryColor,
-          colorText: AppColor.primaryLightColor,
-          text: AppLocalizations.of(context).search,
-          context: context,
-          responsiveUtils: responsiveUtils,
-          minWidth: 144,
-          currentFocusNode: focusManager?.searchButtonFocusNode,
-          nextFocusNode: focusManager?.fromFieldFocusNode
-        ),
+            nextFocusNode: focusManager?.fromFieldFocusNode),
       ]);
     }
   }
 
   Widget _buildCheckboxHasAttachment(
-      BuildContext context,
-      {
-        FocusNode? currentFocusNode,
-        FocusNode? nextFocusNode,
-      }
-  ) {
+    BuildContext context, {
+    FocusNode? currentFocusNode,
+    FocusNode? nextFocusNode,
+  }) {
     return Obx(
       () => RawKeyboardListener(
         focusNode: FocusNode(),
@@ -155,18 +151,15 @@ class AdvancedSearchFilterFormBottomView extends GetWidget<AdvancedFilterControl
           nextFocusNode?.requestFocus();
         }
       },
-      child: buildButtonWrapText(
-        text,
-        focusNode: currentFocusNode,
-        radius: 10,
-        height: 44,
-        minWidth: minWidth,
-        textStyle: TextStyle(
-          fontSize: 17,
-          color: colorText,
-          fontWeight: FontWeight.w500),
-        bgColor: colorButton,
-        onTap: onAction),
+      child: buildButtonWrapText(text,
+          focusNode: currentFocusNode,
+          radius: 10,
+          height: 44,
+          minWidth: minWidth,
+          textStyle: TextStyle(
+              fontSize: 17, color: colorText, fontWeight: FontWeight.w500),
+          bgColor: colorButton,
+          onTap: onAction),
     );
   }
 }

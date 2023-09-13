@@ -8,20 +8,16 @@ import 'package:tmail_ui_user/features/mailbox_dashboard/domain/model/spam_repor
 import 'package:tmail_ui_user/features/mailbox_dashboard/domain/model/unread_spam_emails_response.dart';
 
 abstract class SpamReportRepository {
-  Future<void> storeLastTimeDismissedSpamReported(DateTime lastTimeDismissedSpamReported);
+  Future<void> storeLastTimeDismissedSpamReported(
+      DateTime lastTimeDismissedSpamReported);
 
   Future<DateTime> getLastTimeDismissedSpamReported();
 
   Future<void> deleteLastTimeDismissedSpamReported();
 
   Future<UnreadSpamEmailsResponse> getUnreadSpamMailbox(
-    Session session,
-    AccountId accountId,
-    {
-      MailboxFilterCondition? mailboxFilterCondition,
-      UnsignedInt? limit
-    }
-  );
+      Session session, AccountId accountId,
+      {MailboxFilterCondition? mailboxFilterCondition, UnsignedInt? limit});
 
   Future<SpamReportState> getSpamReportState();
 

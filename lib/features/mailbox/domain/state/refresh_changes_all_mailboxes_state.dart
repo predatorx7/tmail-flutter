@@ -9,16 +9,14 @@ class RefreshChangesAllMailboxSuccess extends UIState {
   final List<PresentationMailbox> mailboxList;
   final State? currentMailboxState;
 
-  RefreshChangesAllMailboxSuccess({
-    required this.mailboxList,
-    required this.currentMailboxState
-  });
+  RefreshChangesAllMailboxSuccess(
+      {required this.mailboxList, required this.currentMailboxState});
 
   @override
   List<Object?> get props => [mailboxList, currentMailboxState];
 }
 
 class RefreshChangesAllMailboxFailure extends FeatureFailure {
-
-  RefreshChangesAllMailboxFailure(dynamic exception) : super(exception: exception);
+  RefreshChangesAllMailboxFailure(dynamic exception)
+      : super(exception: exception);
 }

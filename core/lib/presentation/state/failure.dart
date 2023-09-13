@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 
 abstract class Failure with EquatableMixin {
-
   @override
   bool? get stringify => true;
 }

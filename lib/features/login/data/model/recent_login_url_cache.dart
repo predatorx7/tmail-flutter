@@ -8,7 +8,6 @@ part 'recent_login_url_cache.g.dart';
 
 @HiveType(typeId: CachingConstants.RECENT_LOGIN_URL_HIVE_CACHE_IDENTITY)
 class RecentLoginUrlCache extends HiveObject with EquatableMixin {
-  
   @HiveField(0)
   final String url;
 
@@ -38,11 +37,10 @@ extension RecentLoginUrlCacheExtension on RecentLoginUrlCache {
 }
 
 extension ListRecentLoginUrlCacheExtension on List<RecentLoginUrlCache> {
-
   void sortByCreationDate() {
     sort((recentUrl1, recentUrl2) {
-      return recentUrl1.creationDate.compareToSort(recentUrl2.creationDate, false);
+      return recentUrl1.creationDate
+          .compareToSort(recentUrl2.creationDate, false);
     });
   }
 }
-

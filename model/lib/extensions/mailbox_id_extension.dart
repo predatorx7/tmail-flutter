@@ -12,15 +12,13 @@ extension MailboxIdExtension on MailboxId {
   }
 
   PatchObject generateMoveToMailboxActionPath(MailboxId destinationMailboxId) {
-    return PatchObject({
-      generatePath():  null,
-      destinationMailboxId.generatePath(): true
-    });
+    return PatchObject(
+        {generatePath(): null, destinationMailboxId.generatePath(): true});
   }
 
   PatchObject generateActionPath() {
     return PatchObject({
-      generatePath():  true,
+      generatePath(): true,
     });
   }
 

@@ -15,13 +15,9 @@ class DownloadManager {
 
   DownloadManager(this._downloadClient);
 
-  Future<DownloadedResponse> downloadFile(
-      String downloadUrl,
-      Future<Directory> directoryToSave,
-      String filename,
-      String basicAuth,
-      {CancelToken? cancelToken}
-  ) async {
+  Future<DownloadedResponse> downloadFile(String downloadUrl,
+      Future<Directory> directoryToSave, String filename, String basicAuth,
+      {CancelToken? cancelToken}) async {
     final streamController = StreamController<DownloadedResponse>();
 
     try {
@@ -32,7 +28,8 @@ class DownloadManager {
         final response = (values[0] as ResponseBody);
         final mediaType = _extractMediaTypeFromResponse(response);
         final fileStream = response.stream;
-        final tempFilePath = '${(values[1] as Directory).absolute.path}/$filename';
+        final tempFilePath =
+            '${(values[1] as Directory).absolute.path}/$filename';
 
         final file = File(tempFilePath);
         file.createSync(recursive: true);
@@ -42,36 +39,42 @@ class DownloadManager {
         subscription = fileStream
             .takeWhile((_) => cancelToken == null || !cancelToken.isCancelled)
             .listen((data) {
-              subscription.pause();
-              randomAccessFile.writeFrom(data).then((accessFile) {
-                randomAccessFile = accessFile;
-                subscription.resume();
-                if (cancelToken != null && cancelToken.isCancelled) {
-                  streamController.sink.addError(CancelDownloadFileException(cancelToken.cancelError?.message));
-                }
-              }).catchError((error) async {
-                await subscription.cancel();
-                streamController.sink.addError(CommonDownloadFileException(error.toString()));
-                await streamController.close();
-              });
+          subscription.pause();
+          randomAccessFile.writeFrom(data).then((accessFile) {
+            randomAccessFile = accessFile;
+            subscription.resume();
+            if (cancelToken != null && cancelToken.isCancelled) {
+              streamController.sink.addError(CancelDownloadFileException(
+                  cancelToken.cancelError?.message));
+            }
+          }).catchError((error) async {
+            await subscription.cancel();
+            streamController.sink
+                .addError(CommonDownloadFileException(error.toString()));
+            await streamController.close();
+          });
         }, onDone: () async {
           await randomAccessFile.close();
           if (cancelToken != null && cancelToken.isCancelled) {
-            streamController.sink.addError(CancelDownloadFileException(cancelToken.cancelError?.message));
+            streamController.sink.addError(
+                CancelDownloadFileException(cancelToken.cancelError?.message));
           } else {
-            streamController.sink.add(DownloadedResponse(tempFilePath, mediaType: mediaType));
+            streamController.sink
+                .add(DownloadedResponse(tempFilePath, mediaType: mediaType));
           }
           await streamController.close();
         }, onError: (error) async {
           await randomAccessFile.close();
           await file.delete();
-          streamController.sink.addError(CommonDownloadFileException(error.toString()));
+          streamController.sink
+              .addError(CommonDownloadFileException(error.toString()));
           await streamController.close();
         });
       });
-    } catch(exception) {
+    } catch (exception) {
       if (cancelToken != null && cancelToken.isCancelled) {
-        streamController.sink.addError(CancelDownloadFileException(cancelToken.cancelError?.message));
+        streamController.sink.addError(
+            CancelDownloadFileException(cancelToken.cancelError?.message));
         await streamController.close();
         return streamController.stream.first;
       } else {
@@ -81,10 +84,7 @@ class DownloadManager {
     return streamController.stream.first;
   }
 
-  void createAnchorElementDownloadFileWeb(
-      Uint8List bytes,
-      String filename
-  ) {
+  void createAnchorElementDownloadFileWeb(Uint8List bytes, String filename) {
     try {
       final blob = html.Blob([bytes]);
       final url = html.Url.createObjectUrlFromBlob(blob);

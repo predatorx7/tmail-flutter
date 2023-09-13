@@ -12,7 +12,6 @@ import 'package:tmail_ui_user/features/email/presentation/model/page_view_naviga
 import 'package:tmail_ui_user/features/mailbox_dashboard/presentation/controller/mailbox_dashboard_controller.dart';
 
 class EmailSupervisorController extends GetxController {
-
   final mailboxDashBoardController = Get.find<MailboxDashBoardController>();
 
   final Queue<EmailLoaded> presentationEmailsLoaded = Queue();
@@ -49,13 +48,14 @@ class EmailSupervisorController extends GetxController {
     if (isSearchActivatedOnMobile) {
       _currentListEmail.addAll(mailboxDashBoardController.listResultSearch);
     } else {
-      _currentListEmail.addAll(mailboxDashBoardController.emailsInCurrentMailbox);
+      _currentListEmail
+          .addAll(mailboxDashBoardController.emailsInCurrentMailbox);
     }
   }
 
   bool get isSearchActivatedOnMobile {
-    return mailboxDashBoardController.searchController.isSearchEmailRunning
-      && PlatformInfo.isMobile;
+    return mailboxDashBoardController.searchController.isSearchEmailRunning &&
+        PlatformInfo.isMobile;
   }
 
   void createPageControllerAndJumpToEmailById(EmailId currentEmailId) {
@@ -77,7 +77,8 @@ class EmailSupervisorController extends GetxController {
     if (_currentListEmail.length <= 1) {
       pageViewNavigatorState.value = PageViewNavigatorState.none;
     } else {
-      if (_currentEmailIndex > 0 && _currentEmailIndex < _currentListEmail.length - 1) {
+      if (_currentEmailIndex > 0 &&
+          _currentEmailIndex < _currentListEmail.length - 1) {
         pageViewNavigatorState.value = PageViewNavigatorState.all;
       } else if (_currentEmailIndex <= 0) {
         pageViewNavigatorState.value = PageViewNavigatorState.previous;
@@ -89,12 +90,12 @@ class EmailSupervisorController extends GetxController {
 
   bool get nextEmailActivated {
     return pageViewNavigatorState.value == PageViewNavigatorState.next ||
-      pageViewNavigatorState.value == PageViewNavigatorState.all;
+        pageViewNavigatorState.value == PageViewNavigatorState.all;
   }
 
   bool get previousEmailActivated {
     return pageViewNavigatorState.value == PageViewNavigatorState.previous ||
-      pageViewNavigatorState.value == PageViewNavigatorState.all;
+        pageViewNavigatorState.value == PageViewNavigatorState.all;
   }
 
   void moveToNextEmail() {
@@ -115,10 +116,8 @@ class EmailSupervisorController extends GetxController {
     if (PlatformInfo.isWeb) {
       pageController?.jumpToPage(page);
     } else {
-      pageController?.animateToPage(
-        page,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.linear);
+      pageController?.animateToPage(page,
+          duration: const Duration(milliseconds: 500), curve: Curves.linear);
     }
   }
 
@@ -131,7 +130,8 @@ class EmailSupervisorController extends GetxController {
   }
 
   EmailLoaded? getEmailInQueueByEmailId(EmailId emailId) {
-    return presentationEmailsLoaded.firstWhereOrNull((e) => e.emailCurrent!.id == emailId);
+    return presentationEmailsLoaded
+        .firstWhereOrNull((e) => e.emailCurrent!.id == emailId);
   }
 
   void popFirstEmailQueue() {

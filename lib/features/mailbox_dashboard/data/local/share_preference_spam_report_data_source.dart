@@ -17,49 +17,56 @@ class SharePreferenceSpamReportDataSource extends SpamReportDataSource {
 
   @override
   Future<DateTime> getLastTimeDismissedSpamReported() async {
-    final timeStamp = _sharedPreferences.getInt(MailboxDashboardConstant.keyLastTimeDismissedSpamReported) ?? 0;
-    final lastTimeDismissedSpamReported =  DateTime.fromMillisecondsSinceEpoch(timeStamp);
+    final timeStamp = _sharedPreferences.getInt(
+            MailboxDashboardConstant.keyLastTimeDismissedSpamReported) ??
+        0;
+    final lastTimeDismissedSpamReported =
+        DateTime.fromMillisecondsSinceEpoch(timeStamp);
     return lastTimeDismissedSpamReported;
   }
-  
+
   @override
-  Future<bool> storeLastTimeDismissedSpamReported(DateTime lastTimeDismissedSpamReported) async {
+  Future<bool> storeLastTimeDismissedSpamReported(
+      DateTime lastTimeDismissedSpamReported) async {
     final timeStamp = lastTimeDismissedSpamReported.millisecondsSinceEpoch;
-    return await _sharedPreferences.setInt(MailboxDashboardConstant.keyLastTimeDismissedSpamReported,timeStamp);
+    return await _sharedPreferences.setInt(
+        MailboxDashboardConstant.keyLastTimeDismissedSpamReported, timeStamp);
   }
 
   @override
   Future<bool> deleteLastTimeDismissedSpamReported() async {
-    return await _sharedPreferences.remove(MailboxDashboardConstant.keyLastTimeDismissedSpamReported);
+    return await _sharedPreferences
+        .remove(MailboxDashboardConstant.keyLastTimeDismissedSpamReported);
   }
 
   @override
   Future<UnreadSpamEmailsResponse> findNumberOfUnreadSpamEmails(
-    Session session,
-    AccountId accountId,
-    {
-      MailboxFilterCondition? mailboxFilterCondition,
-      UnsignedInt? limit
-    }
-  ) {
+      Session session, AccountId accountId,
+      {MailboxFilterCondition? mailboxFilterCondition, UnsignedInt? limit}) {
     throw UnimplementedError();
   }
 
   @override
   Future<bool> deleteSpamReportState() async {
-    return await _sharedPreferences.remove(MailboxDashboardConstant.keySpamReportState);
+    return await _sharedPreferences
+        .remove(MailboxDashboardConstant.keySpamReportState);
   }
 
   @override
   Future<SpamReportState> getSpamReportState() async {
-    final spamReportState = _sharedPreferences.getString(MailboxDashboardConstant.keySpamReportState) ?? '';
-    return spamReportState == SpamReportState.disabled.keyValue ? SpamReportState.disabled : SpamReportState.enabled;
+    final spamReportState = _sharedPreferences
+            .getString(MailboxDashboardConstant.keySpamReportState) ??
+        '';
+    return spamReportState == SpamReportState.disabled.keyValue
+        ? SpamReportState.disabled
+        : SpamReportState.enabled;
   }
 
   @override
   Future<bool> storeSpamReportState(SpamReportState spamReportState) async {
     final spamReportState0 = spamReportState.keyValue;
-    return await _sharedPreferences.setString(MailboxDashboardConstant.keySpamReportState, spamReportState0);
+    return await _sharedPreferences.setString(
+        MailboxDashboardConstant.keySpamReportState, spamReportState0);
   }
 
   @override

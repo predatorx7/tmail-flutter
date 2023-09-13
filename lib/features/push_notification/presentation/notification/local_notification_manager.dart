@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:io';
 
@@ -15,14 +14,15 @@ import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 import 'package:tmail_ui_user/main/routes/route_navigation.dart';
 
 class LocalNotificationManager {
-
   late StreamController<NotificationResponse> localNotificationsController;
 
   LocalNotificationManager._internal() {
-    localNotificationsController = StreamController<NotificationResponse>.broadcast();
+    localNotificationsController =
+        StreamController<NotificationResponse>.broadcast();
   }
 
-  static final LocalNotificationManager _instance = LocalNotificationManager._internal();
+  static final LocalNotificationManager _instance =
+      LocalNotificationManager._internal();
 
   static LocalNotificationManager get instance => _instance;
 
@@ -31,7 +31,8 @@ class LocalNotificationManager {
   bool _notificationsEnabled = false;
   bool _isNotificationClickedOnTerminate = false;
 
-  Stream<NotificationResponse> get localNotificationStream => localNotificationsController.stream;
+  Stream<NotificationResponse> get localNotificationStream =>
+      localNotificationsController.stream;
 
   NotificationAppLaunchDetails? _notificationAppLaunchDetails;
 
@@ -51,31 +52,34 @@ class LocalNotificationManager {
 
   Future<NotificationResponse?> getCurrentNotificationResponse() async {
     try {
-      _notificationAppLaunchDetails = await _localNotificationsPlugin.getNotificationAppLaunchDetails();
+      _notificationAppLaunchDetails =
+          await _localNotificationsPlugin.getNotificationAppLaunchDetails();
       return _notificationAppLaunchDetails?.notificationResponse;
     } catch (e) {
-      logError('LocalNotificationManager::getCurrentNotificationResponse(): ERROR: ${e.toString()}');
+      logError(
+          'LocalNotificationManager::getCurrentNotificationResponse(): ERROR: ${e.toString()}');
     }
     return Future.value(null);
   }
 
-  set activatedNotificationClickedOnTerminate(bool clicked) => _isNotificationClickedOnTerminate = clicked;
+  set activatedNotificationClickedOnTerminate(bool clicked) =>
+      _isNotificationClickedOnTerminate = clicked;
 
-  bool get isNotificationClickedOnTerminate => _isNotificationClickedOnTerminate;
+  bool get isNotificationClickedOnTerminate =>
+      _isNotificationClickedOnTerminate;
 
   Future<bool?> _initLocalNotification() async {
     return await _localNotificationsPlugin.initialize(
-      const InitializationSettings(
-        android: LocalNotificationConfig.androidInitializationSettings,
-        iOS: LocalNotificationConfig.iosInitializationSettings
-      ),
-      onDidReceiveNotificationResponse: _handleReceiveNotificationResponse
-    );
+        const InitializationSettings(
+            android: LocalNotificationConfig.androidInitializationSettings,
+            iOS: LocalNotificationConfig.iosInitializationSettings),
+        onDidReceiveNotificationResponse: _handleReceiveNotificationResponse);
   }
 
   void _handleReceiveNotificationResponse(NotificationResponse response) {
     log('LocalNotificationManager::handleReceiveNotificationResponse():payload: ${response.payload}');
-    if (response.notificationResponseType == NotificationResponseType.selectedNotification) {
+    if (response.notificationResponseType ==
+        NotificationResponseType.selectedNotification) {
       if (!localNotificationsController.isClosed) {
         localNotificationsController.add(response);
       }
@@ -101,42 +105,51 @@ class LocalNotificationManager {
 
   Future<bool> _isAndroidPermissionGranted() async {
     return await _localNotificationsPlugin
-      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
-      ?.areNotificationsEnabled() ?? false;
+            .resolvePlatformSpecificImplementation<
+                AndroidFlutterLocalNotificationsPlugin>()
+            ?.areNotificationsEnabled() ??
+        false;
   }
 
   Future<bool> _requestPermissions() async {
     if (Platform.isAndroid) {
       return await _localNotificationsPlugin
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
-        ?.requestPermission() ?? false;
+              .resolvePlatformSpecificImplementation<
+                  AndroidFlutterLocalNotificationsPlugin>()
+              ?.requestPermission() ??
+          false;
     } else {
       return await _localNotificationsPlugin
-        .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
-        ?.requestPermissions(alert: true, badge: true, sound: true) ?? false;
+              .resolvePlatformSpecificImplementation<
+                  IOSFlutterLocalNotificationsPlugin>()
+              ?.requestPermissions(alert: true, badge: true, sound: true) ??
+          false;
     }
   }
 
   Future<void> _createAndroidNotificationChannel() async {
     return await _localNotificationsPlugin
-      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(LocalNotificationConfig.androidNotificationChannel);
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(
+            LocalNotificationConfig.androidNotificationChannel);
   }
 
   Future<void> _createAndroidNotificationChannelGroup() async {
     await _localNotificationsPlugin
-      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()!
-      .createNotificationChannelGroup(LocalNotificationConfig.androidNotificationChannelGroup);
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()!
+        .createNotificationChannelGroup(
+            LocalNotificationConfig.androidNotificationChannelGroup);
   }
 
-  void showPushNotification({
-    required String id,
-    required String title,
-    String? message,
-    EmailAddress? emailAddress,
-    String? payload,
-    bool isInboxStyle = true
-  }) async {
+  void showPushNotification(
+      {required String id,
+      required String title,
+      String? message,
+      EmailAddress? emailAddress,
+      String? payload,
+      bool isInboxStyle = true}) async {
     if (isInboxStyle) {
       final inboxStyleInformation = InboxStyleInformation(
         [message?.addBlockTag('p', attribute: 'style="color:#6D7885;"') ?? ''],
@@ -148,20 +161,20 @@ class LocalNotificationManager {
       );
 
       await _localNotificationsPlugin.show(
-        id.hashCode,
-        title,
-        message,
-        LocalNotificationConfig.instance.generateNotificationDetails(styleInformation: inboxStyleInformation),
-        payload: payload
-      );
+          id.hashCode,
+          title,
+          message,
+          LocalNotificationConfig.instance.generateNotificationDetails(
+              styleInformation: inboxStyleInformation),
+          payload: payload);
     } else {
       await _localNotificationsPlugin.show(
-        id.hashCode,
-        title,
-        message,
-        LocalNotificationConfig.instance.generateNotificationDetails(styleInformation: const DefaultStyleInformation(true, true)),
-        payload: payload
-      );
+          id.hashCode,
+          title,
+          message,
+          LocalNotificationConfig.instance.generateNotificationDetails(
+              styleInformation: const DefaultStyleInformation(true, true)),
+          payload: payload);
     }
   }
 
@@ -178,15 +191,18 @@ class LocalNotificationManager {
     }
 
     final activeNotifications = await _localNotificationsPlugin
-      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
-      ?.getActiveNotifications();
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.getActiveNotifications();
 
     if (activeNotifications != null && activeNotifications.isNotEmpty) {
       final inboxStyleInformation = InboxStyleInformation(
         [''],
         summaryText: currentContext != null
-          ? AppLocalizations.of(currentContext!).totalNewMessagePushNotification(activeNotifications.length - 1).addBlockTag('b')
-          : '${activeNotifications.length - 1} new emails'.addBlockTag('b'),
+            ? AppLocalizations.of(currentContext!)
+                .totalNewMessagePushNotification(activeNotifications.length - 1)
+                .addBlockTag('b')
+            : '${activeNotifications.length - 1} new emails'.addBlockTag('b'),
         htmlFormatSummaryText: true,
       );
 
@@ -195,27 +211,28 @@ class LocalNotificationManager {
         null,
         null,
         LocalNotificationConfig.instance.generateNotificationDetails(
-          setAsGroup: true,
-          styleInformation: inboxStyleInformation
-        ),
+            setAsGroup: true, styleInformation: inboxStyleInformation),
       );
     }
   }
 
   void removeGroupPushNotification() async {
     final activeNotifications = await _localNotificationsPlugin
-      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
-      ?.getActiveNotifications();
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.getActiveNotifications();
     log('LocalNotificationManager::removeGroupPushNotification():activeNotifications: ${activeNotifications?.length}');
     if (activeNotifications == null || activeNotifications.length <= 1) {
       log('LocalNotificationManager::groupPushNotification():canceled');
-      await _localNotificationsPlugin.cancel(LocalNotificationConfig.groupNotificationId);
+      await _localNotificationsPlugin
+          .cancel(LocalNotificationConfig.groupNotificationId);
     }
   }
 
   Future<void> recreateStreamController() {
     if (localNotificationsController.isClosed) {
-      localNotificationsController = StreamController<NotificationResponse>.broadcast();
+      localNotificationsController =
+          StreamController<NotificationResponse>.broadcast();
     }
     return Future.value();
   }

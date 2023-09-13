@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/state/failure.dart';
 import 'package:core/presentation/state/success.dart';
 import 'package:core/presentation/utils/html_transformer/transform_configuration.dart';
@@ -12,13 +11,13 @@ class TransformHtmlEmailContentInteractor {
   TransformHtmlEmailContentInteractor(this.emailRepository);
 
   Stream<Either<Failure, Success>> execute(
-    String htmlContent,
-    TransformConfiguration configuration
-  ) async* {
+      String htmlContent, TransformConfiguration configuration) async* {
     try {
       yield Right<Failure, Success>(TransformHtmlEmailContentLoading());
-      final htmlContentTransformed = await emailRepository.transformHtmlEmailContent(htmlContent, configuration);
-      yield Right<Failure, Success>(TransformHtmlEmailContentSuccess(htmlContentTransformed));
+      final htmlContentTransformed = await emailRepository
+          .transformHtmlEmailContent(htmlContent, configuration);
+      yield Right<Failure, Success>(
+          TransformHtmlEmailContentSuccess(htmlContentTransformed));
     } catch (e) {
       yield Left<Failure, Success>(TransformHtmlEmailContentFailure(e));
     }

@@ -1,10 +1,8 @@
-
 import 'package:tmail_ui_user/features/caching/clients/recent_login_url_cache_client.dart';
 import 'package:tmail_ui_user/features/cleanup/domain/model/recent_login_url_cleanup_rule.dart';
 import 'package:tmail_ui_user/features/login/data/model/recent_login_url_cache.dart';
 
 class RecentLoginUrlCacheManager {
-
   final RecentLoginUrlCacheClient _recentLoginUrlCacheClient;
 
   RecentLoginUrlCacheManager(this._recentLoginUrlCacheClient);

@@ -1,4 +1,3 @@
-
 import 'package:flutter/widgets.dart';
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
@@ -7,7 +6,7 @@ enum VacationResponderStatus {
   deactivated;
 
   String getTitle(BuildContext context) {
-    switch(this) {
+    switch (this) {
       case VacationResponderStatus.activated:
         return AppLocalizations.of(context).activated;
       case VacationResponderStatus.deactivated:

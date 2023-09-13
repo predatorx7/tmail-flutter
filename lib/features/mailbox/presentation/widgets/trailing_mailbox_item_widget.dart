@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/resources/image_paths.dart';
 import 'package:core/presentation/utils/responsive_utils.dart';
 import 'package:core/presentation/views/button/tmail_button_widget.dart';
@@ -12,7 +11,6 @@ import 'package:tmail_ui_user/features/mailbox/presentation/utils/mailbox_method
 import 'package:tmail_ui_user/features/mailbox/presentation/widgets/count_of_emails_widget.dart';
 
 class TrailingMailboxItemWidget extends StatelessWidget {
-
   final MailboxNode mailboxNode;
   final bool isItemHovered;
   final OnClickOpenMenuMailboxNodeAction? onMenuActionClick;
@@ -32,26 +30,32 @@ class TrailingMailboxItemWidget extends StatelessWidget {
     if (PlatformInfo.isWeb) {
       if (isItemHovered) {
         return TMailButtonWidget.fromIcon(
-          margin: _responsiveUtils.isDesktop(context) && mailboxNode.item.allowedHasEmptyAction
-            ? EdgeInsets.zero
-            : TrailingMailboxItemWidgetStyles.menuIconMargin,
+          margin: _responsiveUtils.isDesktop(context) &&
+                  mailboxNode.item.allowedHasEmptyAction
+              ? EdgeInsets.zero
+              : TrailingMailboxItemWidgetStyles.menuIconMargin,
           icon: _imagePaths.icComposerMenu,
           iconSize: TrailingMailboxItemWidgetStyles.menuIconSize,
           padding: TrailingMailboxItemWidgetStyles.menuIconPadding,
-          backgroundColor: TrailingMailboxItemWidgetStyles.menuIconBackgroundColor,
-          onTapActionAtPositionCallback: (position) => onMenuActionClick?.call(position, mailboxNode),
+          backgroundColor:
+              TrailingMailboxItemWidgetStyles.menuIconBackgroundColor,
+          onTapActionAtPositionCallback: (position) =>
+              onMenuActionClick?.call(position, mailboxNode),
         );
-      } else if (_responsiveUtils.isDesktop(context) && mailboxNode.item.allowedHasEmptyAction) {
+      } else if (_responsiveUtils.isDesktop(context) &&
+          mailboxNode.item.allowedHasEmptyAction) {
         return const SizedBox();
       } else if (mailboxNode.item.allowedToDisplayCountOfUnreadEmails) {
         return Padding(
           padding: TrailingMailboxItemWidgetStyles.countEmailsPadding,
-          child: CountOfEmailsWidget(value: mailboxNode.item.countUnReadEmailsAsString),
+          child: CountOfEmailsWidget(
+              value: mailboxNode.item.countUnReadEmailsAsString),
         );
       } else if (mailboxNode.item.allowedToDisplayCountOfTotalEmails) {
         return Padding(
           padding: TrailingMailboxItemWidgetStyles.countEmailsPadding,
-          child: CountOfEmailsWidget(value: mailboxNode.item.countTotalEmailsAsString),
+          child: CountOfEmailsWidget(
+              value: mailboxNode.item.countTotalEmailsAsString),
         );
       } else {
         return const SizedBox();
@@ -60,12 +64,14 @@ class TrailingMailboxItemWidget extends StatelessWidget {
       if (mailboxNode.item.allowedToDisplayCountOfUnreadEmails) {
         return Padding(
           padding: TrailingMailboxItemWidgetStyles.countEmailsPadding,
-          child: CountOfEmailsWidget(value: mailboxNode.item.countUnReadEmailsAsString),
+          child: CountOfEmailsWidget(
+              value: mailboxNode.item.countUnReadEmailsAsString),
         );
       } else if (mailboxNode.item.allowedToDisplayCountOfTotalEmails) {
         return Padding(
           padding: TrailingMailboxItemWidgetStyles.countEmailsPadding,
-          child: CountOfEmailsWidget(value: mailboxNode.item.countTotalEmailsAsString),
+          child: CountOfEmailsWidget(
+              value: mailboxNode.item.countTotalEmailsAsString),
         );
       } else {
         return const SizedBox();

@@ -12,6 +12,6 @@ class EditLocalCopyInForwardingSuccess extends UIState {
 }
 
 class EditLocalCopyInForwardingFailure extends FeatureFailure {
-
-  EditLocalCopyInForwardingFailure(dynamic exception) : super(exception: exception);
+  EditLocalCopyInForwardingFailure(dynamic exception)
+      : super(exception: exception);
 }

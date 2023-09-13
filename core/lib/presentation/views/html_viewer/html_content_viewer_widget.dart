@@ -17,7 +17,6 @@ typedef OnScrollHorizontalEnd = Function(bool leftDirection);
 typedef OnWebViewLoaded = Function(bool isScrollPageViewActivated);
 
 class HtmlContentViewer extends StatefulWidget {
-
   final String contentHtml;
   final double heightContent;
   final OnScrollHorizontalEnd? onScrollHorizontalEnd;
@@ -52,7 +51,6 @@ class HtmlContentViewer extends StatefulWidget {
 }
 
 class _HtmlContentViewState extends State<HtmlContentViewer> {
-
   late double actualHeight;
   double minHeight = 100;
   double minWidth = 300;
@@ -92,14 +90,11 @@ class _HtmlContentViewState extends State<HtmlContentViewer> {
       return Stack(
         children: [
           SizedBox(
-            height: actualHeight,
-            width: constraints.maxWidth,
-            child: _buildWebView()),
+              height: actualHeight,
+              width: constraints.maxWidth,
+              child: _buildWebView()),
           if (_isLoading)
-            Align(
-              alignment: Alignment.center,
-              child: _buildLoadingView()
-            )
+            Align(alignment: Alignment.center, child: _buildLoadingView())
         ],
       );
     });
@@ -109,9 +104,9 @@ class _HtmlContentViewState extends State<HtmlContentViewer> {
     return const Padding(
         padding: EdgeInsets.all(16),
         child: SizedBox(
-          width: 30,
-          height: 30,
-          child: CupertinoActivityIndicator(color: AppColor.colorLoading)));
+            width: 30,
+            height: 30,
+            child: CupertinoActivityIndicator(color: AppColor.colorLoading)));
   }
 
   Widget _buildWebView() {
@@ -120,26 +115,27 @@ class _HtmlContentViewState extends State<HtmlContentViewer> {
       return Container();
     }
     return InAppWebView(
-      key: ValueKey(htmlData),
-      initialSettings: InAppWebViewSettings(
-        transparentBackground: true,
-      ),
-      onWebViewCreated: (controller) async {
-        _webViewController = controller;
-        controller.loadData(data: htmlData);
-        widget.onCreated?.call(controller);
-      },
-      onLoadStop: _onLoadStop,
-      shouldOverrideUrlLoading: _shouldOverrideUrlLoading,
-      gestureRecognizers: {
-        Factory<LongPressGestureRecognizer>(() => LongPressGestureRecognizer()),
-        if (Platform.isIOS && horizontalGestureActivated)
-          Factory<HorizontalDragGestureRecognizer>(() => HorizontalDragGestureRecognizer()),
-        if (Platform.isAndroid)
-          Factory<ScaleGestureRecognizer>(() => ScaleGestureRecognizer()),
-      },
-      onScrollChanged: (controller, x, y) => controller.scrollTo(x: 0, y: 0)
-    );
+        key: ValueKey(htmlData),
+        initialSettings: InAppWebViewSettings(
+          transparentBackground: true,
+        ),
+        onWebViewCreated: (controller) async {
+          _webViewController = controller;
+          controller.loadData(data: htmlData);
+          widget.onCreated?.call(controller);
+        },
+        onLoadStop: _onLoadStop,
+        shouldOverrideUrlLoading: _shouldOverrideUrlLoading,
+        gestureRecognizers: {
+          Factory<LongPressGestureRecognizer>(
+              () => LongPressGestureRecognizer()),
+          if (Platform.isIOS && horizontalGestureActivated)
+            Factory<HorizontalDragGestureRecognizer>(
+                () => HorizontalDragGestureRecognizer()),
+          if (Platform.isAndroid)
+            Factory<ScaleGestureRecognizer>(() => ScaleGestureRecognizer()),
+        },
+        onScrollChanged: (controller, x, y) => controller.scrollTo(x: 0, y: 0));
   }
 
   void _onLoadStop(InAppWebViewController controller, WebUri? webUri) async {
@@ -151,9 +147,8 @@ class _HtmlContentViewState extends State<HtmlContentViewer> {
     _hideLoadingProgress();
 
     controller.addJavaScriptHandler(
-      handlerName: HtmlUtils.scrollEventJSChannelName,
-      callback: _onHandleScrollEvent
-    );
+        handlerName: HtmlUtils.scrollEventJSChannelName,
+        callback: _onHandleScrollEvent);
   }
 
   void _onHandleScrollEvent(List<dynamic> parameters) {
@@ -168,7 +163,8 @@ class _HtmlContentViewState extends State<HtmlContentViewer> {
   }
 
   Future<void> _setActualHeightView() async {
-    final scrollHeight = await _webViewController.evaluateJavascript(source: 'document.body.scrollHeight');
+    final scrollHeight = await _webViewController.evaluateJavascript(
+        source: 'document.body.scrollHeight');
     log('_HtmlContentViewState::_setActualHeightView(): scrollHeight: $scrollHeight');
     if (scrollHeight != null && mounted) {
       final scrollHeightWithBuffer = scrollHeight + 30.0;
@@ -185,8 +181,12 @@ class _HtmlContentViewState extends State<HtmlContentViewer> {
 
   Future<void> _setActualWidthView() async {
     final result = await Future.wait([
-      _webViewController.evaluateJavascript(source: 'document.getElementsByClassName("tmail-content")[0].scrollWidth'),
-      _webViewController.evaluateJavascript(source: 'document.getElementsByClassName("tmail-content")[0].offsetWidth')
+      _webViewController.evaluateJavascript(
+          source:
+              'document.getElementsByClassName("tmail-content")[0].scrollWidth'),
+      _webViewController.evaluateJavascript(
+          source:
+              'document.getElementsByClassName("tmail-content")[0].offsetWidth')
     ]);
 
     if (result.length == 2) {
@@ -207,7 +207,8 @@ class _HtmlContentViewState extends State<HtmlContentViewer> {
             horizontalGestureActivated = true;
           });
 
-          await _webViewController.evaluateJavascript(source: HtmlUtils.runScriptsHandleScrollEvent);
+          await _webViewController.evaluateJavascript(
+              source: HtmlUtils.runScriptsHandleScrollEvent);
         }
 
         widget.onWebViewLoaded?.call(isScrollActivated);
@@ -224,9 +225,8 @@ class _HtmlContentViewState extends State<HtmlContentViewer> {
   }
 
   Future<NavigationActionPolicy?> _shouldOverrideUrlLoading(
-    InAppWebViewController controller,
-    NavigationAction navigationAction
-  ) async {
+      InAppWebViewController controller,
+      NavigationAction navigationAction) async {
     final url = navigationAction.request.url?.toString();
 
     if (url == null) {
@@ -250,10 +250,8 @@ class _HtmlContentViewState extends State<HtmlContentViewer> {
       return NavigationActionPolicy.CANCEL;
     }
     if (await launcher.canLaunchUrl(Uri.parse(url))) {
-      await launcher.launchUrl(
-        Uri.parse(url),
-        mode: LaunchMode.externalApplication
-      );
+      await launcher.launchUrl(Uri.parse(url),
+          mode: LaunchMode.externalApplication);
     }
 
     return NavigationActionPolicy.CANCEL;

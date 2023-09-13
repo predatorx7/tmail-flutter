@@ -6,7 +6,6 @@ import 'package:jmap_dart_client/jmap/core/state.dart' as jmap;
 class LoadingRenameMailbox extends UIState {}
 
 class RenameMailboxSuccess extends UIActionState {
-
   RenameMailboxSuccess({
     jmap.State? currentEmailState,
     jmap.State? currentMailboxState,
@@ -14,6 +13,5 @@ class RenameMailboxSuccess extends UIActionState {
 }
 
 class RenameMailboxFailure extends FeatureFailure {
-
   RenameMailboxFailure(dynamic exception) : super(exception: exception);
 }

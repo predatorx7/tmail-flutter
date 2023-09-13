@@ -13,6 +13,5 @@ class TransformHtmlSignatureSuccess extends UIState {
 }
 
 class TransformHtmlSignatureFailure extends FeatureFailure {
-
   TransformHtmlSignatureFailure(exception) : super(exception: exception);
 }

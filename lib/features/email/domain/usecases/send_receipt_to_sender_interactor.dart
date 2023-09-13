@@ -10,7 +10,8 @@ class SendReceiptToSenderInteractor {
 
   SendReceiptToSenderInteractor(this._mdnRepository);
 
-  Stream<Either<Failure, Success>> execute(AccountId accountId, SendReceiptToSenderRequest request) async* {
+  Stream<Either<Failure, Success>> execute(
+      AccountId accountId, SendReceiptToSenderRequest request) async* {
     try {
       yield Right<Failure, Success>(SendReceiptToSenderLoading());
       final mdn = await _mdnRepository.sendReceiptToSender(accountId, request);

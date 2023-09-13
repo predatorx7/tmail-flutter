@@ -13,31 +13,23 @@ class MessageContentTransformer {
   final HtmlEscape _htmlEscape;
 
   MessageContentTransformer(
-    this._configuration,
-    this._dioClient,
-    this._htmlEscape
-  );
+      this._configuration, this._dioClient, this._htmlEscape);
 
-  Future<void> _transformDocument({
-    required Document document,
-    Map<String, String>? mapUrlDownloadCID
-  }) async {
+  Future<void> _transformDocument(
+      {required Document document,
+      Map<String, String>? mapUrlDownloadCID}) async {
     await Future.wait([
       if (_configuration.domTransformers.isNotEmpty)
         ..._configuration.domTransformers.map((domTransformer) async =>
             domTransformer.process(
-              document: document,
-              mapUrlDownloadCID: mapUrlDownloadCID,
-              dioClient: _dioClient
-            )
-        )
+                document: document,
+                mapUrlDownloadCID: mapUrlDownloadCID,
+                dioClient: _dioClient))
     ]);
   }
 
-  Future<Document> toDocument({
-    required String message,
-    Map<String, String>? mapUrlDownloadCID
-  }) async {
+  Future<Document> toDocument(
+      {required String message, Map<String, String>? mapUrlDownloadCID}) async {
     final document = parse(message);
     await _transformDocument(
       document: document,

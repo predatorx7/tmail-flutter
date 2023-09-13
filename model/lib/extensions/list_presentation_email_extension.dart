@@ -1,4 +1,3 @@
-
 import 'package:collection/collection.dart';
 import 'package:core/utils/app_logger.dart';
 import 'package:jmap_dart_client/jmap/mail/email/email.dart';
@@ -14,39 +13,47 @@ extension ListPresentationEmailExtension on List<PresentationEmail> {
     return every((email) => email.selectMode == SelectMode.INACTIVE);
   }
 
-  List<Email> get listEmail => map((presentationEmail) => presentationEmail.toEmail()).toList();
+  List<Email> get listEmail =>
+      map((presentationEmail) => presentationEmail.toEmail()).toList();
 
   List<PresentationEmail> get listEmailSelected {
     return where((email) => email.selectMode == SelectMode.ACTIVE).toList();
   }
 
-  List<EmailId> get listEmailIds => map((email) => email.id).whereNotNull().toList();
+  List<EmailId> get listEmailIds =>
+      map((email) => email.id).whereNotNull().toList();
 
-  bool isAllCanDeletePermanently(Map<MailboxId, PresentationMailbox> mapMailbox) {
-    final listMailboxContain = map((email) => email.findMailboxContain(mapMailbox))
-        .whereType<PresentationMailbox>()
-        .toList();
-    final stateDelete = listMailboxContain.every((mailbox) => mailbox.isTrash) ||
-        listMailboxContain.every((mailbox) => mailbox.isDrafts);
+  bool isAllCanDeletePermanently(
+      Map<MailboxId, PresentationMailbox> mapMailbox) {
+    final listMailboxContain =
+        map((email) => email.findMailboxContain(mapMailbox))
+            .whereType<PresentationMailbox>()
+            .toList();
+    final stateDelete =
+        listMailboxContain.every((mailbox) => mailbox.isTrash) ||
+            listMailboxContain.every((mailbox) => mailbox.isDrafts);
     return stateDelete;
   }
 
   bool isAllCanSpamAndMove(Map<MailboxId, PresentationMailbox> mapMailbox) {
-    final listMailboxContain = map((email) => email.findMailboxContain(mapMailbox))
-        .whereType<PresentationMailbox>()
-        .toList();
+    final listMailboxContain =
+        map((email) => email.findMailboxContain(mapMailbox))
+            .whereType<PresentationMailbox>()
+            .toList();
     return listMailboxContain.every((mailbox) => !mailbox.isDrafts) &&
         isAllBelongToTheSameMailbox(mapMailbox);
   }
 
   bool isAllSpam(Map<MailboxId, PresentationMailbox> mapMailbox) {
-    final listMailboxContain = map((email) => email.findMailboxContain(mapMailbox))
-        .whereType<PresentationMailbox>()
-        .toList();
+    final listMailboxContain =
+        map((email) => email.findMailboxContain(mapMailbox))
+            .whereType<PresentationMailbox>()
+            .toList();
     return listMailboxContain.every((mailbox) => mailbox.isSpam);
   }
 
-  bool isAllBelongToTheSameMailbox(Map<MailboxId, PresentationMailbox> mapMailbox) {
+  bool isAllBelongToTheSameMailbox(
+      Map<MailboxId, PresentationMailbox> mapMailbox) {
     if (isEmpty) {
       return false;
     }
@@ -62,11 +69,13 @@ extension ListPresentationEmailExtension on List<PresentationEmail> {
     }
   }
 
-  PresentationMailbox? getCurrentMailboxContain(Map<MailboxId, PresentationMailbox> mapMailbox) {
+  PresentationMailbox? getCurrentMailboxContain(
+      Map<MailboxId, PresentationMailbox> mapMailbox) {
     return first.findMailboxContain(mapMailbox);
   }
 
-  List<PresentationEmail> listEmailCanSpam(Map<MailboxId, PresentationMailbox> mapMailbox) {
+  List<PresentationEmail> listEmailCanSpam(
+      Map<MailboxId, PresentationMailbox> mapMailbox) {
     final newListEmails = map((email) {
       final mailboxContain = email.findMailboxContain(mapMailbox);
       if (mailboxContain?.isSpam == false) {
@@ -78,22 +87,24 @@ extension ListPresentationEmailExtension on List<PresentationEmail> {
     return newListEmails;
   }
 
-  List<PresentationEmail> get allEmailUnread => where((email) => !email.hasRead).toList();
+  List<PresentationEmail> get allEmailUnread =>
+      where((email) => !email.hasRead).toList();
 
   PresentationEmail? findEmail(EmailId emailId) {
     try {
       return firstWhere((email) => email.id == emailId);
-    } catch(e) {
+    } catch (e) {
       return null;
     }
   }
 
-  List<PresentationEmail> combine(List<PresentationEmail> listEmailBefore)  {
+  List<PresentationEmail> combine(List<PresentationEmail> listEmailBefore) {
     return map((presentationEmail) {
       if (presentationEmail.id != null) {
         final emailBefore = listEmailBefore.findEmail(presentationEmail.id!);
         if (emailBefore != null) {
-          return presentationEmail.toSelectedEmail(selectMode: emailBefore.selectMode);
+          return presentationEmail.toSelectedEmail(
+              selectMode: emailBefore.selectMode);
         } else {
           return presentationEmail;
         }
@@ -103,12 +114,16 @@ extension ListPresentationEmailExtension on List<PresentationEmail> {
     }).toList();
   }
 
-  int matchedIndex(EmailId emailId) => indexWhere((email) => email.id == emailId);
+  int matchedIndex(EmailId emailId) =>
+      indexWhere((email) => email.id == emailId);
 
-  List<PresentationEmail> toEmailsAvailablePushNotification({List<MailboxId>? mailboxIdsNotPutNotifications}) {
+  List<PresentationEmail> toEmailsAvailablePushNotification(
+      {List<MailboxId>? mailboxIdsNotPutNotifications}) {
     log('ListPresentationEmailExtension::toEmailsAvailablePushNotification():mailboxIdsNotPutNotifications: $mailboxIdsNotPutNotifications');
     if (mailboxIdsNotPutNotifications?.isNotEmpty == true) {
-      return where((email) => !email.isBelongToOneOfTheMailboxes(mailboxIdsNotPutNotifications!) && email.pushNotificationActivated).toList();
+      return where((email) =>
+          !email.isBelongToOneOfTheMailboxes(mailboxIdsNotPutNotifications!) &&
+          email.pushNotificationActivated).toList();
     } else {
       return where((email) => email.pushNotificationActivated).toList();
     }

@@ -11,7 +11,6 @@ import 'package:tmail_ui_user/features/mailbox/presentation/widgets/empty_mailbo
 import 'package:tmail_ui_user/features/mailbox/presentation/widgets/trailing_mailbox_item_widget.dart';
 
 class LabelMailboxItemWidget extends StatelessWidget {
-
   final MailboxNode mailboxNode;
   final bool showTrailing;
   final bool isItemHovered;
@@ -41,55 +40,54 @@ class LabelMailboxItemWidget extends StatelessWidget {
                 child: TextOverflowBuilder(
                   mailboxNode.item.getDisplayName(context),
                   style: TextStyle(
-                    fontSize: _mailboxNameTextSize,
-                    color: _mailboxNameTextColor,
-                    fontWeight: _mailboxNameTextFontWeight
-                  ),
+                      fontSize: _mailboxNameTextSize,
+                      color: _mailboxNameTextColor,
+                      fontWeight: _mailboxNameTextFontWeight),
                 ),
               ),
-              if (_responsiveUtils.isWebDesktop(context) && mailboxNode.item.allowedHasEmptyAction)
+              if (_responsiveUtils.isWebDesktop(context) &&
+                  mailboxNode.item.allowedHasEmptyAction)
                 EmptyMailboxPopupDialogWidget(
                   mailboxNode: mailboxNode,
-                  onEmptyMailboxActionCallback: (mailboxNode) => onEmptyMailboxActionCallback?.call(mailboxNode),
+                  onEmptyMailboxActionCallback: (mailboxNode) =>
+                      onEmptyMailboxActionCallback?.call(mailboxNode),
                 ),
               TrailingMailboxItemWidget(
-                mailboxNode: mailboxNode,
-                isItemHovered: isItemHovered,
-                onMenuActionClick: onMenuActionClick
-              )
+                  mailboxNode: mailboxNode,
+                  isItemHovered: isItemHovered,
+                  onMenuActionClick: onMenuActionClick)
             ],
           )
         else
           TextOverflowBuilder(
             mailboxNode.item.getDisplayName(context),
             style: TextStyle(
-              fontSize: _mailboxNameTextSize,
-              color: _mailboxNameTextColor,
-              fontWeight: _mailboxNameTextFontWeight
-            ),
+                fontSize: _mailboxNameTextSize,
+                color: _mailboxNameTextColor,
+                fontWeight: _mailboxNameTextFontWeight),
           ),
         if (mailboxNode.item.isTeamMailboxes)
           TextOverflowBuilder(
             mailboxNode.item.emailTeamMailBoxes,
             style: const TextStyle(
-              fontSize: LabelMailboxItemWidgetStyles.teamMailboxTextSize,
-              color: LabelMailboxItemWidgetStyles.teamMailboxTextColor,
-              fontWeight: LabelMailboxItemWidgetStyles.teamMailboxTextFontWeight
-            ),
+                fontSize: LabelMailboxItemWidgetStyles.teamMailboxTextSize,
+                color: LabelMailboxItemWidgetStyles.teamMailboxTextColor,
+                fontWeight:
+                    LabelMailboxItemWidgetStyles.teamMailboxTextFontWeight),
           )
       ],
     );
   }
 
   double get _mailboxNameTextSize => mailboxNode.item.isTeamMailboxes
-    ? LabelMailboxItemWidgetStyles.labelTeamMailboxTextSize
-    : LabelMailboxItemWidgetStyles.labelFolderTextSize;
+      ? LabelMailboxItemWidgetStyles.labelTeamMailboxTextSize
+      : LabelMailboxItemWidgetStyles.labelFolderTextSize;
 
   Color get _mailboxNameTextColor => mailboxNode.item.isTeamMailboxes
-    ? LabelMailboxItemWidgetStyles.labelTeamMailboxTextColor
-    : LabelMailboxItemWidgetStyles.labelFolderTextColor;
+      ? LabelMailboxItemWidgetStyles.labelTeamMailboxTextColor
+      : LabelMailboxItemWidgetStyles.labelFolderTextColor;
 
   FontWeight get _mailboxNameTextFontWeight => mailboxNode.item.isTeamMailboxes
-    ? LabelMailboxItemWidgetStyles.labelTeamMailboxTextFontWeight
-    : LabelMailboxItemWidgetStyles.labelFolderTextFontWeight;
+      ? LabelMailboxItemWidgetStyles.labelTeamMailboxTextFontWeight
+      : LabelMailboxItemWidgetStyles.labelFolderTextFontWeight;
 }

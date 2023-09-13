@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:tmail_ui_user/features/thread/presentation/model/search_status.dart';
 

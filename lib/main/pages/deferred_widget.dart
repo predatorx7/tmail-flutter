@@ -10,11 +10,10 @@ typedef DeferredWidgetBuilder = Widget Function();
 /// state as long as closure to create widget stays the same.
 ///
 class DeferredWidget extends StatefulWidget {
-  DeferredWidget(
-      this.libraryLoader,
-      this.createWidget,
-      {Key? key, Widget? placeholder}
-  ) : placeholder = placeholder ?? Container(), super(key: key);
+  DeferredWidget(this.libraryLoader, this.createWidget,
+      {Key? key, Widget? placeholder})
+      : placeholder = placeholder ?? Container(),
+        super(key: key);
 
   final LibraryLoader libraryLoader;
   final DeferredWidgetBuilder createWidget;
@@ -48,7 +47,8 @@ class _DeferredWidgetState extends State<DeferredWidget> {
     if (DeferredWidget._loadedModules.contains(widget.libraryLoader)) {
       _onLibraryLoaded();
     } else {
-      DeferredWidget.preload(widget.libraryLoader).then((dynamic _) => _onLibraryLoaded());
+      DeferredWidget.preload(widget.libraryLoader)
+          .then((dynamic _) => _onLibraryLoaded());
     }
     super.initState();
   }

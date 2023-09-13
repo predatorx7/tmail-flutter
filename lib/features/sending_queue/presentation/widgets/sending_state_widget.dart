@@ -6,15 +6,11 @@ import 'package:tmail_ui_user/features/offline_mode/model/sending_state.dart';
 import 'package:tmail_ui_user/main/routes/route_navigation.dart';
 
 class SendingStateWidget extends StatelessWidget {
-
   final SendingState sendingState;
   final BoxConstraints? constraints;
 
-  const SendingStateWidget({
-    super.key,
-    required this.sendingState,
-    this.constraints
-  });
+  const SendingStateWidget(
+      {super.key, required this.sendingState, this.constraints});
 
   @override
   Widget build(BuildContext context) {
@@ -23,49 +19,37 @@ class SendingStateWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
       decoration: BoxDecoration(
-        color: sendingState.getBackgroundColor(),
-        borderRadius: const BorderRadius.all(Radius.circular(16))
-      ),
+          color: sendingState.getBackgroundColor(),
+          borderRadius: const BorderRadius.all(Radius.circular(16))),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            sendingState.getIcon(imagePath!),
-            fit: BoxFit.fill,
-            width: 20,
-            height: 20
-          ),
-          const SizedBox(width: 4),
-          if (constraints != null)
-            ConstrainedBox(
-              constraints: constraints!,
-              child: Text(
-                sendingState.getTitle(context),
-                maxLines: 1,
-                overflow: CommonTextStyle.defaultTextOverFlow,
-                softWrap: CommonTextStyle.defaultSoftWrap,
-                style: TextStyle(
-                  fontSize: 15,
-                  color: sendingState.getTitleColor(),
-                  fontWeight: FontWeight.normal
-                )
-              ),
-            )
-          else
-            Text(
-              sendingState.getTitle(context),
-              maxLines: 1,
-              overflow: CommonTextStyle.defaultTextOverFlow,
-              softWrap: CommonTextStyle.defaultSoftWrap,
-              style: TextStyle(
-                fontSize: 15,
-                color: sendingState.getTitleColor(),
-                fontWeight: FontWeight.normal
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(sendingState.getIcon(imagePath!),
+                fit: BoxFit.fill, width: 20, height: 20),
+            const SizedBox(width: 4),
+            if (constraints != null)
+              ConstrainedBox(
+                constraints: constraints!,
+                child: Text(sendingState.getTitle(context),
+                    maxLines: 1,
+                    overflow: CommonTextStyle.defaultTextOverFlow,
+                    softWrap: CommonTextStyle.defaultSoftWrap,
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: sendingState.getTitleColor(),
+                        fontWeight: FontWeight.normal)),
               )
-            )
-        ]
-      ),
+            else
+              Text(sendingState.getTitle(context),
+                  maxLines: 1,
+                  overflow: CommonTextStyle.defaultTextOverFlow,
+                  softWrap: CommonTextStyle.defaultSoftWrap,
+                  style: TextStyle(
+                      fontSize: 15,
+                      color: sendingState.getTitleColor(),
+                      fontWeight: FontWeight.normal))
+          ]),
     );
   }
 }

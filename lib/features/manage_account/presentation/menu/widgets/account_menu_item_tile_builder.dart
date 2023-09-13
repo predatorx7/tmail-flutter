@@ -7,19 +7,13 @@ import 'package:tmail_ui_user/features/manage_account/presentation/model/account
 typedef OnSelectAccountMenuItemAction = void Function(AccountMenuItem);
 
 class AccountMenuItemTileBuilder extends StatelessWidget {
-
   final AccountMenuItem _menuItem;
   final AccountMenuItem? _menuItemSelected;
   final OnSelectAccountMenuItemAction? onSelectAccountMenuItemAction;
 
-  const AccountMenuItemTileBuilder(
-    this._menuItem,
-    this._menuItemSelected,
-    {
-      Key? key,
-      this.onSelectAccountMenuItemAction
-    }
-  ) : super(key: key);
+  const AccountMenuItemTileBuilder(this._menuItem, this._menuItemSelected,
+      {Key? key, this.onSelectAccountMenuItemAction})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,32 +25,27 @@ class AccountMenuItemTileBuilder extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () => onSelectAccountMenuItemAction?.call(_menuItem),
-          borderRadius: BorderRadius.circular(10),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: _getBackgroundColorItem(context)),
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            child: Column(children: [
-              Row(children: [
-                SvgPicture.asset(
-                  _menuItem.getIcon(imagePaths),
-                  width: 20,
-                  height: 20,
-                  fit: BoxFit.fill),
-                const SizedBox(width: 12),
-                Expanded(child: Text(
-                  _menuItem.getName(context),
-                  style: const TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 15,
-                    color: Colors.black
-                  )
-                ))
-              ]),
-            ])
-          )),
+            onTap: () => onSelectAccountMenuItemAction?.call(_menuItem),
+            borderRadius: BorderRadius.circular(10),
+            child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: _getBackgroundColorItem(context)),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                child: Column(children: [
+                  Row(children: [
+                    SvgPicture.asset(_menuItem.getIcon(imagePaths),
+                        width: 20, height: 20, fit: BoxFit.fill),
+                    const SizedBox(width: 12),
+                    Expanded(
+                        child: Text(_menuItem.getName(context),
+                            style: const TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 15,
+                                color: Colors.black)))
+                  ]),
+                ]))),
       ),
     );
   }
@@ -68,8 +57,8 @@ class AccountMenuItemTileBuilder extends StatelessWidget {
       return AppColor.colorBgMailboxSelected;
     } else {
       return responsiveUtils.isWebDesktop(context)
-        ? Colors.transparent
-        : Colors.transparent;
+          ? Colors.transparent
+          : Colors.transparent;
     }
   }
 }

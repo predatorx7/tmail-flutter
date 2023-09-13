@@ -15,14 +15,14 @@ class DeleteIdentityInteractor {
   DeleteIdentityInteractor(this._identityRepository);
 
   Stream<Either<Failure, Success>> execute(
-    Session session,
-    AccountId accountId,
-    IdentityId identityId
-  ) async* {
+      Session session, AccountId accountId, IdentityId identityId) async* {
     try {
       yield Right(DeleteIdentityLoading());
-      final result = await _identityRepository.deleteIdentity(session, accountId, identityId);
-      yield result ? Right(DeleteIdentitySuccess()) : Left(DeleteIdentityFailure(null));
+      final result = await _identityRepository.deleteIdentity(
+          session, accountId, identityId);
+      yield result
+          ? Right(DeleteIdentitySuccess())
+          : Left(DeleteIdentityFailure(null));
     } catch (exception) {
       yield Left(DeleteIdentityFailure(exception));
     }

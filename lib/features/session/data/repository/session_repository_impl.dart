@@ -4,7 +4,6 @@ import 'package:tmail_ui_user/features/session/data/datasource/session_datasourc
 import 'package:tmail_ui_user/features/session/domain/repository/session_repository.dart';
 
 class SessionRepositoryImpl extends SessionRepository {
-
   final Map<DataSourceType, SessionDataSource> sessionDataSource;
 
   SessionRepositoryImpl(this.sessionDataSource);

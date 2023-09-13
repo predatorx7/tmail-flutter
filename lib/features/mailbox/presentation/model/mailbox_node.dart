@@ -8,7 +8,8 @@ import 'package:model/mailbox/presentation_mailbox.dart';
 import 'package:model/mailbox/select_mode.dart';
 
 class MailboxNode with EquatableMixin {
-  static final PresentationMailbox _root = PresentationMailbox(MailboxId(Id('root')));
+  static final PresentationMailbox _root =
+      PresentationMailbox(MailboxId(Id('root')));
 
   PresentationMailbox item;
   List<MailboxNode>? childrenItems;
@@ -29,14 +30,12 @@ class MailboxNode with EquatableMixin {
   bool get isSelected => selectMode == SelectMode.ACTIVE;
 
   MailboxNode(
-    this.item,
-    {
-      this.childrenItems,
-      this.expandMode = ExpandMode.COLLAPSE,
-      this.selectMode = SelectMode.INACTIVE,
-      this.nodeState = MailboxState.activated,
-    }
-  );
+    this.item, {
+    this.childrenItems,
+    this.expandMode = ExpandMode.COLLAPSE,
+    this.selectMode = SelectMode.INACTIVE,
+    this.nodeState = MailboxState.activated,
+  });
 
   bool get nameNotEmpty => item.name?.name.isNotEmpty == true;
 
@@ -55,8 +54,10 @@ class MailboxNode with EquatableMixin {
     item = newItem;
   }
 
-  List<MailboxNode>? updateNode(MailboxId mailboxId, MailboxNode newNode, {MailboxNode? parent}) {
-    List<MailboxNode>? children = parent == null ? childrenItems : parent.childrenItems;
+  List<MailboxNode>? updateNode(MailboxId mailboxId, MailboxNode newNode,
+      {MailboxNode? parent}) {
+    List<MailboxNode>? children =
+        parent == null ? childrenItems : parent.childrenItems;
     return children?.map((MailboxNode child) {
       if (child.item.id == mailboxId) {
         return newNode;
@@ -75,7 +76,7 @@ class MailboxNode with EquatableMixin {
     }).toList();
   }
 
-  List<MailboxNode> descendantsAsList(){
+  List<MailboxNode> descendantsAsList() {
     List<MailboxNode> listOfNodes = <MailboxNode>[];
     _appendDescendants(this, listOfNodes);
     return listOfNodes;
@@ -93,30 +94,41 @@ class MailboxNode with EquatableMixin {
     }
   }
 
-  List<MailboxNode>? toggleSelectNode(MailboxNode selectedMailboxMode, {MailboxNode? parent}) {
-    List<MailboxNode>? children = parent == null ? childrenItems : parent.childrenItems;
+  List<MailboxNode>? toggleSelectNode(MailboxNode selectedMailboxMode,
+      {MailboxNode? parent}) {
+    List<MailboxNode>? children =
+        parent == null ? childrenItems : parent.childrenItems;
     return children?.map((MailboxNode child) {
       if (child.item.id == selectedMailboxMode.item.id) {
         return child.toggleSelectMailboxNode();
       } else {
         if (child.hasChildren()) {
-          return child.copyWith(children: toggleSelectNode(selectedMailboxMode, parent: child));
+          return child.copyWith(
+              children: toggleSelectNode(selectedMailboxMode, parent: child));
         }
         return child;
       }
     }).toList();
   }
 
-  List<MailboxNode>? toSelectedNode({required SelectMode selectMode, ExpandMode? newExpandMode, MailboxNode? parent}) {
-    List<MailboxNode>? children = parent == null ? childrenItems : parent.childrenItems;
+  List<MailboxNode>? toSelectedNode(
+      {required SelectMode selectMode,
+      ExpandMode? newExpandMode,
+      MailboxNode? parent}) {
+    List<MailboxNode>? children =
+        parent == null ? childrenItems : parent.childrenItems;
     return children?.map((MailboxNode child) {
       if (child.hasChildren()) {
         return child.copyWith(
-            children: toSelectedNode(selectMode: selectMode, newExpandMode: newExpandMode, parent: child),
+            children: toSelectedNode(
+                selectMode: selectMode,
+                newExpandMode: newExpandMode,
+                parent: child),
             newSelectMode: selectMode,
             newExpandMode: newExpandMode);
       }
-      return child.toSelectedMailboxNode(selectMode: selectMode, newExpandMode: newExpandMode);
+      return child.toSelectedMailboxNode(
+          selectMode: selectMode, newExpandMode: newExpandMode);
     }).toList();
   }
 
@@ -125,13 +137,12 @@ class MailboxNode with EquatableMixin {
 }
 
 extension MailboxNodeExtension on MailboxNode {
-  MailboxNode copyWith({
-    SelectMode? newSelectMode,
-    ExpandMode? newExpandMode,
-    MailboxState? newNodeState,
-    PresentationMailbox? newItem,
-    List<MailboxNode>? children
-  }) {
+  MailboxNode copyWith(
+      {SelectMode? newSelectMode,
+      ExpandMode? newExpandMode,
+      MailboxState? newNodeState,
+      PresentationMailbox? newItem,
+      List<MailboxNode>? children}) {
     return MailboxNode(
       newItem ?? item,
       childrenItems: children ?? childrenItems,
@@ -143,21 +154,24 @@ extension MailboxNodeExtension on MailboxNode {
 
   MailboxNode toggleSelectMailboxNode() {
     return MailboxNode(
-        item,
-        childrenItems: childrenItems,
-        expandMode: expandMode,
-        selectMode: selectMode == SelectMode.INACTIVE ? SelectMode.ACTIVE : SelectMode.INACTIVE,
-        nodeState: nodeState,
+      item,
+      childrenItems: childrenItems,
+      expandMode: expandMode,
+      selectMode: selectMode == SelectMode.INACTIVE
+          ? SelectMode.ACTIVE
+          : SelectMode.INACTIVE,
+      nodeState: nodeState,
     );
   }
 
-  MailboxNode toSelectedMailboxNode({required SelectMode selectMode, ExpandMode? newExpandMode}) {
+  MailboxNode toSelectedMailboxNode(
+      {required SelectMode selectMode, ExpandMode? newExpandMode}) {
     return MailboxNode(
-        item,
-        childrenItems: childrenItems,
-        expandMode: newExpandMode ?? expandMode,
-        selectMode: selectMode,
-        nodeState: nodeState,
+      item,
+      childrenItems: childrenItems,
+      expandMode: newExpandMode ?? expandMode,
+      selectMode: selectMode,
+      nodeState: nodeState,
     );
   }
 
@@ -170,6 +184,7 @@ extension MailboxNodeExtension on MailboxNode {
       return 1;
     }
 
-    return item.sortOrder!.value.value.compareTo(other.item.sortOrder!.value.value);
+    return item.sortOrder!.value.value
+        .compareTo(other.item.sortOrder!.value.value);
   }
 }

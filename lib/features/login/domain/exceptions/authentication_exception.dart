@@ -1,4 +1,3 @@
-
 import 'package:tmail_ui_user/main/exceptions/remote_exception.dart';
 
 abstract class AuthenticationException extends RemoteException {
@@ -39,7 +38,6 @@ class NotFoundAccessTokenException implements Exception {}
 class AccessTokenInvalidException implements Exception {}
 
 class DownloadAttachmentHasTokenExpiredException implements Exception {
-
   final String refreshToken;
 
   DownloadAttachmentHasTokenExpiredException(this.refreshToken);

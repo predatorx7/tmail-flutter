@@ -5,7 +5,6 @@ part 'contact_filter.g.dart';
 
 @JsonSerializable()
 class ContactFilter extends Filter {
-
   final String text;
 
   ContactFilter(this.text);

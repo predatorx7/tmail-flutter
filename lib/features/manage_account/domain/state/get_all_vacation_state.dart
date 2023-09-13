@@ -14,6 +14,5 @@ class GetAllVacationSuccess extends UIState {
 }
 
 class GetAllVacationFailure extends FeatureFailure {
-
   GetAllVacationFailure(dynamic exception) : super(exception: exception);
 }

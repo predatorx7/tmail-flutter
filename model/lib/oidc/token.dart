@@ -1,10 +1,8 @@
-
 import 'package:core/utils/app_logger.dart';
 import 'package:equatable/equatable.dart';
 import 'package:model/oidc/token_id.dart';
 
 class Token with EquatableMixin {
-
   final String token;
   final TokenId tokenId;
   final String refreshToken;

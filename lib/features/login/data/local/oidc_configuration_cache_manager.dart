@@ -11,7 +11,8 @@ class OidcConfigurationCacheManager {
   OidcConfigurationCacheManager(this._sharedPreferences);
 
   Future<OIDCConfiguration> getOidcConfiguration() async {
-    final authority = _sharedPreferences.getString(OIDCConstant.keyAuthorityOidc);
+    final authority =
+        _sharedPreferences.getString(OIDCConstant.keyAuthorityOidc);
     if (authority == null || authority.isEmpty) {
       throw CanNotFoundOIDCAuthority();
     } else {
@@ -24,7 +25,8 @@ class OidcConfigurationCacheManager {
 
   Future<void> persistAuthorityOidc(String authority) async {
     log('OidcConfigurationCacheManager::persistAuthorityOidc(): $authority');
-    await _sharedPreferences.setString(OIDCConstant.keyAuthorityOidc, authority);
+    await _sharedPreferences.setString(
+        OIDCConstant.keyAuthorityOidc, authority);
   }
 
   Future<void> deleteAuthorityOidc() async {

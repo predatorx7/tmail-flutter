@@ -1,19 +1,16 @@
-
 import 'package:core/data/network/dio_client.dart';
 import 'package:core/presentation/utils/html_transformer/base/dom_transformer.dart';
 import 'package:core/presentation/utils/html_transformer/html_template.dart';
 import 'package:html/dom.dart';
 
 class AddTooltipLinkTransformer extends DomTransformer {
-
   const AddTooltipLinkTransformer();
 
   @override
-  Future<void> process({
-    required Document document,
-    Map<String, String>? mapUrlDownloadCID,
-    DioClient? dioClient
-  }) async {
+  Future<void> process(
+      {required Document document,
+      Map<String, String>? mapUrlDownloadCID,
+      DioClient? dioClient}) async {
     final linkElements = document.querySelectorAll('a[href^="http"]');
     await Future.wait(linkElements.map((linkElement) async {
       _addToolTipWhenHoverLink(linkElement);

@@ -4,7 +4,6 @@ import 'package:jmap_dart_client/jmap/identities/identity.dart';
 class CreateNewIdentityLoading extends UIState {}
 
 class CreateNewIdentitySuccess extends UIState {
-
   final Identity newIdentity;
 
   CreateNewIdentitySuccess(this.newIdentity);
@@ -14,6 +13,5 @@ class CreateNewIdentitySuccess extends UIState {
 }
 
 class CreateNewIdentityFailure extends FeatureFailure {
-
   CreateNewIdentityFailure(dynamic exception) : super(exception: exception);
 }

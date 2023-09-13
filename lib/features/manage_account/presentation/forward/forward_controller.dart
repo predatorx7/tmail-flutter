@@ -34,13 +34,13 @@ import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 import 'package:tmail_ui_user/main/routes/route_navigation.dart';
 
 class ForwardController extends BaseController {
-
   GetForwardInteractor? _getForwardInteractor;
   DeleteRecipientInForwardingInteractor? _deleteRecipientInForwardingInteractor;
   AddRecipientsInForwardingInteractor? _addRecipientsInForwardingInteractor;
   EditLocalCopyInForwardingInteractor? _editLocalCopyInForwardingInteractor;
 
-  final accountDashBoardController = Get.find<ManageAccountDashBoardController>();
+  final accountDashBoardController =
+      Get.find<ManageAccountDashBoardController>();
   final _imagePaths = Get.find<ImagePaths>();
   final _appToast = Get.find<AppToast>();
 
@@ -48,14 +48,15 @@ class ForwardController extends BaseController {
   final listRecipientForward = RxList<RecipientForward>();
   final currentForward = Rxn<TMailForward>();
 
-  bool get currentForwardLocalCopyState => currentForward.value?.localCopy ?? false;
+  bool get currentForwardLocalCopyState =>
+      currentForward.value?.localCopy ?? false;
 
   late ForwardRecipientController recipientController;
 
   ForwardController() {
     recipientController = ForwardRecipientController(
-      accountId: accountDashBoardController.accountId.value,
-      session: accountDashBoardController.sessionCurrent);
+        accountId: accountDashBoardController.accountId.value,
+        session: accountDashBoardController.sessionCurrent);
   }
 
   @override
@@ -64,9 +65,12 @@ class ForwardController extends BaseController {
     registerListenerWorker();
     try {
       _getForwardInteractor = Get.find<GetForwardInteractor>();
-      _deleteRecipientInForwardingInteractor = Get.find<DeleteRecipientInForwardingInteractor>();
-      _addRecipientsInForwardingInteractor = Get.find<AddRecipientsInForwardingInteractor>();
-      _editLocalCopyInForwardingInteractor = Get.find<EditLocalCopyInForwardingInteractor>();
+      _deleteRecipientInForwardingInteractor =
+          Get.find<DeleteRecipientInForwardingInteractor>();
+      _addRecipientsInForwardingInteractor =
+          Get.find<AddRecipientsInForwardingInteractor>();
+      _editLocalCopyInForwardingInteractor =
+          Get.find<EditLocalCopyInForwardingInteractor>();
     } catch (e) {
       logError('ForwardController::onInit(): ${e.toString()}');
     }
@@ -109,30 +113,32 @@ class ForwardController extends BaseController {
 
   void _getForward() {
     if (_getForwardInteractor != null) {
-      consumeState(_getForwardInteractor!.execute(accountDashBoardController.accountId.value!));
+      consumeState(_getForwardInteractor!
+          .execute(accountDashBoardController.accountId.value!));
     }
   }
 
   void deleteRecipients(BuildContext context, String emailAddress) {
-    showConfirmDialogAction(context,
+    showConfirmDialogAction(
+      context,
       title: AppLocalizations.of(context).deleteRecipient,
-      AppLocalizations.of(context).messageConfirmationDialogDeleteRecipientForward(emailAddress),
+      AppLocalizations.of(context)
+          .messageConfirmationDialogDeleteRecipientForward(emailAddress),
       AppLocalizations.of(context).remove,
       onConfirmAction: () => _handleDeleteRecipientAction({emailAddress}),
       showAsBottomSheet: true,
-      icon: SvgPicture.asset(_imagePaths.icDeleteDialogRecipients, fit: BoxFit.fill),
+      icon: SvgPicture.asset(_imagePaths.icDeleteDialogRecipients,
+          fit: BoxFit.fill),
       titleStyle: const TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.w600,
-        color: AppColor.colorDeletePermanentlyButton),
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+          color: AppColor.colorDeletePermanentlyButton),
       actionStyle: const TextStyle(
-        fontSize: 17,
-        fontWeight: FontWeight.w500,
-        color: Colors.white),
+          fontSize: 17, fontWeight: FontWeight.w500, color: Colors.white),
       cancelStyle: const TextStyle(
-        fontSize: 17,
-        fontWeight: FontWeight.w500,
-        color: AppColor.colorTextButton),
+          fontSize: 17,
+          fontWeight: FontWeight.w500,
+          color: AppColor.colorTextButton),
       actionButtonColor: AppColor.colorDeletePermanentlyButton,
       cancelButtonColor: AppColor.colorButtonCancelDialog,
     );
@@ -151,11 +157,13 @@ class ForwardController extends BaseController {
     }
   }
 
-  void _handleDeleteRecipientSuccess(DeleteRecipientInForwardingSuccess success) {
+  void _handleDeleteRecipientSuccess(
+      DeleteRecipientInForwardingSuccess success) {
     if (currentOverlayContext != null && currentContext != null) {
       _appToast.showToastSuccessMessage(
-        currentOverlayContext!,
-        AppLocalizations.of(currentContext!).toastMessageDeleteRecipientSuccessfully);
+          currentOverlayContext!,
+          AppLocalizations.of(currentContext!)
+              .toastMessageDeleteRecipientSuccessfully);
     }
 
     currentForward.value = success.forward;
@@ -164,22 +172,23 @@ class ForwardController extends BaseController {
   }
 
   List<RecipientForward> get listRecipientForwardSelected =>
-    listRecipientForward
-      .where((recipient) => recipient.selectMode == SelectMode.ACTIVE)
-      .toList();
+      listRecipientForward
+          .where((recipient) => recipient.selectMode == SelectMode.ACTIVE)
+          .toList();
 
-  bool get isAllUnSelected =>
-    listRecipientForward.every((recipient) => recipient.selectMode == SelectMode.INACTIVE);
+  bool get isAllUnSelected => listRecipientForward
+      .every((recipient) => recipient.selectMode == SelectMode.INACTIVE);
 
-  bool get isAllSelected =>
-    listRecipientForward.every((recipient) => recipient.selectMode == SelectMode.ACTIVE);
+  bool get isAllSelected => listRecipientForward
+      .every((recipient) => recipient.selectMode == SelectMode.ACTIVE);
 
   void selectRecipientForward(RecipientForward recipientForward) {
     if (selectionMode.value == SelectMode.INACTIVE) {
       selectionMode.value = SelectMode.ACTIVE;
     }
 
-    final matchedRecipientForward = listRecipientForward.indexOf(recipientForward);
+    final matchedRecipientForward =
+        listRecipientForward.indexOf(recipientForward);
     if (matchedRecipientForward >= 0) {
       final newRecipientForward = recipientForward.toggleSelection();
       listRecipientForward[matchedRecipientForward] = newRecipientForward;
@@ -194,30 +203,32 @@ class ForwardController extends BaseController {
   void cancelSelectionMode() {
     selectionMode.value = SelectMode.INACTIVE;
     listRecipientForward.value = listRecipientForward
-      .map((recipient) => recipient.cancelSelection())
-      .toList();
+        .map((recipient) => recipient.cancelSelection())
+        .toList();
   }
 
-  void deleteMultipleRecipients(BuildContext context, Set<String> listEmailAddress) {
-    showConfirmDialogAction(currentContext!,
+  void deleteMultipleRecipients(
+      BuildContext context, Set<String> listEmailAddress) {
+    showConfirmDialogAction(
+      currentContext!,
       title: AppLocalizations.of(context).deleteRecipient,
-      AppLocalizations.of(context).messageConfirmationDialogDeleteAllRecipientForward,
+      AppLocalizations.of(context)
+          .messageConfirmationDialogDeleteAllRecipientForward,
       AppLocalizations.of(currentContext!).remove,
       onConfirmAction: () => _handleDeleteRecipientAction(listEmailAddress),
       showAsBottomSheet: true,
-      icon: SvgPicture.asset(_imagePaths.icDeleteDialogRecipients, fit: BoxFit.fill),
+      icon: SvgPicture.asset(_imagePaths.icDeleteDialogRecipients,
+          fit: BoxFit.fill),
       titleStyle: const TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.w600,
-        color: AppColor.colorDeletePermanentlyButton),
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+          color: AppColor.colorDeletePermanentlyButton),
       actionStyle: const TextStyle(
-        fontSize: 17,
-        fontWeight: FontWeight.w500,
-        color: Colors.white),
+          fontSize: 17, fontWeight: FontWeight.w500, color: Colors.white),
       cancelStyle: const TextStyle(
-        fontSize: 17,
-        fontWeight: FontWeight.w500,
-        color: AppColor.colorTextButton),
+          fontSize: 17,
+          fontWeight: FontWeight.w500,
+          color: AppColor.colorTextButton),
       actionButtonColor: AppColor.colorDeletePermanentlyButton,
       cancelButtonColor: AppColor.colorButtonCancelDialog,
     );
@@ -233,7 +244,8 @@ class ForwardController extends BaseController {
         .toList();
   }
 
-  void addRecipientAction(BuildContext context, List<EmailAddress> listRecipientsSelected) {
+  void addRecipientAction(
+      BuildContext context, List<EmailAddress> listRecipientsSelected) {
     KeyboardUtils.hideKeyboard(context);
 
     final accountId = accountDashBoardController.accountId.value;
@@ -242,9 +254,11 @@ class ForwardController extends BaseController {
     }
   }
 
-  void _handleAddRecipients(AccountId accountId, List<EmailAddress> listEmailAddress) {
+  void _handleAddRecipients(
+      AccountId accountId, List<EmailAddress> listEmailAddress) {
     final listRecipients = listEmailAddress.map((e) => e.emailAddress).toSet();
-    if (currentForward.value != null && _addRecipientsInForwardingInteractor != null) {
+    if (currentForward.value != null &&
+        _addRecipientsInForwardingInteractor != null) {
       consumeState(_addRecipientsInForwardingInteractor!.execute(
           accountId,
           AddRecipientInForwardingRequest(
@@ -256,8 +270,9 @@ class ForwardController extends BaseController {
   void _handleAddRecipientsSuccess(AddRecipientsInForwardingSuccess success) {
     if (currentOverlayContext != null && currentContext != null) {
       _appToast.showToastSuccessMessage(
-        currentOverlayContext!,
-        AppLocalizations.of(currentContext!).toastMessageAddRecipientsSuccessfully);
+          currentOverlayContext!,
+          AppLocalizations.of(currentContext!)
+              .toastMessageAddRecipientsSuccessfully);
     }
 
     currentForward.value = success.forward;
@@ -282,10 +297,11 @@ class ForwardController extends BaseController {
   void _handleEditLocalCopySuccess(EditLocalCopyInForwardingSuccess success) {
     if (currentOverlayContext != null && currentContext != null) {
       _appToast.showToastSuccessMessage(
-        currentOverlayContext!,
-        success.forward.localCopy
-          ? AppLocalizations.of(currentContext!).toastMessageLocalCopyEnable
-          : AppLocalizations.of(currentContext!).toastMessageLocalCopyDisable);
+          currentOverlayContext!,
+          success.forward.localCopy
+              ? AppLocalizations.of(currentContext!).toastMessageLocalCopyEnable
+              : AppLocalizations.of(currentContext!)
+                  .toastMessageLocalCopyDisable);
     }
 
     currentForward.value = success.forward;
@@ -293,26 +309,21 @@ class ForwardController extends BaseController {
   }
 
   void registerListenerWorker() {
-    ever(
-      accountDashBoardController.dashboardSettingAction,
-      (action) {
-        if (action is ClearAllInputForwarding) {
-          cancelSelectionMode();
-          recipientController.clearAll();
-        }
+    ever(accountDashBoardController.dashboardSettingAction, (action) {
+      if (action is ClearAllInputForwarding) {
+        cancelSelectionMode();
+        recipientController.clearAll();
       }
-    );
+    });
   }
 
   void handleExceptionCallback(BuildContext context, bool isListEmailEmpty) {
     if (isListEmailEmpty) {
       _appToast.showToastErrorMessage(
-        context,
-        AppLocalizations.of(context).emptyListEmailForward);
+          context, AppLocalizations.of(context).emptyListEmailForward);
     } else {
       _appToast.showToastErrorMessage(
-        context,
-        AppLocalizations.of(context).incorrectEmailFormat);
+          context, AppLocalizations.of(context).incorrectEmailFormat);
     }
   }
 }

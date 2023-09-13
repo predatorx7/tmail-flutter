@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/resources/image_paths.dart';
 import 'package:core/presentation/state/failure.dart';
@@ -59,8 +58,8 @@ import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 import 'package:tmail_ui_user/main/routes/route_navigation.dart';
 import 'package:jmap_dart_client/jmap/core/state.dart' as jmap;
 
-class SearchMailboxController extends BaseMailboxController with MailboxActionHandlerMixin {
-
+class SearchMailboxController extends BaseMailboxController
+    with MailboxActionHandlerMixin {
   final SearchMailboxInteractor _searchMailboxInteractor;
   final RenameMailboxInteractor _renameMailboxInteractor;
   final MoveMailboxInteractor _moveMailboxInteractor;
@@ -78,27 +77,26 @@ class SearchMailboxController extends BaseMailboxController with MailboxActionHa
   final textInputSearchController = TextEditingController();
   late Debouncer<String> _deBouncerTime;
 
-  PresentationMailbox? get selectedMailbox => dashboardController.selectedMailbox.value;
+  PresentationMailbox? get selectedMailbox =>
+      dashboardController.selectedMailbox.value;
 
-  PresentationEmail? get selectedEmail => dashboardController.selectedEmail.value;
+  PresentationEmail? get selectedEmail =>
+      dashboardController.selectedEmail.value;
 
   SearchMailboxController(
-    this._searchMailboxInteractor,
-    this._renameMailboxInteractor,
-    this._moveMailboxInteractor,
-    this._deleteMultipleMailboxInteractor,
-    this._subscribeMailboxInteractor,
-    this._subscribeMultipleMailboxInteractor,
-    TreeBuilder treeBuilder,
-    VerifyNameInteractor verifyNameInteractor,
-    GetAllMailboxInteractor getAllMailboxInteractor,
-    RefreshAllMailboxInteractor refreshAllMailboxInteractor
-  ) : super(
-    treeBuilder,
-    verifyNameInteractor,
-    getAllMailboxInteractor: getAllMailboxInteractor,
-    refreshAllMailboxInteractor: refreshAllMailboxInteractor
-  );
+      this._searchMailboxInteractor,
+      this._renameMailboxInteractor,
+      this._moveMailboxInteractor,
+      this._deleteMultipleMailboxInteractor,
+      this._subscribeMailboxInteractor,
+      this._subscribeMultipleMailboxInteractor,
+      TreeBuilder treeBuilder,
+      VerifyNameInteractor verifyNameInteractor,
+      GetAllMailboxInteractor getAllMailboxInteractor,
+      RefreshAllMailboxInteractor refreshAllMailboxInteractor)
+      : super(treeBuilder, verifyNameInteractor,
+            getAllMailboxInteractor: getAllMailboxInteractor,
+            refreshAllMailboxInteractor: refreshAllMailboxInteractor);
 
   @override
   void onInit() {
@@ -142,9 +140,11 @@ class SearchMailboxController extends BaseMailboxController with MailboxActionHa
     } else if (success is MoveMailboxSuccess) {
       _moveMailboxSuccess(success);
     } else if (success is DeleteMultipleMailboxAllSuccess) {
-      _deleteMultipleMailboxSuccess(success.listMailboxIdDeleted, success.currentMailboxState);
+      _deleteMultipleMailboxSuccess(
+          success.listMailboxIdDeleted, success.currentMailboxState);
     } else if (success is DeleteMultipleMailboxHasSomeSuccess) {
-      _deleteMultipleMailboxSuccess(success.listMailboxIdDeleted, success.currentMailboxState);
+      _deleteMultipleMailboxSuccess(
+          success.listMailboxIdDeleted, success.currentMailboxState);
     } else if (success is SubscribeMailboxSuccess) {
       _handleSubscribeMailboxSuccess(success);
     } else if (success is SubscribeMultipleMailboxAllSuccess) {
@@ -155,10 +155,8 @@ class SearchMailboxController extends BaseMailboxController with MailboxActionHa
   }
 
   void _initializeDebounceTimeTextSearchChange() {
-    _deBouncerTime = Debouncer<String>(
-      const Duration(milliseconds: 300),
-      initialValue: ''
-    );
+    _deBouncerTime =
+        Debouncer<String>(const Duration(milliseconds: 300), initialValue: '');
 
     _deBouncerTime.values.listen((value) async {
       log('SearchMailboxController::_initializeDebounceTimeTextSearchChange():query: $value');
@@ -176,7 +174,8 @@ class SearchMailboxController extends BaseMailboxController with MailboxActionHa
   }
 
   void _refreshMailboxChanges({jmap.State? mailboxState}) {
-    dashboardController.dispatchMailboxUIAction(RefreshChangeMailboxAction(null));
+    dashboardController
+        .dispatchMailboxUIAction(RefreshChangeMailboxAction(null));
     final newMailboxState = mailboxState ?? currentMailboxState;
     final accountId = dashboardController.accountId.value;
     final session = dashboardController.sessionCurrent;
@@ -188,9 +187,7 @@ class SearchMailboxController extends BaseMailboxController with MailboxActionHa
   void searchMailboxAction() {
     if (currentSearchQuery.value.isNotEmpty) {
       consumeState(_searchMailboxInteractor.execute(
-        allMailboxes,
-        SearchQuery(currentSearchQuery.value)
-      ));
+          allMailboxes, SearchQuery(currentSearchQuery.value)));
     } else {
       listMailboxSearched.clear();
     }
@@ -202,7 +199,8 @@ class SearchMailboxController extends BaseMailboxController with MailboxActionHa
   }
 
   void _handleSearchMailboxSuccess(SearchMailboxSuccess success) {
-    final mailboxesSearchedWithPath = findMailboxPath(success.mailboxesSearched);
+    final mailboxesSearchedWithPath =
+        findMailboxPath(success.mailboxesSearched);
     listMailboxSearched.value = mailboxesSearchedWithPath;
   }
 
@@ -232,16 +230,13 @@ class SearchMailboxController extends BaseMailboxController with MailboxActionHa
   }
 
   void handleMailboxAction(
-    BuildContext context,
-    MailboxActions actions,
-    PresentationMailbox mailbox,
-    {bool isFocusedMenu = false}
-  ) {
+      BuildContext context, MailboxActions actions, PresentationMailbox mailbox,
+      {bool isFocusedMenu = false}) {
     if (!isFocusedMenu) {
       popBack();
     }
 
-    switch(actions) {
+    switch (actions) {
       case MailboxActions.openInNewTab:
         openMailboxInNewTabAction(mailbox);
         break;
@@ -253,43 +248,27 @@ class SearchMailboxController extends BaseMailboxController with MailboxActionHa
         markAsReadMailboxAction(context, mailbox, dashboardController);
         break;
       case MailboxActions.rename:
-        openDialogRenameMailboxAction(
-          context,
-          mailbox,
-          responsiveUtils,
-          onRenameMailboxAction: _renameMailboxAction
-        );
+        openDialogRenameMailboxAction(context, mailbox, responsiveUtils,
+            onRenameMailboxAction: _renameMailboxAction);
         break;
       case MailboxActions.move:
-        moveMailboxAction(
-          context,
-          mailbox,
-          dashboardController,
-          onMovingMailboxAction: (mailboxSelected, destinationMailbox) => _invokeMovingMailboxAction(context, mailboxSelected, destinationMailbox)
-        );
+        moveMailboxAction(context, mailbox, dashboardController,
+            onMovingMailboxAction: (mailboxSelected, destinationMailbox) =>
+                _invokeMovingMailboxAction(
+                    context, mailboxSelected, destinationMailbox));
         break;
       case MailboxActions.delete:
         openConfirmationDialogDeleteMailboxAction(
-          context,
-          responsiveUtils,
-          imagePaths,
-          mailbox,
-          onDeleteMailboxAction: _deleteMailboxAction
-        );
+            context, responsiveUtils, imagePaths, mailbox,
+            onDeleteMailboxAction: _deleteMailboxAction);
         break;
       case MailboxActions.disableMailbox:
-        _updateSubscribeStateOfMailboxAction(
-          mailbox.id,
-          MailboxSubscribeState.disabled,
-          MailboxSubscribeAction.unSubscribe
-        );
+        _updateSubscribeStateOfMailboxAction(mailbox.id,
+            MailboxSubscribeState.disabled, MailboxSubscribeAction.unSubscribe);
         break;
       case MailboxActions.enableMailbox:
-        _updateSubscribeStateOfMailboxAction(
-          mailbox.id,
-          MailboxSubscribeState.enabled,
-          MailboxSubscribeAction.subscribe
-        );
+        _updateSubscribeStateOfMailboxAction(mailbox.id,
+            MailboxSubscribeState.enabled, MailboxSubscribeAction.subscribe);
         break;
       case MailboxActions.emptyTrash:
         emptyTrashAction(context, mailbox, dashboardController);
@@ -302,78 +281,67 @@ class SearchMailboxController extends BaseMailboxController with MailboxActionHa
     }
   }
 
-  void _renameMailboxAction(PresentationMailbox presentationMailbox, MailboxName newMailboxName) {
+  void _renameMailboxAction(
+      PresentationMailbox presentationMailbox, MailboxName newMailboxName) {
     final accountId = dashboardController.accountId.value;
     final session = dashboardController.sessionCurrent;
     if (session != null && accountId != null) {
-      consumeState(_renameMailboxInteractor.execute(
-        session,
-        accountId,
-        RenameMailboxRequest(presentationMailbox.id, newMailboxName)
-      ));
+      consumeState(_renameMailboxInteractor.execute(session, accountId,
+          RenameMailboxRequest(presentationMailbox.id, newMailboxName)));
     }
   }
 
   void _invokeMovingMailboxAction(
-    BuildContext context,
-    PresentationMailbox mailboxSelected,
-    PresentationMailbox? destinationMailbox
-  ) {
+      BuildContext context,
+      PresentationMailbox mailboxSelected,
+      PresentationMailbox? destinationMailbox) {
     final accountId = dashboardController.accountId.value;
     final session = dashboardController.sessionCurrent;
     if (session != null && accountId != null) {
       _handleMovingMailbox(
-        context,
-        session,
-        accountId,
-        MoveAction.moving,
-        mailboxSelected,
-        destinationMailbox: destinationMailbox
-      );
+          context, session, accountId, MoveAction.moving, mailboxSelected,
+          destinationMailbox: destinationMailbox);
     }
   }
 
   void _handleMovingMailbox(
-    BuildContext context,
-    Session session,
-    AccountId accountId,
-    MoveAction moveAction,
-    PresentationMailbox mailboxSelected,
-    {PresentationMailbox? destinationMailbox}
-  ) {
+      BuildContext context,
+      Session session,
+      AccountId accountId,
+      MoveAction moveAction,
+      PresentationMailbox mailboxSelected,
+      {PresentationMailbox? destinationMailbox}) {
     consumeState(_moveMailboxInteractor.execute(
-      session,
-      accountId,
-      MoveMailboxRequest(
-        mailboxSelected.id,
-        moveAction,
-        destinationMailboxId: destinationMailbox?.id,
-        destinationMailboxDisplayName: destinationMailbox?.getDisplayName(context),
-        parentId: mailboxSelected.parentId
-      )
-    ));
+        session,
+        accountId,
+        MoveMailboxRequest(mailboxSelected.id, moveAction,
+            destinationMailboxId: destinationMailbox?.id,
+            destinationMailboxDisplayName:
+                destinationMailbox?.getDisplayName(context),
+            parentId: mailboxSelected.parentId)));
   }
 
   void _moveMailboxSuccess(MoveMailboxSuccess success) {
-    if (success.moveAction == MoveAction.moving && currentOverlayContext != null && currentContext != null) {
+    if (success.moveAction == MoveAction.moving &&
+        currentOverlayContext != null &&
+        currentContext != null) {
       _appToast.showToastMessage(
-        currentOverlayContext!,
-        AppLocalizations.of(currentContext!).moved_to_mailbox(success.destinationMailboxDisplayName ?? AppLocalizations.of(currentContext!).allMailboxes),
-        actionName: AppLocalizations.of(currentContext!).undo,
-        onActionClick: () {
-          _undoMovingMailbox(MoveMailboxRequest(
-            success.mailboxIdSelected,
-            MoveAction.undo,
+          currentOverlayContext!,
+          AppLocalizations.of(currentContext!).moved_to_mailbox(
+              success.destinationMailboxDisplayName ??
+                  AppLocalizations.of(currentContext!).allMailboxes),
+          actionName: AppLocalizations.of(currentContext!).undo,
+          onActionClick: () {
+        _undoMovingMailbox(MoveMailboxRequest(
+            success.mailboxIdSelected, MoveAction.undo,
             destinationMailboxId: success.parentId,
-            parentId: success.destinationMailboxId)
-          );
-        },
-        leadingSVGIconColor: Colors.white,
-        leadingSVGIcon: imagePaths.icFolderMailbox,
-        backgroundColor: AppColor.toastSuccessBackgroundColor,
-        textColor: Colors.white,
-        actionIcon: SvgPicture.asset(imagePaths.icUndo)
-      );
+            parentId: success.destinationMailboxId));
+      },
+          leadingSVGIconColor: Colors.white,
+          leadingSVGIcon: imagePaths.icFolderMailbox,
+          backgroundColor: AppColor.toastSuccessBackgroundColor,
+          textColor: Colors.white,
+          actionIcon: SvgPicture.asset(imagePaths.icUndo));
     }
 
     _refreshMailboxChanges(mailboxState: success.currentMailboxState);
@@ -383,7 +351,8 @@ class SearchMailboxController extends BaseMailboxController with MailboxActionHa
     final accountId = dashboardController.accountId.value;
     final session = dashboardController.sessionCurrent;
     if (session != null && accountId != null) {
-      consumeState(_moveMailboxInteractor.execute(session, accountId, newMoveRequest));
+      consumeState(
+          _moveMailboxInteractor.execute(session, accountId, newMoveRequest));
     }
   }
 
@@ -393,19 +362,14 @@ class SearchMailboxController extends BaseMailboxController with MailboxActionHa
 
     if (session != null && accountId != null) {
       final tupleMap = MailboxUtils.generateMapDescendantIdsAndMailboxIdList(
-        [presentationMailbox],
-        defaultMailboxTree.value,
-        personalMailboxTree.value
-      );
+          [presentationMailbox],
+          defaultMailboxTree.value,
+          personalMailboxTree.value);
       final mapDescendantIds = tupleMap.value1;
       final listMailboxId = tupleMap.value2;
 
       consumeState(_deleteMultipleMailboxInteractor.execute(
-        session,
-        accountId,
-        mapDescendantIds,
-        listMailboxId
-      ));
+          session, accountId, mapDescendantIds, listMailboxId));
     } else {
       _deleteMailboxFailure(DeleteMultipleMailboxFailure(null));
     }
@@ -413,14 +377,15 @@ class SearchMailboxController extends BaseMailboxController with MailboxActionHa
     popBack();
   }
 
-  void _deleteMultipleMailboxSuccess(List<MailboxId> listMailboxIdDeleted, jmap.State? currentMailboxState) {
+  void _deleteMultipleMailboxSuccess(
+      List<MailboxId> listMailboxIdDeleted, jmap.State? currentMailboxState) {
     if (currentOverlayContext != null && currentContext != null) {
-      _appToast.showToastSuccessMessage(
-        currentOverlayContext!,
-        AppLocalizations.of(currentContext!).delete_mailboxes_successfully);
+      _appToast.showToastSuccessMessage(currentOverlayContext!,
+          AppLocalizations.of(currentContext!).delete_mailboxes_successfully);
     }
 
-    if (listMailboxIdDeleted.contains(dashboardController.selectedMailbox.value?.id)) {
+    if (listMailboxIdDeleted
+        .contains(dashboardController.selectedMailbox.value?.id)) {
       dashboardController.selectedMailbox.value = null;
       dashboardController.dispatchMailboxUIAction(SelectMailboxDefaultAction());
     }
@@ -430,27 +395,28 @@ class SearchMailboxController extends BaseMailboxController with MailboxActionHa
 
   void _deleteMailboxFailure(DeleteMultipleMailboxFailure failure) {
     if (currentOverlayContext != null && currentContext != null) {
-      _appToast.showToastErrorMessage(
-        currentOverlayContext!,
-        AppLocalizations.of(currentContext!).delete_mailboxes_failure);
+      _appToast.showToastErrorMessage(currentOverlayContext!,
+          AppLocalizations.of(currentContext!).delete_mailboxes_failure);
     }
   }
 
   void _updateSubscribeStateOfMailboxAction(
-    MailboxId mailboxId,
-    MailboxSubscribeState subscribeState,
-    MailboxSubscribeAction subscribeAction
-  ) {
+      MailboxId mailboxId,
+      MailboxSubscribeState subscribeState,
+      MailboxSubscribeAction subscribeAction) {
     final accountId = dashboardController.accountId.value;
     final session = dashboardController.sessionCurrent;
 
     if (session != null && accountId != null) {
-      final subscribeRequest = generateSubscribeRequest(mailboxId, subscribeState, subscribeAction);
+      final subscribeRequest =
+          generateSubscribeRequest(mailboxId, subscribeState, subscribeAction);
 
       if (subscribeRequest is SubscribeMultipleMailboxRequest) {
-        consumeState(_subscribeMultipleMailboxInteractor.execute(session, accountId, subscribeRequest));
+        consumeState(_subscribeMultipleMailboxInteractor.execute(
+            session, accountId, subscribeRequest));
       } else if (subscribeRequest is SubscribeMailboxRequest) {
-        consumeState(_subscribeMailboxInteractor.execute(session, accountId, subscribeRequest));
+        consumeState(_subscribeMailboxInteractor.execute(
+            session, accountId, subscribeRequest));
       }
     }
   }
@@ -466,11 +432,13 @@ class SearchMailboxController extends BaseMailboxController with MailboxActionHa
 
   void _handleSubscribeMailboxSuccess(SubscribeMailboxSuccess success) {
     if (success.subscribeAction != MailboxSubscribeAction.undo) {
-      _showToastSubscribeMailboxSuccess(success.mailboxId, success.subscribeAction);
+      _showToastSubscribeMailboxSuccess(
+          success.mailboxId, success.subscribeAction);
 
       if (success.mailboxId == selectedMailbox?.id) {
         dashboardController.selectedMailbox.value = null;
-        dashboardController.dispatchMailboxUIAction(SelectMailboxDefaultAction());
+        dashboardController
+            .dispatchMailboxUIAction(SelectMailboxDefaultAction());
         _closeEmailViewIfMailboxDisabledOrNotExist([success.mailboxId]);
       }
     }
@@ -478,17 +446,17 @@ class SearchMailboxController extends BaseMailboxController with MailboxActionHa
     _refreshMailboxChanges(mailboxState: success.currentMailboxState);
   }
 
-  void _handleSubscribeMultipleMailboxAllSuccess(SubscribeMultipleMailboxAllSuccess success) {
-    if(success.subscribeAction != MailboxSubscribeAction.undo) {
+  void _handleSubscribeMultipleMailboxAllSuccess(
+      SubscribeMultipleMailboxAllSuccess success) {
+    if (success.subscribeAction != MailboxSubscribeAction.undo) {
       _showToastSubscribeMailboxSuccess(
-        success.parentMailboxId,
-        success.subscribeAction,
-        listDescendantMailboxIds: success.mailboxIdsSubscribe
-      );
+          success.parentMailboxId, success.subscribeAction,
+          listDescendantMailboxIds: success.mailboxIdsSubscribe);
 
       if (success.mailboxIdsSubscribe.contains(selectedMailbox?.id)) {
         dashboardController.selectedMailbox.value = null;
-        dashboardController.dispatchMailboxUIAction(SelectMailboxDefaultAction());
+        dashboardController
+            .dispatchMailboxUIAction(SelectMailboxDefaultAction());
         _closeEmailViewIfMailboxDisabledOrNotExist(success.mailboxIdsSubscribe);
       }
     }
@@ -496,17 +464,17 @@ class SearchMailboxController extends BaseMailboxController with MailboxActionHa
     _refreshMailboxChanges(mailboxState: success.currentMailboxState);
   }
 
-  void _handleSubscribeMultipleMailboxHasSomeSuccess(SubscribeMultipleMailboxHasSomeSuccess success) {
-    if(success.subscribeAction != MailboxSubscribeAction.undo) {
+  void _handleSubscribeMultipleMailboxHasSomeSuccess(
+      SubscribeMultipleMailboxHasSomeSuccess success) {
+    if (success.subscribeAction != MailboxSubscribeAction.undo) {
       _showToastSubscribeMailboxSuccess(
-        success.parentMailboxId,
-        success.subscribeAction,
-        listDescendantMailboxIds: success.mailboxIdsSubscribe
-      );
+          success.parentMailboxId, success.subscribeAction,
+          listDescendantMailboxIds: success.mailboxIdsSubscribe);
 
       if (success.mailboxIdsSubscribe.contains(selectedMailbox?.id)) {
         dashboardController.selectedMailbox.value = null;
-        dashboardController.dispatchMailboxUIAction(SelectMailboxDefaultAction());
+        dashboardController
+            .dispatchMailboxUIAction(SelectMailboxDefaultAction());
         _closeEmailViewIfMailboxDisabledOrNotExist(success.mailboxIdsSubscribe);
       }
     }
@@ -515,10 +483,8 @@ class SearchMailboxController extends BaseMailboxController with MailboxActionHa
   }
 
   void _showToastSubscribeMailboxSuccess(
-      MailboxId mailboxIdSubscribed,
-      MailboxSubscribeAction subscribeAction,
-      {List<MailboxId>? listDescendantMailboxIds}
-  ) {
+      MailboxId mailboxIdSubscribed, MailboxSubscribeAction subscribeAction,
+      {List<MailboxId>? listDescendantMailboxIds}) {
     if (currentOverlayContext != null && currentContext != null) {
       _appToast.showToastMessage(
         currentOverlayContext!,
@@ -526,15 +492,11 @@ class SearchMailboxController extends BaseMailboxController with MailboxActionHa
         actionName: AppLocalizations.of(currentContext!).undo,
         onActionClick: () {
           if (subscribeAction == MailboxSubscribeAction.unSubscribe) {
-            _undoUnsubscribeMailboxAction(
-              mailboxIdSubscribed,
-              listDescendantMailboxIds: listDescendantMailboxIds
-            );
+            _undoUnsubscribeMailboxAction(mailboxIdSubscribed,
+                listDescendantMailboxIds: listDescendantMailboxIds);
           } else {
-            _undoSubscribeMailboxAction(
-              mailboxIdSubscribed,
-              listDescendantMailboxIds: listDescendantMailboxIds
-            );
+            _undoSubscribeMailboxAction(mailboxIdSubscribed,
+                listDescendantMailboxIds: listDescendantMailboxIds);
           }
         },
         leadingSVGIconColor: Colors.white,
@@ -546,10 +508,8 @@ class SearchMailboxController extends BaseMailboxController with MailboxActionHa
     }
   }
 
-  void _undoUnsubscribeMailboxAction(
-    MailboxId mailboxIdSubscribed,
-    {List<MailboxId>? listDescendantMailboxIds}
-  ) {
+  void _undoUnsubscribeMailboxAction(MailboxId mailboxIdSubscribed,
+      {List<MailboxId>? listDescendantMailboxIds}) {
     final accountId = dashboardController.accountId.value;
     final session = dashboardController.sessionCurrent;
     if (session != null && accountId != null) {
@@ -557,31 +517,27 @@ class SearchMailboxController extends BaseMailboxController with MailboxActionHa
 
       if (listDescendantMailboxIds != null) {
         subscribeRequest = SubscribeMultipleMailboxRequest(
-          mailboxIdSubscribed,
-          listDescendantMailboxIds,
-          MailboxSubscribeState.enabled,
-          MailboxSubscribeAction.undo
-        );
+            mailboxIdSubscribed,
+            listDescendantMailboxIds,
+            MailboxSubscribeState.enabled,
+            MailboxSubscribeAction.undo);
       } else {
-        subscribeRequest = SubscribeMailboxRequest(
-          mailboxIdSubscribed,
-          MailboxSubscribeState.enabled,
-          MailboxSubscribeAction.undo
-        );
+        subscribeRequest = SubscribeMailboxRequest(mailboxIdSubscribed,
+            MailboxSubscribeState.enabled, MailboxSubscribeAction.undo);
       }
 
       if (subscribeRequest is SubscribeMultipleMailboxRequest) {
-        consumeState(_subscribeMultipleMailboxInteractor.execute(session, accountId, subscribeRequest));
+        consumeState(_subscribeMultipleMailboxInteractor.execute(
+            session, accountId, subscribeRequest));
       } else if (subscribeRequest is SubscribeMailboxRequest) {
-        consumeState(_subscribeMailboxInteractor.execute(session, accountId, subscribeRequest));
+        consumeState(_subscribeMailboxInteractor.execute(
+            session, accountId, subscribeRequest));
       }
     }
   }
 
-  void _undoSubscribeMailboxAction(
-    MailboxId mailboxIdSubscribed,
-    {List<MailboxId>? listDescendantMailboxIds}
-  ) {
+  void _undoSubscribeMailboxAction(MailboxId mailboxIdSubscribed,
+      {List<MailboxId>? listDescendantMailboxIds}) {
     final accountId = dashboardController.accountId.value;
     final session = dashboardController.sessionCurrent;
     if (session != null && accountId != null) {
@@ -589,34 +545,35 @@ class SearchMailboxController extends BaseMailboxController with MailboxActionHa
 
       if (listDescendantMailboxIds != null) {
         subscribeRequest = SubscribeMultipleMailboxRequest(
-          mailboxIdSubscribed,
-          listDescendantMailboxIds,
-          MailboxSubscribeState.disabled,
-          MailboxSubscribeAction.undo
-        );
+            mailboxIdSubscribed,
+            listDescendantMailboxIds,
+            MailboxSubscribeState.disabled,
+            MailboxSubscribeAction.undo);
       } else {
-        subscribeRequest = SubscribeMailboxRequest(
-          mailboxIdSubscribed,
-          MailboxSubscribeState.disabled,
-          MailboxSubscribeAction.undo
-        );
+        subscribeRequest = SubscribeMailboxRequest(mailboxIdSubscribed,
+            MailboxSubscribeState.disabled, MailboxSubscribeAction.undo);
       }
 
       if (subscribeRequest is SubscribeMultipleMailboxRequest) {
-        consumeState(_subscribeMultipleMailboxInteractor.execute(session, accountId, subscribeRequest));
+        consumeState(_subscribeMultipleMailboxInteractor.execute(
+            session, accountId, subscribeRequest));
       } else if (subscribeRequest is SubscribeMailboxRequest) {
-        consumeState(_subscribeMailboxInteractor.execute(session, accountId, subscribeRequest));
+        consumeState(_subscribeMailboxInteractor.execute(
+            session, accountId, subscribeRequest));
       }
     }
   }
 
-  void _closeEmailViewIfMailboxDisabledOrNotExist(List<MailboxId> mailboxIdsDisabled) {
+  void _closeEmailViewIfMailboxDisabledOrNotExist(
+      List<MailboxId> mailboxIdsDisabled) {
     if (selectedEmail == null) {
       return;
     }
 
-    final mailboxContain = selectedEmail!.findMailboxContain(dashboardController.mapMailboxById);
-    if (mailboxContain != null && mailboxIdsDisabled.contains(mailboxContain.id)) {
+    final mailboxContain =
+        selectedEmail!.findMailboxContain(dashboardController.mapMailboxById);
+    if (mailboxContain != null &&
+        mailboxIdsDisabled.contains(mailboxContain.id)) {
       dashboardController.clearSelectedEmail();
       dashboardController.dispatchRoute(DashboardRoutes.thread);
     }

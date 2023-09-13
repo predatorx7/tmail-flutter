@@ -1,4 +1,3 @@
-
 import 'package:core/utils/file_utils.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -41,7 +40,6 @@ import 'package:tmail_ui_user/features/thread/data/local/email_cache_manager.dar
 import 'package:tmail_ui_user/main/exceptions/cache_exception_thrower.dart';
 
 class LocalBindings extends Bindings {
-
   @override
   void dependencies() {
     _bindingException();
@@ -64,21 +62,28 @@ class LocalBindings extends Bindings {
     Get.put(EncryptionKeyCacheClient());
     Get.put(EncryptionKeyCacheManager(Get.find<EncryptionKeyCacheClient>()));
     Get.put(AuthenticationInfoCacheClient());
-    Get.put(AuthenticationInfoCacheManager(Get.find<AuthenticationInfoCacheClient>()));
+    Get.put(AuthenticationInfoCacheManager(
+        Get.find<AuthenticationInfoCacheClient>()));
     Get.put(OidcConfigurationCacheManager(Get.find<SharedPreferences>()));
     Get.put(LanguageCacheManager(Get.find<SharedPreferences>()));
     Get.put(RecentLoginUrlCacheClient());
-    Get.put(RecentLoginUrlCacheManager((Get.find<RecentLoginUrlCacheClient>())));
+    Get.put(
+        RecentLoginUrlCacheManager((Get.find<RecentLoginUrlCacheClient>())));
     Get.put(RecentLoginUsernameCacheClient());
-    Get.put(RecentLoginUsernameCacheManager(Get.find<RecentLoginUsernameCacheClient>()));
+    Get.put(RecentLoginUsernameCacheManager(
+        Get.find<RecentLoginUsernameCacheClient>()));
     Get.put(FCMSubscriptionCacheClient());
     Get.put(FcmCacheClient());
-    Get.put(FCMCacheManager(Get.find<FcmCacheClient>(),Get.find<FCMSubscriptionCacheClient>()));
-    Get.put(HiveCacheVersionClient(Get.find<SharedPreferences>(), Get.find<CacheExceptionThrower>()));
+    Get.put(FCMCacheManager(
+        Get.find<FcmCacheClient>(), Get.find<FCMSubscriptionCacheClient>()));
+    Get.put(HiveCacheVersionClient(
+        Get.find<SharedPreferences>(), Get.find<CacheExceptionThrower>()));
     Get.put(NewEmailHiveCacheClient());
-    Get.put(NewEmailCacheManager(Get.find<NewEmailHiveCacheClient>(), Get.find<FileUtils>()));
+    Get.put(NewEmailCacheManager(
+        Get.find<NewEmailHiveCacheClient>(), Get.find<FileUtils>()));
     Get.put(OpenedEmailHiveCacheClient());
-    Get.put(OpenedEmailCacheManager(Get.find<OpenedEmailHiveCacheClient>(), Get.find<FileUtils>()));
+    Get.put(OpenedEmailCacheManager(
+        Get.find<OpenedEmailHiveCacheClient>(), Get.find<FileUtils>()));
     Get.put(SendingEmailHiveCacheClient());
     Get.put(SendingEmailCacheManager(Get.find<SendingEmailHiveCacheClient>()));
     Get.put(SessionHiveCacheClient());

@@ -11,24 +11,10 @@ class PersonalAccount with EquatableMixin {
   final String? apiUrl;
   final UserName? userName;
 
-  PersonalAccount(
-    this.id,
-    this.authenticationType,
-    {
-      required this.isSelected,
-      this.accountId,
-      this.apiUrl,
-      this.userName
-    }
-  );
+  PersonalAccount(this.id, this.authenticationType,
+      {required this.isSelected, this.accountId, this.apiUrl, this.userName});
 
   @override
-  List<Object?> get props => [
-    id,
-    authenticationType,
-    isSelected,
-    accountId,
-    apiUrl,
-    userName
-  ];
+  List<Object?> get props =>
+      [id, authenticationType, isSelected, accountId, apiUrl, userName];
 }

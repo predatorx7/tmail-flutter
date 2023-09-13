@@ -11,16 +11,15 @@ class MarkAsMultipleEmailReadAllSuccess extends UIActionState {
   final ReadActions readActions;
 
   MarkAsMultipleEmailReadAllSuccess(
-      this.countMarkAsReadSuccess,
-      this.readActions,
-      {
-        jmap.State? currentEmailState,
-        jmap.State? currentMailboxState,
-      }
-  ) : super(currentEmailState, currentMailboxState);
+    this.countMarkAsReadSuccess,
+    this.readActions, {
+    jmap.State? currentEmailState,
+    jmap.State? currentMailboxState,
+  }) : super(currentEmailState, currentMailboxState);
 
   @override
-  List<Object?> get props => [countMarkAsReadSuccess, readActions, ...super.props];
+  List<Object?> get props =>
+      [countMarkAsReadSuccess, readActions, ...super.props];
 }
 
 class MarkAsMultipleEmailReadAllFailure extends FeatureFailure {
@@ -38,21 +37,21 @@ class MarkAsMultipleEmailReadHasSomeEmailFailure extends UIActionState {
 
   MarkAsMultipleEmailReadHasSomeEmailFailure(
     this.countMarkAsReadSuccess,
-    this.readActions,
-    {
-      jmap.State? currentEmailState,
-      jmap.State? currentMailboxState,
-    }
-  ) : super(currentEmailState, currentMailboxState);
+    this.readActions, {
+    jmap.State? currentEmailState,
+    jmap.State? currentMailboxState,
+  }) : super(currentEmailState, currentMailboxState);
 
   @override
-  List<Object?> get props => [countMarkAsReadSuccess, readActions, ...super.props];
+  List<Object?> get props =>
+      [countMarkAsReadSuccess, readActions, ...super.props];
 }
 
 class MarkAsMultipleEmailReadFailure extends FeatureFailure {
   final ReadActions readActions;
 
-  MarkAsMultipleEmailReadFailure(this.readActions, dynamic exception) : super(exception: exception);
+  MarkAsMultipleEmailReadFailure(this.readActions, dynamic exception)
+      : super(exception: exception);
 
   @override
   List<Object?> get props => [readActions, exception];

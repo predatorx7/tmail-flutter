@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ThemeUtils {
-
   static ThemeData get appTheme {
     return ThemeData(
       scaffoldBackgroundColor: Colors.white,
@@ -13,9 +12,9 @@ class ThemeUtils {
       textTheme: _textTheme,
       visualDensity: VisualDensity.adaptivePlatformDensity,
       scrollbarTheme: ScrollbarThemeData(
-        thickness: MaterialStateProperty.all(2.0), 
-        radius: const  Radius.circular(5.0), 
-        thumbColor: MaterialStateProperty.all(AppColor.colorThumbScrollBar)),
+          thickness: MaterialStateProperty.all(2.0),
+          radius: const Radius.circular(5.0),
+          thumbColor: MaterialStateProperty.all(AppColor.colorThumbScrollBar)),
     );
   }
 

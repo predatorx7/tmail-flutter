@@ -14,25 +14,20 @@ class ParseCalendarEventInteractor {
   ParseCalendarEventInteractor(this._calendarEventRepository);
 
   Stream<Either<Failure, Success>> execute(
-    AccountId accountId,
-    Set<Id> blobIds,
-    String emailContents
-  ) async* {
+      AccountId accountId, Set<Id> blobIds, String emailContents) async* {
     try {
       yield Right(ParseCalendarEventLoading());
 
-      final result = await Future.wait(
-        [
-          _calendarEventRepository.parse(accountId, blobIds),
-          _calendarEventRepository.getListEventAction(emailContents),
-        ],
-        eagerError: true
-      );
+      final result = await Future.wait([
+        _calendarEventRepository.parse(accountId, blobIds),
+        _calendarEventRepository.getListEventAction(emailContents),
+      ], eagerError: true);
 
       final calendarEventList = result.first as List<CalendarEvent>;
       final eventActionList = result.last as List<EventAction>;
 
-      yield Right(ParseCalendarEventSuccess(calendarEventList, eventActionList));
+      yield Right(
+          ParseCalendarEventSuccess(calendarEventList, eventActionList));
     } catch (e) {
       yield Left(ParseCalendarEventFailure(e));
     }

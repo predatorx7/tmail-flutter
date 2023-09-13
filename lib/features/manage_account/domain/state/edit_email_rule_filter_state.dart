@@ -3,7 +3,6 @@ import 'package:core/presentation/state/success.dart';
 import 'package:rule_filter/rule_filter/tmail_rule.dart';
 
 class EditEmailRuleFilterSuccess extends UIState {
-
   final List<TMailRule> listRulesUpdated;
 
   EditEmailRuleFilterSuccess(this.listRulesUpdated);
@@ -13,6 +12,5 @@ class EditEmailRuleFilterSuccess extends UIState {
 }
 
 class EditEmailRuleFilterFailure extends FeatureFailure {
-
   EditEmailRuleFilterFailure(dynamic exception) : super(exception: exception);
 }

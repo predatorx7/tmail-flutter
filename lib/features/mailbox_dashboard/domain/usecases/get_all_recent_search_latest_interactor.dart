@@ -10,9 +10,11 @@ class GetAllRecentSearchLatestInteractor {
 
   GetAllRecentSearchLatestInteractor(this.searchRepository);
 
-  Future<Either<Failure, Success>> execute({int? limit, String? pattern}) async {
+  Future<Either<Failure, Success>> execute(
+      {int? limit, String? pattern}) async {
     try {
-      final listRecent = await searchRepository.getAllRecentSearchLatest(limit: limit, pattern: pattern);
+      final listRecent = await searchRepository.getAllRecentSearchLatest(
+          limit: limit, pattern: pattern);
       log('GetAllRecentSearchLatestInteractor::execute(): listRecent: ${listRecent.length}');
       return Right(GetAllRecentSearchLatestSuccess(listRecent));
     } catch (exception) {

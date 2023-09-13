@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/resources/image_paths.dart';
 import 'package:core/presentation/utils/responsive_utils.dart';
@@ -11,13 +10,14 @@ import 'package:get/get.dart';
 import 'package:model/email/attachment.dart';
 import 'package:tmail_ui_user/features/email/presentation/extensions/attachment_extension.dart';
 
-typedef OnDownloadAttachmentFileActionClick = void Function(Attachment attachment);
+typedef OnDownloadAttachmentFileActionClick = void Function(
+    Attachment attachment);
 typedef OnExpandAttachmentActionClick = void Function();
 
-class AttachmentFileTileBuilder extends StatelessWidget{
-
+class AttachmentFileTileBuilder extends StatelessWidget {
   final Attachment _attachment;
-  final OnDownloadAttachmentFileActionClick? onDownloadAttachmentFileActionClick;
+  final OnDownloadAttachmentFileActionClick?
+      onDownloadAttachmentFileActionClick;
 
   const AttachmentFileTileBuilder(
     this._attachment, {
@@ -36,65 +36,61 @@ class AttachmentFileTileBuilder extends StatelessWidget{
         color: Colors.transparent,
         child: InkWell(
           onTap: () => onDownloadAttachmentFileActionClick?.call(_attachment),
-          customBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          customBorder:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           child: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: AppColor.attachmentFileBorderColor),
-              color: Colors.transparent),
-            width: responsiveUtils.isMobile(context) ? 224 : 250,
-            height: 60,
-            child: Stack(
-              children: [
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: AppColor.attachmentFileBorderColor),
+                  color: Colors.transparent),
+              width: responsiveUtils.isMobile(context) ? 224 : 250,
+              height: 60,
+              child: Stack(children: [
                 Positioned.fill(
                   child: Row(children: [
-                    SvgPicture.asset(
-                        _attachment.getIcon(imagePaths),
-                        width: 44,
-                        height: 44,
-                        fit: BoxFit.fill),
+                    SvgPicture.asset(_attachment.getIcon(imagePaths),
+                        width: 44, height: 44, fit: BoxFit.fill),
                     const SizedBox(width: 8),
-                    Expanded(child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ExtendedText(
-                          (_attachment.name ?? ''),
-                          maxLines: 1,
-                          overflow: CommonTextStyle.defaultTextOverFlow,
-                          softWrap: CommonTextStyle.defaultSoftWrap,
-                          overflowWidget: TextOverflowWidget(
-                            position: Directionality.maybeOf(context) == TextDirection.rtl
-                              ? TextOverflowPosition.start
-                              : TextOverflowPosition.end,
-                            child: const Text(
-                              "...",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: AppColor.attachmentFileNameColor,
-                                fontWeight: FontWeight.normal
+                    Expanded(
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                          ExtendedText(
+                            (_attachment.name ?? ''),
+                            maxLines: 1,
+                            overflow: CommonTextStyle.defaultTextOverFlow,
+                            softWrap: CommonTextStyle.defaultSoftWrap,
+                            overflowWidget: TextOverflowWidget(
+                              position: Directionality.maybeOf(context) ==
+                                      TextDirection.rtl
+                                  ? TextOverflowPosition.start
+                                  : TextOverflowPosition.end,
+                              child: const Text(
+                                "...",
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: AppColor.attachmentFileNameColor,
+                                    fontWeight: FontWeight.normal),
                               ),
                             ),
+                            style: const TextStyle(
+                                fontSize: 14,
+                                color: AppColor.attachmentFileNameColor,
+                                fontWeight: FontWeight.normal),
                           ),
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: AppColor.attachmentFileNameColor,
-                            fontWeight: FontWeight.normal
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          filesize(_attachment.size?.value),
-                          maxLines: 1,
-                          overflow: CommonTextStyle.defaultTextOverFlow,
-                          softWrap: CommonTextStyle.defaultSoftWrap,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: AppColor.attachmentFileSizeColor,
-                            fontWeight: FontWeight.normal),
-                        )
-                      ]
-                    ))
+                          const SizedBox(height: 4),
+                          Text(
+                            filesize(_attachment.size?.value),
+                            maxLines: 1,
+                            overflow: CommonTextStyle.defaultTextOverFlow,
+                            softWrap: CommonTextStyle.defaultSoftWrap,
+                            style: const TextStyle(
+                                fontSize: 12,
+                                color: AppColor.attachmentFileSizeColor,
+                                fontWeight: FontWeight.normal),
+                          )
+                        ]))
                   ]),
                 ),
                 Align(
@@ -102,20 +98,17 @@ class AttachmentFileTileBuilder extends StatelessWidget{
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
-                      customBorder: const CircleBorder(),
-                      child: SvgPicture.asset(
-                        imagePaths.icDownloadAttachment,
-                        width: 24,
-                        height: 24,
-                        colorFilter: AppColor.primaryColor.asFilter(),
-                        fit: BoxFit.fill),
-                      onTap: () => onDownloadAttachmentFileActionClick?.call(_attachment)
-                    ),
+                        customBorder: const CircleBorder(),
+                        child: SvgPicture.asset(imagePaths.icDownloadAttachment,
+                            width: 24,
+                            height: 24,
+                            colorFilter: AppColor.primaryColor.asFilter(),
+                            fit: BoxFit.fill),
+                        onTap: () => onDownloadAttachmentFileActionClick
+                            ?.call(_attachment)),
                   ),
                 ),
-              ]
-            )
-          ),
+              ])),
         ),
       ),
     );

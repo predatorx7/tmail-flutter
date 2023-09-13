@@ -6,8 +6,8 @@ import 'package:jmap_dart_client/jmap/core/capability/capability_identifier.dart
 import 'package:jmap_dart_client/jmap/core/method/request/set_method.dart';
 import 'package:jmap_dart_client/jmap/core/request/request_invocation.dart';
 
-class FirebaseSubscriptionSetMethod extends SetMethodNoNeedAccountId<FirebaseSubscription> {
-
+class FirebaseSubscriptionSetMethod
+    extends SetMethodNoNeedAccountId<FirebaseSubscription> {
   FirebaseSubscriptionSetMethod() : super();
 
   @override
@@ -15,10 +15,10 @@ class FirebaseSubscriptionSetMethod extends SetMethodNoNeedAccountId<FirebaseSub
 
   @override
   Set<CapabilityIdentifier> get requiredCapabilities => {
-    CapabilityIdentifier.jmapCore,
-    CapabilityIdentifier.jmapMail,
-    FirebaseCapability.fcmIdentifier
-  };
+        CapabilityIdentifier.jmapCore,
+        CapabilityIdentifier.jmapMail,
+        FirebaseCapability.fcmIdentifier
+      };
 
   @override
   Map<String, dynamic> toJson() {
@@ -30,12 +30,19 @@ class FirebaseSubscriptionSetMethod extends SetMethodNoNeedAccountId<FirebaseSub
       }
     }
 
-    writeNotNull('create', create
-      ?.map((id, create) => SetMethodPropertiesConverter().fromMapIdToJson(id, create.toJson())));
-    writeNotNull('update', update
-      ?.map((id, update) => SetMethodPropertiesConverter().fromMapIdToJson(id, update.toJson())));
-    writeNotNull('destroy', destroy
-      ?.map((destroyId) => const IdConverter().toJson(destroyId)).toList());
+    writeNotNull(
+        'create',
+        create?.map((id, create) => SetMethodPropertiesConverter()
+            .fromMapIdToJson(id, create.toJson())));
+    writeNotNull(
+        'update',
+        update?.map((id, update) => SetMethodPropertiesConverter()
+            .fromMapIdToJson(id, update.toJson())));
+    writeNotNull(
+        'destroy',
+        destroy
+            ?.map((destroyId) => const IdConverter().toJson(destroyId))
+            .toList());
 
     return val;
   }

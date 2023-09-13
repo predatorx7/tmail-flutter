@@ -1,4 +1,3 @@
-
 import 'package:core/core.dart';
 import 'package:core/utils/direction_utils.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:tmail_ui_user/features/base/widget/text_input_decoration_builder
 typedef OnChangeInputAction = Function(String value);
 
 class TextInputFieldBuilder extends StatelessWidget {
-
   final String? label;
   final String? error;
   final String? hint;
@@ -38,15 +36,14 @@ class TextInputFieldBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      if (label != null)
-        ...[
-          Text(isMandatory ? '${label!}*' : label!,
-              style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
-                  color: AppColor.colorContentEmail)),
-          const SizedBox(height: 8)
-        ],
+      if (label != null) ...[
+        Text(isMandatory ? '${label!}*' : label!,
+            style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.normal,
+                color: AppColor.colorContentEmail)),
+        const SizedBox(height: 8)
+      ],
       TextFieldBuilder(
         onTextChange: onChangeInputAction,
         textInputAction: TextInputAction.next,
@@ -58,11 +55,12 @@ class TextInputFieldBuilder extends StatelessWidget {
         minLines: minLines,
         maxLines: maxLines,
         decoration: (TextInputDecorationBuilder()
-          ..setContentPadding(const EdgeInsets.symmetric(vertical: PlatformInfo.isWeb ? 16 : 12, horizontal: 12))
-          ..setHintText(hint)
-          ..setFillColor(backgroundColor)
-          ..setErrorText(error))
-        .build(),
+              ..setContentPadding(const EdgeInsets.symmetric(
+                  vertical: PlatformInfo.isWeb ? 16 : 12, horizontal: 12))
+              ..setHintText(hint)
+              ..setFillColor(backgroundColor)
+              ..setErrorText(error))
+            .build(),
       )
     ]);
   }

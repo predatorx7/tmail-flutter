@@ -3,7 +3,9 @@ import 'package:tmail_ui_user/features/sending_queue/domain/extensions/sending_e
 import 'package:tmail_ui_user/features/sending_queue/domain/model/sending_email.dart';
 
 extension ListSendingEmailExtension on List<SendingEmail> {
-  List<SendingEmailHiveCache> toHiveCache() => map((sendingEmail) => sendingEmail.toHiveCache()).toList();
+  List<SendingEmailHiveCache> toHiveCache() =>
+      map((sendingEmail) => sendingEmail.toHiveCache()).toList();
 
-  List<String> get sendingIds => map((sendingEmail) => sendingEmail.sendingId).toSet().toList();
+  List<String> get sendingIds =>
+      map((sendingEmail) => sendingEmail.sendingId).toSet().toList();
 }

@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:fcm/converter/device_client_id_nullable_converter.dart';
 import 'package:fcm/converter/firebase_expired_time_nullable_converter.dart';
@@ -21,22 +20,17 @@ part 'firebase_subscription.g.dart';
 @TypeNameConverter()
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class FirebaseSubscription with EquatableMixin {
-
   final FirebaseSubscriptionId? id;
   final FirebaseToken? token;
   final DeviceClientId? deviceClientId;
   final FirebaseExpiredTime? expires;
   final List<TypeName>? types;
 
-  FirebaseSubscription({
-    this.id,
-    this.token,
-    this.deviceClientId,
-    this.expires,
-    this.types
-  });
+  FirebaseSubscription(
+      {this.id, this.token, this.deviceClientId, this.expires, this.types});
 
-  factory FirebaseSubscription.fromJson(Map<String, dynamic> json) => _$FirebaseSubscriptionFromJson(json);
+  factory FirebaseSubscription.fromJson(Map<String, dynamic> json) =>
+      _$FirebaseSubscriptionFromJson(json);
 
   Map<String, dynamic> toJson() => _$FirebaseSubscriptionToJson(this);
 

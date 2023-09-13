@@ -16,7 +16,7 @@ import 'package:tmail_ui_user/features/mailbox_dashboard/presentation/widgets/ad
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
 class TextFieldAutocompleteEmailAddress extends StatefulWidget {
- const TextFieldAutocompleteEmailAddress({
+  const TextFieldAutocompleteEmailAddress({
     Key? key,
     required this.advancedSearchFilterField,
     required this.initialTags,
@@ -68,8 +68,7 @@ class _TextFieldAutocompleteEmailAddressState
       optionsViewBuilder: (context, onSelected, listEmailAddress) {
         return Container(
           margin: const EdgeInsets.only(
-            top: PlatformInfo.isWeb ? 5 : 8,
-            bottom: 16),
+              top: PlatformInfo.isWeb ? 5 : 8, bottom: 16),
           height: _getHeightSuggestionBox(listEmailAddress.length, 65),
           width: maxWidthSuggestionBox,
           alignment: Alignment.topLeft,
@@ -139,7 +138,8 @@ class _TextFieldAutocompleteEmailAddressState
                   focusNode: fn,
                   textInputAction: TextInputAction.next,
                   maxLines: 1,
-                  textStyle: TextFieldAutocompleteEmailAddressStyle.inputTextStyle,
+                  textStyle:
+                      TextFieldAutocompleteEmailAddressStyle.inputTextStyle,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
@@ -165,27 +165,27 @@ class _TextFieldAutocompleteEmailAddressState
                         color: AppColor.colorInputBorderCreateMailbox,
                       ),
                     ),
-                    hintText: widget.advancedSearchFilterField.getHintText(context),
+                    hintText:
+                        widget.advancedSearchFilterField.getHintText(context),
                     hintStyle: const TextStyle(
                       fontSize: 16,
                       color: AppColor.colorHintSearchBar,
                     ),
-                    prefixIconConstraints: BoxConstraints(maxWidth: _distanceToField * 0.74),
+                    prefixIconConstraints:
+                        BoxConstraints(maxWidth: _distanceToField * 0.74),
                     prefixIcon: tags.isNotEmpty
-                      ? SingleChildScrollView(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          controller: sc,
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: tags
-                              .map((tagName) => AutocompleteTagItemWidget(
-                                tagName: tagName,
-                                onDeleteCallback: onTagDelete
-                              ))
-                              .toList()
-                          ),
-                        )
-                      : null,
+                        ? SingleChildScrollView(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            controller: sc,
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                                children: tags
+                                    .map((tagName) => AutocompleteTagItemWidget(
+                                        tagName: tagName,
+                                        onDeleteCallback: onTagDelete))
+                                    .toList()),
+                          )
+                        : null,
                   ),
                   onTextChange: (value) {
                     if (value.trim().isNotEmpty) {

@@ -14,32 +14,35 @@ class StoreOpenedEmailInteractor {
 
   StoreOpenedEmailInteractor(this._emailRepository);
 
-  Stream<Either<Failure, Success>> execute(
-    Session session,
-    AccountId accountId,
-    DetailedEmail detailedEmail
-  ) async* {
+  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId,
+      DetailedEmail detailedEmail) async* {
     try {
       yield Right<Failure, Success>(StoreOpenedEmailLoading());
-      final isOpenedEmailExist = await _isOpenedEmailAlreadyStored(session, accountId, detailedEmail);
+      final isOpenedEmailExist =
+          await _isOpenedEmailAlreadyStored(session, accountId, detailedEmail);
       log('StoreOpenedEmailInteractor::execute():isOpenedEmailExist: $isOpenedEmailExist');
       if (!isOpenedEmailExist) {
-        await _emailRepository.storeOpenedEmail(session, accountId, detailedEmail);
+        await _emailRepository.storeOpenedEmail(
+            session, accountId, detailedEmail);
         yield Right<Failure, Success>(StoreOpenedEmailSuccess());
       } else {
-        yield Left<Failure, Success>(StoreOpenedEmailFailure(OpenedEmailAlreadyStoredException()));
+        yield Left<Failure, Success>(
+            StoreOpenedEmailFailure(OpenedEmailAlreadyStoredException()));
       }
     } catch (e) {
       yield Left<Failure, Success>(StoreOpenedEmailFailure(e));
     }
   }
 
-  Future<bool> _isOpenedEmailAlreadyStored(Session session, AccountId accountId, DetailedEmail detailedEmail) async {
+  Future<bool> _isOpenedEmailAlreadyStored(
+      Session session, AccountId accountId, DetailedEmail detailedEmail) async {
     try {
-      await _emailRepository.getStoredOpenedEmail(session, accountId, detailedEmail.emailId);
+      await _emailRepository.getStoredOpenedEmail(
+          session, accountId, detailedEmail.emailId);
       return true;
     } catch (err) {
-      logError('StoreOpenedEmailInteractor::isOpenedEmailAlreadyStored():EXCEPTION: $err');
+      logError(
+          'StoreOpenedEmailInteractor::isOpenedEmailAlreadyStored():EXCEPTION: $err');
       return false;
     }
   }

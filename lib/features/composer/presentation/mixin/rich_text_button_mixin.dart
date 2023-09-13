@@ -1,4 +1,3 @@
-
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -16,7 +15,6 @@ import 'package:tmail_ui_user/features/composer/presentation/model/rich_text_sty
 import 'package:tmail_ui_user/features/composer/presentation/widgets/drop_down_menu_header_style_widget.dart';
 
 mixin RichTextButtonMixin {
-
   final _imagePaths = Get.find<ImagePaths>();
 
   Widget buildWrapIconStyleText({
@@ -27,51 +25,47 @@ mixin RichTextButtonMixin {
     EdgeInsets? padding,
     double? spacing,
     String tooltip = '',
-  }){
+  }) {
     late Widget buttonIcon;
     if (tooltip.isNotEmpty) {
       buttonIcon = Tooltip(
         message: tooltip,
         child: Container(
-          padding: padding ?? const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+          padding:
+              padding ?? const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
           decoration: BoxDecoration(
               color: isSelected == true
                   ? AppColor.colorBackgroundWrapIconStyleCode
                   : Colors.white,
               border: Border.all(
-                  color: AppColor.colorBorderWrapIconStyleCode,
-                  width: 0.5),
+                  color: AppColor.colorBorderWrapIconStyleCode, width: 0.5),
               borderRadius: BorderRadius.circular(8)),
           child: hasDropdown
-              ? Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    icon,
-                    if (spacing != null) SizedBox(width: spacing),
-                    SvgPicture.asset(_imagePaths.icStyleArrowDown)
-                  ])
+              ? Row(mainAxisSize: MainAxisSize.min, children: [
+                  icon,
+                  if (spacing != null) SizedBox(width: spacing),
+                  SvgPicture.asset(_imagePaths.icStyleArrowDown)
+                ])
               : icon,
         ),
       );
     } else {
       buttonIcon = Container(
-        padding: padding ?? const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+        padding:
+            padding ?? const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
         decoration: BoxDecoration(
             color: isSelected == true
                 ? AppColor.colorBackgroundWrapIconStyleCode
                 : Colors.white,
             border: Border.all(
-                color: AppColor.colorBorderWrapIconStyleCode,
-                width: 0.5),
+                color: AppColor.colorBorderWrapIconStyleCode, width: 0.5),
             borderRadius: BorderRadius.circular(8)),
         child: hasDropdown
-            ? Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  icon,
-                  if (spacing != null) SizedBox(width: spacing),
-                  SvgPicture.asset(_imagePaths.icStyleArrowDown)
-                ])
+            ? Row(mainAxisSize: MainAxisSize.min, children: [
+                icon,
+                if (spacing != null) SizedBox(width: spacing),
+                SvgPicture.asset(_imagePaths.icStyleArrowDown)
+              ])
             : icon,
       );
     }
@@ -92,13 +86,14 @@ mixin RichTextButtonMixin {
     required VoidCallback onTap,
     String? tooltip,
     double opacity = 1.0,
-  }){
+  }) {
     return buildIconWeb(
-      icon: SvgPicture.asset(
-          path,
+      icon: SvgPicture.asset(path,
           colorFilter: isSelected == true
-            ? Colors.black.withOpacity(opacity).asFilter()
-            : AppColor.colorDefaultRichTextButton.withOpacity(opacity).asFilter(),
+              ? Colors.black.withOpacity(opacity).asFilter()
+              : AppColor.colorDefaultRichTextButton
+                  .withOpacity(opacity)
+                  .asFilter(),
           fit: BoxFit.fill),
       iconPadding: const EdgeInsets.all(4),
       colorFocus: Colors.white,
@@ -113,49 +108,45 @@ mixin RichTextButtonMixin {
     Color? color,
     String? tooltip,
     double opacity = 1.0,
-  }){
-    final newColor = color == Colors.white
-        ? AppColor.colorDefaultRichTextButton
-        : color;
+  }) {
+    final newColor =
+        color == Colors.white ? AppColor.colorDefaultRichTextButton : color;
 
     return tooltip?.isNotEmpty == true
-      ? Tooltip(
-          message: tooltip,
-          child: SvgPicture.asset(
-            path,
+        ? Tooltip(
+            message: tooltip,
+            child: SvgPicture.asset(path,
+                colorFilter: newColor?.withOpacity(opacity).asFilter(),
+                fit: BoxFit.fill))
+        : SvgPicture.asset(path,
             colorFilter: newColor?.withOpacity(opacity).asFilter(),
-            fit: BoxFit.fill))
-      : SvgPicture.asset(
-          path,
-          colorFilter: newColor?.withOpacity(opacity).asFilter(),
-          fit: BoxFit.fill);
+            fit: BoxFit.fill);
   }
 
   Widget buildIcon({
     required String path,
     Color? color,
     double opacity = 1.0,
-  }){
-    final newColor = color == Colors.white
-        ? AppColor.colorDefaultRichTextButton
-        : color;
+  }) {
+    final newColor =
+        color == Colors.white ? AppColor.colorDefaultRichTextButton : color;
 
-    return SvgPicture.asset(
-      path,
-      colorFilter: newColor?.withOpacity(opacity).asFilter(),
-      fit: BoxFit.fill);
+    return SvgPicture.asset(path,
+        colorFilter: newColor?.withOpacity(opacity).asFilter(),
+        fit: BoxFit.fill);
   }
 
   Widget buildIconColorBackgroundTextWithoutTooltip({
     required IconData? iconData,
     required Color? colorSelected,
     double opacity = 1.0,
-  }){
+  }) {
     final newColor = colorSelected == Colors.white
         ? AppColor.colorDefaultRichTextButton
         : colorSelected;
     return Icon(iconData,
-        color: (newColor ?? AppColor.colorDefaultRichTextButton).withOpacity(opacity),
+        color: (newColor ?? AppColor.colorDefaultRichTextButton)
+            .withOpacity(opacity),
         size: 20);
   }
 
@@ -164,26 +155,25 @@ mixin RichTextButtonMixin {
     required Color? colorSelected,
     String? tooltip,
     double opacity = 1.0,
-  }){
+  }) {
     final newColor = colorSelected == Colors.white
         ? AppColor.colorDefaultRichTextButton
         : colorSelected;
     return Tooltip(
       message: tooltip,
       child: Icon(iconData,
-          color: (newColor ?? AppColor.colorDefaultRichTextButton).withOpacity(opacity),
+          color: (newColor ?? AppColor.colorDefaultRichTextButton)
+              .withOpacity(opacity),
           size: 20),
     );
   }
 
   Widget buildToolbarRichTextForWeb(
-      BuildContext context,
-      RichTextWebController richTextController,
-      {ButtonLayoutType layoutType = ButtonLayoutType.wrapParent}
-  ) {
+      BuildContext context, RichTextWebController richTextController,
+      {ButtonLayoutType layoutType = ButtonLayoutType.wrapParent}) {
     late Widget parentRichTextButton;
 
-    switch(layoutType) {
+    switch (layoutType) {
       case ButtonLayoutType.scrollHorizontal:
         parentRichTextButton = Container(
           alignment: Alignment.center,
@@ -193,7 +183,8 @@ mixin RichTextButtonMixin {
               padding: EdgeInsets.zero,
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              children: listButtonActionForRichText(context, richTextController)),
+              children:
+                  listButtonActionForRichText(context, richTextController)),
         );
         break;
       case ButtonLayoutType.scrollVertical:
@@ -205,8 +196,7 @@ mixin RichTextButtonMixin {
         parentRichTextButton = Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
             runSpacing: 8,
-            children: listButtonActionForRichText(context, richTextController)
-        );
+            children: listButtonActionForRichText(context, richTextController));
         break;
     }
 
@@ -219,20 +209,17 @@ mixin RichTextButtonMixin {
   }
 
   List<Widget> listButtonActionForRichText(
-      BuildContext context,
-      RichTextWebController richTextController
-  ) {
+      BuildContext context, RichTextWebController richTextController) {
     return [
       DropDownMenuHeaderStyleWidget(
           icon: buildWrapIconStyleText(
               isSelected: richTextController.isMenuHeaderStyleOpen,
               icon: SvgPicture.asset(
-                RichTextStyleType.headerStyle.getIcon(_imagePaths),
-                colorFilter: AppColor.colorDefaultRichTextButton.asFilter(),
-                fit: BoxFit.fill),
+                  RichTextStyleType.headerStyle.getIcon(_imagePaths),
+                  colorFilter: AppColor.colorDefaultRichTextButton.asFilter(),
+                  fit: BoxFit.fill),
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-              tooltip: RichTextStyleType.headerStyle.getTooltipButton(context)
-          ),
+              tooltip: RichTextStyleType.headerStyle.getTooltipButton(context)),
           items: HeaderStyleType.values,
           onMenuStateChange: (isOpen) {
             final newStatus = isOpen
@@ -240,14 +227,16 @@ mixin RichTextButtonMixin {
                 : DropdownMenuFontStatus.closed;
             richTextController.menuHeaderStyleStatus.value = newStatus;
           },
-          onChanged: (newStyle) => richTextController.applyHeaderStyle(newStyle)),
+          onChanged: (newStyle) =>
+              richTextController.applyHeaderStyle(newStyle)),
       Container(
           width: 130,
           padding: const EdgeInsets.only(left: 4.0, right: 4.0),
           child: DropDownButtonWidget<FontNameType>(
               items: FontNameType.values,
               itemSelected: richTextController.selectedFontName.value,
-              onChanged: (newFont) => richTextController.applyNewFontStyle(newFont),
+              onChanged: (newFont) =>
+                  richTextController.applyNewFontStyle(newFont),
               onMenuStateChange: (isOpen) {
                 final newStatus = isOpen
                     ? DropdownMenuFontStatus.open
@@ -272,7 +261,8 @@ mixin RichTextButtonMixin {
               color: richTextController.selectedTextColor.value,
               tooltip: RichTextStyleType.textColor.getTooltipButton(context),
             ),
-            onTap: () => richTextController.applyRichTextStyle(context, RichTextStyleType.textColor)),
+            onTap: () => richTextController.applyRichTextStyle(
+                context, RichTextStyleType.textColor)),
       ),
       Padding(
         padding: const EdgeInsets.only(right: 4.0),
@@ -281,10 +271,13 @@ mixin RichTextButtonMixin {
             spacing: 3,
             icon: buildIconColorBackgroundText(
               iconData: RichTextStyleType.textBackgroundColor.getIconData(),
-              colorSelected: richTextController.selectedTextBackgroundColor.value,
-              tooltip: RichTextStyleType.textBackgroundColor.getTooltipButton(context),
+              colorSelected:
+                  richTextController.selectedTextBackgroundColor.value,
+              tooltip: RichTextStyleType.textBackgroundColor
+                  .getTooltipButton(context),
             ),
-            onTap: () => richTextController.applyRichTextStyle(context, RichTextStyleType.textBackgroundColor)),
+            onTap: () => richTextController.applyRichTextStyle(
+                context, RichTextStyleType.textBackgroundColor)),
       ),
       Padding(
         padding: const EdgeInsets.only(right: 4.0),
@@ -294,24 +287,34 @@ mixin RichTextButtonMixin {
             icon: Wrap(children: [
               buildIconStyleText(
                   path: RichTextStyleType.bold.getIcon(_imagePaths),
-                  isSelected: richTextController.isTextStyleTypeSelected(RichTextStyleType.bold),
+                  isSelected: richTextController
+                      .isTextStyleTypeSelected(RichTextStyleType.bold),
                   tooltip: RichTextStyleType.bold.getTooltipButton(context),
-                  onTap: () => richTextController.applyRichTextStyle(context, RichTextStyleType.bold)),
+                  onTap: () => richTextController.applyRichTextStyle(
+                      context, RichTextStyleType.bold)),
               buildIconStyleText(
                   path: RichTextStyleType.italic.getIcon(_imagePaths),
-                  isSelected: richTextController.isTextStyleTypeSelected(RichTextStyleType.italic),
+                  isSelected: richTextController
+                      .isTextStyleTypeSelected(RichTextStyleType.italic),
                   tooltip: RichTextStyleType.italic.getTooltipButton(context),
-                  onTap: () => richTextController.applyRichTextStyle(context, RichTextStyleType.italic)),
+                  onTap: () => richTextController.applyRichTextStyle(
+                      context, RichTextStyleType.italic)),
               buildIconStyleText(
                   path: RichTextStyleType.underline.getIcon(_imagePaths),
-                  isSelected: richTextController.isTextStyleTypeSelected(RichTextStyleType.underline),
-                  tooltip: RichTextStyleType.underline.getTooltipButton(context),
-                  onTap: () => richTextController.applyRichTextStyle(context, RichTextStyleType.underline)),
+                  isSelected: richTextController
+                      .isTextStyleTypeSelected(RichTextStyleType.underline),
+                  tooltip:
+                      RichTextStyleType.underline.getTooltipButton(context),
+                  onTap: () => richTextController.applyRichTextStyle(
+                      context, RichTextStyleType.underline)),
               buildIconStyleText(
                   path: RichTextStyleType.strikeThrough.getIcon(_imagePaths),
-                  isSelected: richTextController.isTextStyleTypeSelected(RichTextStyleType.strikeThrough),
-                  tooltip: RichTextStyleType.strikeThrough.getTooltipButton(context),
-                  onTap: () => richTextController.applyRichTextStyle(context, RichTextStyleType.strikeThrough))
+                  isSelected: richTextController
+                      .isTextStyleTypeSelected(RichTextStyleType.strikeThrough),
+                  tooltip:
+                      RichTextStyleType.strikeThrough.getTooltipButton(context),
+                  onTap: () => richTextController.applyRichTextStyle(
+                      context, RichTextStyleType.strikeThrough))
             ])),
       ),
       Padding(
@@ -322,16 +325,19 @@ mixin RichTextButtonMixin {
               .map((paragraph) => paragraph.buildButtonWidget(
                   context,
                   _imagePaths,
-                  (paragraph) => richTextController.applyParagraphType(paragraph)))
+                  (paragraph) =>
+                      richTextController.applyParagraphType(paragraph)))
               .toList(),
           iconButton: buildWrapIconStyleText(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
               spacing: 3,
               isSelected: richTextController.focusMenuParagraph.value,
               icon: buildIconWithTooltip(
-                  path: richTextController.selectedParagraph.value.getIcon(_imagePaths),
+                  path: richTextController.selectedParagraph.value
+                      .getIcon(_imagePaths),
                   color: AppColor.colorDefaultRichTextButton,
-                  tooltip: RichTextStyleType.paragraph.getTooltipButton(context))),
+                  tooltip:
+                      RichTextStyleType.paragraph.getTooltipButton(context))),
         ),
       ),
       Padding(
@@ -342,16 +348,19 @@ mixin RichTextButtonMixin {
               .map((orderType) => orderType.buildButtonWidget(
                   context,
                   _imagePaths,
-                  (orderType) => richTextController.applyOrderListType(orderType)))
+                  (orderType) =>
+                      richTextController.applyOrderListType(orderType)))
               .toList(),
           iconButton: buildWrapIconStyleText(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
               spacing: 3,
               isSelected: richTextController.focusMenuOrderList.value,
               icon: buildIconWithTooltip(
-                  path: richTextController.selectedOrderList.value.getIcon(_imagePaths),
+                  path: richTextController.selectedOrderList.value
+                      .getIcon(_imagePaths),
                   color: AppColor.colorDefaultRichTextButton,
-                  tooltip: RichTextStyleType.orderList.getTooltipButton(context))),
+                  tooltip:
+                      RichTextStyleType.orderList.getTooltipButton(context))),
         ),
       )
     ];

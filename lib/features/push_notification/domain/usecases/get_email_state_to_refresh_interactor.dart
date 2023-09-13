@@ -12,10 +12,12 @@ class GetEmailStateToRefreshInteractor {
 
   GetEmailStateToRefreshInteractor(this._fcmRepository);
 
-  Stream<Either<Failure, Success>> execute(AccountId accountId, UserName userName) async* {
+  Stream<Either<Failure, Success>> execute(
+      AccountId accountId, UserName userName) async* {
     try {
       yield Right<Failure, Success>(GetEmailStateToRefreshLoading());
-      final storedState = await _fcmRepository.getStateToRefresh(accountId, userName, TypeName.emailType);
+      final storedState = await _fcmRepository.getStateToRefresh(
+          accountId, userName, TypeName.emailType);
       yield Right<Failure, Success>(GetEmailStateToRefreshSuccess(storedState));
     } catch (e) {
       yield Left<Failure, Success>(GetEmailStateToRefreshFailure(e));

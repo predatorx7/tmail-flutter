@@ -5,7 +5,7 @@ enum ConfigurationTabType {
   vacation;
 
   String getTitle(BuildContext context) {
-    switch(this) {
+    switch (this) {
       case ConfigurationTabType.vacation:
         return AppLocalizations.of(context).vacation;
     }

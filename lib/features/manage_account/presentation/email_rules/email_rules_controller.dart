@@ -35,13 +35,13 @@ import 'package:tmail_ui_user/main/routes/route_navigation.dart';
 import 'package:tmail_ui_user/main/routes/app_routes.dart';
 
 class EmailRulesController extends BaseController {
-
   GetAllRulesInteractor? _getAllRulesInteractor;
   DeleteEmailRuleInteractor? _deleteEmailRuleInteractor;
   CreateNewEmailRuleFilterInteractor? _createNewEmailRuleFilterInteractor;
   EditEmailRuleFilterInteractor? _editEmailRuleFilterInteractor;
 
-  final _accountDashBoardController = Get.find<ManageAccountDashBoardController>();
+  final _accountDashBoardController =
+      Get.find<ManageAccountDashBoardController>();
   final _imagePaths = Get.find<ImagePaths>();
   final _appToast = Get.find<AppToast>();
   final _responsiveUtils = Get.find<ResponsiveUtils>();
@@ -54,8 +54,10 @@ class EmailRulesController extends BaseController {
     try {
       _getAllRulesInteractor = Get.find<GetAllRulesInteractor>();
       _deleteEmailRuleInteractor = Get.find<DeleteEmailRuleInteractor>();
-      _createNewEmailRuleFilterInteractor = Get.find<CreateNewEmailRuleFilterInteractor>();
-      _editEmailRuleFilterInteractor = Get.find<EditEmailRuleFilterInteractor>();
+      _createNewEmailRuleFilterInteractor =
+          Get.find<CreateNewEmailRuleFilterInteractor>();
+      _editEmailRuleFilterInteractor =
+          Get.find<EditEmailRuleFilterInteractor>();
     } catch (e) {
       logError('EmailRulesController::onInit(): ${e.toString()}');
     }
@@ -90,8 +92,9 @@ class EmailRulesController extends BaseController {
       final arguments = RulesFilterCreatorArguments(accountId, session);
 
       final newRuleFilterRequest = PlatformInfo.isWeb
-        ? await DialogRouter.pushGeneralDialog(routeName: AppRoutes.rulesFilterCreator, arguments: arguments)
-        : await push(AppRoutes.rulesFilterCreator, arguments: arguments);
+          ? await DialogRouter.pushGeneralDialog(
+              routeName: AppRoutes.rulesFilterCreator, arguments: arguments)
+          : await push(AppRoutes.rulesFilterCreator, arguments: arguments);
 
       if (newRuleFilterRequest is CreateNewEmailRuleFilterRequest) {
         _createNewRuleFilterAction(accountId, newRuleFilterRequest);
@@ -99,21 +102,19 @@ class EmailRulesController extends BaseController {
     }
   }
 
-  void _createNewRuleFilterAction(
-      AccountId accountId,
-      CreateNewEmailRuleFilterRequest ruleFilterRequest
-  ) async {
+  void _createNewRuleFilterAction(AccountId accountId,
+      CreateNewEmailRuleFilterRequest ruleFilterRequest) async {
     if (_createNewEmailRuleFilterInteractor != null) {
-      consumeState(_createNewEmailRuleFilterInteractor!.execute(accountId, ruleFilterRequest));
+      consumeState(_createNewEmailRuleFilterInteractor!
+          .execute(accountId, ruleFilterRequest));
     }
   }
 
   void _createNewRuleFilterSuccess(CreateNewRuleFilterSuccess success) {
     if (success.newListRules.isNotEmpty == true) {
       if (currentOverlayContext != null && currentContext != null) {
-        _appToast.showToastSuccessMessage(
-          currentOverlayContext!,
-          AppLocalizations.of(currentContext!).newFilterWasCreated);
+        _appToast.showToastSuccessMessage(currentOverlayContext!,
+            AppLocalizations.of(currentContext!).newFilterWasCreated);
       }
       listEmailRule.value = success.newListRules;
       listEmailRule.refresh();
@@ -124,15 +125,13 @@ class EmailRulesController extends BaseController {
     final accountId = _accountDashBoardController.accountId.value;
     final session = _accountDashBoardController.sessionCurrent;
     if (accountId != null && session != null) {
-      final arguments = RulesFilterCreatorArguments(
-        accountId,
-        session,
-        actionType: CreatorActionType.edit,
-        tMailRule: rule);
+      final arguments = RulesFilterCreatorArguments(accountId, session,
+          actionType: CreatorActionType.edit, tMailRule: rule);
 
       final newRuleFilterRequest = PlatformInfo.isWeb
-        ? await DialogRouter.pushGeneralDialog(routeName: AppRoutes.rulesFilterCreator, arguments: arguments)
-        : await push(AppRoutes.rulesFilterCreator, arguments: arguments);
+          ? await DialogRouter.pushGeneralDialog(
+              routeName: AppRoutes.rulesFilterCreator, arguments: arguments)
+          : await push(AppRoutes.rulesFilterCreator, arguments: arguments);
 
       if (newRuleFilterRequest is EditEmailRuleFilterRequest) {
         _editEmailRuleFilterAction(accountId, newRuleFilterRequest);
@@ -141,20 +140,18 @@ class EmailRulesController extends BaseController {
   }
 
   void _editEmailRuleFilterAction(
-      AccountId accountId,
-      EditEmailRuleFilterRequest ruleFilterRequest
-  ) {
+      AccountId accountId, EditEmailRuleFilterRequest ruleFilterRequest) {
     if (_editEmailRuleFilterInteractor != null) {
-      consumeState(_editEmailRuleFilterInteractor!.execute(accountId, ruleFilterRequest));
+      consumeState(_editEmailRuleFilterInteractor!
+          .execute(accountId, ruleFilterRequest));
     }
   }
 
   void _editEmailRuleFilterSuccess(EditEmailRuleFilterSuccess success) {
     if (success.listRulesUpdated.isNotEmpty == true) {
       if (currentOverlayContext != null && currentContext != null) {
-        _appToast.showToastSuccessMessage(
-          currentOverlayContext!,
-          AppLocalizations.of(currentContext!).yourFilterHasBeenUpdated);
+        _appToast.showToastSuccessMessage(currentOverlayContext!,
+            AppLocalizations.of(currentContext!).yourFilterHasBeenUpdated);
       }
       listEmailRule.value = success.listRulesUpdated;
       listEmailRule.refresh();
@@ -164,36 +161,40 @@ class EmailRulesController extends BaseController {
   void deleteEmailRule(BuildContext context, TMailRule emailRule) {
     if (_responsiveUtils.isMobile(context)) {
       (ConfirmationDialogActionSheetBuilder(context)
-        ..messageText(AppLocalizations.of(context).messageConfirmationDialogDeleteEmailRule(emailRule.name))
-        ..onCancelAction(AppLocalizations.of(context).cancel, () =>
-            popBack())
-        ..onConfirmAction(AppLocalizations.of(context).delete, () {
-          _handleDeleteEmailRuleAction(emailRule);
-        }))
-      .show();
+            ..messageText(AppLocalizations.of(context)
+                .messageConfirmationDialogDeleteEmailRule(emailRule.name))
+            ..onCancelAction(
+                AppLocalizations.of(context).cancel, () => popBack())
+            ..onConfirmAction(AppLocalizations.of(context).delete, () {
+              _handleDeleteEmailRuleAction(emailRule);
+            }))
+          .show();
     } else {
       showDialog(
           context: context,
           barrierColor: AppColor.colorDefaultCupertinoActionSheet,
-          builder: (BuildContext context) =>
-              PointerInterceptor(child: (ConfirmDialogBuilder(_imagePaths)
-                ..title(AppLocalizations.of(context).deleteEmailRule)
-                ..content(AppLocalizations.of(context).messageConfirmationDialogDeleteEmailRule(emailRule.name))
-                ..addIcon(SvgPicture.asset(_imagePaths.icRemoveDialog,
-                    fit: BoxFit.fill))
-                ..marginIcon(EdgeInsets.zero)
-                ..colorConfirmButton(AppColor.colorConfirmActionDialog)
-                ..styleTextConfirmButton(const TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w500,
-                    color: AppColor.colorActionDeleteConfirmDialog))
-                ..onCloseButtonAction(() => popBack())
-                ..onConfirmButtonAction(AppLocalizations.of(context).delete, () {
-                  _handleDeleteEmailRuleAction(emailRule);
-                })
-                ..onCancelButtonAction(AppLocalizations.of(context).cancel, () =>
-                    popBack()))
-              .build()));
+          builder: (BuildContext context) => PointerInterceptor(
+              child: (ConfirmDialogBuilder(_imagePaths)
+                    ..title(AppLocalizations.of(context).deleteEmailRule)
+                    ..content(AppLocalizations.of(context)
+                        .messageConfirmationDialogDeleteEmailRule(
+                            emailRule.name))
+                    ..addIcon(SvgPicture.asset(_imagePaths.icRemoveDialog,
+                        fit: BoxFit.fill))
+                    ..marginIcon(EdgeInsets.zero)
+                    ..colorConfirmButton(AppColor.colorConfirmActionDialog)
+                    ..styleTextConfirmButton(const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        color: AppColor.colorActionDeleteConfirmDialog))
+                    ..onCloseButtonAction(() => popBack())
+                    ..onConfirmButtonAction(AppLocalizations.of(context).delete,
+                        () {
+                      _handleDeleteEmailRuleAction(emailRule);
+                    })
+                    ..onCancelButtonAction(
+                        AppLocalizations.of(context).cancel, () => popBack()))
+                  .build()));
     }
   }
 
@@ -202,21 +203,22 @@ class EmailRulesController extends BaseController {
 
     if (_deleteEmailRuleInteractor != null) {
       final deleteEmailRuleRequest = DeleteEmailRuleRequest(
-        emailRuleDelete : emailRule,
+        emailRuleDelete: emailRule,
         currentEmailRules: listEmailRule,
       );
 
       consumeState(_deleteEmailRuleInteractor!.execute(
-        _accountDashBoardController.accountId.value!,
-        deleteEmailRuleRequest));
+          _accountDashBoardController.accountId.value!,
+          deleteEmailRuleRequest));
     }
   }
 
   void _handleDeleteEmailRuleSuccess(DeleteEmailRuleSuccess success) {
     if (currentOverlayContext != null && currentContext != null) {
       _appToast.showToastSuccessMessage(
-        currentOverlayContext!,
-        AppLocalizations.of(currentContext!).toastMessageDeleteEmailRuleSuccessfully);
+          currentOverlayContext!,
+          AppLocalizations.of(currentContext!)
+              .toastMessageDeleteEmailRuleSuccessfully);
     }
 
     if (success.rules?.isNotEmpty == true) {
@@ -227,7 +229,8 @@ class EmailRulesController extends BaseController {
 
   void _getAllRules() {
     if (_getAllRulesInteractor != null) {
-      consumeState(_getAllRulesInteractor!.execute(_accountDashBoardController.accountId.value!));
+      consumeState(_getAllRulesInteractor!
+          .execute(_accountDashBoardController.accountId.value!));
     }
   }
 
@@ -244,9 +247,8 @@ class EmailRulesController extends BaseController {
   Widget _deleteEmailRuleActionTile(BuildContext context, TMailRule rule) {
     return (EmailRuleBottomSheetActionTileBuilder(
       const Key('delete_emailRule_action'),
-      SvgPicture.asset(
-        _imagePaths.icDeleteComposer,
-        colorFilter: AppColor.colorActionDeleteConfirmDialog.asFilter()),
+      SvgPicture.asset(_imagePaths.icDeleteComposer,
+          colorFilter: AppColor.colorActionDeleteConfirmDialog.asFilter()),
       AppLocalizations.of(context).deleteRule,
       rule,
       iconLeftPadding: const EdgeInsets.only(left: 12, right: 16),
@@ -254,23 +256,24 @@ class EmailRulesController extends BaseController {
       textStyleAction: const TextStyle(
           fontSize: 17, color: AppColor.colorActionDeleteConfirmDialog),
     )..onActionClick((rule) {
-      popBack();
-      deleteEmailRule(context, rule);
-    })).build();
+            popBack();
+            deleteEmailRule(context, rule);
+          }))
+        .build();
   }
 
   Widget _editEmailRuleActionTile(BuildContext context, TMailRule rule) {
     return (EmailRuleBottomSheetActionTileBuilder(
-          const Key('edit_emailRule_action'),
-          SvgPicture.asset(_imagePaths.icEdit),
-          AppLocalizations.of(context).editRule,
-          rule,
-          iconLeftPadding: const EdgeInsets.only(left: 12, right: 16),
-          iconRightPadding: const EdgeInsets.only(right: 12))
-      ..onActionClick((rule) {
-        popBack();
-        editEmailRule(context, rule);
-      }))
-    .build();
+            const Key('edit_emailRule_action'),
+            SvgPicture.asset(_imagePaths.icEdit),
+            AppLocalizations.of(context).editRule,
+            rule,
+            iconLeftPadding: const EdgeInsets.only(left: 12, right: 16),
+            iconRightPadding: const EdgeInsets.only(right: 12))
+          ..onActionClick((rule) {
+            popBack();
+            editEmailRule(context, rule);
+          }))
+        .build();
   }
 }

@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/state/failure.dart';
 import 'package:core/presentation/state/success.dart';
 import 'package:core/utils/app_logger.dart';
@@ -9,13 +8,11 @@ abstract class ChangeListener {
   void dispatchActions(List<Action> actions);
 
   void consumeState(Stream<Either<Failure, Success>> newStateStream) {
-    newStateStream.listen(
-      _handleStateStream,
-      onError: (error, stackTrace) {
-        logError('ChangeListener::consumeState():onError:error: $error');
-        logError('ChangeListener::consumeState():onError:stackTrace: $stackTrace');
-      }
-    );
+    newStateStream.listen(_handleStateStream, onError: (error, stackTrace) {
+      logError('ChangeListener::consumeState():onError:error: $error');
+      logError(
+          'ChangeListener::consumeState():onError:stackTrace: $stackTrace');
+    });
   }
 
   void _handleStateStream(Either<Failure, Success> newState) {

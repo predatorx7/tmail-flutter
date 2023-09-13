@@ -59,7 +59,6 @@ import 'package:tmail_ui_user/main/exceptions/cache_exception_thrower.dart';
 import 'package:tmail_ui_user/main/exceptions/remote_exception_thrower.dart';
 
 class FcmInteractorBindings extends InteractorsBindings {
-
   @override
   void bindingsDataSource() {
     Get.lazyPut<FCMDatasource>(() => Get.find<FcmDatasourceImpl>());
@@ -73,68 +72,72 @@ class FcmInteractorBindings extends InteractorsBindings {
   @override
   void bindingsDataSourceImpl() {
     Get.lazyPut(() => CacheFCMDatasourceImpl(
-      Get.find<FCMCacheManager>(),
-      Get.find<CacheExceptionThrower>(),
-    ));
+          Get.find<FCMCacheManager>(),
+          Get.find<CacheExceptionThrower>(),
+        ));
     Get.lazyPut(() => FcmDatasourceImpl(
-      Get.find<FcmApi>(),
-      Get.find<RemoteExceptionThrower>(),
-    ));
-    Get.lazyPut(() => ThreadDataSourceImpl(
-      Get.find<ThreadAPI>(),
-      Get.find<ThreadIsolateWorker>(),
-      Get.find<RemoteExceptionThrower>()
-    ));
-    Get.lazyPut(() => MailboxDataSourceImpl(
-      Get.find<MailboxAPI>(),
-      Get.find<MailboxIsolateWorker>(),
-      Get.find<RemoteExceptionThrower>()));
+          Get.find<FcmApi>(),
+          Get.find<RemoteExceptionThrower>(),
+        ));
+    Get.lazyPut(() => ThreadDataSourceImpl(Get.find<ThreadAPI>(),
+        Get.find<ThreadIsolateWorker>(), Get.find<RemoteExceptionThrower>()));
+    Get.lazyPut(() => MailboxDataSourceImpl(Get.find<MailboxAPI>(),
+        Get.find<MailboxIsolateWorker>(), Get.find<RemoteExceptionThrower>()));
     Get.lazyPut(() => MailboxCacheDataSourceImpl(
-      Get.find<MailboxCacheManager>(),
-      Get.find<CacheExceptionThrower>()));
+        Get.find<MailboxCacheManager>(), Get.find<CacheExceptionThrower>()));
     Get.lazyPut(() => EmailDataSourceImpl(
-      Get.find<EmailAPI>(),
-      Get.find<RemoteExceptionThrower>()));
+        Get.find<EmailAPI>(), Get.find<RemoteExceptionThrower>()));
     Get.lazyPut(() => HtmlDataSourceImpl(
-      Get.find<HtmlAnalyzer>(),
-      Get.find<RemoteExceptionThrower>()));
+        Get.find<HtmlAnalyzer>(), Get.find<RemoteExceptionThrower>()));
     Get.lazyPut(() => StateDataSourceImpl(
-      Get.find<StateCacheClient>(),
-      Get.find<CacheExceptionThrower>()));
+        Get.find<StateCacheClient>(), Get.find<CacheExceptionThrower>()));
     Get.lazyPut(() => EmailHiveCacheDataSourceImpl(
-      Get.find<NewEmailCacheManager>(),
-      Get.find<OpenedEmailCacheManager>(),
-      Get.find<NewEmailCacheWorkerQueue>(),
-      Get.find<OpenedEmailCacheWorkerQueue>(),
-      Get.find<EmailCacheManager>(),
-      Get.find<SendingEmailCacheManager>(),
-      Get.find<FileUtils>(),
-      Get.find<CacheExceptionThrower>()));
+        Get.find<NewEmailCacheManager>(),
+        Get.find<OpenedEmailCacheManager>(),
+        Get.find<NewEmailCacheWorkerQueue>(),
+        Get.find<OpenedEmailCacheWorkerQueue>(),
+        Get.find<EmailCacheManager>(),
+        Get.find<SendingEmailCacheManager>(),
+        Get.find<FileUtils>(),
+        Get.find<CacheExceptionThrower>()));
   }
 
   @override
   void bindingsInteractor() {
-    Get.lazyPut(() => GetStoredEmailDeliveryStateInteractor(Get.find<FCMRepositoryImpl>()));
-    Get.lazyPut(() => StoreEmailDeliveryStateInteractor(Get.find<FCMRepositoryImpl>()));
-    Get.lazyPut(() => GetEmailChangesToPushNotificationInteractor(Get.find<FCMRepositoryImpl>()));
+    Get.lazyPut(() =>
+        GetStoredEmailDeliveryStateInteractor(Get.find<FCMRepositoryImpl>()));
+    Get.lazyPut(
+        () => StoreEmailDeliveryStateInteractor(Get.find<FCMRepositoryImpl>()));
+    Get.lazyPut(() => GetEmailChangesToPushNotificationInteractor(
+        Get.find<FCMRepositoryImpl>()));
     Get.lazyPut(() => GetEmailChangesToRemoveNotificationInteractor(
-      Get.find<FCMRepositoryImpl>(),
-      Get.find<EmailRepository>()));
-    Get.lazyPut(() => StoreEmailStateToRefreshInteractor(Get.find<FCMRepositoryImpl>()));
-    Get.lazyPut(() => GetEmailStateToRefreshInteractor(Get.find<FCMRepositoryImpl>()));
-    Get.lazyPut(() => DeleteEmailStateToRefreshInteractor(Get.find<FCMRepositoryImpl>()));
-    Get.lazyPut(() => GetFirebaseSubscriptionInteractor(Get.find<FCMRepositoryImpl>()));
-    Get.lazyPut(() => RegisterNewTokenInteractor(Get.find<FCMRepositoryImpl>()));
-    Get.lazyPut(() => StoreMailboxStateToRefreshInteractor(Get.find<FCMRepositoryImpl>()));
-    Get.lazyPut(() => GetMailboxStateToRefreshInteractor(Get.find<FCMRepositoryImpl>()));
-    Get.lazyPut(() => StoreSubscriptionInteractor(Get.find<FCMRepositoryImpl>()));
-    Get.lazyPut(() => GetFCMSubscriptionLocalInteractor(Get.find<FCMRepositoryImpl>()));
-    Get.lazyPut(() => DestroySubscriptionInteractor(Get.find<FCMRepositoryImpl>()));
-    Get.lazyPut(() => GetMailboxesNotPutNotificationsInteractor(Get.find<FCMRepositoryImpl>()));
+        Get.find<FCMRepositoryImpl>(), Get.find<EmailRepository>()));
+    Get.lazyPut(() =>
+        StoreEmailStateToRefreshInteractor(Get.find<FCMRepositoryImpl>()));
+    Get.lazyPut(
+        () => GetEmailStateToRefreshInteractor(Get.find<FCMRepositoryImpl>()));
+    Get.lazyPut(() =>
+        DeleteEmailStateToRefreshInteractor(Get.find<FCMRepositoryImpl>()));
+    Get.lazyPut(
+        () => GetFirebaseSubscriptionInteractor(Get.find<FCMRepositoryImpl>()));
+    Get.lazyPut(
+        () => RegisterNewTokenInteractor(Get.find<FCMRepositoryImpl>()));
+    Get.lazyPut(() =>
+        StoreMailboxStateToRefreshInteractor(Get.find<FCMRepositoryImpl>()));
+    Get.lazyPut(() =>
+        GetMailboxStateToRefreshInteractor(Get.find<FCMRepositoryImpl>()));
+    Get.lazyPut(
+        () => StoreSubscriptionInteractor(Get.find<FCMRepositoryImpl>()));
+    Get.lazyPut(
+        () => GetFCMSubscriptionLocalInteractor(Get.find<FCMRepositoryImpl>()));
+    Get.lazyPut(
+        () => DestroySubscriptionInteractor(Get.find<FCMRepositoryImpl>()));
+    Get.lazyPut(() => GetMailboxesNotPutNotificationsInteractor(
+        Get.find<FCMRepositoryImpl>()));
     Get.lazyPut(() => GetNewReceiveEmailFromNotificationInteractor(
-      Get.find<FCMRepositoryImpl>(),
-      Get.find<EmailRepository>()));
-    Get.lazyPut(() => GetListDetailedEmailByIdInteractor(Get.find<EmailRepository>()));
+        Get.find<FCMRepositoryImpl>(), Get.find<EmailRepository>()));
+    Get.lazyPut(
+        () => GetListDetailedEmailByIdInteractor(Get.find<EmailRepository>()));
     Get.lazyPut(() => StoreListNewEmailInteractor(Get.find<EmailRepository>()));
   }
 
@@ -147,22 +150,19 @@ class FcmInteractorBindings extends InteractorsBindings {
   @override
   void bindingsRepositoryImpl() {
     Get.lazyPut(() => FCMRepositoryImpl(
-      {
-        DataSourceType.local: Get.find<CacheFCMDatasourceImpl>(),
-        DataSourceType.network: Get.find<FCMDatasource>(),
-      },
-      Get.find<ThreadDataSource>(),
-      {
-        DataSourceType.local: Get.find<MailboxCacheDataSourceImpl>(),
-        DataSourceType.network: Get.find<MailboxDataSource>(),
-      },
-    ));
-    Get.lazyPut(() => EmailRepositoryImpl(
-      {
-        DataSourceType.network: Get.find<EmailDataSource>(),
-        DataSourceType.hiveCache: Get.find<EmailHiveCacheDataSourceImpl>()
-      },
-      Get.find<HtmlDataSource>(),
-      Get.find<StateDataSource>()));
+          {
+            DataSourceType.local: Get.find<CacheFCMDatasourceImpl>(),
+            DataSourceType.network: Get.find<FCMDatasource>(),
+          },
+          Get.find<ThreadDataSource>(),
+          {
+            DataSourceType.local: Get.find<MailboxCacheDataSourceImpl>(),
+            DataSourceType.network: Get.find<MailboxDataSource>(),
+          },
+        ));
+    Get.lazyPut(() => EmailRepositoryImpl({
+          DataSourceType.network: Get.find<EmailDataSource>(),
+          DataSourceType.hiveCache: Get.find<EmailHiveCacheDataSourceImpl>()
+        }, Get.find<HtmlDataSource>(), Get.find<StateDataSource>()));
   }
 }

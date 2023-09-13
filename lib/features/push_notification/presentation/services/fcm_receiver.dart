@@ -1,4 +1,3 @@
-
 import 'package:core/utils/app_logger.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:tmail_ui_user/features/push_notification/presentation/services/fcm_service.dart';
@@ -19,7 +18,8 @@ class FcmReceiver {
   static FcmReceiver get instance => _instance;
 
   void onForegroundMessage() {
-    FirebaseMessaging.onMessage.listen(FcmService.instance.handleFirebaseForegroundMessage);
+    FirebaseMessaging.onMessage
+        .listen(FcmService.instance.handleFirebaseForegroundMessage);
   }
 
   void onBackgroundMessage() {
@@ -27,26 +27,29 @@ class FcmReceiver {
   }
 
   void onMessageOpenedApp() {
-    FirebaseMessaging.onMessageOpenedApp.listen(FcmService.instance.handleFirebaseMessageOpenedApp);
+    FirebaseMessaging.onMessageOpenedApp
+        .listen(FcmService.instance.handleFirebaseMessageOpenedApp);
   }
 
   void getFcmToken() async {
     try {
-      final currentToken = await FirebaseMessaging.instance.getToken(vapidKey: AppUtils.fcmVapidPublicKey);
+      final currentToken = await FirebaseMessaging.instance
+          .getToken(vapidKey: AppUtils.fcmVapidPublicKey);
       log('FcmReceiver::onFcmToken():currentToken: $currentToken');
       if (!FcmUtils.instance.isMobileAndroid) {
         FcmService.instance.handleGetToken(currentToken);
       }
-    } catch(e) {
+    } catch (e) {
       log('FcmReceiver::onFcmToken():exception: $e');
     }
   }
 
   void onRefreshFcmToken() {
-    FirebaseMessaging.instance.onTokenRefresh.listen(FcmService.instance.handleRefreshToken);
+    FirebaseMessaging.instance.onTokenRefresh
+        .listen(FcmService.instance.handleRefreshToken);
   }
-  
-  void deleteFcmToken(){
+
+  void deleteFcmToken() {
     FirebaseMessaging.instance.deleteToken();
   }
 }

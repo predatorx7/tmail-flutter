@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/state/failure.dart';
 import 'package:core/presentation/state/success.dart';
 import 'package:dartz/dartz.dart';
@@ -13,35 +12,26 @@ import 'package:tmail_ui_user/features/search/email/domain/state/refresh_changes
 import 'package:tmail_ui_user/features/thread/domain/repository/thread_repository.dart';
 
 class RefreshChangesSearchEmailInteractor {
-
   final ThreadRepository threadRepository;
 
   RefreshChangesSearchEmailInteractor(this.threadRepository);
 
   Stream<Either<Failure, Success>> execute(
     Session session,
-    AccountId accountId,
-    {
-      UnsignedInt? limit,
-      Set<Comparator>? sort,
-      Filter? filter,
-      Properties? properties,
-    }
-  ) async* {
+    AccountId accountId, {
+    UnsignedInt? limit,
+    Set<Comparator>? sort,
+    Filter? filter,
+    Properties? properties,
+  }) async* {
     try {
       yield Right(RefreshingChangeSearchEmailState());
 
-      final emailList = await threadRepository.searchEmails(
-        session,
-        accountId,
-        limit: limit,
-        sort: sort,
-        filter: filter,
-        properties: properties);
+      final emailList = await threadRepository.searchEmails(session, accountId,
+          limit: limit, sort: sort, filter: filter, properties: properties);
 
-      final presentationEmailList = emailList
-          .map((email) => email.toPresentationEmail())
-          .toList();
+      final presentationEmailList =
+          emailList.map((email) => email.toPresentationEmail()).toList();
 
       yield Right(RefreshChangesSearchEmailSuccess(presentationEmailList));
     } catch (e) {

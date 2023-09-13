@@ -9,7 +9,8 @@ class CleanupRecentSearchCacheInteractor {
 
   CleanupRecentSearchCacheInteractor(this.cleanupRepository);
 
-  Future<Either<Failure, Success>> execute(RecentSearchCleanupRule cleanupRule) async {
+  Future<Either<Failure, Success>> execute(
+      RecentSearchCleanupRule cleanupRule) async {
     try {
       await cleanupRepository.cleanRecentSearchCache(cleanupRule);
       log('CleanupRecentSearchCacheInteractor::execute(): SUCCESS');

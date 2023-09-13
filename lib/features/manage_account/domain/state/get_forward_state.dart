@@ -12,6 +12,5 @@ class GetForwardSuccess extends UIState {
 }
 
 class GetForwardFailure extends FeatureFailure {
-
   GetForwardFailure(dynamic exception) : super(exception: exception);
 }

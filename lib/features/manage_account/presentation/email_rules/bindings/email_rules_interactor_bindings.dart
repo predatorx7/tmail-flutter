@@ -12,34 +12,38 @@ import 'package:tmail_ui_user/features/manage_account/domain/usecases/get_all_ru
 import 'package:tmail_ui_user/main/exceptions/remote_exception_thrower.dart';
 
 class EmailRulesInteractorBindings extends InteractorsBindings {
-
   @override
   void bindingsDataSource() {
-    Get.lazyPut<RuleFilterDataSource>(() => Get.find<RuleFilterDataSourceImpl>());
+    Get.lazyPut<RuleFilterDataSource>(
+        () => Get.find<RuleFilterDataSourceImpl>());
   }
 
   @override
   void bindingsDataSourceImpl() {
     Get.lazyPut(() => RuleFilterDataSourceImpl(
-      Get.find<RuleFilterAPI>(),
-      Get.find<RemoteExceptionThrower>()));
+        Get.find<RuleFilterAPI>(), Get.find<RemoteExceptionThrower>()));
   }
 
   @override
   void bindingsInteractor() {
     Get.lazyPut(() => GetAllRulesInteractor(Get.find<RuleFilterRepository>()));
-    Get.lazyPut(() => DeleteEmailRuleInteractor(Get.find<RuleFilterRepository>()));
-    Get.lazyPut(() => CreateNewEmailRuleFilterInteractor(Get.find<RuleFilterRepository>()));
-    Get.lazyPut(() => EditEmailRuleFilterInteractor(Get.find<RuleFilterRepository>()));
+    Get.lazyPut(
+        () => DeleteEmailRuleInteractor(Get.find<RuleFilterRepository>()));
+    Get.lazyPut(() =>
+        CreateNewEmailRuleFilterInteractor(Get.find<RuleFilterRepository>()));
+    Get.lazyPut(
+        () => EditEmailRuleFilterInteractor(Get.find<RuleFilterRepository>()));
   }
 
   @override
   void bindingsRepository() {
-    Get.lazyPut<RuleFilterRepository>(() => Get.find<RuleFilterRepositoryImpl>());
+    Get.lazyPut<RuleFilterRepository>(
+        () => Get.find<RuleFilterRepositoryImpl>());
   }
 
   @override
   void bindingsRepositoryImpl() {
-    Get.lazyPut(() => RuleFilterRepositoryImpl(Get.find<RuleFilterDataSource>()));
+    Get.lazyPut(
+        () => RuleFilterRepositoryImpl(Get.find<RuleFilterDataSource>()));
   }
 }

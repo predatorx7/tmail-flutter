@@ -20,19 +20,17 @@ class ForwardHeaderWidget extends StatelessWidget {
       color: Colors.transparent,
       padding: const EdgeInsets.only(top: 24, left: 24, right: 24, bottom: 11),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(
-          AppLocalizations.of(context).forwarding,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.black)),
+        Text(AppLocalizations.of(context).forwarding,
+            style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black)),
         const SizedBox(height: 8),
-        Text(
-          AppLocalizations.of(context).forwardingSettingExplanation,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            color: AppColor.colorSettingExplanation)),
+        Text(AppLocalizations.of(context).forwardingSettingExplanation,
+            style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: AppColor.colorSettingExplanation)),
       ]),
     );
   }

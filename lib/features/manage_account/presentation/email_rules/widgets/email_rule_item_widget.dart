@@ -21,11 +21,10 @@ class EmailRulesItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(
-        top: 15,
-        bottom: 15,
-        left: _responsiveUtils.isMobile(context) ? 16 : 24,
-        right: _responsiveUtils.isMobile(context) ? 0 : 24
-      ),
+          top: 15,
+          bottom: 15,
+          left: _responsiveUtils.isMobile(context) ? 16 : 24,
+          right: _responsiveUtils.isMobile(context) ? 0 : 24),
       color: Colors.white,
       child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
         Text(rule.name,

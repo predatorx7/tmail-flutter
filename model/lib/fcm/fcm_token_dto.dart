@@ -11,7 +11,7 @@ class FCMTokenDto with EquatableMixin {
 
   @override
   List<Object?> get props => [
-    token,
-    accountId,
-  ];
+        token,
+        accountId,
+      ];
 }

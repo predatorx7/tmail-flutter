@@ -1,4 +1,3 @@
-
 import 'package:tmail_ui_user/features/caching/clients/recent_search_cache_client.dart';
 import 'package:tmail_ui_user/features/mailbox_dashboard/data/datasource/search_datasource.dart';
 import 'package:tmail_ui_user/features/mailbox_dashboard/data/model/recent_search_cache.dart';
@@ -7,7 +6,6 @@ import 'package:tmail_ui_user/features/mailbox_dashboard/domain/model/recent_sea
 import 'package:tmail_ui_user/main/exceptions/exception_thrower.dart';
 
 class SearchDataSourceImpl extends SearchDataSource {
-
   final RecentSearchCacheClient _recentSearchCacheClient;
   final ExceptionThrower _exceptionThrower;
 
@@ -18,22 +16,22 @@ class SearchDataSourceImpl extends SearchDataSource {
     return Future.sync(() async {
       if (await _recentSearchCacheClient.isExistItem(recentSearch.value)) {
         await _recentSearchCacheClient.updateItem(
-            recentSearch.value,
-            recentSearch.toRecentSearchCache());
+            recentSearch.value, recentSearch.toRecentSearchCache());
       } else {
         await _recentSearchCacheClient.insertItem(
-            recentSearch.value,
-            recentSearch.toRecentSearchCache());
+            recentSearch.value, recentSearch.toRecentSearchCache());
       }
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<List<RecentSearch>> getAllRecentSearchLatest({int? limit, String? pattern}) {
+  Future<List<RecentSearch>> getAllRecentSearchLatest(
+      {int? limit, String? pattern}) {
     return Future.sync(() async {
       final listRecentSearchCache = await _recentSearchCacheClient.getAll();
       final listRecentSearch = listRecentSearchCache
-          .where((recentCache) => _filterRecentSearchCache(recentCache, pattern))
+          .where(
+              (recentCache) => _filterRecentSearchCache(recentCache, pattern))
           .map((recentCache) => recentCache.toRecentSearch())
           .toList();
       listRecentSearch.sortByCreationDate();
@@ -41,14 +39,15 @@ class SearchDataSourceImpl extends SearchDataSource {
       final newLimit = limit ?? 10;
 
       final newListRecentSearch = listRecentSearch.length > newLimit
-        ? listRecentSearch.sublist(0, newLimit)
-        : listRecentSearch;
+          ? listRecentSearch.sublist(0, newLimit)
+          : listRecentSearch;
 
       return newListRecentSearch;
     }).catchError(_exceptionThrower.throwException);
   }
 
-  bool _filterRecentSearchCache(RecentSearchCache recentSearchCache, String? pattern) {
+  bool _filterRecentSearchCache(
+      RecentSearchCache recentSearchCache, String? pattern) {
     if (pattern == null || pattern.trim().isEmpty) {
       return true;
     } else {

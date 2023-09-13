@@ -1,4 +1,1 @@
-
-enum SearchStatus {
-  ACTIVE, INACTIVE
-}
+enum SearchStatus { ACTIVE, INACTIVE }

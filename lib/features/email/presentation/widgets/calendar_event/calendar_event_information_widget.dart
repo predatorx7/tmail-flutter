@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/utils/responsive_utils.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +16,6 @@ import 'package:tmail_ui_user/features/email/presentation/widgets/calendar_event
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
 class CalendarEventInformationWidget extends StatelessWidget {
-
   final CalendarEvent calendarEvent;
   final List<EventAction> eventActions;
   final OnOpenNewTabAction? onOpenNewTabAction;
@@ -43,163 +41,193 @@ class CalendarEventInformationWidget extends StatelessWidget {
             width: 0.5,
             color: AppColor.colorCalendarEventInformationStroke,
           ),
-          borderRadius: BorderRadius.all(Radius.circular(CalendarEventInformationWidgetStyles.borderRadius)),
+          borderRadius: BorderRadius.all(Radius.circular(
+              CalendarEventInformationWidgetStyles.borderRadius)),
         ),
       ),
       margin: const EdgeInsetsDirectional.symmetric(
-        vertical: CalendarEventInformationWidgetStyles.verticalMargin,
-        horizontal: CalendarEventInformationWidgetStyles.horizontalMargin),
+          vertical: CalendarEventInformationWidgetStyles.verticalMargin,
+          horizontal: CalendarEventInformationWidgetStyles.horizontalMargin),
       child: responsiveUtils.isPortraitMobile(context)
-        ? Column(
-            children: [
-              CalendarDateIconWidget(
-                calendarEvent: calendarEvent,
-                width: double.infinity,
-              ),
-              Container(
-                decoration: const ShapeDecoration(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(CalendarEventInformationWidgetStyles.borderRadius),
-                      bottomRight: Radius.circular(CalendarEventInformationWidgetStyles.borderRadius)
-                    )
-                  ),
-                  color: Colors.white
+          ? Column(
+              children: [
+                CalendarDateIconWidget(
+                  calendarEvent: calendarEvent,
+                  width: double.infinity,
                 ),
-                clipBehavior: Clip.antiAlias,
-                padding: const EdgeInsets.all(CalendarEventInformationWidgetStyles.calendarInformationMargin),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    RichText(
-                      text: TextSpan(
-                        style: const TextStyle(
-                          fontSize: CalendarEventInformationWidgetStyles.invitationMessageTextSize,
-                          fontWeight: FontWeight.w500,
-                          color: CalendarEventInformationWidgetStyles.invitationMessageColor
-                        ),
-                        children: [
-                          TextSpan(
-                            text: calendarEvent.organizerName,
-                            style: const TextStyle(
-                              color: CalendarEventInformationWidgetStyles.invitationMessageColor,
-                              fontSize: CalendarEventInformationWidgetStyles.invitationMessageTextSize,
-                              fontWeight: FontWeight.w700
+                Container(
+                  decoration: const ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(
+                                  CalendarEventInformationWidgetStyles
+                                      .borderRadius),
+                              bottomRight: Radius.circular(
+                                  CalendarEventInformationWidgetStyles
+                                      .borderRadius))),
+                      color: Colors.white),
+                  clipBehavior: Clip.antiAlias,
+                  padding: const EdgeInsets.all(
+                      CalendarEventInformationWidgetStyles
+                          .calendarInformationMargin),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      RichText(
+                          text: TextSpan(
+                              style: const TextStyle(
+                                  fontSize: CalendarEventInformationWidgetStyles
+                                      .invitationMessageTextSize,
+                                  fontWeight: FontWeight.w500,
+                                  color: CalendarEventInformationWidgetStyles
+                                      .invitationMessageColor),
+                              children: [
+                            TextSpan(
+                              text: calendarEvent.organizerName,
+                              style: const TextStyle(
+                                  color: CalendarEventInformationWidgetStyles
+                                      .invitationMessageColor,
+                                  fontSize: CalendarEventInformationWidgetStyles
+                                      .invitationMessageTextSize,
+                                  fontWeight: FontWeight.w700),
                             ),
+                            TextSpan(
+                                text: AppLocalizations.of(context)
+                                    .invitationMessageCalendarInformation)
+                          ])),
+                      const SizedBox(
+                          height: CalendarEventInformationWidgetStyles.space),
+                      if (calendarEvent.title?.isNotEmpty == true)
+                        EventTitleWidget(title: calendarEvent.title!),
+                      if (calendarEvent.dateTimeEventAsString.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: CalendarEventInformationWidgetStyles
+                                  .fieldTopPadding),
+                          child: EventTimeInformationWidget(
+                              timeEvent: calendarEvent.dateTimeEventAsString),
+                        ),
+                      if (calendarEvent.location?.isNotEmpty == true)
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: CalendarEventInformationWidgetStyles
+                                  .fieldTopPadding),
+                          child: EventLocationInformationWidget(
+                            locationEvent: calendarEvent.location!,
+                            onOpenComposerAction: onOpenComposerAction,
+                            onOpenNewTabAction: onOpenNewTabAction,
                           ),
-                          TextSpan(text: AppLocalizations.of(context).invitationMessageCalendarInformation)
-                        ]
-                      )
-                    ),
-                    const SizedBox(height: CalendarEventInformationWidgetStyles.space),
-                    if (calendarEvent.title?.isNotEmpty == true)
-                      EventTitleWidget(title: calendarEvent.title!),
-                    if (calendarEvent.dateTimeEventAsString.isNotEmpty)
-                      Padding(
-                        padding: const EdgeInsets.only(top: CalendarEventInformationWidgetStyles.fieldTopPadding),
-                        child: EventTimeInformationWidget(timeEvent: calendarEvent.dateTimeEventAsString),
-                      ),
-                    if (calendarEvent.location?.isNotEmpty == true)
-                      Padding(
-                        padding: const EdgeInsets.only(top: CalendarEventInformationWidgetStyles.fieldTopPadding),
-                        child: EventLocationInformationWidget(
-                          locationEvent: calendarEvent.location!,
-                          onOpenComposerAction: onOpenComposerAction,
-                          onOpenNewTabAction: onOpenNewTabAction,
                         ),
-                      ),
-                    if (calendarEvent.participants?.isNotEmpty == true && calendarEvent.organizer != null)
-                      Padding(
-                        padding: const EdgeInsets.only(top: CalendarEventInformationWidgetStyles.fieldTopPadding),
-                        child: EventAttendeeInformationWidget(
-                          attendees: calendarEvent.participants!,
-                          organizer: calendarEvent.organizer!,
+                      if (calendarEvent.participants?.isNotEmpty == true &&
+                          calendarEvent.organizer != null)
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: CalendarEventInformationWidgetStyles
+                                  .fieldTopPadding),
+                          child: EventAttendeeInformationWidget(
+                            attendees: calendarEvent.participants!,
+                            organizer: calendarEvent.organizer!,
+                          ),
                         ),
-                      ),
-                    if (eventActions.isNotEmpty)
-                      CalendarEventActionButtonWidget(
-                        eventActions: eventActions,
-                        margin: EdgeInsetsDirectional.zero,
-                      ),
-                  ],
-                ),
-              )
-            ],
-          )
-        : Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CalendarDateIconWidget(calendarEvent: calendarEvent),
-              Expanded(child: Container(
-                clipBehavior: Clip.antiAlias,
-                decoration: const ShapeDecoration(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(CalendarEventInformationWidgetStyles.borderRadius),
-                      bottomRight: Radius.circular(CalendarEventInformationWidgetStyles.borderRadius)
-                    )
+                      if (eventActions.isNotEmpty)
+                        CalendarEventActionButtonWidget(
+                          eventActions: eventActions,
+                          margin: EdgeInsetsDirectional.zero,
+                        ),
+                    ],
                   ),
-                  color: Colors.white
-                ),
-                padding: const EdgeInsets.all(CalendarEventInformationWidgetStyles.calendarInformationMargin),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    RichText(
-                      text: TextSpan(
-                        style: const TextStyle(
-                          fontSize: CalendarEventInformationWidgetStyles.invitationMessageTextSize,
-                          fontWeight: FontWeight.w500,
-                          color: CalendarEventInformationWidgetStyles.invitationMessageColor
-                        ),
-                        children: [
-                          TextSpan(
-                            text: calendarEvent.organizerName,
-                            style: const TextStyle(
-                              color: CalendarEventInformationWidgetStyles.invitationMessageColor,
-                              fontSize: CalendarEventInformationWidgetStyles.invitationMessageTextSize,
-                              fontWeight: FontWeight.w700
+                )
+              ],
+            )
+          : Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CalendarDateIconWidget(calendarEvent: calendarEvent),
+                Expanded(
+                    child: Container(
+                  clipBehavior: Clip.antiAlias,
+                  decoration: const ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(
+                                  CalendarEventInformationWidgetStyles
+                                      .borderRadius),
+                              bottomRight: Radius.circular(
+                                  CalendarEventInformationWidgetStyles
+                                      .borderRadius))),
+                      color: Colors.white),
+                  padding: const EdgeInsets.all(
+                      CalendarEventInformationWidgetStyles
+                          .calendarInformationMargin),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      RichText(
+                          text: TextSpan(
+                              style: const TextStyle(
+                                  fontSize: CalendarEventInformationWidgetStyles
+                                      .invitationMessageTextSize,
+                                  fontWeight: FontWeight.w500,
+                                  color: CalendarEventInformationWidgetStyles
+                                      .invitationMessageColor),
+                              children: [
+                            TextSpan(
+                              text: calendarEvent.organizerName,
+                              style: const TextStyle(
+                                  color: CalendarEventInformationWidgetStyles
+                                      .invitationMessageColor,
+                                  fontSize: CalendarEventInformationWidgetStyles
+                                      .invitationMessageTextSize,
+                                  fontWeight: FontWeight.w700),
                             ),
+                            TextSpan(
+                                text: AppLocalizations.of(context)
+                                    .invitationMessageCalendarInformation)
+                          ])),
+                      const SizedBox(
+                          height: CalendarEventInformationWidgetStyles.space),
+                      if (calendarEvent.title?.isNotEmpty == true)
+                        EventTitleWidget(title: calendarEvent.title!),
+                      if (calendarEvent.dateTimeEventAsString.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: CalendarEventInformationWidgetStyles
+                                  .fieldTopPadding),
+                          child: EventTimeInformationWidget(
+                              timeEvent: calendarEvent.dateTimeEventAsString),
+                        ),
+                      if (calendarEvent.location?.isNotEmpty == true)
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: CalendarEventInformationWidgetStyles
+                                  .fieldTopPadding),
+                          child: EventLocationInformationWidget(
+                            locationEvent: calendarEvent.location!,
+                            onOpenComposerAction: onOpenComposerAction,
+                            onOpenNewTabAction: onOpenNewTabAction,
                           ),
-                          TextSpan(text: AppLocalizations.of(context).invitationMessageCalendarInformation)
-                        ]
-                      )
-                    ),
-                    const SizedBox(height: CalendarEventInformationWidgetStyles.space),
-                    if (calendarEvent.title?.isNotEmpty == true)
-                      EventTitleWidget(title: calendarEvent.title!),
-                    if (calendarEvent.dateTimeEventAsString.isNotEmpty)
-                      Padding(
-                        padding: const EdgeInsets.only(top: CalendarEventInformationWidgetStyles.fieldTopPadding),
-                        child: EventTimeInformationWidget(timeEvent: calendarEvent.dateTimeEventAsString),
-                      ),
-                    if (calendarEvent.location?.isNotEmpty == true)
-                      Padding(
-                        padding: const EdgeInsets.only(top: CalendarEventInformationWidgetStyles.fieldTopPadding),
-                        child: EventLocationInformationWidget(
-                          locationEvent: calendarEvent.location!,
-                          onOpenComposerAction: onOpenComposerAction,
-                          onOpenNewTabAction: onOpenNewTabAction,
                         ),
-                      ),
-                    if (calendarEvent.participants?.isNotEmpty == true && calendarEvent.organizer != null)
-                      Padding(
-                        padding: const EdgeInsets.only(top: CalendarEventInformationWidgetStyles.fieldTopPadding),
-                        child: EventAttendeeInformationWidget(
-                          attendees: calendarEvent.participants!,
-                          organizer: calendarEvent.organizer!,
+                      if (calendarEvent.participants?.isNotEmpty == true &&
+                          calendarEvent.organizer != null)
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: CalendarEventInformationWidgetStyles
+                                  .fieldTopPadding),
+                          child: EventAttendeeInformationWidget(
+                            attendees: calendarEvent.participants!,
+                            organizer: calendarEvent.organizer!,
+                          ),
                         ),
-                      ),
-                    if (eventActions.isNotEmpty)
-                      CalendarEventActionButtonWidget(
-                        eventActions: eventActions,
-                        margin: EdgeInsetsDirectional.zero,
-                      ),
-                  ],
-                ),
-              ))
-            ],
-          ),
+                      if (eventActions.isNotEmpty)
+                        CalendarEventActionButtonWidget(
+                          eventActions: eventActions,
+                          margin: EdgeInsetsDirectional.zero,
+                        ),
+                    ],
+                  ),
+                ))
+              ],
+            ),
     );
   }
 }

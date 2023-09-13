@@ -31,7 +31,6 @@ import 'package:tmail_ui_user/main/exceptions/cache_exception_thrower.dart';
 import 'package:tmail_ui_user/main/exceptions/remote_exception_thrower.dart';
 
 class ManageAccountDashBoardBindings extends BaseBindings {
-
   @override
   void dependencies() {
     super.dependencies();
@@ -43,60 +42,63 @@ class ManageAccountDashBoardBindings extends BaseBindings {
   @override
   void bindingsController() {
     Get.put(ManageAccountDashBoardController(
-      Get.find<GetAuthenticatedAccountInteractor>(),
-      Get.find<UpdateAuthenticationAccountInteractor>()
-    ));
+        Get.find<GetAuthenticatedAccountInteractor>(),
+        Get.find<UpdateAuthenticationAccountInteractor>()));
   }
 
   @override
   void bindingsDataSource() {
     Get.lazyPut<AccountDatasource>(() => Get.find<HiveAccountDatasourceImpl>());
-    Get.lazyPut<AuthenticationOIDCDataSource>(() => Get.find<AuthenticationOIDCDataSourceImpl>());
-    Get.lazyPut<ManageAccountDataSource>(() => Get.find<ManageAccountDataSourceImpl>());
+    Get.lazyPut<AuthenticationOIDCDataSource>(
+        () => Get.find<AuthenticationOIDCDataSourceImpl>());
+    Get.lazyPut<ManageAccountDataSource>(
+        () => Get.find<ManageAccountDataSourceImpl>());
   }
 
   @override
   void bindingsDataSourceImpl() {
     Get.lazyPut(() => HiveAccountDatasourceImpl(
-      Get.find<AccountCacheManager>(),
-      Get.find<CacheExceptionThrower>()));
+        Get.find<AccountCacheManager>(), Get.find<CacheExceptionThrower>()));
     Get.lazyPut(() => AuthenticationOIDCDataSourceImpl(
-      Get.find<OIDCHttpClient>(),
-      Get.find<AuthenticationClientBase>(),
-      Get.find<TokenOidcCacheManager>(),
-      Get.find<OidcConfigurationCacheManager>(),
-      Get.find<RemoteExceptionThrower>()
-    ));
+        Get.find<OIDCHttpClient>(),
+        Get.find<AuthenticationClientBase>(),
+        Get.find<TokenOidcCacheManager>(),
+        Get.find<OidcConfigurationCacheManager>(),
+        Get.find<RemoteExceptionThrower>()));
     Get.lazyPut(() => ManageAccountDataSourceImpl(
-      Get.find<LanguageCacheManager>(),
-      Get.find<RemoteExceptionThrower>()));
+        Get.find<LanguageCacheManager>(), Get.find<RemoteExceptionThrower>()));
   }
 
   @override
   void bindingsInteractor() {
     Get.lazyPut(() => GetStoredTokenOidcInteractor(
-      Get.find<AuthenticationOIDCRepository>(),
-      Get.find<CredentialRepository>(),
-    ));
+          Get.find<AuthenticationOIDCRepository>(),
+          Get.find<CredentialRepository>(),
+        ));
     Get.lazyPut(() => GetAuthenticatedAccountInteractor(
-      Get.find<AccountRepository>(),
-      Get.find<GetCredentialInteractor>(),
-      Get.find<GetStoredTokenOidcInteractor>(),
-    ));
-    Get.lazyPut(() => UpdateAuthenticationAccountInteractor(Get.find<AccountRepository>()));
+          Get.find<AccountRepository>(),
+          Get.find<GetCredentialInteractor>(),
+          Get.find<GetStoredTokenOidcInteractor>(),
+        ));
+    Get.lazyPut(() =>
+        UpdateAuthenticationAccountInteractor(Get.find<AccountRepository>()));
   }
 
   @override
   void bindingsRepository() {
     Get.lazyPut<AccountRepository>(() => Get.find<AccountRepositoryImpl>());
-    Get.lazyPut<AuthenticationOIDCRepository>(() => Get.find<AuthenticationOIDCRepositoryImpl>());
-    Get.lazyPut<ManageAccountRepository>(() => Get.find<ManageAccountRepositoryImpl>());
+    Get.lazyPut<AuthenticationOIDCRepository>(
+        () => Get.find<AuthenticationOIDCRepositoryImpl>());
+    Get.lazyPut<ManageAccountRepository>(
+        () => Get.find<ManageAccountRepositoryImpl>());
   }
 
   @override
   void bindingsRepositoryImpl() {
     Get.lazyPut(() => AccountRepositoryImpl(Get.find<AccountDatasource>()));
-    Get.lazyPut(() => AuthenticationOIDCRepositoryImpl(Get.find<AuthenticationOIDCDataSource>()));
-    Get.lazyPut(() => ManageAccountRepositoryImpl(Get.find<ManageAccountDataSource>()));
+    Get.lazyPut(() => AuthenticationOIDCRepositoryImpl(
+        Get.find<AuthenticationOIDCDataSource>()));
+    Get.lazyPut(
+        () => ManageAccountRepositoryImpl(Get.find<ManageAccountDataSource>()));
   }
 }

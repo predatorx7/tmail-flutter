@@ -1,4 +1,3 @@
-
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -42,13 +41,11 @@ class ConfirmDialogBuilder {
   OnCloseButtonAction? _onCloseButtonAction;
 
   ConfirmDialogBuilder(
-    this._imagePath,
-    {
-      this.showAsBottomSheet = false,
-      this.listTextSpan,
-      this.heightButton,
-    }
-  );
+    this._imagePath, {
+    this.showAsBottomSheet = false,
+    this.listTextSpan,
+    this.heightButton,
+  });
 
   void key(Key key) {
     _key = key;
@@ -134,12 +131,14 @@ class ConfirmDialogBuilder {
     _backgroundColor = value;
   }
 
-  void onConfirmButtonAction(String confirmText, OnConfirmButtonAction? onConfirmButtonAction) {
+  void onConfirmButtonAction(
+      String confirmText, OnConfirmButtonAction? onConfirmButtonAction) {
     _confirmText = confirmText;
     _onConfirmButtonAction = onConfirmButtonAction;
   }
 
-  void onCancelButtonAction(String cancelText, OnCancelButtonAction? onCancelButtonAction) {
+  void onCancelButtonAction(
+      String cancelText, OnCancelButtonAction? onCancelButtonAction) {
     _cancelText = cancelText;
     _onCancelButtonAction = onCancelButtonAction;
   }
@@ -156,9 +155,8 @@ class ConfirmDialogBuilder {
         key: _key,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(16))),
-        insetPadding: _outsideDialogPadding ?? const EdgeInsets.symmetric(
-            horizontal: 24.0,
-            vertical: 16.0),
+        insetPadding: _outsideDialogPadding ??
+            const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
         alignment: _alignment ?? Alignment.center,
         backgroundColor: _backgroundColor,
         child: _bodyContent(),
@@ -181,9 +179,9 @@ class ConfirmDialogBuilder {
                 child: Padding(
                     padding: const EdgeInsets.only(top: 8, right: 8),
                     child: buildIconWeb(
-                        icon: SvgPicture.asset(_imagePath.icCloseMailbox, fit: BoxFit.fill),
-                        onTap: () => _onCloseButtonAction?.call())
-                )),
+                        icon: SvgPicture.asset(_imagePath.icCloseMailbox,
+                            fit: BoxFit.fill),
+                        onTap: () => _onCloseButtonAction?.call()))),
           if (_iconWidget != null)
             Container(
               margin: _marginIcon ?? EdgeInsets.zero,
@@ -194,92 +192,106 @@ class ConfirmDialogBuilder {
             Padding(
                 padding: _paddingTitle ?? const EdgeInsets.only(top: 12),
                 child: Center(
-                    child: Text(
-                        _title,
+                    child: Text(_title,
                         textAlign: TextAlign.center,
-                        style: _styleTitle ?? const TextStyle(fontSize: 20.0, color: AppColor.colorActionDeleteConfirmDialog, fontWeight: FontWeight.w500)
-                    )
-                )
-            ),
+                        style: _styleTitle ??
+                            const TextStyle(
+                                fontSize: 20.0,
+                                color: AppColor.colorActionDeleteConfirmDialog,
+                                fontWeight: FontWeight.w500)))),
           if (_content.isNotEmpty)
             Padding(
-              padding: _paddingContent ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+              padding: _paddingContent ??
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
               child: Center(
                 child: Text(_content,
                     textAlign: TextAlign.center,
-                    style: _styleContent ?? const TextStyle(fontSize: 17.0, color: AppColor.colorMessageDialog)
-                ),
+                    style: _styleContent ??
+                        const TextStyle(
+                            fontSize: 17.0,
+                            color: AppColor.colorMessageDialog)),
               ),
             )
           else if (listTextSpan != null)
             Padding(
-              padding: _paddingContent ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+              padding: _paddingContent ??
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
               child: Center(
                 child: RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
-                    style: _styleContent ?? const TextStyle(fontSize: 17.0, color: AppColor.colorMessageDialog),
-                    children: listTextSpan
-                  ),
+                      style: _styleContent ??
+                          const TextStyle(
+                              fontSize: 17.0,
+                              color: AppColor.colorMessageDialog),
+                      children: listTextSpan),
                 ),
               ),
             ),
           Padding(
-              padding: _paddingButton ?? const EdgeInsets.only(bottom: 16, left: 16, right: 16),
-              child: Row(
-                  children: [
-                    if (_cancelText.isNotEmpty)
-                      Expanded(child: _buildButton(
+              padding: _paddingButton ??
+                  const EdgeInsets.only(bottom: 16, left: 16, right: 16),
+              child: Row(children: [
+                if (_cancelText.isNotEmpty)
+                  Expanded(
+                      child: _buildButton(
                           name: _cancelText,
                           bgColor: _colorCancelButton,
                           radius: _radiusButton,
                           height: heightButton,
                           textStyle: _styleTextCancelButton,
                           action: _onCancelButtonAction)),
-                    if (_confirmText.isNotEmpty && _cancelText.isNotEmpty) const SizedBox(width: 16),
-                    if (_confirmText.isNotEmpty)
-                      Expanded(child: _buildButton(
+                if (_confirmText.isNotEmpty && _cancelText.isNotEmpty)
+                  const SizedBox(width: 16),
+                if (_confirmText.isNotEmpty)
+                  Expanded(
+                      child: _buildButton(
                           name: _confirmText,
                           bgColor: _colorConfirmButton,
                           radius: _radiusButton,
                           height: heightButton,
                           textStyle: _styleTextConfirmButton,
                           action: _onConfirmButtonAction))
-                  ]
-              ))
-        ])
-    );
+              ]))
+        ]));
   }
 
-  Widget _buildButton({
-    String? name,
-    TextStyle? textStyle,
-    Color? bgColor,
-    double? radius,
-    double? height,
-    Function? action
-  }) {
+  Widget _buildButton(
+      {String? name,
+      TextStyle? textStyle,
+      Color? bgColor,
+      double? radius,
+      double? height,
+      Function? action}) {
     return SizedBox(
-      width: double.infinity,
-      height: height ?? 48,
-      child: ElevatedButton(
-        onPressed: () => action?.call(),
-        style: ButtonStyle(
-            foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) => bgColor ?? AppColor.colorTextButton),
-            backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) => bgColor ?? AppColor.colorTextButton),
-            shape: MaterialStateProperty.all(RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(radius ?? 8),
-              side: BorderSide(width: 0, color: bgColor ?? AppColor.colorTextButton),
-            )),
-            padding: MaterialStateProperty.resolveWith<EdgeInsets>(
-                    (Set<MaterialState> states) => const EdgeInsets.symmetric(horizontal: 16)),
-            elevation: MaterialStateProperty.resolveWith<double>((Set<MaterialState> states) => 0)),
-        child: Text(name ?? '',
-            textAlign: TextAlign.center,
-            style: textStyle ?? const TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.white)),
-      )
-    );
+        width: double.infinity,
+        height: height ?? 48,
+        child: ElevatedButton(
+          onPressed: () => action?.call(),
+          style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                  (Set<MaterialState> states) =>
+                      bgColor ?? AppColor.colorTextButton),
+              backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                  (Set<MaterialState> states) =>
+                      bgColor ?? AppColor.colorTextButton),
+              shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(radius ?? 8),
+                side: BorderSide(
+                    width: 0, color: bgColor ?? AppColor.colorTextButton),
+              )),
+              padding: MaterialStateProperty.resolveWith<EdgeInsets>(
+                  (Set<MaterialState> states) =>
+                      const EdgeInsets.symmetric(horizontal: 16)),
+              elevation: MaterialStateProperty.resolveWith<double>(
+                  (Set<MaterialState> states) => 0)),
+          child: Text(name ?? '',
+              textAlign: TextAlign.center,
+              style: textStyle ??
+                  const TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white)),
+        ));
   }
 }

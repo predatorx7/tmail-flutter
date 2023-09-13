@@ -1,10 +1,8 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
 class NetworkConnectionBannerWidget extends StatelessWidget {
-
   const NetworkConnectionBannerWidget({super.key});
 
   @override
@@ -12,7 +10,8 @@ class NetworkConnectionBannerWidget extends StatelessWidget {
     return Container(
       color: AppColor.colorNetworkConnectionBannerBackground,
       width: double.infinity,
-      padding: const EdgeInsetsDirectional.symmetric(vertical: 6, horizontal: 16),
+      padding:
+          const EdgeInsetsDirectional.symmetric(vertical: 6, horizontal: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

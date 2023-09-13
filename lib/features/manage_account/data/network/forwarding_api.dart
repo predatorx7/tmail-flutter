@@ -15,7 +15,8 @@ class ForwardingAPI {
 
   Future<TMailForward> getForward(AccountId accountId) async {
     final processingInvocation = ProcessingInvocation();
-    final requestBuilder = JmapRequestBuilder(_httpClient, processingInvocation);
+    final requestBuilder =
+        JmapRequestBuilder(_httpClient, processingInvocation);
 
     final getForwardMethod = GetForwardMethod(
       accountId,
@@ -23,13 +24,12 @@ class ForwardingAPI {
 
     final getForwardInvocation = requestBuilder.invocation(getForwardMethod);
     final response = await (requestBuilder
-        ..usings(getForwardMethod.requiredCapabilities))
-      .build()
-      .execute();
+          ..usings(getForwardMethod.requiredCapabilities))
+        .build()
+        .execute();
 
     final result = response.parse<GetForwardResponse>(
-      getForwardInvocation.methodCallId,
-      GetForwardResponse.deserialize);
+        getForwardInvocation.methodCallId, GetForwardResponse.deserialize);
 
     final tMailForwardResult = result?.list.first;
     if (tMailForwardResult == null) {
@@ -39,11 +39,11 @@ class ForwardingAPI {
     return tMailForwardResult;
   }
 
-  Future<TMailForward> updateForward(AccountId accountId, TMailForward forward) async {
+  Future<TMailForward> updateForward(
+      AccountId accountId, TMailForward forward) async {
     final setForwardMethod = SetForwardMethod(accountId)
-      ..addUpdatesSingleton({
-        ForwardIdSingleton.forwardIdSingleton.id : forward
-      });
+      ..addUpdatesSingleton(
+          {ForwardIdSingleton.forwardIdSingleton.id: forward});
 
     final processingInvocation = ProcessingInvocation();
     final requestBuilder = JmapRequestBuilder(_httpClient, processingInvocation)
@@ -54,13 +54,12 @@ class ForwardingAPI {
     final getForwardInvocation = requestBuilder.invocation(getForwardMethod);
 
     final response = await (requestBuilder
-        ..usings(setForwardMethod.requiredCapabilities))
-      .build()
-      .execute();
+          ..usings(setForwardMethod.requiredCapabilities))
+        .build()
+        .execute();
 
     final getForwardResponse = response.parse<GetForwardResponse>(
-      getForwardInvocation.methodCallId,
-      GetForwardResponse.deserialize);
+        getForwardInvocation.methodCallId, GetForwardResponse.deserialize);
 
     final newForward = getForwardResponse?.list.first;
     if (newForward == null) {

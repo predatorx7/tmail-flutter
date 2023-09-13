@@ -1,4 +1,3 @@
-
 class CachingConstants {
   static const int MAILBOX_CACHE_IDENTIFY = 1;
   static const int MAILBOX_RIGHTS_CACHE_IDENTIFY = 2;

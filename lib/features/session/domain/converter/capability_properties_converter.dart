@@ -9,7 +9,6 @@ import 'package:jmap_dart_client/jmap/core/capability/vacation_capability.dart';
 import 'package:jmap_dart_client/jmap/core/capability/websocket_capability.dart';
 
 class CapabilityPropertiesConverter {
-
   Map<String, dynamic>? toJson(CapabilityProperties properties) {
     if (properties is CoreCapability) {
       return properties.toJson();

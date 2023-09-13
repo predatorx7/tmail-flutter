@@ -22,15 +22,17 @@ class AuthenticationOIDCRepositoryImpl extends AuthenticationOIDCRepository {
     return _oidcDataSource.getOIDCConfiguration(oidcResponse);
   }
 
-
   @override
-  Future<OIDCDiscoveryResponse> discoverOIDC(OIDCConfiguration oidcConfiguration) {
+  Future<OIDCDiscoveryResponse> discoverOIDC(
+      OIDCConfiguration oidcConfiguration) {
     return _oidcDataSource.discoverOIDC(oidcConfiguration);
   }
 
   @override
-  Future<TokenOIDC> getTokenOIDC(String clientId, String redirectUrl, String discoveryUrl, List<String> scopes) {
-    return _oidcDataSource.getTokenOIDC(clientId, redirectUrl, discoveryUrl, scopes);
+  Future<TokenOIDC> getTokenOIDC(String clientId, String redirectUrl,
+      String discoveryUrl, List<String> scopes) {
+    return _oidcDataSource.getTokenOIDC(
+        clientId, redirectUrl, discoveryUrl, scopes);
   }
 
   @override
@@ -54,23 +56,15 @@ class AuthenticationOIDCRepositoryImpl extends AuthenticationOIDCRepository {
   }
 
   @override
-  Future<TokenOIDC> refreshingTokensOIDC(
-      String clientId,
-      String redirectUrl,
-      String discoveryUrl,
-      List<String> scopes,
-      String refreshToken
-  ) {
+  Future<TokenOIDC> refreshingTokensOIDC(String clientId, String redirectUrl,
+      String discoveryUrl, List<String> scopes, String refreshToken) {
     return _oidcDataSource.refreshingTokensOIDC(
-        clientId,
-        redirectUrl,
-        discoveryUrl,
-        scopes,
-        refreshToken);
+        clientId, redirectUrl, discoveryUrl, scopes, refreshToken);
   }
 
   @override
-  Future<bool> logout(TokenId tokenId, OIDCConfiguration config, OIDCDiscoveryResponse oidcRescovery) {
+  Future<bool> logout(TokenId tokenId, OIDCConfiguration config,
+      OIDCDiscoveryResponse oidcRescovery) {
     return _oidcDataSource.logout(tokenId, config, oidcRescovery);
   }
 
@@ -80,9 +74,10 @@ class AuthenticationOIDCRepositoryImpl extends AuthenticationOIDCRepository {
   }
 
   @override
-  Future<void> authenticateOidcOnBrowser(String clientId,
-      String redirectUrl, String discoveryUrl, List<String> scopes) {
-    return _oidcDataSource.authenticateOidcOnBrowser(clientId, redirectUrl, discoveryUrl, scopes);
+  Future<void> authenticateOidcOnBrowser(String clientId, String redirectUrl,
+      String discoveryUrl, List<String> scopes) {
+    return _oidcDataSource.authenticateOidcOnBrowser(
+        clientId, redirectUrl, discoveryUrl, scopes);
   }
 
   @override

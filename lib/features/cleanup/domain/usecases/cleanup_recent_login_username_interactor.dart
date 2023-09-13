@@ -10,7 +10,8 @@ class CleanupRecentLoginUsernameCacheInteractor {
 
   CleanupRecentLoginUsernameCacheInteractor(this.cleanupRepository);
 
-  Future<Either<Failure, Success>> execute(RecentLoginUsernameCleanupRule cleanupRule) async {
+  Future<Either<Failure, Success>> execute(
+      RecentLoginUsernameCleanupRule cleanupRule) async {
     try {
       await cleanupRepository.cleanRecentLoginUsernameCache(cleanupRule);
       return Right<Failure, Success>(CleanupRecentLoginUsernameCacheSuccess());

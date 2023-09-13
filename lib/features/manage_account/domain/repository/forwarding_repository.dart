@@ -7,9 +7,12 @@ import 'package:tmail_ui_user/features/manage_account/domain/model/edit_local_co
 abstract class ForwardingRepository {
   Future<TMailForward> getForward(AccountId accountId);
 
-  Future<TMailForward> deleteRecipientInForwarding(AccountId accountId, DeleteRecipientInForwardingRequest deleteRequest);
+  Future<TMailForward> deleteRecipientInForwarding(
+      AccountId accountId, DeleteRecipientInForwardingRequest deleteRequest);
 
-  Future<TMailForward> addRecipientsInForwarding(AccountId accountId, AddRecipientInForwardingRequest addRequest);
+  Future<TMailForward> addRecipientsInForwarding(
+      AccountId accountId, AddRecipientInForwardingRequest addRequest);
 
-  Future<TMailForward> editLocalCopyInForwarding(AccountId accountId, EditLocalCopyInForwardingRequest editRequest);
+  Future<TMailForward> editLocalCopyInForwarding(
+      AccountId accountId, EditLocalCopyInForwardingRequest editRequest);
 }

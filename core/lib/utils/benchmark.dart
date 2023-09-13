@@ -1,4 +1,3 @@
-
 import 'package:core/core.dart';
 
 class _Benchmark {
@@ -21,9 +20,8 @@ class _Benchmark {
       if (!_starts.containsKey(benchId)) {
         throw Exception('In Benchmark not placed comparing with id=$benchId');
       }
-      final double diff = (DateTime
-          .now()
-          .microsecondsSinceEpoch - _starts[benchId]!) / 1000;
+      final double diff =
+          (DateTime.now().microsecondsSinceEpoch - _starts[benchId]!) / 1000;
       final String info = '$benchId need ${diff}ms';
       log('_Benchmark::end(): $info');
       _starts.remove(benchId);

@@ -11,22 +11,23 @@ part 'autocomplete_tmail_contact_response.g.dart';
 @UnsignedIntNullableConverter()
 @AccountIdConverter()
 @JsonSerializable()
-class AutoCompleteTMailContactResponse extends AutoCompleteResponse<TMailContact> {
-
+class AutoCompleteTMailContactResponse
+    extends AutoCompleteResponse<TMailContact> {
   AutoCompleteTMailContactResponse(
-      AccountId accountId,
-      List<TMailContact> list,
-      UnsignedInt? limit
-  ) : super(accountId, list, limit);
+      AccountId accountId, List<TMailContact> list, UnsignedInt? limit)
+      : super(accountId, list, limit);
 
-  factory AutoCompleteTMailContactResponse.fromJson(Map<String, dynamic> json) =>
+  factory AutoCompleteTMailContactResponse.fromJson(
+          Map<String, dynamic> json) =>
       _$AutoCompleteTMailContactResponseFromJson(json);
 
-  static AutoCompleteTMailContactResponse deserialize(Map<String, dynamic> json) {
+  static AutoCompleteTMailContactResponse deserialize(
+      Map<String, dynamic> json) {
     return AutoCompleteTMailContactResponse.fromJson(json);
   }
 
-  Map<String, dynamic> toJson() => _$AutoCompleteTMailContactResponseToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$AutoCompleteTMailContactResponseToJson(this);
 
   @override
   List<Object?> get props => [accountId, list, limit];

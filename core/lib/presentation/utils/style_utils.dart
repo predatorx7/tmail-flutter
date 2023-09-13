@@ -10,9 +10,8 @@ class CommonTextStyle {
     fontWeight: FontWeight.normal,
   );
 
-  static const defaultTextOverFlow = PlatformInfo.isWeb
-      ? TextOverflow.fade
-      : TextOverflow.ellipsis;
+  static const defaultTextOverFlow =
+      PlatformInfo.isWeb ? TextOverflow.fade : TextOverflow.ellipsis;
 
   static const defaultSoftWrap = PlatformInfo.isWeb ? false : true;
 }

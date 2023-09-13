@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:core/utils/app_logger.dart';
@@ -19,7 +18,8 @@ class FcmUtils {
 
   static const String hashCodeKey = 'TeamMail';
 
-  StateChange? convertFirebaseDataMessageToStateChange(Map<String, dynamic> dataMessage) {
+  StateChange? convertFirebaseDataMessageToStateChange(
+      Map<String, dynamic> dataMessage) {
     log('FcmUtils::convertFirebaseDataMessageToStateChange():dataMessage: $dataMessage');
     Map<String, dynamic> mapData;
     if (dataMessage.containsKey('data')) {

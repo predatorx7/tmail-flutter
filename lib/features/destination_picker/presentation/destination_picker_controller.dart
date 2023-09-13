@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/state/failure.dart';
 import 'package:core/presentation/state/success.dart';
 import 'package:core/presentation/utils/app_toast.dart';
@@ -43,7 +42,6 @@ import 'package:tmail_ui_user/main/routes/route_navigation.dart';
 import 'package:uuid/uuid.dart';
 
 class DestinationPickerController extends BaseMailboxController {
-
   final _uuid = Get.find<Uuid>();
   final _appToast = Get.find<AppToast>();
 
@@ -71,18 +69,15 @@ class DestinationPickerController extends BaseMailboxController {
   final destinationListScrollController = ScrollController();
 
   DestinationPickerController(
-    this._searchMailboxInteractor,
-    this._createNewMailboxInteractor,
-    TreeBuilder treeBuilder,
-    VerifyNameInteractor verifyNameInteractor,
-    GetAllMailboxInteractor getAllMailboxInteractor,
-    RefreshAllMailboxInteractor refreshAllMailboxInteractor
-  ) : super(
-    treeBuilder,
-    verifyNameInteractor,
-    getAllMailboxInteractor : getAllMailboxInteractor,
-    refreshAllMailboxInteractor : refreshAllMailboxInteractor
-  );
+      this._searchMailboxInteractor,
+      this._createNewMailboxInteractor,
+      TreeBuilder treeBuilder,
+      VerifyNameInteractor verifyNameInteractor,
+      GetAllMailboxInteractor getAllMailboxInteractor,
+      RefreshAllMailboxInteractor refreshAllMailboxInteractor)
+      : super(treeBuilder, verifyNameInteractor,
+            getAllMailboxInteractor: getAllMailboxInteractor,
+            refreshAllMailboxInteractor: refreshAllMailboxInteractor);
 
   @override
   void onInit() {
@@ -107,19 +102,22 @@ class DestinationPickerController extends BaseMailboxController {
   @override
   void handleSuccessViewState(Success success) async {
     super.handleSuccessViewState(success);
-    if (success is GetAllMailboxSuccess)  {
-      if (mailboxAction.value == MailboxActions.move && mailboxIdSelected != null) {
+    if (success is GetAllMailboxSuccess) {
+      if (mailboxAction.value == MailboxActions.move &&
+          mailboxIdSelected != null) {
         await buildTree(
-          success.mailboxList.listSubscribedMailboxesAndDefaultMailboxes,
-          mailboxIdSelected: mailboxIdSelected);
+            success.mailboxList.listSubscribedMailboxesAndDefaultMailboxes,
+            mailboxIdSelected: mailboxIdSelected);
       } else {
-        await buildTree(success.mailboxList.listSubscribedMailboxesAndDefaultMailboxes);
+        await buildTree(
+            success.mailboxList.listSubscribedMailboxesAndDefaultMailboxes);
       }
       if (currentContext != null) {
         await syncAllMailboxWithDisplayName(currentContext!);
       }
     } else if (success is RefreshChangesAllMailboxSuccess) {
-      await refreshTree(success.mailboxList.listSubscribedMailboxesAndDefaultMailboxes);
+      await refreshTree(
+          success.mailboxList.listSubscribedMailboxesAndDefaultMailboxes);
       if (currentContext != null) {
         await syncAllMailboxWithDisplayName(currentContext!);
       }
@@ -164,25 +162,30 @@ class DestinationPickerController extends BaseMailboxController {
   }
 
   void toggleMailboxCategories(MailboxCategories categories) {
-    switch(categories) {
+    switch (categories) {
       case MailboxCategories.exchange:
-        final newExpandMode = mailboxCategoriesExpandMode.value.defaultMailbox == ExpandMode.EXPAND
-          ? ExpandMode.COLLAPSE
-          : ExpandMode.EXPAND;
+        final newExpandMode =
+            mailboxCategoriesExpandMode.value.defaultMailbox ==
+                    ExpandMode.EXPAND
+                ? ExpandMode.COLLAPSE
+                : ExpandMode.EXPAND;
         mailboxCategoriesExpandMode.value.defaultMailbox = newExpandMode;
         mailboxCategoriesExpandMode.refresh();
         break;
       case MailboxCategories.personalFolders:
-        final newExpandMode = mailboxCategoriesExpandMode.value.personalFolders == ExpandMode.EXPAND
-          ? ExpandMode.COLLAPSE
-          : ExpandMode.EXPAND;
+        final newExpandMode =
+            mailboxCategoriesExpandMode.value.personalFolders ==
+                    ExpandMode.EXPAND
+                ? ExpandMode.COLLAPSE
+                : ExpandMode.EXPAND;
         mailboxCategoriesExpandMode.value.personalFolders = newExpandMode;
         mailboxCategoriesExpandMode.refresh();
         break;
       case MailboxCategories.teamMailboxes:
-        final newExpandMode = mailboxCategoriesExpandMode.value.teamMailboxes == ExpandMode.EXPAND
-          ? ExpandMode.COLLAPSE
-          : ExpandMode.EXPAND;
+        final newExpandMode =
+            mailboxCategoriesExpandMode.value.teamMailboxes == ExpandMode.EXPAND
+                ? ExpandMode.COLLAPSE
+                : ExpandMode.EXPAND;
         mailboxCategoriesExpandMode.value.teamMailboxes = newExpandMode;
         mailboxCategoriesExpandMode.refresh();
         break;
@@ -191,7 +194,8 @@ class DestinationPickerController extends BaseMailboxController {
     }
   }
 
-  bool isSearchActive() => searchState.value.searchStatus == SearchStatus.ACTIVE;
+  bool isSearchActive() =>
+      searchState.value.searchStatus == SearchStatus.ACTIVE;
 
   void enableSearch() {
     searchState.value = searchState.value.enableSearchState();
@@ -206,22 +210,16 @@ class DestinationPickerController extends BaseMailboxController {
       return null;
     }
 
-    return verifyNameInteractor.execute(
-      nameMailbox,
-      [
-        EmptyNameValidator(),
-        DuplicateNameValidator(listMailboxNameAsStringExist),
-      ]
-    ).fold(
-      (failure) {
-        if (failure is VerifyNameFailure) {
-          return failure.getMessage(context);
-        } else {
-          return null;
-        }
-      },
-      (success) => null
-    );
+    return verifyNameInteractor.execute(nameMailbox, [
+      EmptyNameValidator(),
+      DuplicateNameValidator(listMailboxNameAsStringExist),
+    ]).fold((failure) {
+      if (failure is VerifyNameFailure) {
+        return failure.getMessage(context);
+      } else {
+        return null;
+      }
+    }, (success) => null);
   }
 
   bool isCreateMailboxValidated(BuildContext context) {
@@ -240,20 +238,23 @@ class DestinationPickerController extends BaseMailboxController {
   void _createListMailboxNameAsStringInMailboxLocation() {
     if (mailboxDestination.value == null ||
         mailboxDestination.value == PresentationMailbox.unifiedMailbox) {
-      final allChildrenAtMailboxLocation = (defaultMailboxTree.value.root.childrenItems ?? <MailboxNode>[]) +
-          (personalMailboxTree.value.root.childrenItems ?? <MailboxNode>[]);
+      final allChildrenAtMailboxLocation =
+          (defaultMailboxTree.value.root.childrenItems ?? <MailboxNode>[]) +
+              (personalMailboxTree.value.root.childrenItems ?? <MailboxNode>[]);
       if (allChildrenAtMailboxLocation.isNotEmpty) {
         listMailboxNameAsStringExist = allChildrenAtMailboxLocation
             .where((mailboxNode) => mailboxNode.nameNotEmpty)
             .map((mailboxNode) => mailboxNode.mailboxNameAsString)
             .toList();
-      }  else {
+      } else {
         listMailboxNameAsStringExist = [];
       }
     } else {
-      final mailboxNodeLocation = findMailboxNodeById(mailboxDestination.value!.id);
-      if (mailboxNodeLocation != null && mailboxNodeLocation.childrenItems?.isNotEmpty == true) {
-        final allChildrenAtMailboxLocation =  mailboxNodeLocation.childrenItems!;
+      final mailboxNodeLocation =
+          findMailboxNodeById(mailboxDestination.value!.id);
+      if (mailboxNodeLocation != null &&
+          mailboxNodeLocation.childrenItems?.isNotEmpty == true) {
+        final allChildrenAtMailboxLocation = mailboxNodeLocation.childrenItems!;
         listMailboxNameAsStringExist = allChildrenAtMailboxLocation
             .where((mailboxNode) => mailboxNode.nameNotEmpty)
             .map((mailboxNode) => mailboxNode.mailboxNameAsString)
@@ -280,18 +281,21 @@ class DestinationPickerController extends BaseMailboxController {
 
   void searchMailbox(BuildContext context, String value) {
     searchQuery.value = SearchQuery(value);
-    final searchableMailboxList = mailboxAction.value == MailboxActions.moveEmail
-      ? allMailboxes
-      : allMailboxes.listPersonalMailboxes;
+    final searchableMailboxList =
+        mailboxAction.value == MailboxActions.moveEmail
+            ? allMailboxes
+            : allMailboxes.listPersonalMailboxes;
 
     final mailboxListWithDisplayName = searchableMailboxList
-      .map((mailbox) => mailbox.withDisplayName(mailbox.getDisplayName(context)))
-      .toList();
+        .map((mailbox) =>
+            mailbox.withDisplayName(mailbox.getDisplayName(context)))
+        .toList();
 
     _searchMailboxAction(mailboxListWithDisplayName, searchQuery.value);
   }
 
-  void _searchMailboxAction(List<PresentationMailbox> allMailboxes, SearchQuery searchQuery) {
+  void _searchMailboxAction(
+      List<PresentationMailbox> allMailboxes, SearchQuery searchQuery) {
     if (searchQuery.value.isNotEmpty) {
       consumeState(_searchMailboxInteractor.execute(allMailboxes, searchQuery));
     } else {
@@ -300,7 +304,8 @@ class DestinationPickerController extends BaseMailboxController {
   }
 
   void _searchMailboxSuccess(SearchMailboxSuccess success) {
-    final mailboxesSearchedWithPath = findMailboxPath(success.mailboxesSearched);
+    final mailboxesSearchedWithPath =
+        findMailboxPath(success.mailboxesSearched);
     listMailboxSearched.value = mailboxesSearchedWithPath;
   }
 
@@ -311,20 +316,19 @@ class DestinationPickerController extends BaseMailboxController {
   void openCreateNewMailboxView(BuildContext context) async {
     if (mailboxDestination.value == null) {
       _appToast.showToastErrorMessage(
-        currentOverlayContext!,
-        AppLocalizations.of(context).toastMessageErrorNotSelectedFolderWhenCreateNewMailbox);
+          currentOverlayContext!,
+          AppLocalizations.of(context)
+              .toastMessageErrorNotSelectedFolderWhenCreateNewMailbox);
     } else {
       destinationScreenType.value = DestinationScreenType.createNewMailbox;
       _createListMailboxNameAsStringInMailboxLocation();
     }
   }
 
-  void _dispatchCreateNewMailboxFolder(
-    Session session,
-    AccountId accountId,
-    CreateNewMailboxRequest request
-  ) async {
-    consumeState(_createNewMailboxInteractor.execute(session, accountId, request));
+  void _dispatchCreateNewMailboxFolder(Session session, AccountId accountId,
+      CreateNewMailboxRequest request) async {
+    consumeState(
+        _createNewMailboxInteractor.execute(session, accountId, request));
   }
 
   void _createNewMailboxSuccess(CreateNewMailboxSuccess success) {
@@ -342,18 +346,18 @@ class DestinationPickerController extends BaseMailboxController {
   void _createNewMailboxFailure(CreateNewMailboxFailure failure) {
     if (currentOverlayContext != null && currentContext != null) {
       final exception = failure.exception;
-      var messageError = AppLocalizations.of(currentContext!).create_new_mailbox_failure;
+      var messageError =
+          AppLocalizations.of(currentContext!).create_new_mailbox_failure;
       if (exception is ErrorMethodResponse) {
-        messageError = exception.description ?? AppLocalizations.of(currentContext!).create_new_mailbox_failure;
+        messageError = exception.description ??
+            AppLocalizations.of(currentContext!).create_new_mailbox_failure;
       }
       _appToast.showToastErrorMessage(currentOverlayContext!, messageError);
     }
   }
 
-  void selectMailboxAction(
-      PresentationMailbox? presentationMailbox,
-      {MailboxNode? mailboxNode}
-  ) {
+  void selectMailboxAction(PresentationMailbox? presentationMailbox,
+      {MailboxNode? mailboxNode}) {
     if (mailboxDestination.value == presentationMailbox) {
       return;
     }
@@ -380,8 +384,9 @@ class DestinationPickerController extends BaseMailboxController {
 
     if (mailboxDestination.value == null) {
       _appToast.showToastErrorMessage(
-        currentOverlayContext!,
-        AppLocalizations.of(context).toastMessageErrorNotSelectedFolderWhenCreateNewMailbox);
+          currentOverlayContext!,
+          AppLocalizations.of(context)
+              .toastMessageErrorNotSelectedFolderWhenCreateNewMailbox);
       return;
     }
     popBack(result: mailboxDestination.value);
@@ -393,17 +398,16 @@ class DestinationPickerController extends BaseMailboxController {
     final nameMailbox = newNameMailbox.value;
     if (nameMailbox != null && nameMailbox.isNotEmpty) {
       final generateCreateId = Id(_uuid.v1());
-      final parentId = mailboxDestination.value == PresentationMailbox.unifiedMailbox
-        ? null
-        : mailboxDestination.value?.id;
+      final parentId =
+          mailboxDestination.value == PresentationMailbox.unifiedMailbox
+              ? null
+              : mailboxDestination.value?.id;
 
       _dispatchCreateNewMailboxFolder(
-        _session!,
-        accountId!,
-        CreateNewMailboxRequest(
-          generateCreateId,
-          MailboxName(nameMailbox),
-          parentId: parentId));
+          _session!,
+          accountId!,
+          CreateNewMailboxRequest(generateCreateId, MailboxName(nameMailbox),
+              parentId: parentId));
     }
 
     backToDestinationScreen(context);

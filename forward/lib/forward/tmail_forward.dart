@@ -33,10 +33,11 @@ class TMailForward extends Forward {
       forwards: forwards ?? this.forwards,
     );
   }
+
   @override
   List<Object?> get props => [
-    id,
-    localCopy,
-    forwards,
-  ];
+        id,
+        localCopy,
+        forwards,
+      ];
 }

@@ -4,15 +4,14 @@ import 'package:tmail_ui_user/features/mailbox/data/model/mailbox_rights_cache.d
 extension MailboxRightsExtension on MailboxRights {
   MailboxRightsCache toMailboxRightsCache() {
     return MailboxRightsCache(
-      mayReadItems,
-      mayAddItems,
-      mayRemoveItems,
-      maySetSeen,
-      maySetKeywords,
-      mayCreateChild,
-      mayRename,
-      mayDelete,
-      maySubmit
-    );
+        mayReadItems,
+        mayAddItems,
+        mayRemoveItems,
+        maySetSeen,
+        maySetKeywords,
+        mayCreateChild,
+        mayRename,
+        mayDelete,
+        maySubmit);
   }
 }

@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:core/data/network/dio_client.dart';
@@ -11,22 +10,21 @@ import 'package:flutter/foundation.dart';
 import 'package:html/dom.dart';
 
 class ImageTransformer extends DomTransformer {
-
   final bool useLoadingAttribute;
 
   const ImageTransformer({this.useLoadingAttribute = false});
 
   @override
-  Future<void> process({
-    required Document document,
-    Map<String, String>? mapUrlDownloadCID,
-    DioClient? dioClient
-  }) async {
+  Future<void> process(
+      {required Document document,
+      Map<String, String>? mapUrlDownloadCID,
+      DioClient? dioClient}) async {
     final imageElements = document.querySelectorAll('img');
     await Future.wait(imageElements.map((imageElement) async {
       final exStyle = imageElement.attributes['style'];
       if (exStyle != null) {
-        imageElement.attributes['style'] = '$exStyle display: inline;max-width: 100%;';
+        imageElement.attributes['style'] =
+            '$exStyle display: inline;max-width: 100%;';
       } else {
         imageElement.attributes['style'] = 'display: inline;max-width: 100%;';
       }
@@ -34,12 +32,13 @@ class ImageTransformer extends DomTransformer {
 
       if (src == null) return;
 
-      if (src.startsWith('cid:') && dioClient != null && mapUrlDownloadCID != null) {
+      if (src.startsWith('cid:') &&
+          dioClient != null &&
+          mapUrlDownloadCID != null) {
         final imageBase64 = await _convertCidToBase64Image(
-          dioClient: dioClient,
-          mapUrlDownloadCID: mapUrlDownloadCID,
-          imageSource: src
-        );
+            dioClient: dioClient,
+            mapUrlDownloadCID: mapUrlDownloadCID,
+            imageSource: src);
         imageElement.attributes['src'] = imageBase64 ?? src;
       } else if (src.startsWith('https://') || src.startsWith('http://')) {
         if (useLoadingAttribute) {
@@ -59,11 +58,10 @@ class ImageTransformer extends DomTransformer {
     }));
   }
 
-  Future<String?> _convertCidToBase64Image({
-    required DioClient dioClient,
-    required Map<String, String> mapUrlDownloadCID,
-    required String imageSource
-  }) async {
+  Future<String?> _convertCidToBase64Image(
+      {required DioClient dioClient,
+      required Map<String, String> mapUrlDownloadCID,
+      required String imageSource}) async {
     final cid = imageSource.replaceFirst('cid:', '').trim();
     final urlDownloadCid = mapUrlDownloadCID[cid];
 
@@ -71,31 +69,25 @@ class ImageTransformer extends DomTransformer {
 
     final compressFileUtils = CompressFileUtils();
     final imgBase64Uri = await loadAsyncNetworkImageToBase64(
-      dioClient,
-      compressFileUtils,
-      urlDownloadCid
-    );
+        dioClient, compressFileUtils, urlDownloadCid);
 
     if (imgBase64Uri.isEmpty) return null;
 
     return imgBase64Uri;
   }
 
-  Future<String> loadAsyncNetworkImageToBase64(
-      DioClient dioClient,
-      CompressFileUtils compressFileUtils,
-      String imageUrl
-  ) async {
+  Future<String> loadAsyncNetworkImageToBase64(DioClient dioClient,
+      CompressFileUtils compressFileUtils, String imageUrl) async {
     try {
-      var responseData = await dioClient.get(
-          imageUrl,
+      var responseData = await dioClient.get(imageUrl,
           options: Options(responseType: ResponseType.bytes));
 
       if (responseData != null) {
         if (PlatformInfo.isWeb) {
           return encodeToBase64Uri(responseData);
         } else {
-          final bytesCompressed = await compressFileUtils.compressBytesDataImage(responseData);
+          final bytesCompressed =
+              await compressFileUtils.compressBytesDataImage(responseData);
           final base64Uri = await compute(encodeToBase64Uri, bytesCompressed);
           return base64Uri;
         }

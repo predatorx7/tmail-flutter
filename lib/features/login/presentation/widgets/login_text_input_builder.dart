@@ -39,7 +39,6 @@ class LoginTextInputBuilder extends StatefulWidget {
 }
 
 class _LoginTextInputBuilderState extends State<LoginTextInputBuilder> {
-
   final imagePaths = Get.find<ImagePaths>();
 
   late TextEditingController _controller;
@@ -58,81 +57,61 @@ class _LoginTextInputBuilderState extends State<LoginTextInputBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: AlignmentDirectional.centerEnd,
-      children: [
-        TextFormFieldBuilder(
-          onTextSubmitted: widget.onSubmitted,
-          onTextChange: widget.onTextChange,
-          obscureText: _obscureText,
-          textInputAction: widget.textInputAction,
-          autofillHints: widget.autofillHints,
-          controller: _controller,
-          textStyle: const TextStyle(
+    return Stack(alignment: AlignmentDirectional.centerEnd, children: [
+      TextFormFieldBuilder(
+        onTextSubmitted: widget.onSubmitted,
+        onTextChange: widget.onTextChange,
+        obscureText: _obscureText,
+        textInputAction: widget.textInputAction,
+        autofillHints: widget.autofillHints,
+        controller: _controller,
+        textStyle: const TextStyle(
             color: AppColor.loginTextFieldHintColor,
             fontSize: 16,
-            fontWeight: FontWeight.normal
-          ),
-          focusNode: widget.focusNode,
-          decoration: (LoginInputDecorationBuilder()
-            ..setHintText(widget.hintText)
-            ..setPrefixText(widget.prefixText)
-            ..setContentPadding(const EdgeInsetsDirectional.only(
-                start: 25,
-                top: 15,
-                bottom: 15,
-                end: 40
-            ))
-            ..setHintStyle(const TextStyle(
-                color: AppColor.loginTextFieldHintColor,
-                fontSize: 16,
-                fontWeight: FontWeight.normal
-            ))
-            ..setPrefixStyle(const TextStyle(
-                color: AppColor.loginTextFieldHintColor,
-                fontSize: 16,
-                fontWeight: FontWeight.normal
-            ))
-            ..setErrorTextStyle(const TextStyle(
-                color: AppColor.loginTextFieldErrorBorder,
-                fontSize: 13,
-                fontWeight: FontWeight.normal
-            ))
-            ..setFocusBorder(const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                borderSide: BorderSide(
-                  width: 1,
-                  color: AppColor.loginTextFieldFocusedBorder
-                )
-            ))
-            ..setEnabledBorder(const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                borderSide: BorderSide(
-                  width: 1,
-                  color: AppColor.loginTextFieldBorderColor
-                )
-            ))
-            ..setErrorBorder(const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                borderSide: BorderSide(
-                  width: 1,
-                  color: AppColor.loginTextFieldErrorBorder
-                )
-            ))
-          ).build(),
-        ),
-        if (widget.passwordInput)
-          TMailButtonWidget.fromIcon(
-            icon: widget.obscureText ? imagePaths.icEye : imagePaths.icEyeOff,
-            iconSize: 18,
-            margin: const EdgeInsetsDirectional.only(end: 4),
-            backgroundColor: Colors.transparent,
-            onTapActionCallback: () {
-              setState(() => _obscureText = !_obscureText);
-            },
-          )
-      ]
-    );
+            fontWeight: FontWeight.normal),
+        focusNode: widget.focusNode,
+        decoration: (LoginInputDecorationBuilder()
+              ..setHintText(widget.hintText)
+              ..setPrefixText(widget.prefixText)
+              ..setContentPadding(const EdgeInsetsDirectional.only(
+                  start: 25, top: 15, bottom: 15, end: 40))
+              ..setHintStyle(const TextStyle(
+                  color: AppColor.loginTextFieldHintColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal))
+              ..setPrefixStyle(const TextStyle(
+                  color: AppColor.loginTextFieldHintColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal))
+              ..setErrorTextStyle(const TextStyle(
+                  color: AppColor.loginTextFieldErrorBorder,
+                  fontSize: 13,
+                  fontWeight: FontWeight.normal))
+              ..setFocusBorder(const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderSide: BorderSide(
+                      width: 1, color: AppColor.loginTextFieldFocusedBorder)))
+              ..setEnabledBorder(const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderSide: BorderSide(
+                      width: 1, color: AppColor.loginTextFieldBorderColor)))
+              ..setErrorBorder(const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderSide: BorderSide(
+                      width: 1, color: AppColor.loginTextFieldErrorBorder))))
+            .build(),
+      ),
+      if (widget.passwordInput)
+        TMailButtonWidget.fromIcon(
+          icon: widget.obscureText ? imagePaths.icEye : imagePaths.icEyeOff,
+          iconSize: 18,
+          margin: const EdgeInsetsDirectional.only(end: 4),
+          backgroundColor: Colors.transparent,
+          onTapActionCallback: () {
+            setState(() => _obscureText = !_obscureText);
+          },
+        )
+    ]);
   }
 
   @override

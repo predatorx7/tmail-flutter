@@ -5,14 +5,11 @@ import 'package:tmail_ui_user/features/manage_account/data/local/language_cache_
 import 'package:tmail_ui_user/main/exceptions/exception_thrower.dart';
 
 class ManageAccountDataSourceImpl extends ManageAccountDataSource {
-
   final LanguageCacheManager _languageCacheManager;
   final ExceptionThrower _exceptionThrower;
 
   ManageAccountDataSourceImpl(
-    this._languageCacheManager,
-    this._exceptionThrower
-  );
+      this._languageCacheManager, this._exceptionThrower);
 
   @override
   Future<void> persistLanguage(Locale localeCurrent) {

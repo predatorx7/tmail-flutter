@@ -1,5 +1,1 @@
-
-enum MailboxState {
-  activated,
-  deactivated
-}
+enum MailboxState { activated, deactivated }

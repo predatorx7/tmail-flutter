@@ -1,4 +1,3 @@
-
 import 'package:core/core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +38,6 @@ import 'package:tmail_ui_user/main/routes/route_navigation.dart';
 import 'package:tmail_ui_user/main/routes/route_utils.dart';
 
 class ManageAccountDashBoardController extends ReloadableController {
-
   final _appToast = Get.find<AppToast>();
   final _responsiveUtils = Get.find<ResponsiveUtils>();
 
@@ -57,12 +55,11 @@ class ManageAccountDashBoardController extends ReloadableController {
   Session? sessionCurrent;
 
   ManageAccountDashBoardController(
-    GetAuthenticatedAccountInteractor getAuthenticatedAccountInteractor,
-    UpdateAuthenticationAccountInteractor updateAuthenticationAccountInteractor
-  ) : super(
-    getAuthenticatedAccountInteractor,
-    updateAuthenticationAccountInteractor
-  );
+      GetAuthenticatedAccountInteractor getAuthenticatedAccountInteractor,
+      UpdateAuthenticationAccountInteractor
+          updateAuthenticationAccountInteractor)
+      : super(getAuthenticatedAccountInteractor,
+            updateAuthenticationAccountInteractor);
 
   @override
   void onReady() {
@@ -115,14 +112,16 @@ class ManageAccountDashBoardController extends ReloadableController {
   }
 
   void _initialPageLevel() {
-    if (currentContext != null && _responsiveUtils.isWebDesktop(currentContext!)) {
+    if (currentContext != null &&
+        _responsiveUtils.isWebDesktop(currentContext!)) {
       settingsPageLevel.value = SettingsPageLevel.level1;
     } else {
       settingsPageLevel.value = SettingsPageLevel.universal;
     }
   }
 
-  void _bindingInteractorForMenuItemView(Session? session, AccountId? accountId) {
+  void _bindingInteractorForMenuItemView(
+      Session? session, AccountId? accountId) {
     injectAutoCompleteBindings(session, accountId);
     injectVacationBindings(session, accountId);
     injectForwardBindings(session, accountId);
@@ -137,7 +136,8 @@ class ManageAccountDashBoardController extends ReloadableController {
       _getAllVacationInteractor = Get.find<GetAllVacationInteractor>();
       _updateVacationInteractor = Get.find<UpdateVacationInteractor>();
     } catch (e) {
-      logError('ManageAccountDashBoardController::injectVacationBindings(): $e');
+      logError(
+          'ManageAccountDashBoardController::injectVacationBindings(): $e');
     }
   }
 
@@ -149,7 +149,9 @@ class ManageAccountDashBoardController extends ReloadableController {
 
   void _getUserProfile() async {
     log('ManageAccountDashBoardController::_getUserProfile(): $sessionCurrent');
-    userProfile.value = sessionCurrent != null ? UserProfile(sessionCurrent!.username.value) : null;
+    userProfile.value = sessionCurrent != null
+        ? UserProfile(sessionCurrent!.username.value)
+        : null;
   }
 
   void _getVacationResponse() {
@@ -164,8 +166,8 @@ class ManageAccountDashBoardController extends ReloadableController {
 
   void selectAccountMenuItem(AccountMenuItem newAccountMenuItem) {
     settingsPageLevel.value = newAccountMenuItem == AccountMenuItem.none
-      ? SettingsPageLevel.universal
-      : SettingsPageLevel.level1;
+        ? SettingsPageLevel.universal
+        : SettingsPageLevel.level1;
 
     clearInputFormView();
     _bindingControllerMenuItemView(newAccountMenuItem);
@@ -196,7 +198,7 @@ class ManageAccountDashBoardController extends ReloadableController {
   }
 
   void clearInputFormView() {
-    switch(accountMenuItemSelected.value) {
+    switch (accountMenuItemSelected.value) {
       case AccountMenuItem.forward:
         dispatchAction(ClearAllInputForwarding());
         break;
@@ -220,14 +222,16 @@ class ManageAccountDashBoardController extends ReloadableController {
     } else {
       log('ManageAccountDashBoardController::backToMailboxDashBoard(): canBack: FALSE');
       pushAndPopAll(
-        RouteUtils.generateNavigationRoute(AppRoutes.dashboard, NavigationRouter()),
-        arguments: sessionCurrent);
+          RouteUtils.generateNavigationRoute(
+              AppRoutes.dashboard, NavigationRouter()),
+          arguments: sessionCurrent);
     }
   }
 
   bool get isVacationCapabilitySupported {
     if (accountId.value != null && sessionCurrent != null) {
-      return [CapabilityIdentifier.jmapVacationResponse].isSupported(sessionCurrent!, accountId.value!);
+      return [CapabilityIdentifier.jmapVacationResponse]
+          .isSupported(sessionCurrent!, accountId.value!);
     } else {
       return false;
     }
@@ -235,7 +239,8 @@ class ManageAccountDashBoardController extends ReloadableController {
 
   bool get isRuleFilterCapabilitySupported {
     if (accountId.value != null && sessionCurrent != null) {
-      return [capabilityRuleFilter].isSupported(sessionCurrent!, accountId.value!);
+      return [capabilityRuleFilter]
+          .isSupported(sessionCurrent!, accountId.value!);
     } else {
       return false;
     }
@@ -254,7 +259,8 @@ class ManageAccountDashBoardController extends ReloadableController {
       final vacationDisabled = vacationResponse.value != null
           ? vacationResponse.value!.copyWith(isEnabled: false)
           : VacationResponse(isEnabled: false);
-      consumeState(_updateVacationInteractor!.execute(accountId.value!, vacationDisabled));
+      consumeState(_updateVacationInteractor!
+          .execute(accountId.value!, vacationDisabled));
     }
   }
 
@@ -262,8 +268,9 @@ class ManageAccountDashBoardController extends ReloadableController {
     if (success.listVacationResponse.isNotEmpty) {
       if (currentContext != null && currentOverlayContext != null) {
         _appToast.showToastSuccessMessage(
-          currentOverlayContext!,
-          AppLocalizations.of(currentContext!).yourVacationResponderIsDisabledSuccessfully);
+            currentOverlayContext!,
+            AppLocalizations.of(currentContext!)
+                .yourVacationResponderIsDisabledSuccessfully);
       }
       vacationResponse.value = success.listVacationResponse.first;
       log('ManageAccountDashBoardController::_handleUpdateVacationSuccess(): $vacationResponse');

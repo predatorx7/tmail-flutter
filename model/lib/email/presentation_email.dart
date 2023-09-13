@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/string_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:jmap_dart_client/jmap/core/unsigned_int.dart';
@@ -18,7 +17,6 @@ import 'package:model/mailbox/presentation_mailbox.dart';
 import 'package:model/mailbox/select_mode.dart';
 
 class PresentationEmail with EquatableMixin {
-
   final EmailId? id;
   final Map<KeyWordIdentifier, bool>? keywords;
   final UnsignedInt? size;
@@ -84,15 +82,20 @@ class PresentationEmail with EquatableMixin {
 
   String getPartialContent() => preview?.trim() ?? '';
 
-  bool get hasRead => keywords?.containsKey(KeyWordIdentifier.emailSeen) == true;
+  bool get hasRead =>
+      keywords?.containsKey(KeyWordIdentifier.emailSeen) == true;
 
-  bool get hasStarred => keywords?.containsKey(KeyWordIdentifier.emailFlagged) == true;
+  bool get hasStarred =>
+      keywords?.containsKey(KeyWordIdentifier.emailFlagged) == true;
 
-  bool get isDraft => keywords?.containsKey(KeyWordIdentifier.emailDraft) == true;
+  bool get isDraft =>
+      keywords?.containsKey(KeyWordIdentifier.emailDraft) == true;
 
-  bool get isAnswered => keywords?.containsKey(KeyWordIdentifier.emailAnswered) == true;
+  bool get isAnswered =>
+      keywords?.containsKey(KeyWordIdentifier.emailAnswered) == true;
 
-  bool get isForwarded => keywords?.containsKey(KeyWordIdentifier.emailForwarded) == true;
+  bool get isForwarded =>
+      keywords?.containsKey(KeyWordIdentifier.emailForwarded) == true;
 
   bool get isAnsweredAndForwarded => isAnswered && isForwarded;
 
@@ -102,17 +105,25 @@ class PresentationEmail with EquatableMixin {
 
   bool get pushNotificationActivated => !isDraft && !hasRead;
 
-  bool get hasCalendarEvent => headerCalendarEvent?[IndividualHeaderIdentifier.headerCalendarEvent]?.isNotEmpty == true;
+  bool get hasCalendarEvent =>
+      headerCalendarEvent?[IndividualHeaderIdentifier.headerCalendarEvent]
+          ?.isNotEmpty ==
+      true;
 
   List<EmailContent> get emailContentList {
     final newHtmlBody = htmlBody
-        ?.where((emailBody) => emailBody.partId != null && emailBody.type != null)
-        .toList() ?? <EmailBodyPart>[];
+            ?.where((emailBody) =>
+                emailBody.partId != null && emailBody.type != null)
+            .toList() ??
+        <EmailBodyPart>[];
 
-    final mapHtmlBody = { for (var emailBody in newHtmlBody) emailBody.partId! : emailBody.type! };
+    final mapHtmlBody = {
+      for (var emailBody in newHtmlBody) emailBody.partId!: emailBody.type!
+    };
 
     final emailContents = bodyValues?.entries
-        .map((entries) => EmailContent(mapHtmlBody[entries.key].toEmailContentType(), entries.value.value))
+        .map((entries) => EmailContent(
+            mapHtmlBody[entries.key].toEmailContentType(), entries.value.value))
         .toList();
 
     return emailContents ?? [];
@@ -120,26 +131,26 @@ class PresentationEmail with EquatableMixin {
 
   @override
   List<Object?> get props => [
-    id,
-    keywords,
-    size,
-    receivedAt,
-    hasAttachment,
-    preview,
-    subject,
-    sentAt,
-    from,
-    to,
-    cc,
-    bcc,
-    replyTo,
-    mailboxIds,
-    selectMode,
-    routeWeb,
-    mailboxContain,
-    emailHeader,
-    htmlBody,
-    bodyValues,
-    headerCalendarEvent,
-  ];
+        id,
+        keywords,
+        size,
+        receivedAt,
+        hasAttachment,
+        preview,
+        subject,
+        sentAt,
+        from,
+        to,
+        cc,
+        bcc,
+        replyTo,
+        mailboxIds,
+        selectMode,
+        routeWeb,
+        mailboxContain,
+        emailHeader,
+        htmlBody,
+        bodyValues,
+        headerCalendarEvent,
+      ];
 }

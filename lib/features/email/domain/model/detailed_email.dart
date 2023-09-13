@@ -13,24 +13,23 @@ class DetailedEmail with EquatableMixin {
   final String? emailContentPath;
   final DateTime createdTime;
 
-  DetailedEmail({
-    required this.emailId,
-    required this.createdTime,
-    this.attachments,
-    this.headers,
-    this.keywords,
-    this.htmlEmailContent,
-    this.emailContentPath
-  });
+  DetailedEmail(
+      {required this.emailId,
+      required this.createdTime,
+      this.attachments,
+      this.headers,
+      this.keywords,
+      this.htmlEmailContent,
+      this.emailContentPath});
 
   @override
   List<Object?> get props => [
-    emailId,
-    createdTime,
-    attachments,
-    headers,
-    keywords,
-    htmlEmailContent,
-    emailContentPath
-  ];
+        emailId,
+        createdTime,
+        attachments,
+        headers,
+        keywords,
+        htmlEmailContent,
+        emailContentPath
+      ];
 }

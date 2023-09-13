@@ -14,22 +14,21 @@ class SaveToDraftViewEvent extends ViewEvent {
   final MailboxId draftMailboxId;
   final EmailId? emailIdEditing;
 
-  SaveToDraftViewEvent({
-    required this.context,
-    required this.session,
-    required this.accountId,
-    required this.userProfile,
-    required this.draftMailboxId,
-    this.emailIdEditing
-  });
+  SaveToDraftViewEvent(
+      {required this.context,
+      required this.session,
+      required this.accountId,
+      required this.userProfile,
+      required this.draftMailboxId,
+      this.emailIdEditing});
 
   @override
   List<Object?> get props => [
-    context,
-    session,
-    accountId,
-    userProfile,
-    draftMailboxId,
-    emailIdEditing,
-  ];
+        context,
+        session,
+        accountId,
+        userProfile,
+        draftMailboxId,
+        emailIdEditing,
+      ];
 }

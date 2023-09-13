@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/views/text/type_ahead_form_field_builder.dart';
 import 'package:core/utils/platform_info.dart';
@@ -12,7 +11,6 @@ typedef OnSuggestionCallbackAction = Function(String? pattern);
 typedef OnChangeInputSuggestionAction = Function(String? pattern);
 
 class IdentityInputWithDropListFieldBuilder extends StatelessWidget {
-
   final String _label;
   final String? _error;
   final TextEditingController? editingController;
@@ -35,23 +33,21 @@ class IdentityInputWithDropListFieldBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(
-        _label,
-        style: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.normal,
-          color: AppColor.colorContentEmail)),
+      Text(_label,
+          style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.normal,
+              color: AppColor.colorContentEmail)),
       const SizedBox(height: 8),
       TypeAheadFormFieldBuilder<EmailAddress>(
         focusNode: focusNode,
         controller: editingController,
         textInputAction: TextInputAction.done,
         decoration: (IdentityInputDecorationBuilder()
-          ..setContentPadding(const EdgeInsets.symmetric(
-              vertical: PlatformInfo.isWeb ? 16 : 12,
-              horizontal: 12))
-          ..setErrorText(_error))
-        .build(),
+              ..setContentPadding(const EdgeInsets.symmetric(
+                  vertical: PlatformInfo.isWeb ? 16 : 12, horizontal: 12))
+              ..setErrorText(_error))
+            .build(),
         debounceDuration: const Duration(milliseconds: 500),
         suggestionsCallback: (pattern) async {
           if (onChangeInputSuggestionAction != null) {
@@ -65,22 +61,20 @@ class IdentityInputWithDropListFieldBuilder extends StatelessWidget {
         },
         itemBuilder: (BuildContext context, emailAddress) {
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            child: Text(
-              emailAddress.email ?? '',
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.normal,
-                color: Colors.black)));
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              child: Text(emailAddress.email ?? '',
+                  style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.black)));
         },
         onSuggestionSelected: (emailSelected) {
           if (onSelectedSuggestionAction != null) {
             onSelectedSuggestionAction!(emailSelected);
           }
         },
-        suggestionsBoxDecoration: SuggestionsBoxDecoration(
-          borderRadius: BorderRadius.circular(14)
-        ),
+        suggestionsBoxDecoration:
+            SuggestionsBoxDecoration(borderRadius: BorderRadius.circular(14)),
         noItemsFoundBuilder: (context) => const SizedBox(),
         hideOnEmpty: true,
         hideOnError: true,

@@ -1,4 +1,3 @@
-
 import 'package:core/utils/file_utils.dart';
 import 'package:get/get.dart';
 import 'package:tmail_ui_user/features/base/interactors_bindings.dart';
@@ -21,41 +20,49 @@ import 'package:tmail_ui_user/features/thread/data/local/email_cache_manager.dar
 import 'package:tmail_ui_user/main/exceptions/cache_exception_thrower.dart';
 
 class SendingQueueInteractorBindings extends InteractorsBindings {
-
   @override
   void bindingsDataSource() {}
 
   @override
   void bindingsDataSourceImpl() {
     Get.lazyPut(() => EmailHiveCacheDataSourceImpl(
-      Get.find<NewEmailCacheManager>(),
-      Get.find<OpenedEmailCacheManager>(),
-      Get.find<NewEmailCacheWorkerQueue>(),
-      Get.find<OpenedEmailCacheWorkerQueue>(),
-      Get.find<EmailCacheManager>(),
-      Get.find<SendingEmailCacheManager>(),
-      Get.find<FileUtils>(),
-      Get.find<CacheExceptionThrower>()));
+        Get.find<NewEmailCacheManager>(),
+        Get.find<OpenedEmailCacheManager>(),
+        Get.find<NewEmailCacheWorkerQueue>(),
+        Get.find<OpenedEmailCacheWorkerQueue>(),
+        Get.find<EmailCacheManager>(),
+        Get.find<SendingEmailCacheManager>(),
+        Get.find<FileUtils>(),
+        Get.find<CacheExceptionThrower>()));
   }
 
   @override
   void bindingsInteractor() {
-    Get.lazyPut(() => StoreSendingEmailInteractor(Get.find<SendingQueueRepository>()));
-    Get.lazyPut(() => GetAllSendingEmailInteractor(Get.find<SendingQueueRepository>()));
-    Get.lazyPut(() => DeleteMultipleSendingEmailInteractor(Get.find<SendingQueueRepository>()));
-    Get.lazyPut(() => DeleteSendingEmailInteractor(Get.find<SendingQueueRepository>()));
-    Get.lazyPut(() => UpdateSendingEmailInteractor(Get.find<SendingQueueRepository>()));
-    Get.lazyPut(() => UpdateMultipleSendingEmailInteractor(Get.find<SendingQueueRepository>()));
-    Get.lazyPut(() => GetStoredSendingEmailInteractor(Get.find<SendingQueueRepository>()));
+    Get.lazyPut(
+        () => StoreSendingEmailInteractor(Get.find<SendingQueueRepository>()));
+    Get.lazyPut(
+        () => GetAllSendingEmailInteractor(Get.find<SendingQueueRepository>()));
+    Get.lazyPut(() => DeleteMultipleSendingEmailInteractor(
+        Get.find<SendingQueueRepository>()));
+    Get.lazyPut(
+        () => DeleteSendingEmailInteractor(Get.find<SendingQueueRepository>()));
+    Get.lazyPut(
+        () => UpdateSendingEmailInteractor(Get.find<SendingQueueRepository>()));
+    Get.lazyPut(() => UpdateMultipleSendingEmailInteractor(
+        Get.find<SendingQueueRepository>()));
+    Get.lazyPut(() =>
+        GetStoredSendingEmailInteractor(Get.find<SendingQueueRepository>()));
   }
 
   @override
   void bindingsRepository() {
-    Get.lazyPut<SendingQueueRepository>(() => Get.find<SendingQueueRepositoryImpl>());
+    Get.lazyPut<SendingQueueRepository>(
+        () => Get.find<SendingQueueRepositoryImpl>());
   }
 
   @override
   void bindingsRepositoryImpl() {
-    Get.lazyPut(() => SendingQueueRepositoryImpl(Get.find<EmailHiveCacheDataSourceImpl>()));
+    Get.lazyPut(() =>
+        SendingQueueRepositoryImpl(Get.find<EmailHiveCacheDataSourceImpl>()));
   }
 }

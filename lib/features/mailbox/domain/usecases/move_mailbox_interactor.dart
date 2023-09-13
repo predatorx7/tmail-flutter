@@ -11,19 +11,22 @@ class MoveMailboxInteractor {
 
   MoveMailboxInteractor(this._mailboxRepository);
 
-  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId, MoveMailboxRequest request) async* {
+  Stream<Either<Failure, Success>> execute(
+      Session session, AccountId accountId, MoveMailboxRequest request) async* {
     try {
       yield Right<Failure, Success>(LoadingMoveMailbox());
 
-      final currentMailboxState = await _mailboxRepository.getMailboxState(session, accountId);
-      final result = await _mailboxRepository.moveMailbox(session, accountId, request);
+      final currentMailboxState =
+          await _mailboxRepository.getMailboxState(session, accountId);
+      final result =
+          await _mailboxRepository.moveMailbox(session, accountId, request);
       if (result) {
         yield Right<Failure, Success>(MoveMailboxSuccess(
-            request.mailboxId,
-            request.moveAction,
+            request.mailboxId, request.moveAction,
             parentId: request.parentId,
             destinationMailboxId: request.destinationMailboxId,
-            destinationMailboxDisplayName: request.destinationMailboxDisplayName,
+            destinationMailboxDisplayName:
+                request.destinationMailboxDisplayName,
             currentMailboxState: currentMailboxState));
       } else {
         yield Left<Failure, Success>(MoveMailboxFailure(null));

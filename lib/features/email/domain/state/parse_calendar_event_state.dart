@@ -6,7 +6,6 @@ import 'package:tmail_ui_user/features/email/domain/model/event_action.dart';
 class ParseCalendarEventLoading extends LoadingState {}
 
 class ParseCalendarEventSuccess extends UIState {
-
   final List<CalendarEvent> calendarEventList;
   final List<EventAction> eventActionList;
 

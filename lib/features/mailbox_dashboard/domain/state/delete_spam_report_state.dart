@@ -6,6 +6,5 @@ class DeleteSpamReportStateLoading extends UIState {}
 class DeleteSpamReportStateSuccess extends UIState {}
 
 class DeleteSpamReportStateFailure extends FeatureFailure {
-
   DeleteSpamReportStateFailure(dynamic exception) : super(exception: exception);
 }

@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +18,8 @@ class EmailAttachmentsStyles {
   static const FontWeight headerFontWeight = FontWeight.w400;
   static const FontWeight buttonFontWeight = FontWeight.w400;
 
-  static const EdgeInsetsGeometry padding = EdgeInsetsDirectional.symmetric(vertical: 12, horizontal: 16);
-  static const EdgeInsetsGeometry buttonPadding = EdgeInsets.symmetric(vertical: 8, horizontal: 12);
+  static const EdgeInsetsGeometry padding =
+      EdgeInsetsDirectional.symmetric(vertical: 12, horizontal: 16);
+  static const EdgeInsetsGeometry buttonPadding =
+      EdgeInsets.symmetric(vertical: 8, horizontal: 12);
 }

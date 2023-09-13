@@ -129,7 +129,6 @@ import 'package:tmail_ui_user/main/exceptions/cache_exception_thrower.dart';
 import 'package:tmail_ui_user/main/exceptions/remote_exception_thrower.dart';
 
 class MailboxDashBoardBindings extends BaseBindings {
-
   @override
   void dependencies() {
     super.dependencies();
@@ -143,7 +142,8 @@ class MailboxDashBoardBindings extends BaseBindings {
 
   @override
   void bindingsController() {
-    Get.put(AppGridDashboardController(Get.find<GetAppDashboardConfigurationInteractor>()));
+    Get.put(AppGridDashboardController(
+        Get.find<GetAppDashboardConfigurationInteractor>()));
     Get.put(DownloadController());
     Get.put(SearchController(
       Get.find<QuickSearchEmailInteractor>(),
@@ -152,11 +152,11 @@ class MailboxDashBoardBindings extends BaseBindings {
     ));
 
     Get.put(SpamReportController(
-      Get.find<StoreSpamReportInteractor>(),
-      Get.find<GetUnreadSpamMailboxInteractor>(),
-      Get.find<StoreSpamReportStateInteractor>(),
-      Get.find<GetSpamReportStateInteractor>(),
-      Get.find<GetSpamMailboxCachedInteractor>()));
+        Get.find<StoreSpamReportInteractor>(),
+        Get.find<GetUnreadSpamMailboxInteractor>(),
+        Get.find<StoreSpamReportStateInteractor>(),
+        Get.find<GetSpamReportStateInteractor>(),
+        Get.find<GetSpamMailboxCachedInteractor>()));
 
     Get.put(MailboxDashBoardController(
       Get.find<GetAuthenticatedAccountInteractor>(),
@@ -192,146 +192,129 @@ class MailboxDashBoardBindings extends BaseBindings {
     Get.lazyPut<StateDataSource>(() => Get.find<StateDataSourceImpl>());
     Get.lazyPut<MailboxDataSource>(() => Get.find<MailboxDataSourceImpl>());
     Get.lazyPut<AccountDatasource>(() => Get.find<HiveAccountDatasourceImpl>());
-    Get.lazyPut<AuthenticationOIDCDataSource>(() => Get.find<AuthenticationOIDCDataSourceImpl>());
-    Get.lazyPut<SessionStorageComposerDatasource>(() => Get.find<SessionStorageComposerDatasourceImpl>());
-    Get.lazyPut<SpamReportDataSource>(() => Get.find<SpamReportDataSourceImpl>());
+    Get.lazyPut<AuthenticationOIDCDataSource>(
+        () => Get.find<AuthenticationOIDCDataSourceImpl>());
+    Get.lazyPut<SessionStorageComposerDatasource>(
+        () => Get.find<SessionStorageComposerDatasourceImpl>());
+    Get.lazyPut<SpamReportDataSource>(
+        () => Get.find<SpamReportDataSourceImpl>());
   }
 
   @override
   void bindingsDataSourceImpl() {
     Get.lazyPut(() => EmailDataSourceImpl(
-      Get.find<EmailAPI>(),
-      Get.find<RemoteExceptionThrower>()));
+        Get.find<EmailAPI>(), Get.find<RemoteExceptionThrower>()));
     Get.lazyPut(() => HtmlDataSourceImpl(
-      Get.find<HtmlAnalyzer>(),
-      Get.find<RemoteExceptionThrower>()));
-    Get.lazyPut(() => SearchDataSourceImpl(
-      Get.find<RecentSearchCacheClient>(),
-      Get.find<CacheExceptionThrower>()));
-    Get.lazyPut(() => ThreadDataSourceImpl(
-      Get.find<ThreadAPI>(),
-      Get.find<ThreadIsolateWorker>(),
-      Get.find<RemoteExceptionThrower>()));
-    Get.lazyPut(() => LocalThreadDataSourceImpl(Get.find<EmailCacheManager>(), Get.find<CacheExceptionThrower>()));
-    Get.lazyPut(() => StateDataSourceImpl(Get.find<StateCacheClient>(), Get.find<CacheExceptionThrower>()));
-    Get.lazyPut(() => MailboxDataSourceImpl(
-      Get.find<MailboxAPI>(),
-      Get.find<MailboxIsolateWorker>(),
-      Get.find<RemoteExceptionThrower>()));
+        Get.find<HtmlAnalyzer>(), Get.find<RemoteExceptionThrower>()));
+    Get.lazyPut(() => SearchDataSourceImpl(Get.find<RecentSearchCacheClient>(),
+        Get.find<CacheExceptionThrower>()));
+    Get.lazyPut(() => ThreadDataSourceImpl(Get.find<ThreadAPI>(),
+        Get.find<ThreadIsolateWorker>(), Get.find<RemoteExceptionThrower>()));
+    Get.lazyPut(() => LocalThreadDataSourceImpl(
+        Get.find<EmailCacheManager>(), Get.find<CacheExceptionThrower>()));
+    Get.lazyPut(() => StateDataSourceImpl(
+        Get.find<StateCacheClient>(), Get.find<CacheExceptionThrower>()));
+    Get.lazyPut(() => MailboxDataSourceImpl(Get.find<MailboxAPI>(),
+        Get.find<MailboxIsolateWorker>(), Get.find<RemoteExceptionThrower>()));
     Get.lazyPut(() => MailboxCacheDataSourceImpl(
-      Get.find<MailboxCacheManager>(),
-      Get.find<CacheExceptionThrower>()));
+        Get.find<MailboxCacheManager>(), Get.find<CacheExceptionThrower>()));
     Get.lazyPut(() => HiveAccountDatasourceImpl(
-      Get.find<AccountCacheManager>(),
-      Get.find<CacheExceptionThrower>()));
+        Get.find<AccountCacheManager>(), Get.find<CacheExceptionThrower>()));
     Get.lazyPut(() => AuthenticationOIDCDataSourceImpl(
-      Get.find<OIDCHttpClient>(),
-      Get.find<AuthenticationClientBase>(),
-      Get.find<TokenOidcCacheManager>(),
-      Get.find<OidcConfigurationCacheManager>(),
-      Get.find<RemoteExceptionThrower>(),
-    ));
+          Get.find<OIDCHttpClient>(),
+          Get.find<AuthenticationClientBase>(),
+          Get.find<TokenOidcCacheManager>(),
+          Get.find<OidcConfigurationCacheManager>(),
+          Get.find<RemoteExceptionThrower>(),
+        ));
     Get.lazyPut(() => SessionStorageComposerDatasourceImpl());
-     Get.lazyPut(() => SpamReportDataSourceImpl(
-      Get.find<SpamReportApi>(),
-      Get.find<RemoteExceptionThrower>(),
-    ));    
+    Get.lazyPut(() => SpamReportDataSourceImpl(
+          Get.find<SpamReportApi>(),
+          Get.find<RemoteExceptionThrower>(),
+        ));
     Get.lazyPut(() => SharePreferenceSpamReportDataSourceImpl(
-      Get.find<SharePreferenceSpamReportDataSource>(),
-      Get.find<CacheExceptionThrower>(),
-    ));
+          Get.find<SharePreferenceSpamReportDataSource>(),
+          Get.find<CacheExceptionThrower>(),
+        ));
     Get.lazyPut(() => SpamReportCacheDataSourceImpl(
-      Get.find<MailboxCacheManager>(),
-      Get.find<CacheExceptionThrower>()));
+        Get.find<MailboxCacheManager>(), Get.find<CacheExceptionThrower>()));
     Get.lazyPut(() => EmailHiveCacheDataSourceImpl(
-      Get.find<NewEmailCacheManager>(),
-      Get.find<OpenedEmailCacheManager>(),
-      Get.find<NewEmailCacheWorkerQueue>(),
-      Get.find<OpenedEmailCacheWorkerQueue>(),
-      Get.find<EmailCacheManager>(),
-      Get.find<SendingEmailCacheManager>(),
-      Get.find<FileUtils>(),
-      Get.find<CacheExceptionThrower>()));
+        Get.find<NewEmailCacheManager>(),
+        Get.find<OpenedEmailCacheManager>(),
+        Get.find<NewEmailCacheWorkerQueue>(),
+        Get.find<OpenedEmailCacheWorkerQueue>(),
+        Get.find<EmailCacheManager>(),
+        Get.find<SendingEmailCacheManager>(),
+        Get.find<FileUtils>(),
+        Get.find<CacheExceptionThrower>()));
   }
 
   @override
   void bindingsInteractor() {
     Get.lazyPut(() => RemoveEmailDraftsInteractor(
-        Get.find<EmailRepository>(),
-        Get.find<MailboxRepository>()));
+        Get.find<EmailRepository>(), Get.find<MailboxRepository>()));
     Get.lazyPut(() => MoveToMailboxInteractor(
-        Get.find<EmailRepository>(),
-        Get.find<MailboxRepository>()));
+        Get.find<EmailRepository>(), Get.find<MailboxRepository>()));
     Get.lazyPut(() => DeleteEmailPermanentlyInteractor(
-        Get.find<EmailRepository>(),
-        Get.find<MailboxRepository>()));
+        Get.find<EmailRepository>(), Get.find<MailboxRepository>()));
     Get.lazyPut(() => SaveRecentSearchInteractor(Get.find<SearchRepository>()));
-    Get.lazyPut(() => GetAllRecentSearchLatestInteractor(Get.find<SearchRepository>()));
+    Get.lazyPut(
+        () => GetAllRecentSearchLatestInteractor(Get.find<SearchRepository>()));
     Get.lazyPut(() => SearchEmailInteractor(Get.find<ThreadRepository>()));
     Get.lazyPut(() => SearchMoreEmailInteractor(Get.find<ThreadRepository>()));
-    Get.lazyPut(() => RefreshChangesSearchEmailInteractor(Get.find<ThreadRepository>()));
+    Get.lazyPut(() =>
+        RefreshChangesSearchEmailInteractor(Get.find<ThreadRepository>()));
     Get.lazyPut(() => QuickSearchEmailInteractor(Get.find<ThreadRepository>()));
     Get.lazyPut(() => MarkAsMailboxReadInteractor(
-      Get.find<MailboxRepository>(),
-      Get.find<EmailRepository>())
-    );
+        Get.find<MailboxRepository>(), Get.find<EmailRepository>()));
     Get.lazyPut(() => GetStoredTokenOidcInteractor(
-        Get.find<AuthenticationOIDCRepository>(),
-        Get.find<CredentialRepository>(),
-    ));
+          Get.find<AuthenticationOIDCRepository>(),
+          Get.find<CredentialRepository>(),
+        ));
     Get.lazyPut(() => GetAuthenticatedAccountInteractor(
-        Get.find<AccountRepository>(),
-        Get.find<GetCredentialInteractor>(),
-        Get.find<GetStoredTokenOidcInteractor>(),
-    ));
-    Get.lazyPut(() => GetComposerCacheOnWebInteractor(Get.find<ComposerCacheRepository>()));
-    Get.lazyPut(() => SaveComposerCacheOnWebInteractor(Get.find<ComposerCacheRepository>()));
-    Get.lazyPut(() => RemoveComposerCacheOnWebInteractor(Get.find<ComposerCacheRepository>()));
+          Get.find<AccountRepository>(),
+          Get.find<GetCredentialInteractor>(),
+          Get.find<GetStoredTokenOidcInteractor>(),
+        ));
+    Get.lazyPut(() =>
+        GetComposerCacheOnWebInteractor(Get.find<ComposerCacheRepository>()));
+    Get.lazyPut(() =>
+        SaveComposerCacheOnWebInteractor(Get.find<ComposerCacheRepository>()));
+    Get.lazyPut(() => RemoveComposerCacheOnWebInteractor(
+        Get.find<ComposerCacheRepository>()));
     Get.lazyPut(() => MarkAsEmailReadInteractor(
-        Get.find<EmailRepository>(),
-        Get.find<MailboxRepository>()
-    ));
+        Get.find<EmailRepository>(), Get.find<MailboxRepository>()));
     Get.lazyPut(() => MarkAsStarEmailInteractor(Get.find<EmailRepository>()));
     Get.lazyPut(() => MarkAsMultipleEmailReadInteractor(
-        Get.find<EmailRepository>(),
-        Get.find<MailboxRepository>()
-    ));
-    Get.lazyPut(() => MarkAsStarMultipleEmailInteractor(Get.find<EmailRepository>()));
+        Get.find<EmailRepository>(), Get.find<MailboxRepository>()));
+    Get.lazyPut(
+        () => MarkAsStarMultipleEmailInteractor(Get.find<EmailRepository>()));
     Get.lazyPut(() => MoveMultipleEmailToMailboxInteractor(
-        Get.find<EmailRepository>(),
-        Get.find<MailboxRepository>()
-    ));
+        Get.find<EmailRepository>(), Get.find<MailboxRepository>()));
     Get.lazyPut(() => DeleteMultipleEmailsPermanentlyInteractor(
-        Get.find<EmailRepository>(),
-        Get.find<MailboxRepository>()));
-    Get.lazyPut(() => EmptyTrashFolderInteractor(
-        Get.find<ThreadRepository>(),
-        Get.find<MailboxRepository>(),
-        Get.find<EmailRepository>()));
-    Get.lazyPut(() => EmptySpamFolderInteractor(
-      Get.find<ThreadRepository>(),
-      Get.find<MailboxRepository>(),
-      Get.find<EmailRepository>()
-    ));
-    Get.lazyPut(() => GetAppDashboardConfigurationInteractor(
-        Get.find<AppConfigLoader>()));
+        Get.find<EmailRepository>(), Get.find<MailboxRepository>()));
+    Get.lazyPut(() => EmptyTrashFolderInteractor(Get.find<ThreadRepository>(),
+        Get.find<MailboxRepository>(), Get.find<EmailRepository>()));
+    Get.lazyPut(() => EmptySpamFolderInteractor(Get.find<ThreadRepository>(),
+        Get.find<MailboxRepository>(), Get.find<EmailRepository>()));
+    Get.lazyPut(() =>
+        GetAppDashboardConfigurationInteractor(Get.find<AppConfigLoader>()));
     Get.lazyPut(() => GetEmailByIdInteractor(
-      Get.find<ThreadRepository>(),
-      Get.find<EmailRepository>()));
-    Get.lazyPut(() => UpdateAuthenticationAccountInteractor(Get.find<AccountRepository>()));
-    Get.lazyPut(() => StoreSpamReportInteractor(
-      Get.find<SpamReportRepository>()));
-    Get.lazyPut(() => GetUnreadSpamMailboxInteractor(
-      Get.find<SpamReportRepository>()));
-    Get.lazyPut(() => StoreSpamReportStateInteractor(
-      Get.find<SpamReportRepository>()));
-    Get.lazyPut(() => GetSpamReportStateInteractor(
-      Get.find<SpamReportRepository>()));
-    Get.lazyPut(() => GetSpamMailboxCachedInteractor(Get.find<SpamReportRepository>()));
+        Get.find<ThreadRepository>(), Get.find<EmailRepository>()));
+    Get.lazyPut(() =>
+        UpdateAuthenticationAccountInteractor(Get.find<AccountRepository>()));
+    Get.lazyPut(
+        () => StoreSpamReportInteractor(Get.find<SpamReportRepository>()));
+    Get.lazyPut(
+        () => GetUnreadSpamMailboxInteractor(Get.find<SpamReportRepository>()));
+    Get.lazyPut(
+        () => StoreSpamReportStateInteractor(Get.find<SpamReportRepository>()));
+    Get.lazyPut(
+        () => GetSpamReportStateInteractor(Get.find<SpamReportRepository>()));
+    Get.lazyPut(
+        () => GetSpamMailboxCachedInteractor(Get.find<SpamReportRepository>()));
     Get.lazyPut(() => SendEmailInteractor(
-      Get.find<EmailRepository>(),
-      Get.find<MailboxRepository>()
-    ));
+        Get.find<EmailRepository>(), Get.find<MailboxRepository>()));
     SendingQueueInteractorBindings().dependencies();
     Get.lazyPut(() => StoreSessionInteractor(Get.find<SessionRepository>()));
   }
@@ -344,46 +327,52 @@ class MailboxDashBoardBindings extends BaseBindings {
     Get.lazyPut<ThreadRepository>(() => Get.find<ThreadRepositoryImpl>());
     Get.lazyPut<MailboxRepository>(() => Get.find<MailboxRepositoryImpl>());
     Get.lazyPut<AccountRepository>(() => Get.find<AccountRepositoryImpl>());
-    Get.lazyPut<AuthenticationOIDCRepository>(() => Get.find<AuthenticationOIDCRepositoryImpl>());
-    Get.lazyPut<ComposerCacheRepository>(() => Get.find<ComposerCacheRepositoryImpl>());
-    Get.lazyPut<SpamReportRepository>(() => Get.find<SpamReportRepositoryImpl>());
+    Get.lazyPut<AuthenticationOIDCRepository>(
+        () => Get.find<AuthenticationOIDCRepositoryImpl>());
+    Get.lazyPut<ComposerCacheRepository>(
+        () => Get.find<ComposerCacheRepositoryImpl>());
+    Get.lazyPut<SpamReportRepository>(
+        () => Get.find<SpamReportRepositoryImpl>());
   }
 
   @override
   void bindingsRepositoryImpl() {
     Get.lazyPut(() => EmailRepositoryImpl(
-      {
-        DataSourceType.network: Get.find<EmailDataSource>(),
-        DataSourceType.hiveCache: Get.find<EmailHiveCacheDataSourceImpl>()
-      },
-      Get.find<HtmlDataSource>(),
-      Get.find<StateDataSource>(),
-    ));
+          {
+            DataSourceType.network: Get.find<EmailDataSource>(),
+            DataSourceType.hiveCache: Get.find<EmailHiveCacheDataSourceImpl>()
+          },
+          Get.find<HtmlDataSource>(),
+          Get.find<StateDataSource>(),
+        ));
     Get.lazyPut(() => SearchRepositoryImpl(Get.find<SearchDataSource>()));
     Get.lazyPut(() => ThreadRepositoryImpl(
-      {
-        DataSourceType.network: Get.find<ThreadDataSource>(),
-        DataSourceType.local: Get.find<LocalThreadDataSourceImpl>()
-      },
-      Get.find<StateDataSource>(),
-    ));
+          {
+            DataSourceType.network: Get.find<ThreadDataSource>(),
+            DataSourceType.local: Get.find<LocalThreadDataSourceImpl>()
+          },
+          Get.find<StateDataSource>(),
+        ));
     Get.lazyPut(() => MailboxRepositoryImpl(
-      {
-        DataSourceType.network: Get.find<MailboxDataSource>(),
-        DataSourceType.local: Get.find<MailboxCacheDataSourceImpl>()
-      },
-      Get.find<StateDataSource>(),
-    ));
+          {
+            DataSourceType.network: Get.find<MailboxDataSource>(),
+            DataSourceType.local: Get.find<MailboxCacheDataSourceImpl>()
+          },
+          Get.find<StateDataSource>(),
+        ));
     Get.lazyPut(() => AccountRepositoryImpl(Get.find<AccountDatasource>()));
-    Get.lazyPut(() => AuthenticationOIDCRepositoryImpl(Get.find<AuthenticationOIDCDataSource>()));
-    Get.lazyPut(() => ComposerCacheRepositoryImpl(Get.find<SessionStorageComposerDatasource>()));
+    Get.lazyPut(() => AuthenticationOIDCRepositoryImpl(
+        Get.find<AuthenticationOIDCDataSource>()));
+    Get.lazyPut(() => ComposerCacheRepositoryImpl(
+        Get.find<SessionStorageComposerDatasource>()));
     Get.lazyPut(() => SpamReportRepositoryImpl(
-      {
-        DataSourceType.network: Get.find<SpamReportDataSource>(),
-        DataSourceType.local: Get.find<SharePreferenceSpamReportDataSourceImpl>(),
-        DataSourceType.hiveCache: Get.find<SpamReportCacheDataSourceImpl>()
-      },
-    ));
+          {
+            DataSourceType.network: Get.find<SpamReportDataSource>(),
+            DataSourceType.local:
+                Get.find<SharePreferenceSpamReportDataSourceImpl>(),
+            DataSourceType.hiveCache: Get.find<SpamReportCacheDataSourceImpl>()
+          },
+        ));
   }
 
   void deleteController() {

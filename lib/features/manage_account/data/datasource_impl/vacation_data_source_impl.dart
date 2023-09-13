@@ -5,7 +5,6 @@ import 'package:tmail_ui_user/features/manage_account/data/network/vacation_api.
 import 'package:tmail_ui_user/main/exceptions/exception_thrower.dart';
 
 class VacationDataSourceImpl extends VacationDataSource {
-
   final VacationAPI _vacationAPI;
   final ExceptionThrower _exceptionThrower;
 
@@ -19,7 +18,8 @@ class VacationDataSourceImpl extends VacationDataSource {
   }
 
   @override
-  Future<List<VacationResponse>> updateVacation(AccountId accountId, VacationResponse vacationResponse) {
+  Future<List<VacationResponse>> updateVacation(
+      AccountId accountId, VacationResponse vacationResponse) {
     return Future.sync(() async {
       return await _vacationAPI.updateVacation(accountId, vacationResponse);
     }).catchError(_exceptionThrower.throwException);

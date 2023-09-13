@@ -6,13 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:tmail_ui_user/main/utils/app_utils.dart';
 
 class SignatureBuilder extends StatelessWidget {
-
-  const SignatureBuilder(
-    this.signatureSelected, {
-    Key? key,
-    this.width,
-    this.height = 256
-  }) : super(key: key);
+  const SignatureBuilder(this.signatureSelected,
+      {Key? key, this.width, this.height = 256})
+      : super(key: key);
 
   final String signatureSelected;
   final double? width;
@@ -20,18 +16,16 @@ class SignatureBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final signatureWidth = width ?? constraints.biggest.width;
-        final signatureHeight = height;
-        return Container(
-          width: signatureWidth,
-          color: Colors.white,
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
-          child: _buildSignature(context, signatureWidth, signatureHeight),
-        );
-      }
-    );
+    return LayoutBuilder(builder: (context, constraints) {
+      final signatureWidth = width ?? constraints.biggest.width;
+      final signatureHeight = height;
+      return Container(
+        width: signatureWidth,
+        color: Colors.white,
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+        child: _buildSignature(context, signatureWidth, signatureHeight),
+      );
+    });
   }
 
   Widget _buildSignature(BuildContext context, double width, double height) {

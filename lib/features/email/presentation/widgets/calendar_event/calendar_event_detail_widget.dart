@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:jmap_dart_client/jmap/mail/calendar/calendar_event.dart';
 import 'package:tmail_ui_user/features/email/domain/model/event_action.dart';
@@ -13,7 +12,6 @@ import 'package:tmail_ui_user/features/email/presentation/widgets/calendar_event
 import 'package:tmail_ui_user/features/email/presentation/widgets/calendar_event/event_title_widget.dart';
 
 class CalendarEventDetailWidget extends StatelessWidget {
-
   final CalendarEvent calendarEvent;
   final List<EventAction> eventActions;
   final OnOpenNewTabAction? onOpenNewTabAction;
@@ -38,13 +36,15 @@ class CalendarEventDetailWidget extends StatelessWidget {
             width: CalendarEventDetailWidgetStyles.borderStrokeWidth,
             color: CalendarEventDetailWidgetStyles.borderStrokeColor,
           ),
-          borderRadius: BorderRadius.all(Radius.circular(CalendarEventDetailWidgetStyles.borderRadius)),
+          borderRadius: BorderRadius.all(
+              Radius.circular(CalendarEventDetailWidgetStyles.borderRadius)),
         ),
       ),
       margin: const EdgeInsetsDirectional.symmetric(
-        vertical: CalendarEventDetailWidgetStyles.verticalMargin,
-        horizontal: CalendarEventDetailWidgetStyles.horizontalMargin),
-      padding: const EdgeInsets.all(CalendarEventDetailWidgetStyles.contentPadding),
+          vertical: CalendarEventDetailWidgetStyles.verticalMargin,
+          horizontal: CalendarEventDetailWidgetStyles.horizontalMargin),
+      padding:
+          const EdgeInsets.all(CalendarEventDetailWidgetStyles.contentPadding),
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,31 +53,39 @@ class CalendarEventDetailWidget extends StatelessWidget {
             EventTitleWidget(title: calendarEvent.title!),
           if (calendarEvent.description?.isNotEmpty == true)
             Padding(
-              padding: const EdgeInsets.only(top: CalendarEventDetailWidgetStyles.fieldTopPadding),
-              child: EventDescriptionDetailWidget(description: calendarEvent.description!)
-            ),
+                padding: const EdgeInsets.only(
+                    top: CalendarEventDetailWidgetStyles.fieldTopPadding),
+                child: EventDescriptionDetailWidget(
+                    description: calendarEvent.description!)),
           if (calendarEvent.dateTimeEventAsString.isNotEmpty)
             Padding(
-              padding: const EdgeInsets.only(top: CalendarEventDetailWidgetStyles.fieldTopPadding),
-              child: EventTimeWidgetWidget(timeEvent: calendarEvent.dateTimeEventAsString),
+              padding: const EdgeInsets.only(
+                  top: CalendarEventDetailWidgetStyles.fieldTopPadding),
+              child: EventTimeWidgetWidget(
+                  timeEvent: calendarEvent.dateTimeEventAsString),
             ),
           if (calendarEvent.videoConferences.isNotEmpty)
             Padding(
-              padding: const EdgeInsets.only(top: CalendarEventDetailWidgetStyles.fieldTopPadding),
-              child: EventLinkDetailWidget(listHyperLink: calendarEvent.videoConferences),
+              padding: const EdgeInsets.only(
+                  top: CalendarEventDetailWidgetStyles.fieldTopPadding),
+              child: EventLinkDetailWidget(
+                  listHyperLink: calendarEvent.videoConferences),
             ),
           if (calendarEvent.location?.isNotEmpty == true)
             Padding(
-              padding: const EdgeInsets.only(top: CalendarEventDetailWidgetStyles.fieldTopPadding),
+              padding: const EdgeInsets.only(
+                  top: CalendarEventDetailWidgetStyles.fieldTopPadding),
               child: EventLocationDetailWidget(
                 locationEvent: calendarEvent.location!,
                 onOpenComposerAction: onOpenComposerAction,
                 onOpenNewTabAction: onOpenNewTabAction,
               ),
             ),
-          if (calendarEvent.participants?.isNotEmpty == true && calendarEvent.organizer != null)
+          if (calendarEvent.participants?.isNotEmpty == true &&
+              calendarEvent.organizer != null)
             Padding(
-              padding: const EdgeInsets.only(top: CalendarEventDetailWidgetStyles.fieldTopPadding),
+              padding: const EdgeInsets.only(
+                  top: CalendarEventDetailWidgetStyles.fieldTopPadding),
               child: EventAttendeeDetailWidget(
                 attendees: calendarEvent.participants!,
                 organizer: calendarEvent.organizer!,

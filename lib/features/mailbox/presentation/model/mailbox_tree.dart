@@ -1,4 +1,3 @@
-
 import 'dart:collection';
 
 import 'package:equatable/equatable.dart';
@@ -50,13 +49,15 @@ class MailboxTree with EquatableMixin {
     return listResult;
   }
 
-  MailboxNode? updateExpandedNode(MailboxNode selectedNode, ExpandMode newExpandMode) {
+  MailboxNode? updateExpandedNode(
+      MailboxNode selectedNode, ExpandMode newExpandMode) {
     var matchedNode = findNode((node) => node.item.id == selectedNode.item.id);
     matchedNode?.expandMode = newExpandMode;
     return matchedNode;
   }
 
-  MailboxNode? updateSelectedNode(MailboxNode selectedNode, SelectMode newSelectMode) {
+  MailboxNode? updateSelectedNode(
+      MailboxNode selectedNode, SelectMode newSelectMode) {
     var matchedNode = findNode((node) => node.item.id == selectedNode.item.id);
     matchedNode?.selectMode = newSelectMode;
     return matchedNode;
@@ -96,7 +97,7 @@ class MailboxTree with EquatableMixin {
 
     var parentId = matchedNode.item.parentId;
 
-    while(parentId != null) {
+    while (parentId != null) {
       var parentNode = findNode((node) => node.item.id == parentId);
       if (parentNode == null) {
         break;
@@ -114,7 +115,7 @@ class MailboxTree with EquatableMixin {
   List<MailboxNode>? getAncestorList(MailboxNode mailboxNode) {
     var parentId = mailboxNode.item.parentId;
     List<MailboxNode> ancestor = <MailboxNode>[];
-    while(parentId != null) {
+    while (parentId != null) {
       final parentNode = findNode((node) => node.item.id == parentId);
       if (parentNode == null) {
         break;
@@ -130,9 +131,9 @@ class MailboxTree with EquatableMixin {
       return {};
     } else {
       final listPresentationMailboxHasRole = root.childrenItems!
-        .where((node) => node.item.role != null)
-        .map((node) => node.item)
-        .toList();
+          .where((node) => node.item.role != null)
+          .map((node) => node.item)
+          .toList();
 
       return {
         for (var mailbox in listPresentationMailboxHasRole)

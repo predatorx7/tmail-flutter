@@ -11,47 +11,53 @@ import 'package:tmail_ui_user/features/push_notification/domain/model/register_n
 import 'package:tmail_ui_user/main/exceptions/exception_thrower.dart';
 
 class FcmDatasourceImpl extends FCMDatasource {
-
   final FcmApi _fcmApi;
   final ExceptionThrower _exceptionThrower;
 
   FcmDatasourceImpl(this._fcmApi, this._exceptionThrower);
 
   @override
-  Future<FirebaseSubscription> getFirebaseSubscriptionByDeviceId(String deviceId) {
+  Future<FirebaseSubscription> getFirebaseSubscriptionByDeviceId(
+      String deviceId) {
     return Future.sync(() async {
       return await _fcmApi.getFirebaseSubscriptionByDeviceId(deviceId);
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<bool> deleteStateToRefresh(AccountId accountId, UserName userName, TypeName typeName) {
+  Future<bool> deleteStateToRefresh(
+      AccountId accountId, UserName userName, TypeName typeName) {
     throw UnimplementedError();
   }
 
   @override
-  Future<jmap.State> getStateToRefresh(AccountId accountId, UserName userName, TypeName typeName) {
+  Future<jmap.State> getStateToRefresh(
+      AccountId accountId, UserName userName, TypeName typeName) {
     throw UnimplementedError();
   }
 
   @override
-  Future<bool> storeStateToRefresh(AccountId accountId, UserName userName, TypeName typeName, jmap.State newState) {
+  Future<bool> storeStateToRefresh(AccountId accountId, UserName userName,
+      TypeName typeName, jmap.State newState) {
     throw UnimplementedError();
   }
 
   @override
-  Future<FirebaseSubscription> registerNewToken(RegisterNewTokenRequest newTokenRequest) {
+  Future<FirebaseSubscription> registerNewToken(
+      RegisterNewTokenRequest newTokenRequest) {
     return Future.sync(() async {
-      final firebaseSubscription = await _fcmApi.registerNewToken(newTokenRequest);
-      return firebaseSubscription.fromDeviceId(newDeviceId: newTokenRequest.firebaseSubscription.deviceClientId);
+      final firebaseSubscription =
+          await _fcmApi.registerNewToken(newTokenRequest);
+      return firebaseSubscription.fromDeviceId(
+          newDeviceId: newTokenRequest.firebaseSubscription.deviceClientId);
     }).catchError(_exceptionThrower.throwException);
   }
-  
+
   @override
   Future<bool> storeSubscription(FCMSubscriptionCache fcmSubscriptionCache) {
     throw UnimplementedError();
   }
-  
+
   @override
   Future<FCMSubscriptionCache> geSubscription() {
     throw UnimplementedError();

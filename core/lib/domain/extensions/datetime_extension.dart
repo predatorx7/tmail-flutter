@@ -1,6 +1,4 @@
-
 extension DateTimeExtension on DateTime {
-
   bool isToday() {
     final now = DateTime.now();
     return now.day == day && now.month == month && now.year == year;
@@ -8,7 +6,9 @@ extension DateTimeExtension on DateTime {
 
   bool isYesterday() {
     final yesterday = DateTime.now().subtract(const Duration(days: 1));
-    return yesterday.day == day && yesterday.month == month && yesterday.year == year;
+    return yesterday.day == day &&
+        yesterday.month == month &&
+        yesterday.year == year;
   }
 
   bool isThisYear() {
@@ -24,7 +24,6 @@ extension DateTimeExtension on DateTime {
 }
 
 extension DateTimeNullableExtension on DateTime? {
-
   String toPattern() {
     if (this != null) {
       if (this!.isToday()) {

@@ -6,18 +6,21 @@ import 'package:tmail_ui_user/features/login/domain/model/recent_login_username.
 import 'package:tmail_ui_user/main/exceptions/exception_thrower.dart';
 
 class LoginUsernameDataSourceImpl implements LoginUsernameDataSource {
-
   final RecentLoginUsernameCacheClient _recentLoginUsernameCacheClient;
   final ExceptionThrower _exceptionThrower;
 
-  LoginUsernameDataSourceImpl(this._recentLoginUsernameCacheClient, this._exceptionThrower);
+  LoginUsernameDataSourceImpl(
+      this._recentLoginUsernameCacheClient, this._exceptionThrower);
 
   @override
-  Future<List<RecentLoginUsername>> getAllRecentLoginUsernamesLatest({int? limit, String? pattern}) {
+  Future<List<RecentLoginUsername>> getAllRecentLoginUsernamesLatest(
+      {int? limit, String? pattern}) {
     return Future.sync(() async {
-      final listRecentUsernameCache = await _recentLoginUsernameCacheClient.getAll();
+      final listRecentUsernameCache =
+          await _recentLoginUsernameCacheClient.getAll();
       final listValidRecentUsername = listRecentUsernameCache
-          .where((recentCache) => _filterRecentLoginUsernameCache(recentCache, pattern))
+          .where((recentCache) =>
+              _filterRecentLoginUsernameCache(recentCache, pattern))
           .map((recentCache) => recentCache.toRecentLoginUsername())
           .toList();
 
@@ -36,19 +39,19 @@ class LoginUsernameDataSourceImpl implements LoginUsernameDataSource {
     return Future.sync(() async {
       if (await _recentLoginUsernameCacheClient
           .isExistItem(recentLoginUsername.username)) {
-        await _recentLoginUsernameCacheClient.updateItem(recentLoginUsername.username,
+        await _recentLoginUsernameCacheClient.updateItem(
+            recentLoginUsername.username,
             recentLoginUsername.toRecentLoginUsernameCache());
       } else {
-        await _recentLoginUsernameCacheClient.insertItem(recentLoginUsername.username,
+        await _recentLoginUsernameCacheClient.insertItem(
+            recentLoginUsername.username,
             recentLoginUsername.toRecentLoginUsernameCache());
       }
     }).catchError(_exceptionThrower.throwException);
   }
 
   bool _filterRecentLoginUsernameCache(
-      RecentLoginUsernameCache recentLoginUsernameCache, 
-      String? pattern
-      ) {
+      RecentLoginUsernameCache recentLoginUsernameCache, String? pattern) {
     if (pattern == null || pattern.trim().isEmpty) {
       return true;
     } else {

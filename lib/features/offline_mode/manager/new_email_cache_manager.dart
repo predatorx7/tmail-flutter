@@ -1,4 +1,3 @@
-
 import 'package:core/utils/app_logger.dart';
 import 'package:core/utils/file_utils.dart';
 import 'package:jmap_dart_client/jmap/account_id.dart';
@@ -13,21 +12,19 @@ import 'package:tmail_ui_user/features/offline_mode/extensions/list_detailed_ema
 import 'package:tmail_ui_user/features/offline_mode/model/detailed_email_hive_cache.dart';
 
 class NewEmailCacheManager {
-
   final NewEmailHiveCacheClient _cacheClient;
   final FileUtils _fileUtils;
 
   NewEmailCacheManager(this._cacheClient, this._fileUtils);
 
-  Future<DetailedEmailHiveCache> storeDetailedNewEmail(
-    AccountId accountId,
-    UserName userName,
-    DetailedEmailHiveCache detailedEmailCache
-  ) async {
+  Future<DetailedEmailHiveCache> storeDetailedNewEmail(AccountId accountId,
+      UserName userName, DetailedEmailHiveCache detailedEmailCache) async {
     final listDetailedEmails = await getAllDetailedEmails(accountId, userName);
     log('NewEmailCacheManager::storeDetailedNewEmail():listDetailedEmails: $listDetailedEmails');
-    if (listDetailedEmails.length >= CachingConstants.maxNumberNewEmailsForOffline) {
-      final lastElementsListEmail = listDetailedEmails.sublist(CachingConstants.maxNumberNewEmailsForOffline - 1);
+    if (listDetailedEmails.length >=
+        CachingConstants.maxNumberNewEmailsForOffline) {
+      final lastElementsListEmail = listDetailedEmails
+          .sublist(CachingConstants.maxNumberNewEmailsForOffline - 1);
       for (var email in lastElementsListEmail) {
         if (email.emailContentPath != null) {
           await _deleteFileExisted(email.emailContentPath!);
@@ -41,26 +38,25 @@ class NewEmailCacheManager {
     return detailedEmailCache;
   }
 
-  Future<void> insertDetailedEmail(
-    AccountId accountId,
-    UserName userName,
-    DetailedEmailHiveCache detailedEmailCache
-  ) {
-    final keyCache = TupleKey(detailedEmailCache.emailId, accountId.asString, userName.value).encodeKey;
+  Future<void> insertDetailedEmail(AccountId accountId, UserName userName,
+      DetailedEmailHiveCache detailedEmailCache) {
+    final keyCache =
+        TupleKey(detailedEmailCache.emailId, accountId.asString, userName.value)
+            .encodeKey;
     return _cacheClient.insertItem(keyCache, detailedEmailCache);
   }
 
   Future<void> removeDetailedEmail(
-    AccountId accountId,
-    UserName userName,
-    String emailId
-  ) {
-    final keyCache = TupleKey(emailId, accountId.asString, userName.value).encodeKey;
+      AccountId accountId, UserName userName, String emailId) {
+    final keyCache =
+        TupleKey(emailId, accountId.asString, userName.value).encodeKey;
     return _cacheClient.deleteItem(keyCache);
   }
 
-  Future<List<DetailedEmailHiveCache>> getAllDetailedEmails(AccountId accountId, UserName userName) async {
-    final detailedEmailCacheList = await _cacheClient.getListByTupleKey(accountId.asString, userName.value);
+  Future<List<DetailedEmailHiveCache>> getAllDetailedEmails(
+      AccountId accountId, UserName userName) async {
+    final detailedEmailCacheList = await _cacheClient.getListByTupleKey(
+        accountId.asString, userName.value);
     detailedEmailCacheList.sortByLatestTime();
     return detailedEmailCacheList;
   }
@@ -70,12 +66,12 @@ class NewEmailCacheManager {
   }
 
   Future<DetailedEmailHiveCache> getStoredNewEmail(
-    AccountId accountId,
-    UserName userName,
-    EmailId emailId
-  ) async {
-    final keyCache = TupleKey(emailId.asString, accountId.asString, userName.value).encodeKey;
-    final detailedEmailCache = await _cacheClient.getItem(keyCache, needToReopen: true);
+      AccountId accountId, UserName userName, EmailId emailId) async {
+    final keyCache =
+        TupleKey(emailId.asString, accountId.asString, userName.value)
+            .encodeKey;
+    final detailedEmailCache =
+        await _cacheClient.getItem(keyCache, needToReopen: true);
     if (detailedEmailCache != null) {
       return detailedEmailCache;
     } else {

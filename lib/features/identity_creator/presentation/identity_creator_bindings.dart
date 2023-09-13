@@ -6,16 +6,14 @@ import 'package:tmail_ui_user/features/manage_account/presentation/profiles/iden
 import 'package:tmail_ui_user/features/manage_account/presentation/profiles/identities/utils/identity_utils.dart';
 
 class IdentityCreatorBindings extends Bindings {
-
   @override
   void dependencies() {
     IdentityInteractorsBindings().dependencies();
     Get.lazyPut(() => VerifyNameInteractor());
 
     Get.lazyPut(() => IdentityCreatorController(
-      Get.find<VerifyNameInteractor>(),
-      Get.find<GetAllIdentitiesInteractor>(),
-      Get.find<IdentityUtils>()
-    ));
+        Get.find<VerifyNameInteractor>(),
+        Get.find<GetAllIdentitiesInteractor>(),
+        Get.find<IdentityUtils>()));
   }
 }

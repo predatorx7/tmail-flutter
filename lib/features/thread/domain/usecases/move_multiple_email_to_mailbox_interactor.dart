@@ -13,13 +13,11 @@ class MoveMultipleEmailToMailboxInteractor {
   final EmailRepository _emailRepository;
   final MailboxRepository _mailboxRepository;
 
-  MoveMultipleEmailToMailboxInteractor(this._emailRepository, this._mailboxRepository);
+  MoveMultipleEmailToMailboxInteractor(
+      this._emailRepository, this._mailboxRepository);
 
-  Stream<Either<Failure, Success>> execute(
-    Session session,
-    AccountId accountId,
-    MoveToMailboxRequest moveRequest
-  ) async* {
+  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId,
+      MoveToMailboxRequest moveRequest) async* {
     try {
       yield Right(LoadingMoveMultipleEmailToMailboxAll());
 
@@ -31,35 +29,39 @@ class MoveMultipleEmailToMailboxInteractor {
       final currentMailboxState = listState.first;
       final currentEmailState = listState.last;
 
-      final result = await _emailRepository.moveToMailbox(session, accountId, moveRequest);
+      final result =
+          await _emailRepository.moveToMailbox(session, accountId, moveRequest);
       int totalEmail = 0;
       for (var element in moveRequest.currentMailboxes.values) {
         totalEmail = totalEmail + element.length;
-      }if (totalEmail == result.length) {
+      }
+      if (totalEmail == result.length) {
         yield Right(MoveMultipleEmailToMailboxAllSuccess(
-          result,
-          moveRequest.currentMailboxes.keys.first,
-          moveRequest.destinationMailboxId,
-          moveRequest.moveAction,
-          moveRequest.emailActionType,
-          destinationPath: moveRequest.destinationPath,
-          currentEmailState: currentEmailState,
-          currentMailboxState: currentMailboxState));
+            result,
+            moveRequest.currentMailboxes.keys.first,
+            moveRequest.destinationMailboxId,
+            moveRequest.moveAction,
+            moveRequest.emailActionType,
+            destinationPath: moveRequest.destinationPath,
+            currentEmailState: currentEmailState,
+            currentMailboxState: currentMailboxState));
       } else if (result.isEmpty) {
-        yield Left(MoveMultipleEmailToMailboxAllFailure(moveRequest.moveAction, moveRequest.emailActionType));
+        yield Left(MoveMultipleEmailToMailboxAllFailure(
+            moveRequest.moveAction, moveRequest.emailActionType));
       } else {
         yield Right(MoveMultipleEmailToMailboxHasSomeEmailFailure(
-          result,
-          moveRequest.currentMailboxes.keys.first,
-          moveRequest.destinationMailboxId,
-          moveRequest.moveAction,
-          moveRequest.emailActionType,
-          destinationPath: moveRequest.destinationPath,
-          currentEmailState: currentEmailState,
-          currentMailboxState: currentMailboxState));
+            result,
+            moveRequest.currentMailboxes.keys.first,
+            moveRequest.destinationMailboxId,
+            moveRequest.moveAction,
+            moveRequest.emailActionType,
+            destinationPath: moveRequest.destinationPath,
+            currentEmailState: currentEmailState,
+            currentMailboxState: currentMailboxState));
       }
     } catch (e) {
-      yield Left(MoveMultipleEmailToMailboxFailure(moveRequest.emailActionType, moveRequest.moveAction, e));
+      yield Left(MoveMultipleEmailToMailboxFailure(
+          moveRequest.emailActionType, moveRequest.moveAction, e));
     }
   }
 }

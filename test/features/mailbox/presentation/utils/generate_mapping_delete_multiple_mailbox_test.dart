@@ -8,7 +8,6 @@ import 'package:tmail_ui_user/features/mailbox/presentation/utils/mailbox_utils.
 
 void main() {
   group('generate mapping delete multiple mailbox test', () {
-
     final expectedMapOfTwoMailboxId = {
       MailboxId(Id("A")): [
         MailboxId(Id('A_1_1')),
@@ -51,219 +50,215 @@ void main() {
       MailboxId(Id("C_1")): [MailboxId(Id('C_1'))],
     };
 
-    test('_generateMapDescendantIdsAndMailboxIdList should return map with 2 items when mailboxes belong to 2 different tree', () async {
-      final defaultMailboxTree = MailboxTree(MailboxNode(PresentationMailbox(MailboxId(Id('root')))));
+    test(
+        '_generateMapDescendantIdsAndMailboxIdList should return map with 2 items when mailboxes belong to 2 different tree',
+        () async {
+      final defaultMailboxTree =
+          MailboxTree(MailboxNode(PresentationMailbox(MailboxId(Id('root')))));
 
-      final folderMailboxTree = MailboxTree(
-          MailboxNode(
-              PresentationMailbox(MailboxId(Id('root'))),
-              childrenItems: [
-                MailboxNode(
-                    PresentationMailbox(MailboxId(Id('A')), parentId: null),
-                    childrenItems: [
-                      MailboxNode(
-                          PresentationMailbox(MailboxId(Id('A_2')), parentId: MailboxId(Id('A'))),
-                          childrenItems: [
-                            MailboxNode(PresentationMailbox(MailboxId(Id('A_2_1')), parentId: MailboxId(Id('A_2'))))
-                          ]
-                      ),
-                      MailboxNode(
-                          PresentationMailbox(MailboxId(Id('A_1')), parentId: MailboxId(Id('A'))),
-                          childrenItems: [
-                            MailboxNode(PresentationMailbox(MailboxId(Id('A_1_1')), parentId: MailboxId(Id('A_1'))))
-                          ]
-                      ),
-                    ]
-                ),
-                MailboxNode(
-                    PresentationMailbox(MailboxId(Id('B')), parentId: null),
-                    childrenItems: [
-                      MailboxNode(
-                          PresentationMailbox(MailboxId(Id('B_2')), parentId: MailboxId(Id('B'))),
-                          childrenItems: [
-                            MailboxNode(PresentationMailbox(MailboxId(Id('B_2_1')), parentId: MailboxId(Id('B_2'))))
-                          ]
-                      ),
-                      MailboxNode(PresentationMailbox(MailboxId(Id('B_1')), parentId: MailboxId(Id('B')))),
-                    ]
-                )
-              ]
-          )
-      );
+      final folderMailboxTree = MailboxTree(MailboxNode(
+          PresentationMailbox(MailboxId(Id('root'))),
+          childrenItems: [
+            MailboxNode(PresentationMailbox(MailboxId(Id('A')), parentId: null),
+                childrenItems: [
+                  MailboxNode(
+                      PresentationMailbox(MailboxId(Id('A_2')),
+                          parentId: MailboxId(Id('A'))),
+                      childrenItems: [
+                        MailboxNode(PresentationMailbox(MailboxId(Id('A_2_1')),
+                            parentId: MailboxId(Id('A_2'))))
+                      ]),
+                  MailboxNode(
+                      PresentationMailbox(MailboxId(Id('A_1')),
+                          parentId: MailboxId(Id('A'))),
+                      childrenItems: [
+                        MailboxNode(PresentationMailbox(MailboxId(Id('A_1_1')),
+                            parentId: MailboxId(Id('A_1'))))
+                      ]),
+                ]),
+            MailboxNode(PresentationMailbox(MailboxId(Id('B')), parentId: null),
+                childrenItems: [
+                  MailboxNode(
+                      PresentationMailbox(MailboxId(Id('B_2')),
+                          parentId: MailboxId(Id('B'))),
+                      childrenItems: [
+                        MailboxNode(PresentationMailbox(MailboxId(Id('B_2_1')),
+                            parentId: MailboxId(Id('B_2'))))
+                      ]),
+                  MailboxNode(PresentationMailbox(MailboxId(Id('B_1')),
+                      parentId: MailboxId(Id('B')))),
+                ])
+          ]));
 
       final selectedMailboxList = [
         PresentationMailbox(MailboxId(Id("A")), parentId: null),
         PresentationMailbox(MailboxId(Id('A_1')), parentId: MailboxId(Id('A'))),
-        PresentationMailbox(MailboxId(Id('A_2_1')), parentId: MailboxId(Id('A_2'))),
+        PresentationMailbox(MailboxId(Id('A_2_1')),
+            parentId: MailboxId(Id('A_2'))),
         PresentationMailbox(MailboxId(Id("B_1")), parentId: MailboxId(Id('B')))
       ];
 
       final tupleResult = MailboxUtils.generateMapDescendantIdsAndMailboxIdList(
-          selectedMailboxList,
-          defaultMailboxTree,
-          folderMailboxTree);
+          selectedMailboxList, defaultMailboxTree, folderMailboxTree);
 
       expect(tupleResult.value1, equals(expectedMapOfTwoMailboxId));
     });
 
-    test('_generateMapDescendantIdsAndMailboxIdList should return list with 5 item when mailboxes belong to 2 different tree', () async {
-      final defaultMailboxTree = MailboxTree(MailboxNode(PresentationMailbox(MailboxId(Id('root')))));
+    test(
+        '_generateMapDescendantIdsAndMailboxIdList should return list with 5 item when mailboxes belong to 2 different tree',
+        () async {
+      final defaultMailboxTree =
+          MailboxTree(MailboxNode(PresentationMailbox(MailboxId(Id('root')))));
 
-      final folderMailboxTree = MailboxTree(
-          MailboxNode(
-              PresentationMailbox(MailboxId(Id('root'))),
-              childrenItems: [
-                MailboxNode(
-                    PresentationMailbox(MailboxId(Id('A')), parentId: null),
-                    childrenItems: [
-                      MailboxNode(
-                          PresentationMailbox(MailboxId(Id('A_2')), parentId: MailboxId(Id('A'))),
-                          childrenItems: [
-                            MailboxNode(PresentationMailbox(MailboxId(Id('A_2_1')), parentId: MailboxId(Id('A_2'))))
-                          ]
-                      ),
-                      MailboxNode(
-                          PresentationMailbox(MailboxId(Id('A_1')), parentId: MailboxId(Id('A'))),
-                          childrenItems: [
-                            MailboxNode(PresentationMailbox(MailboxId(Id('A_1_1')), parentId: MailboxId(Id('A_1'))))
-                          ]
-                      ),
-                    ]
-                ),
-                MailboxNode(
-                    PresentationMailbox(MailboxId(Id('B')), parentId: null),
-                    childrenItems: [
-                      MailboxNode(
-                          PresentationMailbox(MailboxId(Id('B_2')), parentId: MailboxId(Id('B'))),
-                          childrenItems: [
-                            MailboxNode(PresentationMailbox(MailboxId(Id('B_2_1')), parentId: MailboxId(Id('B_2'))))
-                          ]
-                      ),
-                      MailboxNode(PresentationMailbox(MailboxId(Id('B_1')), parentId: MailboxId(Id('B')))),
-                    ]
-                )
-              ]
-          )
-      );
+      final folderMailboxTree = MailboxTree(MailboxNode(
+          PresentationMailbox(MailboxId(Id('root'))),
+          childrenItems: [
+            MailboxNode(PresentationMailbox(MailboxId(Id('A')), parentId: null),
+                childrenItems: [
+                  MailboxNode(
+                      PresentationMailbox(MailboxId(Id('A_2')),
+                          parentId: MailboxId(Id('A'))),
+                      childrenItems: [
+                        MailboxNode(PresentationMailbox(MailboxId(Id('A_2_1')),
+                            parentId: MailboxId(Id('A_2'))))
+                      ]),
+                  MailboxNode(
+                      PresentationMailbox(MailboxId(Id('A_1')),
+                          parentId: MailboxId(Id('A'))),
+                      childrenItems: [
+                        MailboxNode(PresentationMailbox(MailboxId(Id('A_1_1')),
+                            parentId: MailboxId(Id('A_1'))))
+                      ]),
+                ]),
+            MailboxNode(PresentationMailbox(MailboxId(Id('B')), parentId: null),
+                childrenItems: [
+                  MailboxNode(
+                      PresentationMailbox(MailboxId(Id('B_2')),
+                          parentId: MailboxId(Id('B'))),
+                      childrenItems: [
+                        MailboxNode(PresentationMailbox(MailboxId(Id('B_2_1')),
+                            parentId: MailboxId(Id('B_2'))))
+                      ]),
+                  MailboxNode(PresentationMailbox(MailboxId(Id('B_1')),
+                      parentId: MailboxId(Id('B')))),
+                ])
+          ]));
 
       final selectedMailboxList = [
         PresentationMailbox(MailboxId(Id("A")), parentId: null),
         PresentationMailbox(MailboxId(Id('A_1')), parentId: MailboxId(Id('A'))),
-        PresentationMailbox(MailboxId(Id('A_2_1')), parentId: MailboxId(Id('A_2'))),
+        PresentationMailbox(MailboxId(Id('A_2_1')),
+            parentId: MailboxId(Id('A_2'))),
         PresentationMailbox(MailboxId(Id("B_1")), parentId: MailboxId(Id('B')))
       ];
 
       final tupleResult = MailboxUtils.generateMapDescendantIdsAndMailboxIdList(
-          selectedMailboxList,
-          defaultMailboxTree,
-          folderMailboxTree);
+          selectedMailboxList, defaultMailboxTree, folderMailboxTree);
 
       expect(tupleResult.value2, equals(expectedListMailboxId));
     });
 
-    test('_generateMapDescendantIdsAndMailboxIdList should return map with 1 items when mailboxes belong to 2 different tree', () async {
-      final defaultMailboxTree = MailboxTree(MailboxNode(PresentationMailbox(MailboxId(Id('root')))));
+    test(
+        '_generateMapDescendantIdsAndMailboxIdList should return map with 1 items when mailboxes belong to 2 different tree',
+        () async {
+      final defaultMailboxTree =
+          MailboxTree(MailboxNode(PresentationMailbox(MailboxId(Id('root')))));
 
-      final folderMailboxTree = MailboxTree(
-          MailboxNode(
-              PresentationMailbox(MailboxId(Id('root'))),
-              childrenItems: [
-                MailboxNode(
-                    PresentationMailbox(MailboxId(Id('A')), parentId: null),
-                    childrenItems: [
-                      MailboxNode(
-                          PresentationMailbox(MailboxId(Id('A_2')), parentId: MailboxId(Id('A'))),
-                          childrenItems: [
-                            MailboxNode(PresentationMailbox(MailboxId(Id('A_2_1')), parentId: MailboxId(Id('A_2'))))
-                          ]
-                      ),
-                      MailboxNode(
-                          PresentationMailbox(MailboxId(Id('A_1')), parentId: MailboxId(Id('A'))),
-                          childrenItems: [
-                            MailboxNode(PresentationMailbox(MailboxId(Id('A_1_1')), parentId: MailboxId(Id('A_1'))))
-                          ]
-                      ),
-                    ]
-                ),
-                MailboxNode(
-                    PresentationMailbox(MailboxId(Id('B')), parentId: null),
-                    childrenItems: [
-                      MailboxNode(
-                          PresentationMailbox(MailboxId(Id('B_2')), parentId: MailboxId(Id('B'))),
-                          childrenItems: [
-                            MailboxNode(PresentationMailbox(MailboxId(Id('B_2_1')), parentId: MailboxId(Id('B_2'))))
-                          ]
-                      ),
-                      MailboxNode(PresentationMailbox(MailboxId(Id('B_1')), parentId: MailboxId(Id('B')))),
-                    ]
-                )
-              ]
-          )
-      );
+      final folderMailboxTree = MailboxTree(MailboxNode(
+          PresentationMailbox(MailboxId(Id('root'))),
+          childrenItems: [
+            MailboxNode(PresentationMailbox(MailboxId(Id('A')), parentId: null),
+                childrenItems: [
+                  MailboxNode(
+                      PresentationMailbox(MailboxId(Id('A_2')),
+                          parentId: MailboxId(Id('A'))),
+                      childrenItems: [
+                        MailboxNode(PresentationMailbox(MailboxId(Id('A_2_1')),
+                            parentId: MailboxId(Id('A_2'))))
+                      ]),
+                  MailboxNode(
+                      PresentationMailbox(MailboxId(Id('A_1')),
+                          parentId: MailboxId(Id('A'))),
+                      childrenItems: [
+                        MailboxNode(PresentationMailbox(MailboxId(Id('A_1_1')),
+                            parentId: MailboxId(Id('A_1'))))
+                      ]),
+                ]),
+            MailboxNode(PresentationMailbox(MailboxId(Id('B')), parentId: null),
+                childrenItems: [
+                  MailboxNode(
+                      PresentationMailbox(MailboxId(Id('B_2')),
+                          parentId: MailboxId(Id('B'))),
+                      childrenItems: [
+                        MailboxNode(PresentationMailbox(MailboxId(Id('B_2_1')),
+                            parentId: MailboxId(Id('B_2'))))
+                      ]),
+                  MailboxNode(PresentationMailbox(MailboxId(Id('B_1')),
+                      parentId: MailboxId(Id('B')))),
+                ])
+          ]));
 
       final selectedMailboxList = [
         PresentationMailbox(MailboxId(Id("A")), parentId: null),
       ];
 
       final tupleResult = MailboxUtils.generateMapDescendantIdsAndMailboxIdList(
-          selectedMailboxList,
-          defaultMailboxTree,
-          folderMailboxTree);
+          selectedMailboxList, defaultMailboxTree, folderMailboxTree);
 
       expect(tupleResult.value1, equals(expectedMapOfOneMailboxId));
     });
 
-    test('_generateMapDescendantIdsAndMailboxIdList should return map with 3 items when mailboxes belong to 2 different tree', () async {
-      final defaultMailboxTree = MailboxTree(MailboxNode(PresentationMailbox(MailboxId(Id('root')))));
+    test(
+        '_generateMapDescendantIdsAndMailboxIdList should return map with 3 items when mailboxes belong to 2 different tree',
+        () async {
+      final defaultMailboxTree =
+          MailboxTree(MailboxNode(PresentationMailbox(MailboxId(Id('root')))));
 
-      final folderMailboxTree = MailboxTree(
-          MailboxNode(
-              PresentationMailbox(MailboxId(Id('root'))),
-              childrenItems: [
-                MailboxNode(
-                    PresentationMailbox(MailboxId(Id('A')), parentId: null),
-                    childrenItems: [
-                      MailboxNode(
-                          PresentationMailbox(MailboxId(Id('A_2')), parentId: MailboxId(Id('A'))),
-                          childrenItems: [
-                            MailboxNode(PresentationMailbox(MailboxId(Id('A_2_1')), parentId: MailboxId(Id('A_2'))))
-                          ]
-                      ),
-                      MailboxNode(
-                          PresentationMailbox(MailboxId(Id('A_1')), parentId: MailboxId(Id('A'))),
-                          childrenItems: [
-                            MailboxNode(PresentationMailbox(MailboxId(Id('A_1_1')), parentId: MailboxId(Id('A_1'))))
-                          ]
-                      ),
-                    ]
-                ),
-                MailboxNode(
-                    PresentationMailbox(MailboxId(Id('B')), parentId: null),
-                    childrenItems: [
-                      MailboxNode(
-                          PresentationMailbox(MailboxId(Id('B_2')), parentId: MailboxId(Id('B'))),
-                          childrenItems: [
-                            MailboxNode(PresentationMailbox(MailboxId(Id('B_2_1')), parentId: MailboxId(Id('B_2'))))
-                          ]
-                      ),
-                      MailboxNode(PresentationMailbox(MailboxId(Id('B_1')), parentId: MailboxId(Id('B')))),
-                    ]
-                ),
-                MailboxNode(
-                    PresentationMailbox(MailboxId(Id('C')), parentId: null),
-                    childrenItems: [
-                      MailboxNode(
-                          PresentationMailbox(MailboxId(Id('C_2')), parentId: MailboxId(Id('C'))),
-                          childrenItems: [
-                            MailboxNode(PresentationMailbox(MailboxId(Id('C_2_1')), parentId: MailboxId(Id('C_2'))))
-                          ]
-                      ),
-                      MailboxNode(PresentationMailbox(MailboxId(Id('C_1')), parentId: MailboxId(Id('C')))),
-                    ]
-                )
-              ]
-          )
-      );
+      final folderMailboxTree = MailboxTree(MailboxNode(
+          PresentationMailbox(MailboxId(Id('root'))),
+          childrenItems: [
+            MailboxNode(PresentationMailbox(MailboxId(Id('A')), parentId: null),
+                childrenItems: [
+                  MailboxNode(
+                      PresentationMailbox(MailboxId(Id('A_2')),
+                          parentId: MailboxId(Id('A'))),
+                      childrenItems: [
+                        MailboxNode(PresentationMailbox(MailboxId(Id('A_2_1')),
+                            parentId: MailboxId(Id('A_2'))))
+                      ]),
+                  MailboxNode(
+                      PresentationMailbox(MailboxId(Id('A_1')),
+                          parentId: MailboxId(Id('A'))),
+                      childrenItems: [
+                        MailboxNode(PresentationMailbox(MailboxId(Id('A_1_1')),
+                            parentId: MailboxId(Id('A_1'))))
+                      ]),
+                ]),
+            MailboxNode(PresentationMailbox(MailboxId(Id('B')), parentId: null),
+                childrenItems: [
+                  MailboxNode(
+                      PresentationMailbox(MailboxId(Id('B_2')),
+                          parentId: MailboxId(Id('B'))),
+                      childrenItems: [
+                        MailboxNode(PresentationMailbox(MailboxId(Id('B_2_1')),
+                            parentId: MailboxId(Id('B_2'))))
+                      ]),
+                  MailboxNode(PresentationMailbox(MailboxId(Id('B_1')),
+                      parentId: MailboxId(Id('B')))),
+                ]),
+            MailboxNode(PresentationMailbox(MailboxId(Id('C')), parentId: null),
+                childrenItems: [
+                  MailboxNode(
+                      PresentationMailbox(MailboxId(Id('C_2')),
+                          parentId: MailboxId(Id('C'))),
+                      childrenItems: [
+                        MailboxNode(PresentationMailbox(MailboxId(Id('C_2_1')),
+                            parentId: MailboxId(Id('C_2'))))
+                      ]),
+                  MailboxNode(PresentationMailbox(MailboxId(Id('C_1')),
+                      parentId: MailboxId(Id('C')))),
+                ])
+          ]));
 
       final selectedMailboxList = [
         PresentationMailbox(MailboxId(Id("A")), parentId: null),
@@ -272,9 +267,7 @@ void main() {
       ];
 
       final tupleResult = MailboxUtils.generateMapDescendantIdsAndMailboxIdList(
-          selectedMailboxList,
-          defaultMailboxTree,
-          folderMailboxTree);
+          selectedMailboxList, defaultMailboxTree, folderMailboxTree);
 
       expect(tupleResult.value1, equals(expectedMapOfThreeMailboxId));
     });

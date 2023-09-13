@@ -14,122 +14,113 @@ import 'package:jmap_dart_client/jmap/jmap_request.dart';
 void main() {
   group('test to json set forward method', () {
     final expectedUpdated = TMailForward(
-      id: ForwardIdSingleton.forwardIdSingleton,
-      localCopy: true,
-      forwards: {'dab@domain.com', 'vuda@gmail.com'}
-    );
+        id: ForwardIdSingleton.forwardIdSingleton,
+        localCopy: true,
+        forwards: {'dab@domain.com', 'vuda@gmail.com'});
 
     test('set forward method and response parsing', () async {
-      final baseOption  = BaseOptions(method: 'POST');
-      final dio = Dio(baseOption)
-        ..options.baseUrl = 'http://domain.com/jmap';
+      final baseOption = BaseOptions(method: 'POST');
+      final dio = Dio(baseOption)..options.baseUrl = 'http://domain.com/jmap';
       final dioAdapter = DioAdapter(dio: dio);
       dioAdapter.onPost(
-        '',
-        (server) => server.reply(200, {
-          "sessionState": "2c9f1b12-b35a-43e6-9af2-0106fb53a943",
-          "methodResponses": [
-            [
-              "Forward/set",
-              {
-                "accountId": "0d14dbabe6482aff5cbf922e04cef51a40b4eabccbe12d28fe27c97038752555",
-                "newState": "2c9f1b12-b35a-43e6-9af2-0106fb53a943",
-                "updated": {
-                  "singleton": {}
-                }
-              },
-              "c0"
-            ],
-            [
-              "Forward/get",
-              {
-                "accountId": "0d14dbabe6482aff5cbf922e04cef51a40b4eabccbe12d28fe27c97038752555",
-                "notFound": [],
-                "state": "2c9f1b12-b35a-43e6-9af2-0106fb53a943",
-                "list": [
-                  {
-                    "id": "singleton",
-                    "localCopy": true,
-                    "forwards": [
-                      "dab@domain.com",
-                      "vuda@gmail.com"
-                    ]
-                  }
+          '',
+          (server) => server.reply(200, {
+                "sessionState": "2c9f1b12-b35a-43e6-9af2-0106fb53a943",
+                "methodResponses": [
+                  [
+                    "Forward/set",
+                    {
+                      "accountId":
+                          "0d14dbabe6482aff5cbf922e04cef51a40b4eabccbe12d28fe27c97038752555",
+                      "newState": "2c9f1b12-b35a-43e6-9af2-0106fb53a943",
+                      "updated": {"singleton": {}}
+                    },
+                    "c0"
+                  ],
+                  [
+                    "Forward/get",
+                    {
+                      "accountId":
+                          "0d14dbabe6482aff5cbf922e04cef51a40b4eabccbe12d28fe27c97038752555",
+                      "notFound": [],
+                      "state": "2c9f1b12-b35a-43e6-9af2-0106fb53a943",
+                      "list": [
+                        {
+                          "id": "singleton",
+                          "localCopy": true,
+                          "forwards": ["dab@domain.com", "vuda@gmail.com"]
+                        }
+                      ]
+                    },
+                    "c1"
+                  ]
                 ]
-              },
-              "c1"
-            ]
-          ]
-        }),
-        data: {
-          "using": [
-            "urn:ietf:params:jmap:core",
-            "com:linagora:params:jmap:forward"
-          ],
-          "methodCalls": [
-            [
-              "Forward/set",
-              {
-                "accountId": "0d14dbabe6482aff5cbf922e04cef51a40b4eabccbe12d28fe27c97038752555",
-                "update": {
-                  "singleton": {
-                    "id": "singleton",
-                    "localCopy": true,
-                    "forwards": [
-                      "dab@domain.com",
-                      "vuda@gmail.com"
-                    ]
-                  }
-                }
-              },
-              "c0"
+              }),
+          data: {
+            "using": [
+              "urn:ietf:params:jmap:core",
+              "com:linagora:params:jmap:forward"
             ],
-            [
-              "Forward/get",
-              {
-                "accountId": "0d14dbabe6482aff5cbf922e04cef51a40b4eabccbe12d28fe27c97038752555",
-                "ids": [
-                  "singleton"
-                ]
-              },
-              "c1"
+            "methodCalls": [
+              [
+                "Forward/set",
+                {
+                  "accountId":
+                      "0d14dbabe6482aff5cbf922e04cef51a40b4eabccbe12d28fe27c97038752555",
+                  "update": {
+                    "singleton": {
+                      "id": "singleton",
+                      "localCopy": true,
+                      "forwards": ["dab@domain.com", "vuda@gmail.com"]
+                    }
+                  }
+                },
+                "c0"
+              ],
+              [
+                "Forward/get",
+                {
+                  "accountId":
+                      "0d14dbabe6482aff5cbf922e04cef51a40b4eabccbe12d28fe27c97038752555",
+                  "ids": ["singleton"]
+                },
+                "c1"
+              ]
             ]
-          ]
-        },
-        headers: {
-          "accept": "application/json;jmapVersion=rfc-8621",
-          "content-length": 765
-        }
-      );
+          },
+          headers: {
+            "accept": "application/json;jmapVersion=rfc-8621",
+            "content-length": 765
+          });
 
-      final accountId = AccountId(Id('0d14dbabe6482aff5cbf922e04cef51a40b4eabccbe12d28fe27c97038752555'));
+      final accountId = AccountId(Id(
+          '0d14dbabe6482aff5cbf922e04cef51a40b4eabccbe12d28fe27c97038752555'));
       final httpClient = HttpClient(dio);
       final processingInvocation = ProcessingInvocation();
 
       final setForwardMethod = SetForwardMethod(accountId)
         ..addUpdatesSingleton({
-          ForwardIdSingleton.forwardIdSingleton.id : TMailForward(
+          ForwardIdSingleton.forwardIdSingleton.id: TMailForward(
               id: ForwardIdSingleton.forwardIdSingleton,
               localCopy: true,
-              forwards: {'dab@domain.com', 'vuda@gmail.com'}
-          )
+              forwards: {'dab@domain.com', 'vuda@gmail.com'})
         });
 
-      final requestBuilder = JmapRequestBuilder(httpClient, processingInvocation)
-        ..invocation(setForwardMethod);
+      final requestBuilder =
+          JmapRequestBuilder(httpClient, processingInvocation)
+            ..invocation(setForwardMethod);
 
       final getForwardMethod = GetForwardMethod(accountId)
         ..addIds({ForwardIdSingleton.forwardIdSingleton.id});
       final getForwardInvocation = requestBuilder.invocation(getForwardMethod);
 
       final response = await (requestBuilder
-          ..usings(setForwardMethod.requiredCapabilities))
-        .build()
-        .execute();
+            ..usings(setForwardMethod.requiredCapabilities))
+          .build()
+          .execute();
 
       final getForwardResponse = response.parse<GetForwardResponse>(
-          getForwardInvocation.methodCallId,
-          GetForwardResponse.deserialize);
+          getForwardInvocation.methodCallId, GetForwardResponse.deserialize);
 
       expect(getForwardResponse!.list.length, equals(1));
       expect(getForwardResponse.list, containsAll({expectedUpdated}));

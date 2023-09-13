@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/views/bottom_popup/cupertino_action_sheet_no_icon_builder.dart';
 import 'package:core/utils/platform_info.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,7 +7,6 @@ import 'package:tmail_ui_user/features/mailbox_dashboard/presentation/model/sear
 
 class EmailReceiveTimeCupertinoActionSheetActionBuilder
     extends CupertinoActionSheetNoIconBuilder<EmailReceiveTimeType> {
-
   final EmailReceiveTimeType timeType;
   final EmailReceiveTimeType? timeTypeCurrent;
   final SvgPicture? actionSelected;
@@ -17,14 +15,14 @@ class EmailReceiveTimeCupertinoActionSheetActionBuilder
   final EdgeInsets? iconRightPadding;
 
   EmailReceiveTimeCupertinoActionSheetActionBuilder(
-      String actionName,
-      this.timeType, {
-      Key? key,
-      this.timeTypeCurrent,
-      this.actionSelected,
-      this.bgColor,
-      this.iconLeftPadding,
-      this.iconRightPadding,
+    String actionName,
+    this.timeType, {
+    Key? key,
+    this.timeTypeCurrent,
+    this.actionSelected,
+    this.bgColor,
+    this.iconLeftPadding,
+    this.iconRightPadding,
   }) : super(actionName);
 
   @override
@@ -32,12 +30,16 @@ class EmailReceiveTimeCupertinoActionSheetActionBuilder
     return Container(
       color: bgColor ?? Colors.white,
       child: MouseRegion(
-        cursor: PlatformInfo.isWeb ? MaterialStateMouseCursor.clickable : MouseCursor.defer,
+        cursor: PlatformInfo.isWeb
+            ? MaterialStateMouseCursor.clickable
+            : MouseCursor.defer,
         child: CupertinoActionSheetAction(
           key: key,
           child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             const SizedBox(width: 16),
-            Expanded(child: Text(actionName, textAlign: TextAlign.left, style: actionTextStyle())),
+            Expanded(
+                child: Text(actionName,
+                    textAlign: TextAlign.left, style: actionTextStyle())),
             if (timeTypeCurrent == timeType && actionSelected != null)
               Padding(
                   padding: iconRightPadding ?? const EdgeInsets.only(right: 16),

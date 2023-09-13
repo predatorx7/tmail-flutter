@@ -1,4 +1,3 @@
-
 import 'package:core/core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -31,40 +30,44 @@ class DownloadingFileDialogBuilder {
     _actionText = actionText;
   }
 
-  void addCancelDownloadActionClick(OnCancelDownloadActionClick onCancelDownloadActionClick) {
+  void addCancelDownloadActionClick(
+      OnCancelDownloadActionClick onCancelDownloadActionClick) {
     _onCancelDownloadActionClick = onCancelDownloadActionClick;
   }
 
   Widget build() {
     return CupertinoAlertDialog(
       key: _key ?? const Key('DownloadingFileBuilder'),
-      title: Text(_title, style: const TextStyle(fontSize: 17.0, color: Colors.black)),
+      title: Text(_title,
+          style: const TextStyle(fontSize: 17.0, color: Colors.black)),
       content: Padding(
-        padding: const EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-        child: Center(
-          child: Column(
-            children: [
-              const SizedBox(
-                width: 20.0,
-                height: 20.0,
-                child: CupertinoActivityIndicator()),
-              const SizedBox(height: 16),
-              Text(
-                _content,
-                style: const TextStyle(fontSize: 13.0, color: Colors.black),
-                softWrap: false,
-                maxLines: 1)
-            ],
-          ),
-        )),
+          padding: const EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+          child: Center(
+            child: Column(
+              children: [
+                const SizedBox(
+                    width: 20.0,
+                    height: 20.0,
+                    child: CupertinoActivityIndicator()),
+                const SizedBox(height: 16),
+                Text(_content,
+                    style: const TextStyle(fontSize: 13.0, color: Colors.black),
+                    softWrap: false,
+                    maxLines: 1)
+              ],
+            ),
+          )),
       actions: [
         if (_actionText.isNotEmpty)
           Padding(
-            padding: const EdgeInsets.only(bottom: kIsWeb ? 16 : 0, top: kIsWeb ? 16 : 0),
-            child: TextButton(
-              onPressed: () => _onCancelDownloadActionClick?.call(),
-              child: Text(_actionText, style: const TextStyle(fontSize: 17.0, color: AppColor.appColor)),
-            ))
+              padding: const EdgeInsets.only(
+                  bottom: kIsWeb ? 16 : 0, top: kIsWeb ? 16 : 0),
+              child: TextButton(
+                onPressed: () => _onCancelDownloadActionClick?.call(),
+                child: Text(_actionText,
+                    style: const TextStyle(
+                        fontSize: 17.0, color: AppColor.appColor)),
+              ))
       ],
     );
   }

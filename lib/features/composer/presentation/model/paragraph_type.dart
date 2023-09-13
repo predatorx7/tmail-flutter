@@ -1,4 +1,3 @@
-
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,7 +12,7 @@ enum ParagraphType {
   outdent;
 
   String get commandAction {
-    switch(this) {
+    switch (this) {
       case ParagraphType.alignLeft:
         return 'justifyLeft';
       case ParagraphType.alignRight:
@@ -30,7 +29,7 @@ enum ParagraphType {
   }
 
   String get summernoteNameAPI {
-    switch(this) {
+    switch (this) {
       case ParagraphType.alignLeft:
         return 'justifyLeft';
       case ParagraphType.alignRight:
@@ -80,11 +79,8 @@ enum ParagraphType {
     }
   }
 
-  Widget buildButtonWidget(
-      BuildContext context,
-      ImagePaths imagePaths,
-      Function(ParagraphType paragraph) onActionCallback
-  ) {
+  Widget buildButtonWidget(BuildContext context, ImagePaths imagePaths,
+      Function(ParagraphType paragraph) onActionCallback) {
     return buildIconWeb(
         icon: SvgPicture.asset(getIcon(imagePaths)),
         iconPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),

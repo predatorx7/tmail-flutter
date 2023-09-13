@@ -1,4 +1,3 @@
-
 import 'package:core/utils/app_logger.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,22 +12,19 @@ import 'package:tmail_ui_user/features/rules_filter_creator/presentation/rules_f
 import 'package:tmail_ui_user/main/routes/app_routes.dart';
 
 class DialogRouter {
-
-  static Future<dynamic> pushGeneralDialog({
-    required String routeName,
-    required Object? arguments
-  }) {
+  static Future<dynamic> pushGeneralDialog(
+      {required String routeName, required Object? arguments}) {
     _bindingDI(routeName);
 
     return Get.generalDialog(
-      routeSettings: RouteSettings(arguments: arguments),
-      pageBuilder: (_, __, ___) => _generateView(routeName: routeName, arguments: arguments)
-    );
+        routeSettings: RouteSettings(arguments: arguments),
+        pageBuilder: (_, __, ___) =>
+            _generateView(routeName: routeName, arguments: arguments));
   }
 
   static void _bindingDI(String routeName) {
     log('DialogRouter::_bindingDI():routeName: $routeName');
-    switch(routeName) {
+    switch (routeName) {
       case AppRoutes.mailboxCreator:
         MailboxCreatorBindings().dependencies();
         break;
@@ -44,9 +40,10 @@ class DialogRouter {
     }
   }
 
-  static Widget _generateView({required String routeName, required Object? arguments}) {
+  static Widget _generateView(
+      {required String routeName, required Object? arguments}) {
     log('DialogRouter::_generateView():routeName: $routeName | arguments: $arguments');
-    switch(routeName) {
+    switch (routeName) {
       case AppRoutes.mailboxCreator:
         return MailboxCreatorView();
       case AppRoutes.rulesFilterCreator:

@@ -12,6 +12,5 @@ class GetAllRulesSuccess extends UIState {
 }
 
 class GetAllRulesFailure extends FeatureFailure {
-
   GetAllRulesFailure(dynamic exception) : super(exception: exception);
 }

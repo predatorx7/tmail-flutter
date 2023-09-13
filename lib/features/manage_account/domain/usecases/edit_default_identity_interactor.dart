@@ -16,53 +16,46 @@ class EditDefaultIdentityInteractor {
   final IdentityRepository _identityRepository;
   final IdentityUtils _identityUtils;
 
-  EditDefaultIdentityInteractor(
-    this._identityRepository,
-    this._identityUtils
-  );
+  EditDefaultIdentityInteractor(this._identityRepository, this._identityUtils);
 
-  Stream<Either<Failure, Success>> execute(
-    Session session,
-    AccountId accountId,
-    EditIdentityRequest editIdentityRequest
-  ) async* {
+  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId,
+      EditIdentityRequest editIdentityRequest) async* {
     try {
       yield Right(EditDefaultIdentityLoading());
 
       final defaultIdentities = await _getDefaultIdentities(session, accountId);
-      _removeEditIdentityFromDefaultIdentities(defaultIdentities, editIdentityRequest.identityId);
+      _removeEditIdentityFromDefaultIdentities(
+          defaultIdentities, editIdentityRequest.identityId);
 
       final editDefaultRequest = EditDefaultIdentityRequest(
-        identityId: editIdentityRequest.identityId, 
-        identityRequest: editIdentityRequest.identityRequest,
-        isDefaultIdentity: editIdentityRequest.isDefaultIdentity,
-        oldDefaultIdentityIds: defaultIdentities
-            ?.map((identity) => identity.id!)
-            .toList());
+          identityId: editIdentityRequest.identityId,
+          identityRequest: editIdentityRequest.identityRequest,
+          isDefaultIdentity: editIdentityRequest.isDefaultIdentity,
+          oldDefaultIdentityIds:
+              defaultIdentities?.map((identity) => identity.id!).toList());
 
-      final result = await _identityRepository.editIdentity(session, accountId, editDefaultRequest);
-      yield result ? Right(EditDefaultIdentitySuccess()) : Left(EditDefaultIdentityFailure(null));
+      final result = await _identityRepository.editIdentity(
+          session, accountId, editDefaultRequest);
+      yield result
+          ? Right(EditDefaultIdentitySuccess())
+          : Left(EditDefaultIdentityFailure(null));
     } catch (exception) {
       yield Left(EditDefaultIdentityFailure(exception));
     }
   }
 
-  Future<List<Identity>?> _getDefaultIdentities(Session session, AccountId accountId) async {
-    final listIdentities = await _identityRepository
-      .getAllIdentities(
-        session,
-        accountId,
-        properties: Properties({'sortOrder'})
-      );
+  Future<List<Identity>?> _getDefaultIdentities(
+      Session session, AccountId accountId) async {
+    final listIdentities = await _identityRepository.getAllIdentities(
+        session, accountId,
+        properties: Properties({'sortOrder'}));
     return _identityUtils
         .getSmallestOrderedIdentity(listIdentities.identities)
         ?.toList();
   }
 
   void _removeEditIdentityFromDefaultIdentities(
-    List<Identity>? defaultIdentities, 
-    IdentityId editIdentityId
-  ) {
+      List<Identity>? defaultIdentities, IdentityId editIdentityId) {
     defaultIdentities?.removeWhere((identity) => identity.id == editIdentityId);
   }
 }

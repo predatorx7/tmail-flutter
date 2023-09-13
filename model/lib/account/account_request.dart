@@ -19,7 +19,8 @@ class AccountRequest with EquatableMixin {
     this.authenticationType = AuthenticationType.none,
   });
 
-  String get basicAuth => 'Basic ${base64Encode(utf8.encode('${userName?.value}:${password?.value}'))}';
+  String get basicAuth =>
+      'Basic ${base64Encode(utf8.encode('${userName?.value}:${password?.value}'))}';
 
   String get bearerToken => 'Bearer ${token?.token}';
 

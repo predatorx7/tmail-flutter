@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/resources/image_paths.dart';
 import 'package:core/presentation/utils/style_utils.dart';
@@ -14,7 +13,6 @@ import 'package:tmail_ui_user/features/rules_filter_creator/presentation/model/e
 typedef OnTapActionCallback<T> = Function(T? value);
 
 class RuleFilterButtonField<T> extends StatelessWidget {
-
   final T? value;
   final OnTapActionCallback? tapActionCallback;
   final Color? borderColor;
@@ -42,7 +40,8 @@ class RuleFilterButtonField<T> extends StatelessWidget {
             color: Colors.white),
         padding: const EdgeInsets.only(left: 12, right: 10),
         child: Row(children: [
-          Expanded(child: Text(
+          Expanded(
+              child: Text(
             _getName(context, value),
             style: const TextStyle(
                 fontSize: 16,

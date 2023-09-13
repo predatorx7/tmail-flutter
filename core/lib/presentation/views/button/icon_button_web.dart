@@ -1,4 +1,3 @@
-
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -6,7 +5,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 typedef IconWebCallback = void Function();
 typedef IconWebHasPositionCallback = void Function(RelativeRect);
 typedef OnTapIconButtonCallbackAction = void Function();
-typedef OnTapDownIconButtonCallbackAction = void Function(TapDownDetails tapDetails);
+typedef OnTapDownIconButtonCallbackAction = void Function(
+    TapDownDetails tapDetails);
 
 Widget buildIconWeb({
   required Widget icon,
@@ -27,12 +27,13 @@ Widget buildIconWeb({
           icon: icon,
           focusColor: colorFocus,
           iconSize: iconSize,
-          constraints: minSize != null ? BoxConstraints(minWidth: minSize, minHeight: minSize) : null,
+          constraints: minSize != null
+              ? BoxConstraints(minWidth: minSize, minHeight: minSize)
+              : null,
           padding: iconPadding ?? const EdgeInsets.all(8.0),
           splashRadius: splashRadius ?? 15,
           tooltip: tooltip ?? '',
-          onPressed: onTap)
-  );
+          onPressed: onTap));
 }
 
 Widget buildSVGIconButton({
@@ -66,17 +67,17 @@ Widget buildSVGIconButton({
   }
 
   return Material(
-    color: Colors.transparent,
-    child: InkWell(
-      onTap: onTap,
-      onTapDown: onTapDown,
-      customBorder: const CircleBorder(),
-      child: itemChild,
-    )
-  );
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        onTapDown: onTapDown,
+        customBorder: const CircleBorder(),
+        child: itemChild,
+      ));
 }
 
-Widget buildIconWebHasPosition(BuildContext context, {
+Widget buildIconWebHasPosition(
+  BuildContext context, {
   required Widget icon,
   String? tooltip,
   IconWebHasPositionCallback? onTapDown,
@@ -94,12 +95,12 @@ Widget buildIconWebHasPosition(BuildContext context, {
         child: Tooltip(
           message: tooltip ?? '',
           child: icon,
-        )
-    ),
+        )),
   );
 }
 
-Widget buildTextIcon(String text, {
+Widget buildTextIcon(
+  String text, {
   TextStyle? textStyle,
   EdgeInsetsGeometry? padding,
   IconWebCallback? onTap,
@@ -110,13 +111,17 @@ Widget buildTextIcon(String text, {
       child: InkWell(
           child: Padding(
               padding: padding ?? const EdgeInsets.all(10),
-              child: Text(text, style: textStyle ?? const TextStyle(fontWeight: FontWeight.normal, fontSize: 15, color: AppColor.lineItemListColor))),
-          onTap: () => onTap?.call()
-      )
-  );
+              child: Text(text,
+                  style: textStyle ??
+                      const TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 15,
+                          color: AppColor.lineItemListColor))),
+          onTap: () => onTap?.call()));
 }
 
-Widget buildTextButton(String text, {
+Widget buildTextButton(
+  String text, {
   TextStyle? textStyle,
   double? width,
   double? height,
@@ -132,34 +137,35 @@ Widget buildTextButton(String text, {
     child: ElevatedButton(
         focusNode: focusNode,
         style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.resolveWith((states) => backgroundColor ?? AppColor.colorTextButton),
+            backgroundColor: MaterialStateProperty.resolveWith(
+                (states) => backgroundColor ?? AppColor.colorTextButton),
             elevation: MaterialStateProperty.resolveWith((states) => 0),
             padding: MaterialStateProperty.resolveWith<EdgeInsetsGeometry>(
-                (Set<MaterialState> states) => padding ?? const EdgeInsets.symmetric(horizontal: 8)),
-            shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius ?? 0)))),
-        child: Text(
-            text,
+                (Set<MaterialState> states) =>
+                    padding ?? const EdgeInsets.symmetric(horizontal: 8)),
+            shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(radius ?? 0)))),
+        child: Text(text,
             textAlign: TextAlign.center,
-            style: textStyle ?? const TextStyle(
-                fontSize: 17,
-                color: Colors.white,
-                fontWeight: FontWeight.w500)),
-        onPressed: () => onTap?.call()
-    ),
+            style: textStyle ??
+                const TextStyle(
+                    fontSize: 17,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500)),
+        onPressed: () => onTap?.call()),
   );
 }
 
-Widget buildButtonWrapText(String name, {
-  TextStyle? textStyle,
-  Color? bgColor,
-  Color? borderColor,
-  double? radius,
-  double? height,
-  double? minWidth,
-  EdgeInsetsGeometry? padding,
-  FocusNode? focusNode,
-  IconWebCallback? onTap
-}) {
+Widget buildButtonWrapText(String name,
+    {TextStyle? textStyle,
+    Color? bgColor,
+    Color? borderColor,
+    double? radius,
+    double? height,
+    double? minWidth,
+    EdgeInsetsGeometry? padding,
+    FocusNode? focusNode,
+    IconWebCallback? onTap}) {
   return Container(
     height: height ?? 40,
     padding: padding,
@@ -169,14 +175,16 @@ Widget buildButtonWrapText(String name, {
       onPressed: () => onTap?.call(),
       style: ButtonStyle(
           backgroundColor: MaterialStateProperty.resolveWith<Color>(
-              (Set<MaterialState> states) => bgColor ?? AppColor.colorTextButton),
+              (Set<MaterialState> states) =>
+                  bgColor ?? AppColor.colorTextButton),
           shape: MaterialStateProperty.all(RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(radius ?? 8),
               side: BorderSide(
                   width: borderColor != null ? 1 : 0,
                   color: borderColor ?? bgColor ?? AppColor.colorTextButton))),
           padding: MaterialStateProperty.resolveWith<EdgeInsets>(
-              (Set<MaterialState> states) => const EdgeInsets.symmetric(horizontal: 16)),
+              (Set<MaterialState> states) =>
+                  const EdgeInsets.symmetric(horizontal: 16)),
           elevation: MaterialStateProperty.resolveWith<double>(
               (Set<MaterialState> states) => 0)),
       child: Text(name,

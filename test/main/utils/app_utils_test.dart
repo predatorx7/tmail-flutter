@@ -5,7 +5,6 @@ import 'package:tmail_ui_user/main/utils/app_utils.dart';
 
 void main() {
   group('Validation email address test', () {
-
     final emailsValid = [
       EmailAddress("userName", "alice@localhost"),
       EmailAddress("userName", "bob@localhost"),

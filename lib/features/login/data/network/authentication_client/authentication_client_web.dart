@@ -1,4 +1,3 @@
-
 import 'package:core/utils/app_logger.dart';
 import 'package:flutter_appauth_platform_interface/flutter_appauth_platform_interface.dart';
 import 'package:get/get.dart';
@@ -16,7 +15,6 @@ import 'package:tmail_ui_user/features/login/domain/extensions/oidc_configuratio
 import 'package:universal_html/html.dart' as html;
 
 class AuthenticationClientWeb implements AuthenticationClientBase {
-
   final AppAuthWebPlugin _appAuthWeb;
 
   AuthenticationClientWeb(this._appAuthWeb);
@@ -24,12 +22,12 @@ class AuthenticationClientWeb implements AuthenticationClientBase {
   @override
   Future<TokenOIDC> getTokenOIDC(String clientId, String redirectUrl,
       String discoveryUrl, List<String> scopes) async {
-    final authorizationTokenResponse = await _appAuthWeb.authorizeAndExchangeCode(AuthorizationTokenRequest(
-        clientId,
-        redirectUrl,
-        discoveryUrl: discoveryUrl,
-        scopes: scopes,
-        preferEphemeralSession: true));
+    final authorizationTokenResponse =
+        await _appAuthWeb.authorizeAndExchangeCode(AuthorizationTokenRequest(
+            clientId, redirectUrl,
+            discoveryUrl: discoveryUrl,
+            scopes: scopes,
+            preferEphemeralSession: true));
 
     log('AuthClientMobile::getTokenOIDC(): token: ${authorizationTokenResponse?.accessToken}');
 
@@ -46,19 +44,21 @@ class AuthenticationClientWeb implements AuthenticationClientBase {
   }
 
   @override
-  Future<bool> logoutOidc(TokenId tokenId, OIDCConfiguration config, OIDCDiscoveryResponse oidcRescovery) async {
-    final authorizationServiceConfiguration = oidcRescovery.authorizationEndpoint == null || oidcRescovery.tokenEndpoint == null
-      ? null
-      : AuthorizationServiceConfiguration(
-          authorizationEndpoint: oidcRescovery.authorizationEndpoint!,
-          tokenEndpoint: oidcRescovery.tokenEndpoint!,
-          endSessionEndpoint: oidcRescovery.endSessionEndpoint);
+  Future<bool> logoutOidc(TokenId tokenId, OIDCConfiguration config,
+      OIDCDiscoveryResponse oidcRescovery) async {
+    final authorizationServiceConfiguration =
+        oidcRescovery.authorizationEndpoint == null ||
+                oidcRescovery.tokenEndpoint == null
+            ? null
+            : AuthorizationServiceConfiguration(
+                authorizationEndpoint: oidcRescovery.authorizationEndpoint!,
+                tokenEndpoint: oidcRescovery.tokenEndpoint!,
+                endSessionEndpoint: oidcRescovery.endSessionEndpoint);
     final endSession = await _appAuthWeb.endSession(EndSessionRequest(
         idTokenHint: tokenId.uuid,
         postLogoutRedirectUrl: config.logoutRedirectUrl,
         discoveryUrl: config.discoveryUrl,
-        serviceConfiguration: authorizationServiceConfiguration
-    ));
+        serviceConfiguration: authorizationServiceConfiguration));
     return endSession != null;
   }
 
@@ -66,15 +66,15 @@ class AuthenticationClientWeb implements AuthenticationClientBase {
   Future<TokenOIDC> refreshingTokensOIDC(String clientId, String redirectUrl,
       String discoveryUrl, List<String> scopes, String refreshToken) async {
     final tokenResponse = await _appAuthWeb.token(TokenRequest(
-        clientId,
-        redirectUrl,
+        clientId, redirectUrl,
         discoveryUrl: discoveryUrl,
         refreshToken: refreshToken,
         grantType: 'refresh_token',
         scopes: scopes));
 
     if (tokenResponse != null) {
-      final tokenOIDC = tokenResponse.toTokenOIDC(maybeAvailableRefreshToken: refreshToken);
+      final tokenOIDC =
+          tokenResponse.toTokenOIDC(maybeAvailableRefreshToken: refreshToken);
       if (tokenOIDC.isTokenValid()) {
         return tokenOIDC;
       } else {
@@ -88,12 +88,9 @@ class AuthenticationClientWeb implements AuthenticationClientBase {
   @override
   Future<void> authenticateOidcOnBrowser(String clientId, String redirectUrl,
       String discoveryUrl, List<String> scopes) async {
-    await _appAuthWeb.authorizeAndExchangeCode(
-        AuthorizationTokenRequest(
-            clientId,
-            redirectUrl,
-            discoveryUrl: discoveryUrl,
-            scopes: scopes));
+    await _appAuthWeb.authorizeAndExchangeCode(AuthorizationTokenRequest(
+        clientId, redirectUrl,
+        discoveryUrl: discoveryUrl, scopes: scopes));
   }
 
   @override

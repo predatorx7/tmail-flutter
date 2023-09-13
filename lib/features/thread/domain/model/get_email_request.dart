@@ -20,26 +20,24 @@ class GetEmailRequest with EquatableMixin {
 
   GetEmailRequest(
     this.session,
-    this.accountId,
-    {
-      this.limit,
-      this.sort,
-      this.filter,
-      this.filterOption,
-      this.properties,
-      this.lastEmailId,
-    }
-  );
+    this.accountId, {
+    this.limit,
+    this.sort,
+    this.filter,
+    this.filterOption,
+    this.properties,
+    this.lastEmailId,
+  });
 
   @override
   List<Object?> get props => [
-    session,
-    accountId,
-    limit,
-    sort,
-    filter,
-    properties,
-    lastEmailId,
-    filterOption
-  ];
+        session,
+        accountId,
+        limit,
+        sort,
+        filter,
+        properties,
+        lastEmailId,
+        filterOption
+      ];
 }

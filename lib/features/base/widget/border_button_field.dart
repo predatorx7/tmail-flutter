@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/utils/style_utils.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:tmail_ui_user/features/manage_account/presentation/extensions/da
 typedef OnTapActionCallback<T> = Function(T? value);
 
 class BorderButtonField<T> extends StatelessWidget {
-
   final T? value;
   final OnTapActionCallback? tapActionCallback;
   final Widget? icon;
@@ -40,13 +38,12 @@ class BorderButtonField<T> extends StatelessWidget {
         height: 44,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(
-                color: _getBorderColor(),
-                width: 0.5),
+            border: Border.all(color: _getBorderColor(), width: 0.5),
             color: backgroundColor ?? Colors.white),
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Row(children: [
-          Expanded(child: Text(
+          Expanded(
+              child: Text(
             _getName(context, value),
             style: _getTextStyle(value),
             maxLines: 1,
@@ -59,10 +56,11 @@ class BorderButtonField<T> extends StatelessWidget {
     );
     if (label != null) {
       return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(label!, style: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.normal,
-          color: AppColor.colorContentEmail)),
+        Text(label!,
+            style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.normal,
+                color: AppColor.colorContentEmail)),
         const SizedBox(height: 8),
         buttonField
       ]);
@@ -74,19 +72,19 @@ class BorderButtonField<T> extends StatelessWidget {
   TextStyle? _getTextStyle(T? value) {
     if (hintText != null && value == null) {
       return const TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.normal,
-        color: AppColor.colorHintInputCreateMailbox);
+          fontSize: 16,
+          fontWeight: FontWeight.normal,
+          color: AppColor.colorHintInputCreateMailbox);
     }
-    return textStyle ?? const TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.normal,
-        color: Colors.black);
+    return textStyle ??
+        const TextStyle(
+            fontSize: 16, fontWeight: FontWeight.normal, color: Colors.black);
   }
 
   String _getName(BuildContext context, T? value) {
     if (value is DateTime) {
-      return value.formatDate(locale: Localizations.localeOf(context).toLanguageTag());
+      return value.formatDate(
+          locale: Localizations.localeOf(context).toLanguageTag());
     }
     if (value is TimeOfDay) {
       return value.formatTime(context);

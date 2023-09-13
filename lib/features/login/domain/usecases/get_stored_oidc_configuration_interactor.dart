@@ -13,7 +13,8 @@ class GetStoredOidcConfigurationInteractor {
   Stream<Either<Failure, Success>> execute() async* {
     try {
       yield Right(GetStoredOidcConfigurationLoading());
-      final config = await _authenticationOIDCRepository.getStoredOidcConfiguration();
+      final config =
+          await _authenticationOIDCRepository.getStoredOidcConfiguration();
       yield Right(GetStoredOidcConfigurationSuccess(config));
     } catch (e) {
       log('GetStoredOidcConfigurationInteractor::execute(): $e');

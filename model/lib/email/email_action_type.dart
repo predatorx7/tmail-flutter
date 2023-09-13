@@ -1,4 +1,3 @@
-
 enum EmailActionType {
   reply,
   forward,

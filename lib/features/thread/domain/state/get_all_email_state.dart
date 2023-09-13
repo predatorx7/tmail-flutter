@@ -18,6 +18,5 @@ class GetAllEmailSuccess extends UIState {
 }
 
 class GetAllEmailFailure extends FeatureFailure {
-
   GetAllEmailFailure(dynamic exception) : super(exception: exception);
 }

@@ -1,8 +1,6 @@
-
 import 'package:flutter/material.dart';
 
 class InputFieldFocusManager {
-
   late FocusNode fromFieldFocusNode;
   late FocusNode toFieldFocusNode;
   late FocusNode subjectFieldFocusNode;

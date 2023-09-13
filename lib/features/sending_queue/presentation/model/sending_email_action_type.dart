@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:tmail_ui_user/features/base/state/button_state.dart';
@@ -11,7 +10,7 @@ enum SendingEmailActionType {
   delete;
 
   String getButtonTitle(BuildContext context) {
-    switch(this) {
+    switch (this) {
       case SendingEmailActionType.delete:
         return AppLocalizations.of(context).delete;
       case SendingEmailActionType.edit:
@@ -24,7 +23,7 @@ enum SendingEmailActionType {
   }
 
   String getButtonKey() {
-    switch(this) {
+    switch (this) {
       case SendingEmailActionType.delete:
         return 'button_delete_sending_email';
       case SendingEmailActionType.edit:
@@ -37,9 +36,10 @@ enum SendingEmailActionType {
   }
 
   Color getButtonIconColor(ButtonState buttonState) {
-    switch(this) {
+    switch (this) {
       case SendingEmailActionType.delete:
-        return AppColor.colorDeletePermanentlyButton.withOpacity(buttonState.opacity);
+        return AppColor.colorDeletePermanentlyButton
+            .withOpacity(buttonState.opacity);
       case SendingEmailActionType.edit:
       case SendingEmailActionType.resend:
         return AppColor.primaryColor.withOpacity(buttonState.opacity);
@@ -49,9 +49,10 @@ enum SendingEmailActionType {
   }
 
   Color getButtonTitleColor(ButtonState buttonState) {
-    switch(this) {
+    switch (this) {
       case SendingEmailActionType.delete:
-        return AppColor.colorDeletePermanentlyButton.withOpacity(buttonState.opacity);
+        return AppColor.colorDeletePermanentlyButton
+            .withOpacity(buttonState.opacity);
       case SendingEmailActionType.edit:
       case SendingEmailActionType.resend:
         return AppColor.primaryColor.withOpacity(buttonState.opacity);

@@ -15,7 +15,8 @@ class AddTargetBlankInTagATransformer extends DomTransformer {
     await Future.wait(elements.map((element) async {
       element.attributes['target'] = '_blank';
       final rel = element.attributes['rel'];
-      if (rel == null || (!rel.contains('noopener') && !rel.contains('noreferrer'))) {
+      if (rel == null ||
+          (!rel.contains('noopener') && !rel.contains('noreferrer'))) {
         element.attributes['rel'] = 'noreferrer';
       }
     }));

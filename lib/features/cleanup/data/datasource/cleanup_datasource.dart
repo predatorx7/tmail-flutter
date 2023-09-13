@@ -1,4 +1,3 @@
-
 import 'package:tmail_ui_user/features/cleanup/domain/model/email_cleanup_rule.dart';
 import 'package:tmail_ui_user/features/cleanup/domain/model/recent_login_url_cleanup_rule.dart';
 import 'package:tmail_ui_user/features/cleanup/domain/model/recent_login_username_cleanup_rule.dart';
@@ -11,5 +10,6 @@ abstract class CleanupDataSource {
 
   Future<void> cleanRecentLoginUrlCache(RecentLoginUrlCleanupRule cleanupRule);
 
-  Future<void> cleanRecentLoginUsernameCache(RecentLoginUsernameCleanupRule cleanupRule);
+  Future<void> cleanRecentLoginUsernameCache(
+      RecentLoginUsernameCleanupRule cleanupRule);
 }

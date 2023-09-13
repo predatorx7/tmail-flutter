@@ -1,4 +1,3 @@
-
 import 'package:core/domain/extensions/media_type_extension.dart';
 import 'package:core/presentation/resources/image_paths.dart';
 import 'package:core/utils/app_logger.dart';
@@ -11,7 +10,6 @@ import 'package:tmail_ui_user/features/upload/domain/model/upload_task_id.dart';
 import 'package:tmail_ui_user/features/upload/presentation/model/upload_file_status.dart';
 
 class UploadFileState with EquatableMixin {
-
   final FileInfo? file;
   final UploadTaskId uploadTaskId;
   final UploadFileStatus uploadStatus;
@@ -19,7 +17,8 @@ class UploadFileState with EquatableMixin {
   final Attachment? attachment;
   final CancelToken? cancelToken;
 
-  UploadFileState(this.uploadTaskId, {
+  UploadFileState(
+    this.uploadTaskId, {
     this.file,
     this.uploadStatus = UploadFileStatus.waiting,
     this.uploadingProgress = 0,
@@ -27,22 +26,19 @@ class UploadFileState with EquatableMixin {
     this.cancelToken,
   });
 
-  UploadFileState copyWith({
-    UploadTaskId? uploadTaskId,
-    FileInfo? file,
-    UploadFileStatus? uploadStatus,
-    int? uploadingProgress,
-    Attachment? attachment,
-    CancelToken? cancelToken
-  }) {
-    return UploadFileState(
-      uploadTaskId ?? this.uploadTaskId,
-      file: file ?? this.file,
-      uploadStatus: uploadStatus ?? this.uploadStatus,
-      uploadingProgress: uploadingProgress ?? this.uploadingProgress,
-      attachment: attachment ?? this.attachment,
-      cancelToken: cancelToken ?? this.cancelToken
-    );
+  UploadFileState copyWith(
+      {UploadTaskId? uploadTaskId,
+      FileInfo? file,
+      UploadFileStatus? uploadStatus,
+      int? uploadingProgress,
+      Attachment? attachment,
+      CancelToken? cancelToken}) {
+    return UploadFileState(uploadTaskId ?? this.uploadTaskId,
+        file: file ?? this.file,
+        uploadStatus: uploadStatus ?? this.uploadStatus,
+        uploadingProgress: uploadingProgress ?? this.uploadingProgress,
+        attachment: attachment ?? this.attachment,
+        cancelToken: cancelToken ?? this.cancelToken);
   }
 
   num get fileSize {
@@ -91,11 +87,6 @@ class UploadFileState with EquatableMixin {
   }
 
   @override
-  List<Object?> get props => [
-    uploadTaskId,
-    file,
-    uploadStatus,
-    uploadingProgress,
-    attachment
-  ];
+  List<Object?> get props =>
+      [uploadTaskId, file, uploadStatus, uploadingProgress, attachment];
 }

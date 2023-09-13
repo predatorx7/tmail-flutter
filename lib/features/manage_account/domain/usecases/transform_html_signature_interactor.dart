@@ -15,8 +15,10 @@ class TransformHtmlSignatureInteractor {
   Stream<Either<Failure, Success>> execute(String signature) async* {
     try {
       yield Right<Failure, Success>(TransformHtmlSignatureLoading());
-      final signatureUnescape = await _identityRepository.transformHtmlSignature(signature);
-      yield Right<Failure, Success>(TransformHtmlSignatureSuccess(signatureUnescape));
+      final signatureUnescape =
+          await _identityRepository.transformHtmlSignature(signature);
+      yield Right<Failure, Success>(
+          TransformHtmlSignatureSuccess(signatureUnescape));
     } catch (exception) {
       yield Left<Failure, Success>(EditIdentityFailure(exception));
     }

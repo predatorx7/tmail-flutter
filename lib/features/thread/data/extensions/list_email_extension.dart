@@ -1,4 +1,3 @@
-
 import 'package:jmap_dart_client/jmap/account_id.dart';
 import 'package:jmap_dart_client/jmap/core/user_name.dart';
 import 'package:jmap_dart_client/jmap/mail/email/email.dart';
@@ -12,7 +11,8 @@ extension ListEmailExtension on List<Email> {
   Map<String, EmailCache> toMapCache(AccountId accountId, UserName userName) {
     return {
       for (var email in this)
-        TupleKey(email.id!.asString, accountId.asString, userName.value).encodeKey : email.toEmailCache()
+        TupleKey(email.id!.asString, accountId.asString, userName.value)
+            .encodeKey: email.toEmailCache()
     };
   }
 }

@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/utils/html_transformer/html_utils.dart';
 import 'package:core/utils/app_logger.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +5,6 @@ import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:tmail_ui_user/features/composer/presentation/composer_controller.dart';
 
 class EmailEditorWidget extends StatefulWidget {
-
   final ComposerController controller;
   final String content;
   final TextDirection direction;
@@ -23,7 +21,6 @@ class EmailEditorWidget extends StatefulWidget {
 }
 
 class _EmailEditorState extends State<EmailEditorWidget> {
-
   late ComposerController _controller;
   late HtmlEditorController _editorController;
 
@@ -52,24 +49,24 @@ class _EmailEditorState extends State<EmailEditorWidget> {
         shouldEnsureVisible: true,
         hint: '',
         darkMode: false,
-        customBodyCssStyle: HtmlUtils.customCssStyleHtmlEditor(direction: widget.direction),
+        customBodyCssStyle:
+            HtmlUtils.customCssStyleHtmlEditor(direction: widget.direction),
       ),
       blockQuotedContent: widget.content,
       htmlToolbarOptions: const HtmlToolbarOptions(
-        toolbarType: ToolbarType.hide,
-        defaultToolbarButtons: []
-      ),
+          toolbarType: ToolbarType.hide, defaultToolbarButtons: []),
       otherOptions: const OtherOptions(height: 550),
       callbacks: Callbacks(
-        onBeforeCommand: _controller.onChangeTextEditorWeb,
-        onChangeContent: _controller.onChangeTextEditorWeb,
-        onInit: () => _controller.handleInitHtmlEditorWeb(widget.content),
-        onFocus: _controller.handleOnFocusHtmlEditorWeb,
-        onBlur: _controller.handleOnUnFocusHtmlEditorWeb,
-        onMouseDown: () => _controller.handleOnMouseDownHtmlEditorWeb(context),
-        onChangeSelection: _controller.richTextWebController.onEditorSettingsChange,
-        onChangeCodeview: _controller.onChangeTextEditorWeb
-      ),
+          onBeforeCommand: _controller.onChangeTextEditorWeb,
+          onChangeContent: _controller.onChangeTextEditorWeb,
+          onInit: () => _controller.handleInitHtmlEditorWeb(widget.content),
+          onFocus: _controller.handleOnFocusHtmlEditorWeb,
+          onBlur: _controller.handleOnUnFocusHtmlEditorWeb,
+          onMouseDown: () =>
+              _controller.handleOnMouseDownHtmlEditorWeb(context),
+          onChangeSelection:
+              _controller.richTextWebController.onEditorSettingsChange,
+          onChangeCodeview: _controller.onChangeTextEditorWeb),
     );
   }
 }

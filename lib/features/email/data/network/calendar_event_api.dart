@@ -10,23 +10,27 @@ import 'package:jmap_dart_client/jmap/mail/calendar/parse/calendar_event_parse_r
 import 'package:tmail_ui_user/features/email/domain/exceptions/calendar_event_exceptions.dart';
 
 class CalendarEventAPI {
-
   final HttpClient _httpClient;
 
   CalendarEventAPI(this._httpClient);
 
-  Future<List<CalendarEvent>> parse(AccountId accountId, Set<Id> blobIds) async {
-    final requestBuilder = JmapRequestBuilder(_httpClient, ProcessingInvocation());
-    final calendarEventParseMethod = CalendarEventParseMethod(accountId, blobIds);
-    final calendarEventParseInvocation = requestBuilder.invocation(calendarEventParseMethod);
+  Future<List<CalendarEvent>> parse(
+      AccountId accountId, Set<Id> blobIds) async {
+    final requestBuilder =
+        JmapRequestBuilder(_httpClient, ProcessingInvocation());
+    final calendarEventParseMethod =
+        CalendarEventParseMethod(accountId, blobIds);
+    final calendarEventParseInvocation =
+        requestBuilder.invocation(calendarEventParseMethod);
     final response = await (requestBuilder
-        ..usings(calendarEventParseMethod.requiredCapabilities))
-      .build()
-      .execute();
+          ..usings(calendarEventParseMethod.requiredCapabilities))
+        .build()
+        .execute();
 
-    final calendarEventParseResponse = response.parse<CalendarEventParseResponse>(
-      calendarEventParseInvocation.methodCallId,
-      CalendarEventParseResponse.deserialize);
+    final calendarEventParseResponse =
+        response.parse<CalendarEventParseResponse>(
+            calendarEventParseInvocation.methodCallId,
+            CalendarEventParseResponse.deserialize);
 
     if (calendarEventParseResponse?.parsed?.isNotEmpty == true) {
       return calendarEventParseResponse!.parsed!.values.toList();

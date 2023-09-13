@@ -5,7 +5,6 @@ import 'package:tmail_ui_user/features/push_notification/domain/repository/fcm_r
 import 'package:tmail_ui_user/features/push_notification/domain/state/destroy_subscription_state.dart';
 
 class DestroySubscriptionInteractor {
-
   final FCMRepository _fcmRepository;
 
   DestroySubscriptionInteractor(this._fcmRepository);
@@ -13,8 +12,10 @@ class DestroySubscriptionInteractor {
   Stream<Either<Failure, Success>> execute(String subscriptionId) async* {
     try {
       yield Right<Failure, Success>(DestroySubscriptionLoading());
-      final destroyedSubscription = await _fcmRepository.destroySubscription(subscriptionId);
-      yield Right<Failure, Success>(DestroySubscriptionSuccess(destroyedSubscription));
+      final destroyedSubscription =
+          await _fcmRepository.destroySubscription(subscriptionId);
+      yield Right<Failure, Success>(
+          DestroySubscriptionSuccess(destroyedSubscription));
     } catch (e) {
       yield Left<Failure, Success>(DestroySubscriptionFailure(e));
     }

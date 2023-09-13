@@ -1,4 +1,3 @@
-
 import 'package:collection/collection.dart';
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/resources/image_paths.dart';
@@ -13,9 +12,8 @@ import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 import 'package:tmail_ui_user/main/utils/app_utils.dart';
 
 extension CalendarEventExtension on CalendarEvent {
-
   Color getColorEventActionBanner(List<String> listEmailAddressSender) {
-    switch(method) {
+    switch (method) {
       case EventMethod.request:
       case EventMethod.add:
         return AppColor.colorInvitedEventActionText;
@@ -26,9 +24,11 @@ extension CalendarEventExtension on CalendarEvent {
       case EventMethod.declineCounter:
         return AppColor.colorCanceledEventActionText;
       case EventMethod.reply:
-        final matchedAttendee = findAttendeeHasUpdatedStatus(listEmailAddressSender);
+        final matchedAttendee =
+            findAttendeeHasUpdatedStatus(listEmailAddressSender);
         if (matchedAttendee != null) {
-          return getAttendeeMessageTextColor(matchedAttendee.participationStatus);
+          return getAttendeeMessageTextColor(
+              matchedAttendee.participationStatus);
         } else {
           return Colors.transparent;
         }
@@ -38,7 +38,7 @@ extension CalendarEventExtension on CalendarEvent {
   }
 
   Color getColorEventActionText(List<String> listEmailAddressSender) {
-    switch(method) {
+    switch (method) {
       case EventMethod.request:
       case EventMethod.add:
         return AppColor.colorInvitedEventActionText;
@@ -49,9 +49,11 @@ extension CalendarEventExtension on CalendarEvent {
       case EventMethod.declineCounter:
         return AppColor.colorCanceledEventActionText;
       case EventMethod.reply:
-        final matchedAttendee = findAttendeeHasUpdatedStatus(listEmailAddressSender);
+        final matchedAttendee =
+            findAttendeeHasUpdatedStatus(listEmailAddressSender);
         if (matchedAttendee != null) {
-          return getAttendeeMessageTextColor(matchedAttendee.participationStatus);
+          return getAttendeeMessageTextColor(
+              matchedAttendee.participationStatus);
         } else {
           return Colors.transparent;
         }
@@ -61,7 +63,7 @@ extension CalendarEventExtension on CalendarEvent {
   }
 
   String getIconEventAction(ImagePaths imagePaths) {
-    switch(method) {
+    switch (method) {
       case EventMethod.request:
       case EventMethod.add:
         return imagePaths.icEventInvited;
@@ -74,33 +76,41 @@ extension CalendarEventExtension on CalendarEvent {
     }
   }
 
-  String getTitleEventAction(BuildContext context, List<String> listEmailAddressSender) {
-    switch(method) {
+  String getTitleEventAction(
+      BuildContext context, List<String> listEmailAddressSender) {
+    switch (method) {
       case EventMethod.request:
       case EventMethod.add:
-        return AppLocalizations.of(context).messageEventActionBannerOrganizerInvited;
+        return AppLocalizations.of(context)
+            .messageEventActionBannerOrganizerInvited;
       case EventMethod.refresh:
-        return AppLocalizations.of(context).messageEventActionBannerOrganizerUpdated;
+        return AppLocalizations.of(context)
+            .messageEventActionBannerOrganizerUpdated;
       case EventMethod.cancel:
-        return AppLocalizations.of(context).messageEventActionBannerOrganizerCanceled;
+        return AppLocalizations.of(context)
+            .messageEventActionBannerOrganizerCanceled;
       case EventMethod.reply:
-        final matchedAttendee = findAttendeeHasUpdatedStatus(listEmailAddressSender);
+        final matchedAttendee =
+            findAttendeeHasUpdatedStatus(listEmailAddressSender);
         if (matchedAttendee != null) {
-          return getAttendeeMessageStatus(context, matchedAttendee.participationStatus);
+          return getAttendeeMessageStatus(
+              context, matchedAttendee.participationStatus);
         } else {
           return '';
         }
       case EventMethod.counter:
-        return AppLocalizations.of(context).messageEventActionBannerAttendeeCounter;
+        return AppLocalizations.of(context)
+            .messageEventActionBannerAttendeeCounter;
       case EventMethod.declineCounter:
-        return AppLocalizations.of(context).messageEventActionBannerAttendeeCounterDeclined;
+        return AppLocalizations.of(context)
+            .messageEventActionBannerAttendeeCounterDeclined;
       default:
         return '';
     }
   }
 
   String getSubTitleEventAction(BuildContext context) {
-    switch(method) {
+    switch (method) {
       case EventMethod.refresh:
         return AppLocalizations.of(context).subMessageEventActionBannerUpdated;
       case EventMethod.cancel:
@@ -110,12 +120,11 @@ extension CalendarEventExtension on CalendarEvent {
     }
   }
 
-  String getUserNameEventAction({
-    required BuildContext context,
-    required ImagePaths imagePaths,
-    required List<String> listEmailAddressSender
-  }) {
-    switch(method) {
+  String getUserNameEventAction(
+      {required BuildContext context,
+      required ImagePaths imagePaths,
+      required List<String> listEmailAddressSender}) {
+    switch (method) {
       case EventMethod.request:
       case EventMethod.add:
       case EventMethod.refresh:
@@ -130,24 +139,32 @@ extension CalendarEventExtension on CalendarEvent {
     }
   }
 
-  String getOrganizerNameEvent(BuildContext context) => organizer?.name ?? AppLocalizations.of(context).you;
+  String getOrganizerNameEvent(BuildContext context) =>
+      organizer?.name ?? AppLocalizations.of(context).you;
 
   String get organizerName => organizer?.name ?? organizer?.mailto?.value ?? '';
 
-  String getAttendeeNameEvent(BuildContext context, List<String> listEmailAddressSender) {
-    final matchedAttendee = findAttendeeHasUpdatedStatus(listEmailAddressSender);
+  String getAttendeeNameEvent(
+      BuildContext context, List<String> listEmailAddressSender) {
+    final matchedAttendee =
+        findAttendeeHasUpdatedStatus(listEmailAddressSender);
     if (matchedAttendee != null) {
-      return matchedAttendee.name?.name ?? AppLocalizations.of(context).anAttendee;
+      return matchedAttendee.name?.name ??
+          AppLocalizations.of(context).anAttendee;
     } else {
       return AppLocalizations.of(context).anAttendee;
     }
   }
 
-  CalendarAttendee? findAttendeeHasUpdatedStatus(List<String> listEmailAddressSender) {
+  CalendarAttendee? findAttendeeHasUpdatedStatus(
+      List<String> listEmailAddressSender) {
     if (participants?.isNotEmpty == true) {
-      final listMatchedAttendee = participants
-        !.where((attendee) => attendee.mailto != null && listEmailAddressSender.contains(attendee.mailto!.mailAddress.value))
-        .whereNotNull();
+      final listMatchedAttendee = participants!
+          .where((attendee) =>
+              attendee.mailto != null &&
+              listEmailAddressSender
+                  .contains(attendee.mailto!.mailAddress.value))
+          .whereNotNull();
       log('CalendarEventExtension::findAttendeeHasUpdatedStatus:listMatchedAttendee: $listMatchedAttendee');
       if (listMatchedAttendee.isNotEmpty) {
         return listMatchedAttendee.first;
@@ -156,19 +173,24 @@ extension CalendarEventExtension on CalendarEvent {
     return null;
   }
 
-  String getAttendeeMessageStatus(BuildContext context, CalendarAttendeeParticipationStatus? status) {
+  String getAttendeeMessageStatus(
+      BuildContext context, CalendarAttendeeParticipationStatus? status) {
     if (status == CalendarAttendeeParticipationStatus('ACCEPTED')) {
-      return AppLocalizations.of(context).messageEventActionBannerAttendeeAccepted;
+      return AppLocalizations.of(context)
+          .messageEventActionBannerAttendeeAccepted;
     } else if (status == CalendarAttendeeParticipationStatus('TENTATIVE')) {
-      return AppLocalizations.of(context).messageEventActionBannerAttendeeTentative;
+      return AppLocalizations.of(context)
+          .messageEventActionBannerAttendeeTentative;
     } else if (status == CalendarAttendeeParticipationStatus('DECLINED')) {
-      return AppLocalizations.of(context).messageEventActionBannerAttendeeDeclined;
+      return AppLocalizations.of(context)
+          .messageEventActionBannerAttendeeDeclined;
     } else {
       return '';
     }
   }
 
-  Color getAttendeeMessageTextColor(CalendarAttendeeParticipationStatus? status) {
+  Color getAttendeeMessageTextColor(
+      CalendarAttendeeParticipationStatus? status) {
     if (status == CalendarAttendeeParticipationStatus('ACCEPTED')) {
       return AppColor.colorUpdatedEventActionText;
     } else if (status == CalendarAttendeeParticipationStatus('TENTATIVE')) {
@@ -186,11 +208,8 @@ extension CalendarEventExtension on CalendarEvent {
 
   String get monthStartDateAsString {
     if (localStartDate != null) {
-      return date_format.formatDate(
-        localStartDate!,
-        [date_format.M],
-        locale: AppUtils.getCurrentDateLocale()
-      );
+      return date_format.formatDate(localStartDate!, [date_format.M],
+          locale: AppUtils.getCurrentDateLocale());
     } else {
       return '';
     }
@@ -198,11 +217,8 @@ extension CalendarEventExtension on CalendarEvent {
 
   String get dayStartDateAsString {
     if (localStartDate != null) {
-      return date_format.formatDate(
-        localStartDate!,
-        [date_format.d],
-        locale: AppUtils.getCurrentDateLocale()
-      );
+      return date_format.formatDate(localStartDate!, [date_format.d],
+          locale: AppUtils.getCurrentDateLocale());
     } else {
       return '';
     }
@@ -210,11 +226,8 @@ extension CalendarEventExtension on CalendarEvent {
 
   String get weekDayStartDateAsString {
     if (localStartDate != null) {
-      return date_format.formatDate(
-        localStartDate!,
-        [date_format.D],
-        locale: AppUtils.getCurrentDateLocale()
-      );
+      return date_format.formatDate(localStartDate!, [date_format.D],
+          locale: AppUtils.getCurrentDateLocale());
     } else {
       return '';
     }
@@ -222,46 +235,37 @@ extension CalendarEventExtension on CalendarEvent {
 
   String formatDateTime(DateTime dateTime) {
     return date_format.formatDate(
-      dateTime,
-      [
-        date_format.DD,
-        ', ',
-        date_format.MM,
-        ' ',
-        date_format.dd,
-        ', ',
-        date_format.yyyy,
-        ' ',
-        date_format.hh,
-        ':',
-        date_format.ss,
-        ' ',
-        date_format.am
-      ],
-      locale: AppUtils.getCurrentDateLocale()
-    );
+        dateTime,
+        [
+          date_format.DD,
+          ', ',
+          date_format.MM,
+          ' ',
+          date_format.dd,
+          ', ',
+          date_format.yyyy,
+          ' ',
+          date_format.hh,
+          ':',
+          date_format.ss,
+          ' ',
+          date_format.am
+        ],
+        locale: AppUtils.getCurrentDateLocale());
   }
 
   String formatTime(DateTime dateTime) {
     return date_format.formatDate(
-      dateTime,
-      [
-        date_format.hh,
-        ':',
-        date_format.ss,
-        ' ',
-        date_format.am
-      ],
-      locale: AppUtils.getCurrentDateLocale()
-    );
+        dateTime, [date_format.hh, ':', date_format.ss, ' ', date_format.am],
+        locale: AppUtils.getCurrentDateLocale());
   }
 
   String get dateTimeEventAsString {
     if (localStartDate != null && localEndDate != null) {
       final timeStart = formatDateTime(localStartDate!);
       final timeEnd = DateUtils.isSameDay(localStartDate, localEndDate)
-        ? formatTime(localEndDate!)
-        : formatDateTime(localEndDate!);
+          ? formatTime(localEndDate!)
+          : formatDateTime(localEndDate!);
       return '$timeStart - $timeEnd';
     } else if (localStartDate != null) {
       return formatDateTime(localStartDate!);
@@ -274,12 +278,13 @@ extension CalendarEventExtension on CalendarEvent {
 
   List<String> get videoConferences {
     if (extensionFields != null && extensionFields!.mapFields.isNotEmpty) {
-      final videoConferences = extensionFields!.mapFields['X-OPENPAAS-VIDEOCONFERENCE'];
+      final videoConferences =
+          extensionFields!.mapFields['X-OPENPAAS-VIDEOCONFERENCE'];
       if (videoConferences != null) {
         final videoConferencesNotEmpty = videoConferences
-          .whereNotNull()
-          .where((link) => link.isNotEmpty)
-          .toList();
+            .whereNotNull()
+            .where((link) => link.isNotEmpty)
+            .toList();
         log('CalendarEventExtension::getListVideoConference: $videoConferencesNotEmpty');
         return videoConferencesNotEmpty;
       }

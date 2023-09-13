@@ -1,4 +1,3 @@
-
 import 'package:jmap_dart_client/jmap/account_id.dart';
 import 'package:rule_filter/rule_filter/tmail_rule.dart';
 import 'package:tmail_ui_user/features/manage_account/data/datasource/rule_filter_datasource.dart';
@@ -9,14 +8,10 @@ import 'package:tmail_ui_user/features/manage_account/domain/model/edit_email_ru
 import 'package:tmail_ui_user/main/exceptions/exception_thrower.dart';
 
 class RuleFilterDataSourceImpl extends RuleFilterDataSource {
-
   final RuleFilterAPI _ruleFilterAPI;
   final ExceptionThrower _exceptionThrower;
 
-  RuleFilterDataSourceImpl(
-    this._ruleFilterAPI,
-    this._exceptionThrower
-  );
+  RuleFilterDataSourceImpl(this._ruleFilterAPI, this._exceptionThrower);
 
   @override
   Future<List<TMailRule>> getAllTMailRule(AccountId accountId) {
@@ -26,26 +21,32 @@ class RuleFilterDataSourceImpl extends RuleFilterDataSource {
   }
 
   @override
-  Future<List<TMailRule>> deleteTMailRule(AccountId accountId, DeleteEmailRuleRequest deleteEmailRuleRequest) {
-
-    deleteEmailRuleRequest.currentEmailRules.remove(deleteEmailRuleRequest.emailRuleDelete);
+  Future<List<TMailRule>> deleteTMailRule(
+      AccountId accountId, DeleteEmailRuleRequest deleteEmailRuleRequest) {
+    deleteEmailRuleRequest.currentEmailRules
+        .remove(deleteEmailRuleRequest.emailRuleDelete);
 
     return Future.sync(() async {
-      return await _ruleFilterAPI.updateListTMailRule(accountId, deleteEmailRuleRequest.currentEmailRules);
+      return await _ruleFilterAPI.updateListTMailRule(
+          accountId, deleteEmailRuleRequest.currentEmailRules);
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<List<TMailRule>> createNewEmailRuleFilter(AccountId accountId, CreateNewEmailRuleFilterRequest ruleFilterRequest) {
+  Future<List<TMailRule>> createNewEmailRuleFilter(
+      AccountId accountId, CreateNewEmailRuleFilterRequest ruleFilterRequest) {
     return Future.sync(() async {
-      return await _ruleFilterAPI.updateListTMailRule(accountId, ruleFilterRequest.newListTMailRules);
+      return await _ruleFilterAPI.updateListTMailRule(
+          accountId, ruleFilterRequest.newListTMailRules);
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<List<TMailRule>> editEmailRuleFilter(AccountId accountId, EditEmailRuleFilterRequest ruleFilterRequest) {
+  Future<List<TMailRule>> editEmailRuleFilter(
+      AccountId accountId, EditEmailRuleFilterRequest ruleFilterRequest) {
     return Future.sync(() async {
-      return await _ruleFilterAPI.updateListTMailRule(accountId, ruleFilterRequest.listTMailRulesUpdated);
+      return await _ruleFilterAPI.updateListTMailRule(
+          accountId, ruleFilterRequest.listTMailRulesUpdated);
     }).catchError(_exceptionThrower.throwException);
   }
 }

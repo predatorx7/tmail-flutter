@@ -8,13 +8,13 @@ class GetStoredTokenOidcSuccess extends UIState {
   final TokenOIDC tokenOidc;
   final OIDCConfiguration oidcConfiguration;
 
-  GetStoredTokenOidcSuccess(this.baseUrl, this.tokenOidc, this.oidcConfiguration);
+  GetStoredTokenOidcSuccess(
+      this.baseUrl, this.tokenOidc, this.oidcConfiguration);
 
   @override
   List<Object?> get props => [baseUrl, tokenOidc, oidcConfiguration];
 }
 
 class GetStoredTokenOidcFailure extends FeatureFailure {
-
   GetStoredTokenOidcFailure(dynamic exception) : super(exception: exception);
 }

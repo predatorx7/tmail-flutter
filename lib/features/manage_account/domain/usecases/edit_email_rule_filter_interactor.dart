@@ -13,13 +13,11 @@ class EditEmailRuleFilterInteractor {
 
   EditEmailRuleFilterInteractor(this._ruleFilterRepository);
 
-  Stream<Either<Failure, Success>> execute(
-      AccountId accountId,
-      EditEmailRuleFilterRequest ruleFilterRequest
-  ) async* {
+  Stream<Either<Failure, Success>> execute(AccountId accountId,
+      EditEmailRuleFilterRequest ruleFilterRequest) async* {
     try {
-      final newListRules = await _ruleFilterRepository
-          .editEmailRuleFilter(accountId, ruleFilterRequest);
+      final newListRules = await _ruleFilterRepository.editEmailRuleFilter(
+          accountId, ruleFilterRequest);
       yield Right(EditEmailRuleFilterSuccess(newListRules));
     } catch (exception) {
       yield Left(EditEmailRuleFilterFailure(exception));

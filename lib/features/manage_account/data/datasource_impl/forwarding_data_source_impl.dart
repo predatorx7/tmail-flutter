@@ -8,7 +8,6 @@ import 'package:tmail_ui_user/features/manage_account/domain/model/edit_local_co
 import 'package:tmail_ui_user/main/exceptions/exception_thrower.dart';
 
 class ForwardingDataSourceImpl extends ForwardingDataSource {
-
   final ForwardingAPI _forwardingAPI;
   final ExceptionThrower _exceptionThrower;
 
@@ -22,23 +21,29 @@ class ForwardingDataSourceImpl extends ForwardingDataSource {
   }
 
   @override
-  Future<TMailForward> deleteRecipientInForwarding(AccountId accountId, DeleteRecipientInForwardingRequest deleteRequest) {
+  Future<TMailForward> deleteRecipientInForwarding(
+      AccountId accountId, DeleteRecipientInForwardingRequest deleteRequest) {
     return Future.sync(() async {
-      return await _forwardingAPI.updateForward(accountId, deleteRequest.newTMailForward);
+      return await _forwardingAPI.updateForward(
+          accountId, deleteRequest.newTMailForward);
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<TMailForward> addRecipientsInForwarding(AccountId accountId, AddRecipientInForwardingRequest addRequest) {
+  Future<TMailForward> addRecipientsInForwarding(
+      AccountId accountId, AddRecipientInForwardingRequest addRequest) {
     return Future.sync(() async {
-      return await _forwardingAPI.updateForward(accountId, addRequest.newTMailForward);
+      return await _forwardingAPI.updateForward(
+          accountId, addRequest.newTMailForward);
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<TMailForward> editLocalCopyInForwarding(AccountId accountId, EditLocalCopyInForwardingRequest editRequest) {
+  Future<TMailForward> editLocalCopyInForwarding(
+      AccountId accountId, EditLocalCopyInForwardingRequest editRequest) {
     return Future.sync(() async {
-      return await _forwardingAPI.updateForward(accountId, editRequest.newTMailForward);
+      return await _forwardingAPI.updateForward(
+          accountId, editRequest.newTMailForward);
     }).catchError(_exceptionThrower.throwException);
   }
 }

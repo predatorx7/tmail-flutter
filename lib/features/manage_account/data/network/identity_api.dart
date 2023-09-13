@@ -1,4 +1,3 @@
-
 import 'package:jmap_dart_client/http/http_client.dart';
 import 'package:jmap_dart_client/jmap/account_id.dart';
 import 'package:jmap_dart_client/jmap/core/capability/capability_identifier.dart';
@@ -25,124 +24,125 @@ class IdentityAPI {
 
   IdentityAPI(this._httpClient);
 
-  Future<IdentitiesResponse> getAllIdentities(Session session, AccountId accountId, {Properties? properties}) async {
-    final requestBuilder = JmapRequestBuilder(_httpClient, ProcessingInvocation());
+  Future<IdentitiesResponse> getAllIdentities(
+      Session session, AccountId accountId,
+      {Properties? properties}) async {
+    final requestBuilder =
+        JmapRequestBuilder(_httpClient, ProcessingInvocation());
     final getIdentityMethod = GetIdentityMethod(accountId);
     if (properties != null) {
       getIdentityMethod.addProperties(properties);
     }
 
-    final jamesSortOrderIsSupported = [CapabilityIdentifier.jamesSortOrder].isSupported(session, accountId);
+    final jamesSortOrderIsSupported =
+        [CapabilityIdentifier.jamesSortOrder].isSupported(session, accountId);
     final capabilitySupported = jamesSortOrderIsSupported
-      ? getIdentityMethod.requiredCapabilitiesSupportSortOrder
-      : getIdentityMethod.requiredCapabilities;
+        ? getIdentityMethod.requiredCapabilitiesSupportSortOrder
+        : getIdentityMethod.requiredCapabilities;
 
     final queryInvocation = requestBuilder.invocation(getIdentityMethod);
 
-    final result = await (requestBuilder
-        ..usings(capabilitySupported))
-      .build()
-      .execute();
+    final result =
+        await (requestBuilder..usings(capabilitySupported)).build().execute();
 
     final response = result.parse<GetIdentityResponse>(
-        queryInvocation.methodCallId,
-        GetIdentityResponse.deserialize);
+        queryInvocation.methodCallId, GetIdentityResponse.deserialize);
 
-    return IdentitiesResponse(identities: response?.list, state: response?.state);
+    return IdentitiesResponse(
+        identities: response?.list, state: response?.state);
   }
 
-  Future<Identity> createNewIdentity(Session session, AccountId accountId, CreateNewIdentityRequest identityRequest) async {
+  Future<Identity> createNewIdentity(Session session, AccountId accountId,
+      CreateNewIdentityRequest identityRequest) async {
     final setIdentityMethod = SetIdentityMethod(accountId)
       ..addCreate(identityRequest.creationId, identityRequest.newIdentity);
 
-    final jamesSortOrderIsSupported = [CapabilityIdentifier.jamesSortOrder].isSupported(session, accountId);
+    final jamesSortOrderIsSupported =
+        [CapabilityIdentifier.jamesSortOrder].isSupported(session, accountId);
     final capabilitySupported = jamesSortOrderIsSupported
-      ? setIdentityMethod.requiredCapabilitiesSupportSortOrder
-      : setIdentityMethod.requiredCapabilities;
+        ? setIdentityMethod.requiredCapabilitiesSupportSortOrder
+        : setIdentityMethod.requiredCapabilities;
 
     if (jamesSortOrderIsSupported &&
         identityRequest is CreateNewDefaultIdentityRequest &&
-        identityRequest.oldDefaultIdentityIds != null
-    ) {
-      setIdentityMethod.addUpdates(
-        identityRequest.oldDefaultIdentityIds!.generateMapUpdateObjectSortOrder(sortOrder: UnsignedInt(100))
-      );
+        identityRequest.oldDefaultIdentityIds != null) {
+      setIdentityMethod.addUpdates(identityRequest.oldDefaultIdentityIds!
+          .generateMapUpdateObjectSortOrder(sortOrder: UnsignedInt(100)));
     }
 
-    final requestBuilder = JmapRequestBuilder(_httpClient, ProcessingInvocation());
+    final requestBuilder =
+        JmapRequestBuilder(_httpClient, ProcessingInvocation());
 
     final setIdentityInvocation = requestBuilder.invocation(setIdentityMethod);
 
-    final response = await (requestBuilder
-        ..usings(capabilitySupported))
-      .build()
-      .execute();
+    final response =
+        await (requestBuilder..usings(capabilitySupported)).build().execute();
 
     final setIdentityResponse = response.parse<SetIdentityResponse>(
-        setIdentityInvocation.methodCallId,
-        SetIdentityResponse.deserialize);
+        setIdentityInvocation.methodCallId, SetIdentityResponse.deserialize);
 
     return setIdentityResponse!.created![identityRequest.creationId]!;
   }
 
-  Future<bool> deleteIdentity(Session session, AccountId accountId, IdentityId identityId) async {
+  Future<bool> deleteIdentity(
+      Session session, AccountId accountId, IdentityId identityId) async {
     final setIdentityMethod = SetIdentityMethod(accountId)
       ..addDestroy({identityId.id});
 
-    final jamesSortOrderIsSupported = [CapabilityIdentifier.jamesSortOrder].isSupported(session, accountId);
+    final jamesSortOrderIsSupported =
+        [CapabilityIdentifier.jamesSortOrder].isSupported(session, accountId);
     final capabilitySupported = jamesSortOrderIsSupported
-      ? setIdentityMethod.requiredCapabilitiesSupportSortOrder
-      : setIdentityMethod.requiredCapabilities;
+        ? setIdentityMethod.requiredCapabilitiesSupportSortOrder
+        : setIdentityMethod.requiredCapabilities;
 
-    final requestBuilder = JmapRequestBuilder(_httpClient, ProcessingInvocation());
+    final requestBuilder =
+        JmapRequestBuilder(_httpClient, ProcessingInvocation());
 
     final setIdentityInvocation = requestBuilder.invocation(setIdentityMethod);
 
-    final response = await (requestBuilder
-        ..usings(capabilitySupported))
-      .build()
-      .execute();
+    final response =
+        await (requestBuilder..usings(capabilitySupported)).build().execute();
 
     final setIdentityResponse = response.parse<SetIdentityResponse>(
-        setIdentityInvocation.methodCallId,
-        SetIdentityResponse.deserialize);
+        setIdentityInvocation.methodCallId, SetIdentityResponse.deserialize);
 
     return setIdentityResponse?.destroyed?.contains(identityId.id) == true;
   }
 
-  Future<bool> editIdentity(Session session, AccountId accountId, EditIdentityRequest editIdentityRequest) async {
+  Future<bool> editIdentity(Session session, AccountId accountId,
+      EditIdentityRequest editIdentityRequest) async {
     final setIdentityMethod = SetIdentityMethod(accountId)
       ..addUpdates({
-        editIdentityRequest.identityId.id : PatchObject(editIdentityRequest.identityRequest.toJson())
+        editIdentityRequest.identityId.id:
+            PatchObject(editIdentityRequest.identityRequest.toJson())
       });
 
-    final jamesSortOrderIsSupported = [CapabilityIdentifier.jamesSortOrder].isSupported(session, accountId);
+    final jamesSortOrderIsSupported =
+        [CapabilityIdentifier.jamesSortOrder].isSupported(session, accountId);
     final capabilitySupported = jamesSortOrderIsSupported
-      ? setIdentityMethod.requiredCapabilitiesSupportSortOrder
-      : setIdentityMethod.requiredCapabilities;
-    
+        ? setIdentityMethod.requiredCapabilitiesSupportSortOrder
+        : setIdentityMethod.requiredCapabilities;
+
     if (jamesSortOrderIsSupported &&
         editIdentityRequest is EditDefaultIdentityRequest &&
-        editIdentityRequest.oldDefaultIdentityIds != null
-    ) {
-      setIdentityMethod.addUpdates(
-        editIdentityRequest.oldDefaultIdentityIds!.generateMapUpdateObjectSortOrder(sortOrder: UnsignedInt(100))
-      );
+        editIdentityRequest.oldDefaultIdentityIds != null) {
+      setIdentityMethod.addUpdates(editIdentityRequest.oldDefaultIdentityIds!
+          .generateMapUpdateObjectSortOrder(sortOrder: UnsignedInt(100)));
     }
 
-    final requestBuilder = JmapRequestBuilder(_httpClient, ProcessingInvocation());
+    final requestBuilder =
+        JmapRequestBuilder(_httpClient, ProcessingInvocation());
 
     final setIdentityInvocation = requestBuilder.invocation(setIdentityMethod);
 
-    final response = await (requestBuilder
-        ..usings(capabilitySupported))
-      .build()
-      .execute();
+    final response =
+        await (requestBuilder..usings(capabilitySupported)).build().execute();
 
     final setIdentityResponse = response.parse<SetIdentityResponse>(
-        setIdentityInvocation.methodCallId,
-        SetIdentityResponse.deserialize);
+        setIdentityInvocation.methodCallId, SetIdentityResponse.deserialize);
 
-    return setIdentityResponse?.updated?.containsKey(editIdentityRequest.identityId.id) == true;
+    return setIdentityResponse?.updated
+            ?.containsKey(editIdentityRequest.identityId.id) ==
+        true;
   }
 }

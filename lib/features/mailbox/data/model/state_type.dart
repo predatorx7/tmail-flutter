@@ -1,4 +1,3 @@
-
 import 'package:hive/hive.dart';
 import 'package:jmap_dart_client/jmap/account_id.dart';
 import 'package:jmap_dart_client/jmap/core/user_name.dart';
@@ -10,7 +9,6 @@ part 'state_type.g.dart';
 
 @HiveType(typeId: CachingConstants.STATE_TYPE_IDENTIFY)
 enum StateType {
-
   @HiveField(0)
   mailbox,
 

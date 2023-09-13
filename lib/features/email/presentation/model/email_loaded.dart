@@ -14,9 +14,5 @@ class EmailLoaded with EquatableMixin {
   });
 
   @override
-  List<Object?> get props => [
-    htmlContent,
-    attachments,
-    emailCurrent
-  ];
+  List<Object?> get props => [htmlContent, attachments, emailCurrent];
 }

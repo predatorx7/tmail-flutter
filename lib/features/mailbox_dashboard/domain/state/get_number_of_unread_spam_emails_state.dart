@@ -16,6 +16,5 @@ class GetUnreadSpamMailboxSuccess extends UIState {
 class InvalidSpamReportCondition extends FeatureFailure {}
 
 class GetUnreadSpamMailboxFailure extends FeatureFailure {
-
   GetUnreadSpamMailboxFailure(dynamic exception) : super(exception: exception);
 }

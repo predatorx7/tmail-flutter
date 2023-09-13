@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/utils/keyboard_utils.dart';
 import 'package:core/utils/app_logger.dart';
 import 'package:core/utils/platform_info.dart';
@@ -21,18 +20,21 @@ import 'package:tmail_ui_user/features/thread/domain/model/search_query.dart';
 import 'package:tmail_ui_user/main/routes/route_navigation.dart';
 
 class ContactController extends BaseController {
-
-  final TextEditingController textInputSearchController = TextEditingController();
+  final TextEditingController textInputSearchController =
+      TextEditingController();
   final FocusNode textInputSearchFocus = FocusNode();
-  ContactSuggestionSource _contactSuggestionSource = ContactSuggestionSource.tMailContact;
+  ContactSuggestionSource _contactSuggestionSource =
+      ContactSuggestionSource.tMailContact;
 
   final searchQuery = SearchQuery.initial().obs;
   final listContactSearched = RxList<EmailAddress>();
 
-  GetAutoCompleteWithDeviceContactInteractor? _getAutoCompleteWithDeviceContactInteractor;
+  GetAutoCompleteWithDeviceContactInteractor?
+      _getAutoCompleteWithDeviceContactInteractor;
   GetAutoCompleteInteractor? _getAutoCompleteInteractor;
 
-  final Debouncer<String> _deBouncerTime = Debouncer<String>(const Duration(milliseconds: 500), initialValue: '');
+  final Debouncer<String> _deBouncerTime =
+      Debouncer<String>(const Duration(milliseconds: 500), initialValue: '');
   AccountId? _accountId;
   Session? _session;
 
@@ -64,14 +66,14 @@ class ContactController extends BaseController {
       log('ContactController::onReady(): arguments: $arguments');
       log('ContactController::onReady(): listContactSelected: $listContactSelected');
       if (listContactSelected.isNotEmpty) {
-        contactSelected = EmailAddress(listContactSelected.first, listContactSelected.first);
+        contactSelected =
+            EmailAddress(listContactSelected.first, listContactSelected.first);
       }
       injectAutoCompleteBindings(_session, _accountId);
     }
     if (PlatformInfo.isMobile) {
       Future.delayed(
-        const Duration(milliseconds: 500),
-        () => _checkContactPermission());
+          const Duration(milliseconds: 500), () => _checkContactPermission());
     }
   }
 
@@ -120,7 +122,8 @@ class ContactController extends BaseController {
   void injectAutoCompleteBindings(Session? session, AccountId? accountId) {
     try {
       super.injectAutoCompleteBindings(session, accountId);
-      _getAutoCompleteWithDeviceContactInteractor = Get.find<GetAutoCompleteWithDeviceContactInteractor>();
+      _getAutoCompleteWithDeviceContactInteractor =
+          Get.find<GetAutoCompleteWithDeviceContactInteractor>();
       _getAutoCompleteInteractor = Get.find<GetAutoCompleteInteractor>();
     } catch (e) {
       logError('ContactController::injectAutoCompleteBindings(): $e');
@@ -129,24 +132,28 @@ class ContactController extends BaseController {
 
   Future<List<EmailAddress>> _getAutoCompleteSuggestion(String query) async {
     try {
-      _getAutoCompleteWithDeviceContactInteractor = Get.find<GetAutoCompleteWithDeviceContactInteractor>();
+      _getAutoCompleteWithDeviceContactInteractor =
+          Get.find<GetAutoCompleteWithDeviceContactInteractor>();
       _getAutoCompleteInteractor = Get.find<GetAutoCompleteInteractor>();
     } catch (e) {
       logError('ContactController::getAutoCompleteSuggestion(): Exception $e');
     }
 
     if (_contactSuggestionSource == ContactSuggestionSource.all) {
-      if (_getAutoCompleteWithDeviceContactInteractor == null || _getAutoCompleteInteractor == null) {
+      if (_getAutoCompleteWithDeviceContactInteractor == null ||
+          _getAutoCompleteInteractor == null) {
         return <EmailAddress>[];
       }
 
-      final listEmailAddress = await _getAutoCompleteWithDeviceContactInteractor!
-          .execute(AutoCompletePattern(word: query, limit: 30, accountId: _accountId))
-          .then((value) => value.fold(
-              (failure) => <EmailAddress>[],
-              (success) => success is GetAutoCompleteSuccess
-                  ? success.listEmailAddress
-                  : <EmailAddress>[]));
+      final listEmailAddress =
+          await _getAutoCompleteWithDeviceContactInteractor!
+              .execute(AutoCompletePattern(
+                  word: query, limit: 30, accountId: _accountId))
+              .then((value) => value.fold(
+                  (failure) => <EmailAddress>[],
+                  (success) => success is GetAutoCompleteSuccess
+                      ? success.listEmailAddress
+                      : <EmailAddress>[]));
       return listEmailAddress;
     } else {
       if (_getAutoCompleteInteractor == null) {
@@ -154,7 +161,8 @@ class ContactController extends BaseController {
       }
 
       final listEmailAddress = await _getAutoCompleteInteractor!
-          .execute(AutoCompletePattern(word: query, limit: 30, accountId: _accountId))
+          .execute(AutoCompletePattern(
+              word: query, limit: 30, accountId: _accountId))
           .then((value) => value.fold(
               (failure) => <EmailAddress>[],
               (success) => success is GetAutoCompleteSuccess

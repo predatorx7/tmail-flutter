@@ -1,4 +1,3 @@
-
 import 'package:core/data/model/query/query_parameter.dart';
 import 'package:core/data/network/config/service_path.dart';
 
@@ -18,13 +17,11 @@ extension ServicePathExtension on ServicePath {
     if (path.lastIndexOf('/') == path.length - 1) {
       final newPath = path.substring(0, path.length - 1);
 
-      return ServicePath('$newPath?${queryParameters
-        .map((query) => '${query.queryName}=${query.queryValue}')
-        .join('&')}');
+      return ServicePath(
+          '$newPath?${queryParameters.map((query) => '${query.queryName}=${query.queryValue}').join('&')}');
     } else {
-      return ServicePath('$path?${queryParameters
-        .map((query) => '${query.queryName}=${query.queryValue}')
-        .join('&')}');
+      return ServicePath(
+          '$path?${queryParameters.map((query) => '${query.queryName}=${query.queryValue}').join('&')}');
     }
   }
 

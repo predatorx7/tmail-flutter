@@ -9,10 +9,12 @@ class StoreSpamReportInteractor {
 
   StoreSpamReportInteractor(this._spamReportRepository);
 
-  Stream<Either<Failure, Success>> execute(DateTime lastTimeDismissedSpamReported) async* {
+  Stream<Either<Failure, Success>> execute(
+      DateTime lastTimeDismissedSpamReported) async* {
     try {
       yield Right<Failure, Success>(StoreLastTimeDismissedSpamReportLoading());
-      await _spamReportRepository.storeLastTimeDismissedSpamReported(lastTimeDismissedSpamReported);
+      await _spamReportRepository
+          .storeLastTimeDismissedSpamReported(lastTimeDismissedSpamReported);
       yield Right<Failure, Success>(StoreLastTimeDismissedSpamReportSuccess());
     } catch (e) {
       yield Left<Failure, Success>(StoreLastTimeDismissedSpamReportFailure(e));

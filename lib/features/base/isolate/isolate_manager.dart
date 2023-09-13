@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:isolate';
 
@@ -6,7 +5,6 @@ import 'package:core/presentation/utils/shims/dart_ui_real.dart';
 import 'package:core/utils/app_logger.dart';
 
 abstract class IsolateManager {
-
   final _eventReceivePort = ReceivePort();
   StreamSubscription? _streamSubscription;
 
@@ -18,8 +16,10 @@ abstract class IsolateManager {
     Function()? onDone,
   }) {
     try {
-      IsolateNameServer.registerPortWithName(_eventReceivePort.sendPort, isolateIdentityName);
-      _streamSubscription = _eventReceivePort.listen(onData, onError: onError, onDone: onDone);
+      IsolateNameServer.registerPortWithName(
+          _eventReceivePort.sendPort, isolateIdentityName);
+      _streamSubscription =
+          _eventReceivePort.listen(onData, onError: onError, onDone: onDone);
     } catch (e) {
       logError('IsolateManager::initial():EXCEPTION: $e');
     }

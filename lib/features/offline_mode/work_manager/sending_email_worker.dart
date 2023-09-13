@@ -35,7 +35,6 @@ import 'package:tmail_ui_user/main/bindings/main_bindings.dart';
 import 'package:tmail_ui_user/main/routes/route_navigation.dart';
 
 class SendingEmailWorker extends Worker {
-
   SendEmailInteractor? _sendEmailInteractor;
   GetAuthenticatedAccountInteractor? _getAuthenticatedAccountInteractor;
   DynamicUrlInterceptors? _dynamicUrlInterceptors;
@@ -62,19 +61,15 @@ class SendingEmailWorker extends Worker {
     _sendingEmail = SendingEmail.fromJson(inputData);
     log('SendingEmailObserver::observe():_sendingEmail: $_sendingEmail');
     _updatingSendingStateToMainUI(
-      sendingId: _sendingEmail.sendingId,
-      sendingState: SendingState.running
-    );
+        sendingId: _sendingEmail.sendingId, sendingState: SendingState.running);
     _getAuthenticatedAccount();
     return _completer.future;
   }
 
   @override
   Future<void> bindDI() async {
-    await Future.wait([
-      MainBindings().dependencies(),
-      HiveCacheConfig().setUp()
-    ]);
+    await Future.wait(
+        [MainBindings().dependencies(), HiveCacheConfig().setUp()]);
 
     SendingQueueInteractorBindings().dependencies();
     SendEmailInteractorBindings().dependencies();
@@ -119,7 +114,8 @@ class SendingEmailWorker extends Worker {
   }
 
   void _getInteractorBindings() {
-    _getAuthenticatedAccountInteractor = getBinding<GetAuthenticatedAccountInteractor>();
+    _getAuthenticatedAccountInteractor =
+        getBinding<GetAuthenticatedAccountInteractor>();
     _dynamicUrlInterceptors = getBinding<DynamicUrlInterceptors>();
     _authorizationInterceptors = getBinding<AuthorizationInterceptors>();
     _getSessionInteractor = getBinding<GetSessionInteractor>();
@@ -128,13 +124,13 @@ class SendingEmailWorker extends Worker {
     _sendingEmailCacheManager = getBinding<SendingEmailCacheManager>();
   }
 
-  void _updatingSendingStateToMainUI({String? sendingId, SendingState? sendingState}) {
+  void _updatingSendingStateToMainUI(
+      {String? sendingId, SendingState? sendingState}) {
     final eventAction = _generateEventAction(
-      sendingId ?? _sendingEmail.sendingId,
-      sendingState ?? _sendingEmail.sendingState,
-      accountId: _currentAccountId,
-      userName: _currentSession?.username
-    );
+        sendingId ?? _sendingEmail.sendingId,
+        sendingState ?? _sendingEmail.sendingState,
+        accountId: _currentAccountId,
+        userName: _currentSession?.username);
     log('SendingEmailObserver::_updatingSendingStateToMainUI():eventAction: $eventAction');
     _sendingQueueIsolateManager?.addEvent(eventAction);
   }
@@ -150,8 +146,11 @@ class SendingEmailWorker extends Worker {
   void _handleGetSessionSuccess(GetSessionSuccess success) async {
     _currentSession = success.session;
     _currentAccountId = success.session.personalAccount.accountId;
-    final apiUrl = success.session.getQualifiedApiUrl(baseUrl: _dynamicUrlInterceptors?.jmapUrl);
-    if (apiUrl.isNotEmpty && _currentSession != null && _currentAccountId != null) {
+    final apiUrl = success.session
+        .getQualifiedApiUrl(baseUrl: _dynamicUrlInterceptors?.jmapUrl);
+    if (apiUrl.isNotEmpty &&
+        _currentSession != null &&
+        _currentAccountId != null) {
       _dynamicUrlInterceptors?.changeBaseUrl(apiUrl);
       _sendEmailAction(_currentAccountId!, _currentSession!);
     } else {
@@ -159,45 +158,43 @@ class SendingEmailWorker extends Worker {
     }
   }
 
-  void _handleGetAccountByBasicAuthSuccess(GetCredentialViewState credentialViewState) {
+  void _handleGetAccountByBasicAuthSuccess(
+      GetCredentialViewState credentialViewState) {
     _dynamicUrlInterceptors?.setJmapUrl(credentialViewState.baseUrl.toString());
     _authorizationInterceptors?.setBasicAuthorization(
       credentialViewState.userName.value,
       credentialViewState.password.value,
     );
-    _dynamicUrlInterceptors?.changeBaseUrl(credentialViewState.baseUrl.toString());
+    _dynamicUrlInterceptors
+        ?.changeBaseUrl(credentialViewState.baseUrl.toString());
     _getSessionAction();
   }
 
   void _sendEmailAction(AccountId accountId, Session session) {
-    consumeState(
-      _sendEmailInteractor!.execute(
-        session,
-        accountId,
-        _sendingEmail.toEmailRequest(),
-        mailboxRequest: _getMailboxRequest()
-      )
-    );
+    consumeState(_sendEmailInteractor!.execute(
+        session, accountId, _sendingEmail.toEmailRequest(),
+        mailboxRequest: _getMailboxRequest()));
   }
 
   CreateNewMailboxRequest? _getMailboxRequest() {
     if (_sendingEmail.mailboxNameRequest != null &&
         _sendingEmail.creationIdRequest != null) {
       return CreateNewMailboxRequest(
-        _sendingEmail.creationIdRequest!,
-        _sendingEmail.mailboxNameRequest!);
+          _sendingEmail.creationIdRequest!, _sendingEmail.mailboxNameRequest!);
     } else {
       return null;
     }
   }
 
-  void _handleGetAccountByOidcSuccess(GetStoredTokenOidcSuccess storedTokenOidcSuccess) {
-    _dynamicUrlInterceptors?.setJmapUrl(storedTokenOidcSuccess.baseUrl.toString());
+  void _handleGetAccountByOidcSuccess(
+      GetStoredTokenOidcSuccess storedTokenOidcSuccess) {
+    _dynamicUrlInterceptors
+        ?.setJmapUrl(storedTokenOidcSuccess.baseUrl.toString());
     _authorizationInterceptors?.setTokenAndAuthorityOidc(
-      newToken: storedTokenOidcSuccess.tokenOidc.toToken(),
-      newConfig: storedTokenOidcSuccess.oidcConfiguration
-    );
-    _dynamicUrlInterceptors?.changeBaseUrl(storedTokenOidcSuccess.baseUrl.toString());
+        newToken: storedTokenOidcSuccess.tokenOidc.toToken(),
+        newConfig: storedTokenOidcSuccess.oidcConfiguration);
+    _dynamicUrlInterceptors
+        ?.changeBaseUrl(storedTokenOidcSuccess.baseUrl.toString());
     _getSessionAction();
   }
 
@@ -214,33 +211,24 @@ class SendingEmailWorker extends Worker {
   void _handleTaskFailureInWorkManager() async {
     log('SendingEmailObserver::_handleTaskFailureInWorkManager():');
     await Future.delayed(
-      const Duration(milliseconds: 1000),
-      () => _completer.complete(false)
-    );
+        const Duration(milliseconds: 1000), () => _completer.complete(false));
   }
 
   void _handleTaskErrorInWorkManager(dynamic error) async {
     log('SendingEmailObserver::_handleTaskErrorInWorkManager():');
-    await Future.delayed(
-      const Duration(milliseconds: 1000),
-      () => _completer.completeError(error)
-    );
+    await Future.delayed(const Duration(milliseconds: 1000),
+        () => _completer.completeError(error));
   }
 
   void _handleTaskSuccessInWorkManager() async {
     log('SendingEmailObserver::_handleTaskSuccessInWorkManager():');
     await Future.delayed(
-      const Duration(milliseconds: 1000),
-      () => _completer.complete(true)
-    );
+        const Duration(milliseconds: 1000), () => _completer.complete(true));
   }
 
-  String _generateEventAction(
-    String sendingId,
-    SendingState sendingState,
-    {
-      AccountId? accountId,
-      UserName? userName
-    }
-  ) => TupleKey(sendingId, sendingState.name, accountId?.asString, userName?.value).toString();
+  String _generateEventAction(String sendingId, SendingState sendingState,
+          {AccountId? accountId, UserName? userName}) =>
+      TupleKey(sendingId, sendingState.name, accountId?.asString,
+              userName?.value)
+          .toString();
 }

@@ -10,18 +10,13 @@ class GetEmailContentSuccess extends UIState {
   final List<Attachment> attachments;
   final Email? emailCurrent;
 
-  GetEmailContentSuccess({
-    required this.htmlEmailContent,
-    required this.attachments,
-    this.emailCurrent
-  });
+  GetEmailContentSuccess(
+      {required this.htmlEmailContent,
+      required this.attachments,
+      this.emailCurrent});
 
   @override
-  List<Object?> get props => [
-    htmlEmailContent,
-    attachments,
-    emailCurrent
-  ];
+  List<Object?> get props => [htmlEmailContent, attachments, emailCurrent];
 }
 
 class GetEmailContentFromCacheSuccess extends UIState {
@@ -29,21 +24,19 @@ class GetEmailContentFromCacheSuccess extends UIState {
   final List<Attachment> attachments;
   final Email? emailCurrent;
 
-  GetEmailContentFromCacheSuccess({
-    required this.htmlEmailContent,
-    required this.attachments,
-    this.emailCurrent
-  });
+  GetEmailContentFromCacheSuccess(
+      {required this.htmlEmailContent,
+      required this.attachments,
+      this.emailCurrent});
 
   @override
   List<Object?> get props => [
-    htmlEmailContent,
-    attachments,
-    emailCurrent,
-  ];
+        htmlEmailContent,
+        attachments,
+        emailCurrent,
+      ];
 }
 
 class GetEmailContentFailure extends FeatureFailure {
-
   GetEmailContentFailure(dynamic exception) : super(exception: exception);
 }

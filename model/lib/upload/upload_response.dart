@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:jmap_dart_client/http/converter/account_id_converter.dart';
@@ -16,8 +15,7 @@ part 'upload_response.g.dart';
 @MediaTypeConverter()
 @IdConverter()
 @JsonSerializable()
-class UploadResponse with EquatableMixin  {
-
+class UploadResponse with EquatableMixin {
   final AccountId accountId;
   final Id blobId;
   final MediaType type;
@@ -25,7 +23,8 @@ class UploadResponse with EquatableMixin  {
 
   UploadResponse(this.accountId, this.blobId, this.type, this.size);
 
-  factory UploadResponse.fromJson(Map<String, dynamic> json) => _$UploadResponseFromJson(json);
+  factory UploadResponse.fromJson(Map<String, dynamic> json) =>
+      _$UploadResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$UploadResponseToJson(this);
 
@@ -35,6 +34,7 @@ class UploadResponse with EquatableMixin  {
 
 extension UploadResponseExtension on UploadResponse {
   Attachment toAttachment(String nameFile) {
-    return Attachment(blobId: blobId, size: UnsignedInt(size), name: nameFile, type: type);
+    return Attachment(
+        blobId: blobId, size: UnsignedInt(size), name: nameFile, type: type);
   }
 }

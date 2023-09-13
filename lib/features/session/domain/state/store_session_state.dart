@@ -6,6 +6,5 @@ class StoreSessionLoading extends UIState {}
 class StoreSessionSuccess extends UIState {}
 
 class StoreSessionFailure extends FeatureFailure {
-
   StoreSessionFailure(dynamic exception) : super(exception: exception);
 }

@@ -15,35 +15,34 @@ class GetEmailChangesToRemoveNotificationInteractor {
   final FCMRepository _fcmRepository;
   final EmailRepository _emailRepository;
 
-  GetEmailChangesToRemoveNotificationInteractor(this._fcmRepository, this._emailRepository);
+  GetEmailChangesToRemoveNotificationInteractor(
+      this._fcmRepository, this._emailRepository);
 
   Stream<Either<Failure, Success>> execute(
-    Session session,
-    AccountId accountId,
-    jmap.State newState,
-    {
-      Properties? propertiesCreated,
-      Properties? propertiesUpdated
-    }
-  ) async* {
+      Session session, AccountId accountId, jmap.State newState,
+      {Properties? propertiesCreated, Properties? propertiesUpdated}) async* {
     try {
-      yield Right<Failure, Success>(GetEmailChangesToRemoveNotificationLoading());
+      yield Right<Failure, Success>(
+          GetEmailChangesToRemoveNotificationLoading());
 
-      final currentState = await _emailRepository.getEmailState(session, accountId);
+      final currentState =
+          await _emailRepository.getEmailState(session, accountId);
       log('GetEmailChangesToRemoveNotificationInteractor::execute():currentState: $currentState');
       if (currentState != null) {
-        final emailIds = await _fcmRepository.getEmailChangesToRemoveNotification(
-          session,
-          accountId,
-          currentState,
-          propertiesCreated: propertiesCreated,
-          propertiesUpdated: propertiesUpdated);
-        yield Right<Failure, Success>(GetEmailChangesToRemoveNotificationSuccess(emailIds));
+        final emailIds =
+            await _fcmRepository.getEmailChangesToRemoveNotification(
+                session, accountId, currentState,
+                propertiesCreated: propertiesCreated,
+                propertiesUpdated: propertiesUpdated);
+        yield Right<Failure, Success>(
+            GetEmailChangesToRemoveNotificationSuccess(emailIds));
       } else {
-        yield Left<Failure, Success>(GetEmailChangesToRemoveNotificationFailure(NotFoundEmailStateException()));
+        yield Left<Failure, Success>(GetEmailChangesToRemoveNotificationFailure(
+            NotFoundEmailStateException()));
       }
     } catch (e) {
-      yield Left<Failure, Success>(GetEmailChangesToRemoveNotificationFailure(e));
+      yield Left<Failure, Success>(
+          GetEmailChangesToRemoveNotificationFailure(e));
     }
   }
 }

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:jmap_dart_client/jmap/core/utc_date.dart';
 import 'package:jmap_dart_client/jmap/mail/vacation/vacation_response.dart';
@@ -8,25 +7,23 @@ import 'package:tmail_ui_user/features/manage_account/presentation/model/vacatio
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
 extension VacationResponseExtension on VacationResponse {
-
   VacationPresentation toVacationPresentation() {
     return VacationPresentation(
-      status: isEnabled == true
-          ? VacationResponderStatus.activated
-          : VacationResponderStatus.deactivated,
-      startDate: fromDate?.value.toLocal(),
-      startTime: fromDate?.value != null
-          ? TimeOfDay.fromDateTime(fromDate!.value.toLocal())
-          : null,
-      endDate: toDate?.value.toLocal(),
-      endTime: toDate?.value != null
-          ? TimeOfDay.fromDateTime(toDate!.value.toLocal())
-          : null,
-      messagePlainText: textBody,
-      messageHtmlText: htmlBody,
-      subject: subject,
-      vacationStopEnabled: toDate != null
-    );
+        status: isEnabled == true
+            ? VacationResponderStatus.activated
+            : VacationResponderStatus.deactivated,
+        startDate: fromDate?.value.toLocal(),
+        startTime: fromDate?.value != null
+            ? TimeOfDay.fromDateTime(fromDate!.value.toLocal())
+            : null,
+        endDate: toDate?.value.toLocal(),
+        endTime: toDate?.value != null
+            ? TimeOfDay.fromDateTime(toDate!.value.toLocal())
+            : null,
+        messagePlainText: textBody,
+        messageHtmlText: htmlBody,
+        subject: subject,
+        vacationStopEnabled: toDate != null);
   }
 
   bool get vacationResponderIsValid {
@@ -37,8 +34,9 @@ extension VacationResponseExtension on VacationResponse {
     if (isEnabled == true) {
       final currentDate = DateTime.now();
       final startDate = fromDate?.value.toLocal();
-      if (startDate != null && (startDate.isBefore(currentDate) ||
-          startDate.isAtSameMomentAs(currentDate))) {
+      if (startDate != null &&
+          (startDate.isBefore(currentDate) ||
+              startDate.isAtSameMomentAs(currentDate))) {
         return true;
       } else {
         return false;
@@ -73,37 +71,37 @@ extension VacationResponseExtension on VacationResponse {
     return false;
   }
 
-  VacationResponse copyWith({
-    bool? isEnabled,
-    UTCDate? fromDate,
-    UTCDate? toDate,
-    String? subject,
-    String? textBody,
-    String? htmlBody
-  }) {
+  VacationResponse copyWith(
+      {bool? isEnabled,
+      UTCDate? fromDate,
+      UTCDate? toDate,
+      String? subject,
+      String? textBody,
+      String? htmlBody}) {
     return VacationResponse(
-      isEnabled: isEnabled ?? this.isEnabled,
-      fromDate: fromDate ?? this.fromDate,
-      toDate: toDate ?? this.toDate,
-      subject: subject ?? this.subject,
-      textBody: textBody ?? this.textBody,
-      htmlBody: htmlBody ?? this.htmlBody
-    );
+        isEnabled: isEnabled ?? this.isEnabled,
+        fromDate: fromDate ?? this.fromDate,
+        toDate: toDate ?? this.toDate,
+        subject: subject ?? this.subject,
+        textBody: textBody ?? this.textBody,
+        htmlBody: htmlBody ?? this.htmlBody);
   }
-  
+
   String getNotificationMessage(BuildContext context) {
     if (vacationResponderIsValid) {
       return AppLocalizations.of(context).yourVacationResponderIsEnabled;
     } else if (vacationResponderIsWaiting) {
-      return AppLocalizations.of(context).messageEnableVacationResponderAutomatically(
-          fromDate.formatDateToLocal(
-              pattern: 'MMM d, y h:mm a',
-              locale: Localizations.localeOf(context).toLanguageTag()));
+      return AppLocalizations.of(context)
+          .messageEnableVacationResponderAutomatically(
+              fromDate.formatDateToLocal(
+                  pattern: 'MMM d, y h:mm a',
+                  locale: Localizations.localeOf(context).toLanguageTag()));
     } else if (vacationResponderIsStopped) {
-      return AppLocalizations.of(context).messageDisableVacationResponderAutomatically(
-          toDate.formatDateToLocal(
-              pattern: 'MMM d, y h:mm a',
-              locale: Localizations.localeOf(context).toLanguageTag()));
+      return AppLocalizations.of(context)
+          .messageDisableVacationResponderAutomatically(
+              toDate.formatDateToLocal(
+                  pattern: 'MMM d, y h:mm a',
+                  locale: Localizations.localeOf(context).toLanguageTag()));
     } else {
       return '';
     }

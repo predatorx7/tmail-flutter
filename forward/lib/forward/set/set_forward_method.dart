@@ -7,7 +7,8 @@ import 'package:jmap_dart_client/jmap/core/capability/capability_identifier.dart
 import 'package:jmap_dart_client/jmap/core/method/request/set_method.dart';
 import 'package:jmap_dart_client/jmap/core/request/request_invocation.dart';
 
-class SetForwardMethod extends SetMethod<TMailForward> with OptionalUpdateSingleton<TMailForward>{
+class SetForwardMethod extends SetMethod<TMailForward>
+    with OptionalUpdateSingleton<TMailForward> {
   SetForwardMethod(AccountId accountId) : super(accountId);
 
   @override
@@ -15,9 +16,9 @@ class SetForwardMethod extends SetMethod<TMailForward> with OptionalUpdateSingle
 
   @override
   Set<CapabilityIdentifier> get requiredCapabilities => {
-    CapabilityIdentifier.jmapCore,
-    capabilityForward,
-  };
+        CapabilityIdentifier.jmapCore,
+        capabilityForward,
+      };
 
   @override
   Map<String, dynamic> toJson() {
@@ -32,8 +33,10 @@ class SetForwardMethod extends SetMethod<TMailForward> with OptionalUpdateSingle
     }
 
     writeNotNull('ifInState', ifInState?.value);
-    writeNotNull('update', updateSingleton
-        ?.map((id, update) => SetMethodPropertiesConverter().fromMapIdToJson(id, update.toJson())));
+    writeNotNull(
+        'update',
+        updateSingleton?.map((id, update) => SetMethodPropertiesConverter()
+            .fromMapIdToJson(id, update.toJson())));
 
     return val;
   }

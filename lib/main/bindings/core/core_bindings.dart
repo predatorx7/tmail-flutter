@@ -14,7 +14,6 @@ import 'package:tmail_ui_user/main/utils/email_receive_manager.dart';
 import 'package:uuid/uuid.dart';
 
 class CoreBindings extends Bindings {
-
   @override
   Future dependencies() async {
     await _bindingSharePreference();
@@ -36,7 +35,8 @@ class CoreBindings extends Bindings {
   }
 
   Future _bindingSharePreference() async {
-    await Get.putAsync(() async => await SharedPreferences.getInstance(), permanent: true);
+    await Get.putAsync(() async => await SharedPreferences.getInstance(),
+        permanent: true);
   }
 
   void _bindingToast() {

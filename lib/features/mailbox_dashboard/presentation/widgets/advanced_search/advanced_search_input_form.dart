@@ -30,35 +30,32 @@ class AdvancedSearchInputForm extends GetWidget<AdvancedFilterController>
       child: Column(
         children: [
           _buildSuggestionFilterField(
-            listTagSelected: controller.searchEmailFilter.from,
-            context: context,
-            advancedSearchFilterField: AdvancedSearchFilterField.form,
-            listTagInitial: controller.searchEmailFilter.from,
-            currentFocusNode: controller.focusManager.fromFieldFocusNode,
-            nextFocusNode: controller.focusManager.toFieldFocusNode
-          ),
+              listTagSelected: controller.searchEmailFilter.from,
+              context: context,
+              advancedSearchFilterField: AdvancedSearchFilterField.form,
+              listTagInitial: controller.searchEmailFilter.from,
+              currentFocusNode: controller.focusManager.fromFieldFocusNode,
+              nextFocusNode: controller.focusManager.toFieldFocusNode),
           _buildSuggestionFilterField(
-            listTagSelected: controller.searchEmailFilter.to,
-            context: context,
-            advancedSearchFilterField: AdvancedSearchFilterField.to,
-            listTagInitial: controller.searchEmailFilter.to,
-            currentFocusNode: controller.focusManager.toFieldFocusNode,
-            nextFocusNode: controller.focusManager.subjectFieldFocusNode
-          ),
+              listTagSelected: controller.searchEmailFilter.to,
+              context: context,
+              advancedSearchFilterField: AdvancedSearchFilterField.to,
+              listTagInitial: controller.searchEmailFilter.to,
+              currentFocusNode: controller.focusManager.toFieldFocusNode,
+              nextFocusNode: controller.focusManager.subjectFieldFocusNode),
           _buildFilterField(
-            textEditingController: controller.subjectFilterInputController,
-            context: context,
-            advancedSearchFilterField: AdvancedSearchFilterField.subject,
-            currentFocusNode: controller.focusManager.subjectFieldFocusNode,
-            nextFocusNode: controller.focusManager.hasKeywordFieldFocusNode
-          ),
+              textEditingController: controller.subjectFilterInputController,
+              context: context,
+              advancedSearchFilterField: AdvancedSearchFilterField.subject,
+              currentFocusNode: controller.focusManager.subjectFieldFocusNode,
+              nextFocusNode: controller.focusManager.hasKeywordFieldFocusNode),
           _buildFilterField(
-            textEditingController: controller.hasKeyWordFilterInputController,
-            context: context,
-            advancedSearchFilterField: AdvancedSearchFilterField.hasKeyword,
-            currentFocusNode: controller.focusManager.hasKeywordFieldFocusNode,
-            nextFocusNode: controller.focusManager.notKeywordFieldFocusNode
-          ),
+              textEditingController: controller.hasKeyWordFilterInputController,
+              context: context,
+              advancedSearchFilterField: AdvancedSearchFilterField.hasKeyword,
+              currentFocusNode:
+                  controller.focusManager.hasKeywordFieldFocusNode,
+              nextFocusNode: controller.focusManager.notKeywordFieldFocusNode),
           _buildFilterField(
             textEditingController: controller.notKeyWordFilterInputController,
             context: context,
@@ -67,39 +64,38 @@ class AdvancedSearchInputForm extends GetWidget<AdvancedFilterController>
             nextFocusNode: controller.focusManager.mailboxFieldFocusNode,
           ),
           _buildFilterField(
-            textEditingController: controller.mailBoxFilterInputController,
-            context: context,
-            advancedSearchFilterField: AdvancedSearchFilterField.mailBox,
-            isSelectFormList: true,
-            currentFocusNode: controller.focusManager.mailboxFieldFocusNode,
-            nextFocusNode: controller.focusManager.attachmentCheckboxFocusNode,
-            mouseCursor: SystemMouseCursors.click,
-            onTap: () => controller.selectedMailBox(context)
-          ),
+              textEditingController: controller.mailBoxFilterInputController,
+              context: context,
+              advancedSearchFilterField: AdvancedSearchFilterField.mailBox,
+              isSelectFormList: true,
+              currentFocusNode: controller.focusManager.mailboxFieldFocusNode,
+              nextFocusNode:
+                  controller.focusManager.attachmentCheckboxFocusNode,
+              mouseCursor: SystemMouseCursors.click,
+              onTap: () => controller.selectedMailBox(context)),
           Row(children: [
-           Expanded(child: _buildFilterField(
-             context: context,
-             advancedSearchFilterField: AdvancedSearchFilterField.date,
-             isSelectFormList: true,
-             onTap: () {
-               openContextMenuAction(
-                 context,
-                 _buildEmailReceiveTimeTypeActionTiles(context),
-               );
-             },
-           )),
+            Expanded(
+                child: _buildFilterField(
+              context: context,
+              advancedSearchFilterField: AdvancedSearchFilterField.date,
+              isSelectFormList: true,
+              onTap: () {
+                openContextMenuAction(
+                  context,
+                  _buildEmailReceiveTimeTypeActionTiles(context),
+                );
+              },
+            )),
             const SizedBox(width: 10),
             buildIconWeb(
-                icon: SvgPicture.asset(
-                    _imagePaths.icCalendarSB,
-                    width: 24,
-                    height: 24,
-                    fit: BoxFit.fill),
+                icon: SvgPicture.asset(_imagePaths.icCalendarSB,
+                    width: 24, height: 24, fit: BoxFit.fill),
                 tooltip: AppLocalizations.of(context).selectDate,
                 iconPadding: EdgeInsets.zero,
                 onTap: () => controller.selectDateRange(context)),
           ]),
-          AdvancedSearchFilterFormBottomView(focusManager: controller.focusManager)
+          AdvancedSearchFilterFormBottomView(
+              focusManager: controller.focusManager)
         ],
       ),
     );
@@ -107,16 +103,19 @@ class AdvancedSearchInputForm extends GetWidget<AdvancedFilterController>
 
   List<Widget> _buildEmailReceiveTimeTypeActionTiles(BuildContext context) {
     return EmailReceiveTimeType.values
-      .map((receiveTime) => PopupMenuItem(
-        padding: EdgeInsets.zero,
-        child: PopupItemNoIconWidget(
-          receiveTime.getTitle(context),
-          svgIconSelected: _imagePaths.icFilterSelected,
-          maxWidth: 320,
-          isSelected: controller.dateFilterSelectedFormAdvancedSearch.value == receiveTime,
-          onCallbackAction: () => controller.updateReceiveDateSearchFilter(context, receiveTime),
-        )))
-      .toList();
+        .map((receiveTime) => PopupMenuItem(
+            padding: EdgeInsets.zero,
+            child: PopupItemNoIconWidget(
+              receiveTime.getTitle(context),
+              svgIconSelected: _imagePaths.icFilterSelected,
+              maxWidth: 320,
+              isSelected:
+                  controller.dateFilterSelectedFormAdvancedSearch.value ==
+                      receiveTime,
+              onCallbackAction: () => controller.updateReceiveDateSearchFilter(
+                  context, receiveTime),
+            )))
+        .toList();
   }
 
   Widget _buildFilterField({
@@ -131,8 +130,10 @@ class AdvancedSearchInputForm extends GetWidget<AdvancedFilterController>
   }) {
     final child = [
       SizedBox(
-        width: _responsiveUtils.isMobile(context) || _responsiveUtils.landscapeTabletSupported(context)
-            ? null : 112,
+        width: _responsiveUtils.isMobile(context) ||
+                _responsiveUtils.landscapeTabletSupported(context)
+            ? null
+            : 112,
         child: Text(
           advancedSearchFilterField.getTitle(context),
           style: const TextStyle(
@@ -156,12 +157,14 @@ class AdvancedSearchInputForm extends GetWidget<AdvancedFilterController>
       else if (_responsiveUtils.landscapeTabletSupported(context))
         if (advancedSearchFilterField == AdvancedSearchFilterField.date)
           Obx(() => DateDropDownButton(
-            _imagePaths,
-            startDate: controller.startDate.value,
-            endDate: controller.endDate.value,
-            receiveTimeSelected: controller.dateFilterSelectedFormAdvancedSearch.value,
-            onReceiveTimeSelected: (receiveTime) => controller.updateReceiveDateSearchFilter(context, receiveTime),
-          ))
+                _imagePaths,
+                startDate: controller.startDate.value,
+                endDate: controller.endDate.value,
+                receiveTimeSelected:
+                    controller.dateFilterSelectedFormAdvancedSearch.value,
+                onReceiveTimeSelected: (receiveTime) => controller
+                    .updateReceiveDateSearchFilter(context, receiveTime),
+              ))
         else
           _buildTextField(
             isSelectFormList: isSelectFormList,
@@ -189,7 +192,8 @@ class AdvancedSearchInputForm extends GetWidget<AdvancedFilterController>
     ];
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
-      child: _responsiveUtils.isMobile(context) || _responsiveUtils.landscapeTabletSupported(context)
+      child: _responsiveUtils.isMobile(context) ||
+              _responsiveUtils.landscapeTabletSupported(context)
           ? Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -213,12 +217,14 @@ class AdvancedSearchInputForm extends GetWidget<AdvancedFilterController>
     switch (advancedSearchFilterField) {
       case AdvancedSearchFilterField.date:
         return Obx(() => DateDropDownButton(
-          _imagePaths,
-          startDate: controller.startDate.value,
-          endDate: controller.endDate.value,
-          receiveTimeSelected: controller.dateFilterSelectedFormAdvancedSearch.value,
-          onReceiveTimeSelected: (receiveTime) => controller.updateReceiveDateSearchFilter(context, receiveTime),
-        ));
+              _imagePaths,
+              startDate: controller.startDate.value,
+              endDate: controller.endDate.value,
+              receiveTimeSelected:
+                  controller.dateFilterSelectedFormAdvancedSearch.value,
+              onReceiveTimeSelected: (receiveTime) => controller
+                  .updateReceiveDateSearchFilter(context, receiveTime),
+            ));
       default:
         return _buildTextField(
           isSelectFormList: isSelectFormList,
@@ -243,8 +249,10 @@ class AdvancedSearchInputForm extends GetWidget<AdvancedFilterController>
   }) {
     final child = [
       SizedBox(
-        width: _responsiveUtils.isMobile(context) || _responsiveUtils.landscapeTabletSupported(context)
-            ? null : 112,
+        width: _responsiveUtils.isMobile(context) ||
+                _responsiveUtils.landscapeTabletSupported(context)
+            ? null
+            : 112,
         child: Text(
           advancedSearchFilterField.getTitle(context),
           style: const TextStyle(
@@ -254,7 +262,8 @@ class AdvancedSearchInputForm extends GetWidget<AdvancedFilterController>
         ),
       ),
       const Padding(padding: EdgeInsets.all(4)),
-      _responsiveUtils.isMobile(context) || _responsiveUtils.landscapeTabletSupported(context)
+      _responsiveUtils.isMobile(context) ||
+              _responsiveUtils.landscapeTabletSupported(context)
           ? TextFieldAutocompleteEmailAddress(
               optionsBuilder: controller.getAutoCompleteSuggestion,
               advancedSearchFilterField: advancedSearchFilterField,
@@ -262,7 +271,8 @@ class AdvancedSearchInputForm extends GetWidget<AdvancedFilterController>
               currentFocusNode: currentFocusNode,
               nextFocusNode: nextFocusNode,
               onAddTag: (value) {
-                if (advancedSearchFilterField == AdvancedSearchFilterField.form) {
+                if (advancedSearchFilterField ==
+                    AdvancedSearchFilterField.form) {
                   controller.searchEmailFilter.from.add(value.trim());
                   controller.lastTextForm.value = '';
                 }
@@ -272,7 +282,8 @@ class AdvancedSearchInputForm extends GetWidget<AdvancedFilterController>
                 }
               },
               onDeleteTag: (tag) {
-                if (advancedSearchFilterField == AdvancedSearchFilterField.form) {
+                if (advancedSearchFilterField ==
+                    AdvancedSearchFilterField.form) {
                   controller.searchEmailFilter.from.remove(tag);
                   controller.lastTextForm.value = '';
                 }
@@ -282,7 +293,8 @@ class AdvancedSearchInputForm extends GetWidget<AdvancedFilterController>
                 }
               },
               onChange: (value) {
-                if (advancedSearchFilterField == AdvancedSearchFilterField.form) {
+                if (advancedSearchFilterField ==
+                    AdvancedSearchFilterField.form) {
                   controller.lastTextForm.value = value.trim();
                 }
                 if (advancedSearchFilterField == AdvancedSearchFilterField.to) {
@@ -298,29 +310,35 @@ class AdvancedSearchInputForm extends GetWidget<AdvancedFilterController>
                 currentFocusNode: currentFocusNode,
                 nextFocusNode: nextFocusNode,
                 onAddTag: (value) {
-                  if (advancedSearchFilterField == AdvancedSearchFilterField.form) {
+                  if (advancedSearchFilterField ==
+                      AdvancedSearchFilterField.form) {
                     controller.searchEmailFilter.from.add(value.trim());
                     controller.lastTextForm.value = '';
                   }
-                  if (advancedSearchFilterField == AdvancedSearchFilterField.to) {
+                  if (advancedSearchFilterField ==
+                      AdvancedSearchFilterField.to) {
                     controller.searchEmailFilter.to.add(value.trim());
                     controller.lastTextTo.value = '';
                   }
                 },
                 onChange: (value) {
-                  if (advancedSearchFilterField == AdvancedSearchFilterField.form) {
+                  if (advancedSearchFilterField ==
+                      AdvancedSearchFilterField.form) {
                     controller.lastTextForm.value = value.trim();
                   }
-                  if (advancedSearchFilterField == AdvancedSearchFilterField.to) {
+                  if (advancedSearchFilterField ==
+                      AdvancedSearchFilterField.to) {
                     controller.lastTextTo.value = value.trim();
                   }
                 },
                 onDeleteTag: (tag) {
-                  if (advancedSearchFilterField == AdvancedSearchFilterField.form) {
+                  if (advancedSearchFilterField ==
+                      AdvancedSearchFilterField.form) {
                     controller.searchEmailFilter.from.remove(tag);
                     controller.lastTextForm.value = '';
                   }
-                  if (advancedSearchFilterField == AdvancedSearchFilterField.to) {
+                  if (advancedSearchFilterField ==
+                      AdvancedSearchFilterField.to) {
                     controller.searchEmailFilter.to.remove(tag);
                     controller.lastTextTo.value = '';
                   }
@@ -330,7 +348,8 @@ class AdvancedSearchInputForm extends GetWidget<AdvancedFilterController>
     ];
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
-      child: _responsiveUtils.isMobile(context) || _responsiveUtils.landscapeTabletSupported(context)
+      child: _responsiveUtils.isMobile(context) ||
+              _responsiveUtils.landscapeTabletSupported(context)
           ? Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -364,7 +383,8 @@ class AdvancedSearchInputForm extends GetWidget<AdvancedFilterController>
         readOnly: isSelectFormList,
         mouseCursor: mouseCursor,
         maxLines: 1,
-        textInputAction: isSelectFormList ? TextInputAction.done : TextInputAction.next,
+        textInputAction:
+            isSelectFormList ? TextInputAction.done : TextInputAction.next,
         textStyle: AdvancedSearchInputFormStyle.inputTextStyle,
         onTap: onTap,
         onTextSubmitted: (value) {
@@ -378,7 +398,8 @@ class AdvancedSearchInputForm extends GetWidget<AdvancedFilterController>
         },
         decoration: InputDecoration(
           filled: true,
-          fillColor: isSelectFormList ? AppColor.colorItemSelected : Colors.white,
+          fillColor:
+              isSelectFormList ? AppColor.colorItemSelected : Colors.white,
           contentPadding: const EdgeInsets.only(
             right: 8,
             left: 12,
@@ -404,11 +425,13 @@ class AdvancedSearchInputForm extends GetWidget<AdvancedFilterController>
           hintText: advancedSearchFilterField.getHintText(context),
           hintStyle: TextStyle(
             fontSize: 16,
-            color: advancedSearchFilterField == AdvancedSearchFilterField.mailBox
-              ? Colors.black
-              : AppColor.colorHintSearchBar,
+            color:
+                advancedSearchFilterField == AdvancedSearchFilterField.mailBox
+                    ? Colors.black
+                    : AppColor.colorHintSearchBar,
           ),
-          suffixIconConstraints: const BoxConstraints(minHeight: 24, minWidth: 24),
+          suffixIconConstraints:
+              const BoxConstraints(minHeight: 24, minWidth: 24),
           suffixIcon: isSelectFormList
               ? buildIconWeb(
                   icon: SvgPicture.asset(

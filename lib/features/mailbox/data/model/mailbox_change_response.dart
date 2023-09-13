@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:jmap_dart_client/jmap/core/properties/properties.dart';
 import 'package:jmap_dart_client/jmap/core/state.dart';
@@ -25,12 +24,12 @@ class MailboxChangeResponse with EquatableMixin {
 
   @override
   List<Object?> get props => [
-    updated,
-    created,
-    destroyed,
-    newStateMailbox,
-    newStateChanges,
-    hasMoreChanges,
-    updatedProperties
-  ];
+        updated,
+        created,
+        destroyed,
+        newStateMailbox,
+        newStateChanges,
+        hasMoreChanges,
+        updatedProperties
+      ];
 }

@@ -16,13 +16,12 @@ class MarkAsMailboxReadInteractor {
   MarkAsMailboxReadInteractor(this._mailboxRepository, this._emailRepository);
 
   Stream<Either<Failure, Success>> execute(
-    Session session,
-    AccountId accountId,
-    MailboxId mailboxId,
-    String mailboxDisplayName,
-    int totalEmailUnread,
-    StreamController<Either<Failure, Success>> onProgressController
-  ) async* {
+      Session session,
+      AccountId accountId,
+      MailboxId mailboxId,
+      String mailboxDisplayName,
+      int totalEmailUnread,
+      StreamController<Either<Failure, Success>> onProgressController) async* {
     try {
       yield Right<Failure, Success>(MarkAsMailboxReadLoading());
       onProgressController.add(Right(MarkAsMailboxReadLoading()));
@@ -35,24 +34,18 @@ class MarkAsMailboxReadInteractor {
       final currentMailboxState = listState.first;
       final currentEmailState = listState.last;
 
-      final listEmails = await _mailboxRepository.markAsMailboxRead(
-        session,
-        accountId,
-        mailboxId,
-        totalEmailUnread,
-        onProgressController);
+      final listEmails = await _mailboxRepository.markAsMailboxRead(session,
+          accountId, mailboxId, totalEmailUnread, onProgressController);
 
       if (totalEmailUnread == listEmails.length) {
-        yield Right(MarkAsMailboxReadAllSuccess(
-          mailboxDisplayName,
-          currentEmailState: currentEmailState,
-          currentMailboxState: currentMailboxState));
+        yield Right(MarkAsMailboxReadAllSuccess(mailboxDisplayName,
+            currentEmailState: currentEmailState,
+            currentMailboxState: currentMailboxState));
       } else if (listEmails.isNotEmpty) {
         yield Right(MarkAsMailboxReadHasSomeEmailFailure(
-          mailboxDisplayName,
-          listEmails.length,
-          currentEmailState: currentEmailState,
-          currentMailboxState: currentMailboxState));
+            mailboxDisplayName, listEmails.length,
+            currentEmailState: currentEmailState,
+            currentMailboxState: currentMailboxState));
       } else {
         yield Left(MarkAsMailboxReadAllFailure());
       }

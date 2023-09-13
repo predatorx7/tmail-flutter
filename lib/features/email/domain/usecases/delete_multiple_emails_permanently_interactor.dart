@@ -11,11 +11,14 @@ class DeleteMultipleEmailsPermanentlyInteractor {
   final EmailRepository _emailRepository;
   final MailboxRepository _mailboxRepository;
 
-  DeleteMultipleEmailsPermanentlyInteractor(this._emailRepository, this._mailboxRepository);
+  DeleteMultipleEmailsPermanentlyInteractor(
+      this._emailRepository, this._mailboxRepository);
 
-  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId, List<EmailId> emailIds) async* {
+  Stream<Either<Failure, Success>> execute(
+      Session session, AccountId accountId, List<EmailId> emailIds) async* {
     try {
-      yield Right<Failure, Success>(LoadingDeleteMultipleEmailsPermanentlyAll());
+      yield Right<Failure, Success>(
+          LoadingDeleteMultipleEmailsPermanentlyAll());
 
       final listState = await Future.wait([
         _mailboxRepository.getMailboxState(session, accountId),
@@ -25,19 +28,21 @@ class DeleteMultipleEmailsPermanentlyInteractor {
       final currentMailboxState = listState.first;
       final currentEmailState = listState.last;
 
-      final listResult = await _emailRepository.deleteMultipleEmailsPermanently(session, accountId, emailIds);
+      final listResult = await _emailRepository.deleteMultipleEmailsPermanently(
+          session, accountId, emailIds);
       if (listResult.length == emailIds.length) {
         yield Right<Failure, Success>(DeleteMultipleEmailsPermanentlyAllSuccess(
             listResult,
             currentEmailState: currentEmailState,
             currentMailboxState: currentMailboxState));
       } else if (listResult.isNotEmpty) {
-        yield Right<Failure, Success>(DeleteMultipleEmailsPermanentlyHasSomeEmailFailure(
-            listResult,
-            currentEmailState: currentEmailState,
-            currentMailboxState: currentMailboxState));
+        yield Right<Failure, Success>(
+            DeleteMultipleEmailsPermanentlyHasSomeEmailFailure(listResult,
+                currentEmailState: currentEmailState,
+                currentMailboxState: currentMailboxState));
       } else {
-        yield Left<Failure, Success>(DeleteMultipleEmailsPermanentlyAllFailure());
+        yield Left<Failure, Success>(
+            DeleteMultipleEmailsPermanentlyAllFailure());
       }
     } catch (e) {
       yield Left<Failure, Success>(DeleteMultipleEmailsPermanentlyFailure(e));

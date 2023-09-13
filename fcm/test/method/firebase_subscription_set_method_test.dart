@@ -18,89 +18,87 @@ void main() {
   group('test to json firebase subscription set method', () {
     final expectedFirebaseSubscriptionCreated = FirebaseSubscription(
       id: FirebaseSubscriptionId(Id('175dbd70-93d1-11ec-984e-e3f8b83572b4')),
-      expires: FirebaseExpiredTime(UTCDate(DateTime.parse('2022-03-31T02:14:29Z'))),
+      expires:
+          FirebaseExpiredTime(UTCDate(DateTime.parse('2022-03-31T02:14:29Z'))),
     );
 
     test('firebase subscription set method and response parsing', () async {
-      final baseOption  = BaseOptions(method: 'POST');
-      final dio = Dio(baseOption)
-        ..options.baseUrl = 'http://domain.com/jmap';
+      final baseOption = BaseOptions(method: 'POST');
+      final dio = Dio(baseOption)..options.baseUrl = 'http://domain.com/jmap';
       final dioAdapter = DioAdapter(dio: dio);
       dioAdapter.onPost(
-        '',
-        (server) => server.reply(200, {
-          "sessionState": "2c9f1b12-b35a-43e6-9af2-0106fb53a943",
-          "methodResponses": [
-            [
-              "FirebaseRegistration/set",
-              {
-                "created": {
-                  "dab246": {
-                    "id": "175dbd70-93d1-11ec-984e-e3f8b83572b4",
-                    "expires": "2022-03-31T02:14:29Z"
+          '',
+          (server) => server.reply(200, {
+                "sessionState": "2c9f1b12-b35a-43e6-9af2-0106fb53a943",
+                "methodResponses": [
+                  [
+                    "FirebaseRegistration/set",
+                    {
+                      "created": {
+                        "dab246": {
+                          "id": "175dbd70-93d1-11ec-984e-e3f8b83572b4",
+                          "expires": "2022-03-31T02:14:29Z"
+                        }
+                      }
+                    },
+                    "c0"
+                  ]
+                ]
+              }),
+          data: {
+            "using": [
+              "urn:ietf:params:jmap:core",
+              "urn:ietf:params:jmap:mail",
+              "com:linagora:params:jmap:firebase:push"
+            ],
+            "methodCalls": [
+              [
+                "FirebaseRegistration/set",
+                {
+                  "create": {
+                    "dab246": {
+                      "token": "token1",
+                      "deviceClientId": "a123-b123-c123",
+                      "types": ["Mailbox"]
+                    }
                   }
-                }
-              },
-              "c0"
+                },
+                "c0"
+              ]
             ]
-          ]
-        }),
-        data: {
-          "using": [
-            "urn:ietf:params:jmap:core",
-            "urn:ietf:params:jmap:mail",
-            "com:linagora:params:jmap:firebase:push"
-          ],
-          "methodCalls": [
-            [
-              "FirebaseRegistration/set",
-              {
-                "create": {
-                  "dab246": {
-                    "token": "token1",
-                    "deviceClientId": "a123-b123-c123",
-                    "types": ["Mailbox"]
-                  }
-                }
-              },
-              "c0"
-            ]
-          ]
-        },
-        headers: {
-          "accept": "application/json;jmapVersion=rfc-8621",
-          "content-length": 424
-        }
-      );
+          },
+          headers: {
+            "accept": "application/json;jmapVersion=rfc-8621",
+            "content-length": 424
+          });
 
       final createRequestId = Id('dab246');
 
       final firebaseSubscriptionSetMethod = FirebaseSubscriptionSetMethod()
         ..addCreate(
-          createRequestId,
-          FirebaseSubscription(
-            deviceClientId: DeviceClientId('a123-b123-c123'),
-            token: FirebaseToken('token1'),
-            types: [TypeName.mailboxType]
-          )
-        );
+            createRequestId,
+            FirebaseSubscription(
+                deviceClientId: DeviceClientId('a123-b123-c123'),
+                token: FirebaseToken('token1'),
+                types: [TypeName.mailboxType]));
 
       final httpClient = HttpClient(dio);
-      final requestBuilder = JmapRequestBuilder(httpClient, ProcessingInvocation());
-      final firebaseSubscriptionSetInvocation = requestBuilder.invocation(firebaseSubscriptionSetMethod);
+      final requestBuilder =
+          JmapRequestBuilder(httpClient, ProcessingInvocation());
+      final firebaseSubscriptionSetInvocation =
+          requestBuilder.invocation(firebaseSubscriptionSetMethod);
       final response = await (requestBuilder
-          ..usings(firebaseSubscriptionSetMethod.requiredCapabilities))
-        .build()
-        .execute();
+            ..usings(firebaseSubscriptionSetMethod.requiredCapabilities))
+          .build()
+          .execute();
 
-      final firebaseSubscriptionSetResponse = response.parse<FirebaseSubscriptionSetResponse>(
-        firebaseSubscriptionSetInvocation.methodCallId,
-        FirebaseSubscriptionSetResponse.deserialize);
+      final firebaseSubscriptionSetResponse =
+          response.parse<FirebaseSubscriptionSetResponse>(
+              firebaseSubscriptionSetInvocation.methodCallId,
+              FirebaseSubscriptionSetResponse.deserialize);
 
-      expect(
-        firebaseSubscriptionSetResponse!.created![createRequestId]!.id,
-        equals(expectedFirebaseSubscriptionCreated.id)
-      );
+      expect(firebaseSubscriptionSetResponse!.created![createRequestId]!.id,
+          equals(expectedFirebaseSubscriptionCreated.id));
     });
   });
 }

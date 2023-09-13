@@ -12,23 +12,14 @@ class GetStoredSendingEmailInteractor {
 
   GetStoredSendingEmailInteractor(this._sendingQueueRepository);
 
-  Stream<Either<Failure, Success>> execute(
-    AccountId accountId,
-    UserName userName,
-    String sendingId,
-    SendingState sendingState
-  ) async* {
+  Stream<Either<Failure, Success>> execute(AccountId accountId,
+      UserName userName, String sendingId, SendingState sendingState) async* {
     try {
       yield Right<Failure, Success>(GetStoredSendingEmailLoading());
-      final sendingEmail = await _sendingQueueRepository.getStoredSendingEmail(accountId, userName, sendingId);
-      yield Right<Failure, Success>(
-        GetStoredSendingEmailSuccess(
-          sendingEmail,
-          accountId,
-          userName,
-          sendingState
-        )
-      );
+      final sendingEmail = await _sendingQueueRepository.getStoredSendingEmail(
+          accountId, userName, sendingId);
+      yield Right<Failure, Success>(GetStoredSendingEmailSuccess(
+          sendingEmail, accountId, userName, sendingState));
     } catch (e) {
       yield Left<Failure, Success>(GetStoredSendingEmailFailure(e));
     }

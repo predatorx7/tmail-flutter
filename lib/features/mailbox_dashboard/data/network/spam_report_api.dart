@@ -13,44 +13,42 @@ import 'package:tmail_ui_user/main/error/capability_validator.dart';
 
 class SpamReportApi {
   final HttpClient _httpClient;
-  static const int _deafaultLimit = 1; 
+  static const int _deafaultLimit = 1;
 
   SpamReportApi(this._httpClient);
 
   Future<UnreadSpamEmailsResponse> getUnreadSpamEmailbox(
-    Session session,
-    AccountId accountId,
-    {
-      MailboxFilterCondition? mailboxFilterCondition,
-      UnsignedInt? limit
-    }
-  ) async {
+      Session session, AccountId accountId,
+      {MailboxFilterCondition? mailboxFilterCondition,
+      UnsignedInt? limit}) async {
     final processingInvocation = ProcessingInvocation();
-    final requestBuilder = JmapRequestBuilder(_httpClient, processingInvocation);
-    final spamReportQueryMethod = QueryMailboxMethod(accountId)..addLimit(limit ?? UnsignedInt(_deafaultLimit));
+    final requestBuilder =
+        JmapRequestBuilder(_httpClient, processingInvocation);
+    final spamReportQueryMethod = QueryMailboxMethod(accountId)
+      ..addLimit(limit ?? UnsignedInt(_deafaultLimit));
 
-    if(mailboxFilterCondition != null) spamReportQueryMethod.addFilters(mailboxFilterCondition);
+    if (mailboxFilterCondition != null)
+      spamReportQueryMethod.addFilters(mailboxFilterCondition);
 
-    final spamReportQueryMethodInvocation = requestBuilder.invocation(spamReportQueryMethod);
+    final spamReportQueryMethodInvocation =
+        requestBuilder.invocation(spamReportQueryMethod);
     final getMailBoxMethod = GetMailboxMethod(accountId)
-        ..addReferenceIds(processingInvocation.createResultReference(
-          spamReportQueryMethodInvocation.methodCallId,
-          ReferencePath.idsPath,
-        ));
+      ..addReferenceIds(processingInvocation.createResultReference(
+        spamReportQueryMethodInvocation.methodCallId,
+        ReferencePath.idsPath,
+      ));
     final getMailboxInvocation = requestBuilder.invocation(getMailBoxMethod);
 
     final capabilities = getMailBoxMethod.requiredCapabilities
-      .toCapabilitiesSupportTeamMailboxes(session, accountId);
+        .toCapabilitiesSupportTeamMailboxes(session, accountId);
 
-    final result = await (requestBuilder
-            ..usings(capabilities))
-          .build()
-          .execute();
+    final result =
+        await (requestBuilder..usings(capabilities)).build().execute();
 
-    final mailboxResponse = result
-        .parse<GetMailboxResponse>(getMailboxInvocation.methodCallId, GetMailboxResponse.deserialize);
+    final mailboxResponse = result.parse<GetMailboxResponse>(
+        getMailboxInvocation.methodCallId, GetMailboxResponse.deserialize);
 
-     return Future.sync(() async {
+    return Future.sync(() async {
       final unreadSpamMailbox = mailboxResponse?.list.first;
       return UnreadSpamEmailsResponse(unreadSpamMailbox: unreadSpamMailbox);
     }).catchError((error) {

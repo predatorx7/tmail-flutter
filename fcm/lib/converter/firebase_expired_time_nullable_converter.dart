@@ -3,7 +3,8 @@ import 'package:jmap_dart_client/http/converter/utc_date_converter.dart';
 import 'package:jmap_dart_client/http/converter/utc_date_nullable_converter.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-class FirebaseExpiredTimeNullableConverter implements JsonConverter<FirebaseExpiredTime?, String?> {
+class FirebaseExpiredTimeNullableConverter
+    implements JsonConverter<FirebaseExpiredTime?, String?> {
   const FirebaseExpiredTimeNullableConverter();
 
   @override
@@ -16,5 +17,6 @@ class FirebaseExpiredTimeNullableConverter implements JsonConverter<FirebaseExpi
   }
 
   @override
-  String? toJson(FirebaseExpiredTime? object) => const UTCDateNullableConverter().toJson(object?.value);
+  String? toJson(FirebaseExpiredTime? object) =>
+      const UTCDateNullableConverter().toJson(object?.value);
 }

@@ -9,11 +9,12 @@ class SaveLoginUsernameOnMobileInteractor {
 
   SaveLoginUsernameOnMobileInteractor(this.loginUsernameRepository);
 
-  Future<Either<Failure, Success>> execute(RecentLoginUsername recentLoginUsername) async {
+  Future<Either<Failure, Success>> execute(
+      RecentLoginUsername recentLoginUsername) async {
     try {
       await loginUsernameRepository.saveLoginUsername(recentLoginUsername);
       return Right(SaveRecentLoginUsernameSuccess());
-    } catch(exception) {
+    } catch (exception) {
       return Left(SaveRecentLoginUsernameFailed(exception));
     }
   }

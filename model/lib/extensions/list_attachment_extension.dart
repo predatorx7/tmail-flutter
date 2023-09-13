@@ -1,12 +1,11 @@
-
 import 'package:jmap_dart_client/jmap/account_id.dart';
 import 'package:model/email/attachment.dart';
 
 extension ListAttachmentExtension on List<Attachment> {
-
   num totalSize() {
     if (isNotEmpty) {
-      final currentListSize = map((attachment) => attachment.size?.value ?? 0).toList();
+      final currentListSize =
+          map((attachment) => attachment.size?.value ?? 0).toList();
       final totalSize = currentListSize.reduce((sum, size) => sum + size);
       return totalSize;
     }
@@ -14,22 +13,20 @@ extension ListAttachmentExtension on List<Attachment> {
   }
 
   List<Attachment> get listAttachmentsDisplayedOutSide {
-    return where((attachment) => attachment.disposition == ContentDisposition.attachment || attachment.noCid())
-        .toList();
+    return where((attachment) =>
+        attachment.disposition == ContentDisposition.attachment ||
+        attachment.noCid()).toList();
   }
 
   List<Attachment> get listAttachmentsDisplayedInContent {
-    return where((attachment) => attachment.hasCid())
-      .toList();
+    return where((attachment) => attachment.hasCid()).toList();
   }
 
-  Map<String, String> toMapCidImageDownloadUrl({
-    required AccountId accountId,
-    required String downloadUrl
-  }) {
+  Map<String, String> toMapCidImageDownloadUrl(
+      {required AccountId accountId, required String downloadUrl}) {
     final mapUrlDownloadCID = {
       for (var attachment in listAttachmentsDisplayedInContent)
-        attachment.cid! : attachment.getDownloadUrl(downloadUrl, accountId)
+        attachment.cid!: attachment.getDownloadUrl(downloadUrl, accountId)
     };
     return mapUrlDownloadCID;
   }

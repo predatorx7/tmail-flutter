@@ -10,7 +10,8 @@ void main() {
       final sessionHiveObj = SessionFixtures.aliceSession.toHiveObj();
       final sessionParsed = sessionHiveObj.toSession();
 
-      expect(sessionParsed.accounts.length, equals(SessionFixtures.aliceSession.accounts.length));
+      expect(sessionParsed.accounts.length,
+          equals(SessionFixtures.aliceSession.accounts.length));
     });
   });
 }

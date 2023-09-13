@@ -12,7 +12,6 @@ import 'package:tmail_ui_user/features/mailbox_dashboard/domain/app_dashboard/li
 import 'package:url_launcher/url_launcher.dart' as launcher;
 
 class AppListDashboardItem extends StatelessWidget {
-
   final LinagoraApp app;
 
   const AppListDashboardItem(this.app, {Key? key}) : super(key: key);
@@ -21,17 +20,24 @@ class AppListDashboardItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final imagePaths = Get.find<ImagePaths>();
     return SloganBuilder(
-      sizeLogo: 32,
-      paddingText: const EdgeInsetsDirectional.only(start: 12),
-      text: app.appName,
-      textAlign: TextAlign.center,
-      textStyle: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: AppColor.colorNameEmail),
-      logo: !app.iconName.endsWith('svg') ? imagePaths.getConfigurationImagePath(app.iconName) : null,
-      logoSVG: app.iconName.endsWith('svg') ? imagePaths.getConfigurationImagePath(app.iconName) : null,
-      onTapCallback: () => _openApp(context, app),
-      padding: const EdgeInsetsDirectional.symmetric(vertical: 12, horizontal: 20),
-      hoverColor: AppColor.colorBgMailboxSelected
-    );
+        sizeLogo: 32,
+        paddingText: const EdgeInsetsDirectional.only(start: 12),
+        text: app.appName,
+        textAlign: TextAlign.center,
+        textStyle: const TextStyle(
+            fontSize: 17,
+            fontWeight: FontWeight.w500,
+            color: AppColor.colorNameEmail),
+        logo: !app.iconName.endsWith('svg')
+            ? imagePaths.getConfigurationImagePath(app.iconName)
+            : null,
+        logoSVG: app.iconName.endsWith('svg')
+            ? imagePaths.getConfigurationImagePath(app.iconName)
+            : null,
+        onTapCallback: () => _openApp(context, app),
+        padding:
+            const EdgeInsetsDirectional.symmetric(vertical: 12, horizontal: 20),
+        hoverColor: AppColor.colorBgMailboxSelected);
   }
 
   void _openApp(BuildContext context, LinagoraApp app) async {
@@ -43,15 +49,12 @@ class AppListDashboardItem extends StatelessWidget {
       await LaunchApp.openApp(androidPackageName: app.androidPackageId);
     } else if (Platform.isIOS && app.iosUrlScheme?.isNotEmpty == true) {
       await LaunchApp.openApp(
-        iosUrlScheme: '${app.iosUrlScheme}://',
-        appStoreLink: app.iosAppStoreLink
-      );
+          iosUrlScheme: '${app.iosUrlScheme}://',
+          appStoreLink: app.iosAppStoreLink);
     } else {
       if (await launcher.canLaunchUrl(app.appUri)) {
-        await launcher.launchUrl(
-          app.appUri,
-          mode: launcher.LaunchMode.externalApplication
-        );
+        await launcher.launchUrl(app.appUri,
+            mode: launcher.LaunchMode.externalApplication);
       }
     }
   }

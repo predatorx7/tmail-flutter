@@ -6,7 +6,6 @@ import 'package:jmap_dart_client/jmap/core/state.dart' as jmap;
 class StartDeleteEmailPermanently extends UIState {}
 
 class DeleteEmailPermanentlySuccess extends UIActionState {
-
   DeleteEmailPermanentlySuccess({
     jmap.State? currentEmailState,
     jmap.State? currentMailboxState,
@@ -14,6 +13,6 @@ class DeleteEmailPermanentlySuccess extends UIActionState {
 }
 
 class DeleteEmailPermanentlyFailure extends FeatureFailure {
-
-  DeleteEmailPermanentlyFailure(dynamic exception) : super(exception: exception);
+  DeleteEmailPermanentlyFailure(dynamic exception)
+      : super(exception: exception);
 }

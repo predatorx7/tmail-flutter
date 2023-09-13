@@ -7,7 +7,6 @@ import 'package:tmail_ui_user/features/thread/domain/state/get_all_email_state.d
 import 'package:tmail_ui_user/features/thread/domain/state/search_email_state.dart';
 
 class ThreadViewLoadingBarWidget extends StatelessWidget {
-
   final Either<Failure, Success> viewState;
 
   const ThreadViewLoadingBarWidget({
@@ -17,17 +16,14 @@ class ThreadViewLoadingBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return viewState.fold(
-      (failure) => const SizedBox.shrink(),
-      (success) {
-        if (success is SearchingState || success is GetAllEmailLoading) {
-          return const Padding(
+    return viewState.fold((failure) => const SizedBox.shrink(), (success) {
+      if (success is SearchingState || success is GetAllEmailLoading) {
+        return const Padding(
             padding: EdgeInsetsDirectional.only(top: 16),
             child: CupertinoLoadingWidget());
-        } else {
-          return const SizedBox.shrink();
-        }
+      } else {
+        return const SizedBox.shrink();
       }
-    );
+    });
   }
 }

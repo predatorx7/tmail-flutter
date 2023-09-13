@@ -27,7 +27,6 @@ import 'package:tmail_ui_user/features/mailbox/domain/model/subscribe_multiple_m
 import 'package:tmail_ui_user/features/mailbox/domain/repository/mailbox_repository.dart';
 
 class MailboxRepositoryImpl extends MailboxRepository {
-
   final Map<DataSourceType, MailboxDataSource> mapDataSource;
   final StateDataSource stateDataSource;
 
@@ -37,9 +36,11 @@ class MailboxRepositoryImpl extends MailboxRepository {
   );
 
   @override
-  Stream<MailboxResponse> getAllMailbox(Session session, AccountId accountId, {Properties? properties}) async* {
+  Stream<MailboxResponse> getAllMailbox(Session session, AccountId accountId,
+      {Properties? properties}) async* {
     final localMailboxResponse = await Future.wait([
-      mapDataSource[DataSourceType.local]!.getAllMailboxCache(accountId, session.username),
+      mapDataSource[DataSourceType.local]!
+          .getAllMailboxCache(accountId, session.username),
       stateDataSource.getState(accountId, session.username, StateType.mailbox)
     ]).then((List response) {
       return MailboxResponse(mailboxes: response.first, state: response.last);
@@ -51,8 +52,9 @@ class MailboxRepositoryImpl extends MailboxRepository {
       bool hasMoreChanges = true;
       State? sinceState = localMailboxResponse.state!;
 
-      while(hasMoreChanges && sinceState != null) {
-        final changesResponse = await mapDataSource[DataSourceType.network]!.getChanges(session, accountId, sinceState);
+      while (hasMoreChanges && sinceState != null) {
+        final changesResponse = await mapDataSource[DataSourceType.network]!
+            .getChanges(session, accountId, sinceState);
 
         hasMoreChanges = changesResponse.hasMoreChanges;
         sinceState = changesResponse.newStateChanges;
@@ -64,27 +66,34 @@ class MailboxRepositoryImpl extends MailboxRepository {
 
         await Future.wait([
           mapDataSource[DataSourceType.local]!.update(
-              accountId,
-              session.username,
+              accountId, session.username,
               updated: newMailboxUpdated,
               created: changesResponse.created,
               destroyed: changesResponse.destroyed),
           if (changesResponse.newStateMailbox != null)
-            stateDataSource.saveState(accountId, session.username, changesResponse.newStateMailbox!.toStateCache(StateType.mailbox)),
+            stateDataSource.saveState(
+                accountId,
+                session.username,
+                changesResponse.newStateMailbox!
+                    .toStateCache(StateType.mailbox)),
         ]);
       }
     } else {
-      final mailboxResponse = await mapDataSource[DataSourceType.network]!.getAllMailbox(session, accountId);
+      final mailboxResponse = await mapDataSource[DataSourceType.network]!
+          .getAllMailbox(session, accountId);
 
       await Future.wait([
-        mapDataSource[DataSourceType.local]!.update(accountId, session.username, created: mailboxResponse.mailboxes),
+        mapDataSource[DataSourceType.local]!.update(accountId, session.username,
+            created: mailboxResponse.mailboxes),
         if (mailboxResponse.state != null)
-          stateDataSource.saveState(accountId, session.username, mailboxResponse.state!.toStateCache(StateType.mailbox)),
+          stateDataSource.saveState(accountId, session.username,
+              mailboxResponse.state!.toStateCache(StateType.mailbox)),
       ]);
     }
 
     final newMailboxResponse = await Future.wait([
-      mapDataSource[DataSourceType.local]!.getAllMailboxCache(accountId, session.username),
+      mapDataSource[DataSourceType.local]!
+          .getAllMailboxCache(accountId, session.username),
       stateDataSource.getState(accountId, session.username, StateType.mailbox)
     ]).then((List response) {
       return MailboxResponse(mailboxes: response.first, state: response.last);
@@ -93,11 +102,10 @@ class MailboxRepositoryImpl extends MailboxRepository {
     yield newMailboxResponse;
   }
 
-  Future<List<Mailbox>?> _combineMailboxCache({
-    List<Mailbox>? mailboxUpdated,
-    Properties? updatedProperties,
-    List<Mailbox>? mailboxCacheList
-  }) async {
+  Future<List<Mailbox>?> _combineMailboxCache(
+      {List<Mailbox>? mailboxUpdated,
+      Properties? updatedProperties,
+      List<Mailbox>? mailboxCacheList}) async {
     if (mailboxUpdated != null && mailboxUpdated.isNotEmpty) {
       final newMailboxUpdated = mailboxUpdated.map((mailboxUpdated) {
         if (updatedProperties == null) {
@@ -118,14 +126,17 @@ class MailboxRepositoryImpl extends MailboxRepository {
   }
 
   @override
-  Stream<MailboxResponse> refresh(Session session, AccountId accountId, State currentState) async* {
-    final localMailboxList = await mapDataSource[DataSourceType.local]!.getAllMailboxCache(accountId, session.username);
+  Stream<MailboxResponse> refresh(
+      Session session, AccountId accountId, State currentState) async* {
+    final localMailboxList = await mapDataSource[DataSourceType.local]!
+        .getAllMailboxCache(accountId, session.username);
 
     bool hasMoreChanges = true;
     State? sinceState = currentState;
 
-    while(hasMoreChanges && sinceState != null) {
-      final changesResponse = await mapDataSource[DataSourceType.network]!.getChanges(session, accountId, sinceState);
+    while (hasMoreChanges && sinceState != null) {
+      final changesResponse = await mapDataSource[DataSourceType.network]!
+          .getChanges(session, accountId, sinceState);
 
       hasMoreChanges = changesResponse.hasMoreChanges;
       sinceState = changesResponse.newStateChanges;
@@ -136,19 +147,19 @@ class MailboxRepositoryImpl extends MailboxRepository {
           mailboxCacheList: localMailboxList);
 
       await Future.wait([
-        mapDataSource[DataSourceType.local]!.update(
-            accountId,
-            session.username,
+        mapDataSource[DataSourceType.local]!.update(accountId, session.username,
             updated: newMailboxUpdated,
             created: changesResponse.created,
             destroyed: changesResponse.destroyed),
         if (changesResponse.newStateMailbox != null)
-          stateDataSource.saveState(accountId, session.username, changesResponse.newStateMailbox!.toStateCache(StateType.mailbox)),
+          stateDataSource.saveState(accountId, session.username,
+              changesResponse.newStateMailbox!.toStateCache(StateType.mailbox)),
       ]);
     }
 
     final newMailboxResponse = await Future.wait([
-      mapDataSource[DataSourceType.local]!.getAllMailboxCache(accountId, session.username),
+      mapDataSource[DataSourceType.local]!
+          .getAllMailboxCache(accountId, session.username),
       stateDataSource.getState(accountId, session.username, StateType.mailbox)
     ]).then((List response) {
       return MailboxResponse(mailboxes: response.first, state: response.last);
@@ -158,18 +169,24 @@ class MailboxRepositoryImpl extends MailboxRepository {
   }
 
   @override
-  Future<Mailbox?> createNewMailbox(Session session, AccountId accountId, CreateNewMailboxRequest newMailboxRequest) {
-    return mapDataSource[DataSourceType.network]!.createNewMailbox(session, accountId, newMailboxRequest);
+  Future<Mailbox?> createNewMailbox(Session session, AccountId accountId,
+      CreateNewMailboxRequest newMailboxRequest) {
+    return mapDataSource[DataSourceType.network]!
+        .createNewMailbox(session, accountId, newMailboxRequest);
   }
 
   @override
-  Future<Map<Id,SetError>> deleteMultipleMailbox(Session session, AccountId accountId, List<MailboxId> mailboxIds) {
-    return mapDataSource[DataSourceType.network]!.deleteMultipleMailbox(session, accountId, mailboxIds);
+  Future<Map<Id, SetError>> deleteMultipleMailbox(
+      Session session, AccountId accountId, List<MailboxId> mailboxIds) {
+    return mapDataSource[DataSourceType.network]!
+        .deleteMultipleMailbox(session, accountId, mailboxIds);
   }
 
   @override
-  Future<bool> renameMailbox(Session session, AccountId accountId, RenameMailboxRequest request) {
-    return mapDataSource[DataSourceType.network]!.renameMailbox(session, accountId, request);
+  Future<bool> renameMailbox(
+      Session session, AccountId accountId, RenameMailboxRequest request) {
+    return mapDataSource[DataSourceType.network]!
+        .renameMailbox(session, accountId, request);
   }
 
   @override
@@ -178,32 +195,36 @@ class MailboxRepositoryImpl extends MailboxRepository {
       AccountId accountId,
       MailboxId mailboxId,
       int totalEmailUnread,
-      StreamController<dartz.Either<Failure, Success>> onProgressController) async {
+      StreamController<dartz.Either<Failure, Success>>
+          onProgressController) async {
     return mapDataSource[DataSourceType.network]!.markAsMailboxRead(
-      session,
-      accountId,
-      mailboxId,
-      totalEmailUnread,
-      onProgressController);
+        session, accountId, mailboxId, totalEmailUnread, onProgressController);
   }
 
   @override
-  Future<bool> moveMailbox(Session session, AccountId accountId, MoveMailboxRequest request) {
-    return mapDataSource[DataSourceType.network]!.moveMailbox(session, accountId, request);
+  Future<bool> moveMailbox(
+      Session session, AccountId accountId, MoveMailboxRequest request) {
+    return mapDataSource[DataSourceType.network]!
+        .moveMailbox(session, accountId, request);
   }
 
   @override
   Future<State?> getMailboxState(Session session, AccountId accountId) {
-    return stateDataSource.getState(accountId, session.username, StateType.mailbox);
+    return stateDataSource.getState(
+        accountId, session.username, StateType.mailbox);
   }
 
   @override
-  Future<bool> subscribeMailbox(Session session, AccountId accountId, SubscribeMailboxRequest request) {
-    return mapDataSource[DataSourceType.network]!.subscribeMailbox(session, accountId, request);
+  Future<bool> subscribeMailbox(
+      Session session, AccountId accountId, SubscribeMailboxRequest request) {
+    return mapDataSource[DataSourceType.network]!
+        .subscribeMailbox(session, accountId, request);
   }
 
   @override
-  Future<List<MailboxId>> subscribeMultipleMailbox(Session session, AccountId accountId, SubscribeMultipleMailboxRequest subscribeRequest) {
-    return mapDataSource[DataSourceType.network]!.subscribeMultipleMailbox(session, accountId, subscribeRequest);
+  Future<List<MailboxId>> subscribeMultipleMailbox(Session session,
+      AccountId accountId, SubscribeMultipleMailboxRequest subscribeRequest) {
+    return mapDataSource[DataSourceType.network]!
+        .subscribeMultipleMailbox(session, accountId, subscribeRequest);
   }
 }

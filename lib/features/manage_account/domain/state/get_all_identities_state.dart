@@ -16,6 +16,5 @@ class GetAllIdentitiesSuccess extends UIState {
 }
 
 class GetAllIdentitiesFailure extends FeatureFailure {
-
   GetAllIdentitiesFailure(dynamic exception) : super(exception: exception);
 }

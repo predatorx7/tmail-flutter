@@ -1,4 +1,3 @@
-
 class ServicePath {
   final String path;
 

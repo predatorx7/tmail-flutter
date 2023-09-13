@@ -1,4 +1,3 @@
-
 import 'package:core/utils/app_logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
@@ -7,7 +6,6 @@ import 'package:tmail_ui_user/features/email/presentation/widgets/calendar_event
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
 class EventLocationInformationWidget extends StatelessWidget {
-
   final String locationEvent;
   final OnOpenNewTabAction? onOpenNewTabAction;
   final OnOpenComposerAction? onOpenComposerAction;
@@ -29,13 +27,13 @@ class EventLocationInformationWidget extends StatelessWidget {
           child: Text(
             AppLocalizations.of(context).where,
             style: const TextStyle(
-              fontSize: EventLocationInformationWidgetStyles.textSize,
-              fontWeight: FontWeight.w500,
-              color: EventLocationInformationWidgetStyles.labelColor
-            ),
+                fontSize: EventLocationInformationWidgetStyles.textSize,
+                fontWeight: FontWeight.w500,
+                color: EventLocationInformationWidgetStyles.labelColor),
           ),
         ),
-        Expanded(child: Linkify(
+        Expanded(
+            child: Linkify(
           onOpen: (element) {
             log('EventLocationInformationWidget::build:element: $element');
             if (element is UrlElement) {
@@ -45,20 +43,13 @@ class EventLocationInformationWidget extends StatelessWidget {
             }
           },
           text: locationEvent,
-          linkifiers: const [
-            EmailLinkifier(),
-            UrlLinkifier()
-          ],
+          linkifiers: const [EmailLinkifier(), UrlLinkifier()],
           style: const TextStyle(
-            fontSize: EventLocationInformationWidgetStyles.textSize,
-            fontWeight: FontWeight.w500,
-            color: EventLocationInformationWidgetStyles.valueColor
-          ),
+              fontSize: EventLocationInformationWidgetStyles.textSize,
+              fontWeight: FontWeight.w500,
+              color: EventLocationInformationWidgetStyles.valueColor),
           options: const LinkifyOptions(
-            removeWww: true,
-            looseUrl: true,
-            defaultToHttps: true
-          ),
+              removeWww: true, looseUrl: true, defaultToHttps: true),
         ))
       ],
     );

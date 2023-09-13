@@ -23,41 +23,47 @@ class ForwardView extends GetWidget<ForwardController> with AppLoaderMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: SettingsUtils.getBackgroundColor(context, _responsiveUtils),
+      backgroundColor:
+          SettingsUtils.getBackgroundColor(context, _responsiveUtils),
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        color: SettingsUtils.getContentBackgroundColor(context, _responsiveUtils),
-        decoration: SettingsUtils.getBoxDecorationForContent(context, _responsiveUtils),
-        margin: SettingsUtils.getMarginViewForForwardSettingDetails(context, _responsiveUtils),
+        color:
+            SettingsUtils.getContentBackgroundColor(context, _responsiveUtils),
+        decoration:
+            SettingsUtils.getBoxDecorationForContent(context, _responsiveUtils),
+        margin: SettingsUtils.getMarginViewForForwardSettingDetails(
+            context, _responsiveUtils),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (_responsiveUtils.isWebDesktop(context))
-              ...[
-                ForwardHeaderWidget(imagePaths: _imagePaths, responsiveUtils: _responsiveUtils),
-                const Divider(height: 1, color: AppColor.colorDividerHeaderSetting)
-              ],
-            Expanded(child: SingleChildScrollView(
-              physics: const ClampingScrollPhysics(),
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                if (!_responsiveUtils.isWebDesktop(context))
-                  _buildTitleHeader(context),
-                _buildKeepLocalSwitchButton(context),
-                Obx(() => controller.currentForward.value != null
-                  ? _buildAddRecipientsFormWidget(context)
-                  : const SizedBox.shrink()
-                ),
-                _buildLoadingView(),
-                Obx(() {
-                  if (controller.listRecipientForward.isNotEmpty) {
-                    return ListEmailForwardsWidget();
-                  } else {
-                    return const SizedBox.shrink();
-                  }
-                })
-              ])
-            ))
+            if (_responsiveUtils.isWebDesktop(context)) ...[
+              ForwardHeaderWidget(
+                  imagePaths: _imagePaths, responsiveUtils: _responsiveUtils),
+              const Divider(
+                  height: 1, color: AppColor.colorDividerHeaderSetting)
+            ],
+            Expanded(
+                child: SingleChildScrollView(
+                    physics: const ClampingScrollPhysics(),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (!_responsiveUtils.isWebDesktop(context))
+                            _buildTitleHeader(context),
+                          _buildKeepLocalSwitchButton(context),
+                          Obx(() => controller.currentForward.value != null
+                              ? _buildAddRecipientsFormWidget(context)
+                              : const SizedBox.shrink()),
+                          _buildLoadingView(),
+                          Obx(() {
+                            if (controller.listRecipientForward.isNotEmpty) {
+                              return ListEmailForwardsWidget();
+                            } else {
+                              return const SizedBox.shrink();
+                            }
+                          })
+                        ])))
           ],
         ),
       ),
@@ -68,15 +74,13 @@ class ForwardView extends GetWidget<ForwardController> with AppLoaderMixin {
     return Container(
       color: Colors.transparent,
       width: double.infinity,
-      padding: SettingsUtils.getPaddingTitleHeaderForwarding(context, _responsiveUtils),
-      child: Text(
-        AppLocalizations.of(context).forwardingSettingExplanation,
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w500,
-          color: AppColor.colorSettingExplanation
-        )
-      ),
+      padding: SettingsUtils.getPaddingTitleHeaderForwarding(
+          context, _responsiveUtils),
+      child: Text(AppLocalizations.of(context).forwardingSettingExplanation,
+          style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: AppColor.colorSettingExplanation)),
     );
   }
 
@@ -85,52 +89,49 @@ class ForwardView extends GetWidget<ForwardController> with AppLoaderMixin {
       return controller.listRecipientForward.isNotEmpty
           ? Container(
               color: Colors.transparent,
-              padding: SettingsUtils.getPaddingKeepLocalSwitchButtonForwarding(context, _responsiveUtils),
+              padding: SettingsUtils.getPaddingKeepLocalSwitchButtonForwarding(
+                  context, _responsiveUtils),
               child: Row(children: [
                 Padding(
-                  padding: const EdgeInsets.only(right: 16),
-                  child: InkWell(
-                    onTap: controller.handleEditLocalCopy,
-                    child: SvgPicture.asset(
-                      controller.currentForwardLocalCopyState
-                        ? _imagePaths.icSwitchOn
-                        : _imagePaths.icSwitchOff,
-                      fit: BoxFit.fill,
-                      width: 36,
-                      height: 24))),
+                    padding: const EdgeInsets.only(right: 16),
+                    child: InkWell(
+                        onTap: controller.handleEditLocalCopy,
+                        child: SvgPicture.asset(
+                            controller.currentForwardLocalCopyState
+                                ? _imagePaths.icSwitchOn
+                                : _imagePaths.icSwitchOff,
+                            fit: BoxFit.fill,
+                            width: 36,
+                            height: 24))),
                 Expanded(
                   child: Text(
-                    AppLocalizations.of(context).keepLocalCopyForwardLabel,
-                    overflow: CommonTextStyle.defaultTextOverFlow,
-                    softWrap: CommonTextStyle.defaultSoftWrap,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black)
-                  ),
+                      AppLocalizations.of(context).keepLocalCopyForwardLabel,
+                      overflow: CommonTextStyle.defaultTextOverFlow,
+                      softWrap: CommonTextStyle.defaultSoftWrap,
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black)),
                 )
               ]))
           : const SizedBox();
     });
-
   }
 
   Widget _buildLoadingView() {
     return Obx(() => controller.viewState.value.fold(
-      (failure) => const SizedBox.shrink(),
-      (success) => success is LoadingState
-        ? Padding(
-            padding: const EdgeInsets.all(24),
-            child: loadingWidget)
-        : const SizedBox.shrink()
-    ));
+        (failure) => const SizedBox.shrink(),
+        (success) => success is LoadingState
+            ? Padding(padding: const EdgeInsets.all(24), child: loadingWidget)
+            : const SizedBox.shrink()));
   }
 
   Widget _buildAddRecipientsFormWidget(BuildContext context) {
     return AutocompleteContactTextFieldWithTags(
       controller.recipientController.listRecipients,
       controller: controller.recipientController.inputRecipientController,
-      onSuggestionCallback: controller.recipientController.getAutoCompleteSuggestion,
+      onSuggestionCallback:
+          controller.recipientController.getAutoCompleteSuggestion,
       hasAddContactButton: true,
       onAddContactCallback: (listRecipientsSelected) {
         controller.addRecipientAction(context, listRecipientsSelected);

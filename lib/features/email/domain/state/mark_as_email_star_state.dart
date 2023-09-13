@@ -10,12 +10,10 @@ class MarkAsStarEmailSuccess extends UIActionState {
 
   MarkAsStarEmailSuccess(
     this.updatedEmail,
-    this.markStarAction,
-    {
-      jmap.State? currentEmailState,
-      jmap.State? currentMailboxState,
-    }
-  ) : super(currentEmailState, currentMailboxState);
+    this.markStarAction, {
+    jmap.State? currentEmailState,
+    jmap.State? currentMailboxState,
+  }) : super(currentEmailState, currentMailboxState);
 
   @override
   List<Object?> get props => [updatedEmail, markStarAction, ...super.props];
@@ -24,7 +22,8 @@ class MarkAsStarEmailSuccess extends UIActionState {
 class MarkAsStarEmailFailure extends FeatureFailure {
   final MarkStarAction markStarAction;
 
-  MarkAsStarEmailFailure(this.markStarAction, {dynamic exception}) : super(exception: exception);
+  MarkAsStarEmailFailure(this.markStarAction, {dynamic exception})
+      : super(exception: exception);
 
   @override
   List<Object?> get props => [markStarAction, ...super.props];

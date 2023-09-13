@@ -38,67 +38,68 @@ import 'package:tmail_ui_user/features/mailbox/domain/model/subscribe_multiple_m
 import 'package:tmail_ui_user/main/error/capability_validator.dart';
 
 class MailboxAPI with HandleSetErrorMixin {
-
   final HttpClient httpClient;
 
   MailboxAPI(this.httpClient);
 
-  Future<MailboxResponse> getAllMailbox(Session session, AccountId accountId, {Properties? properties}) async {
+  Future<MailboxResponse> getAllMailbox(Session session, AccountId accountId,
+      {Properties? properties}) async {
     final processingInvocation = ProcessingInvocation();
 
-    final jmapRequestBuilder = JmapRequestBuilder(httpClient, processingInvocation);
+    final jmapRequestBuilder =
+        JmapRequestBuilder(httpClient, processingInvocation);
 
     final getMailboxCreated = GetMailboxMethod(accountId);
 
     final queryInvocation = jmapRequestBuilder.invocation(getMailboxCreated);
 
     final capabilities = getMailboxCreated.requiredCapabilities
-      .toCapabilitiesSupportTeamMailboxes(session, accountId);
+        .toCapabilitiesSupportTeamMailboxes(session, accountId);
 
-    final result = await (jmapRequestBuilder
-        ..usings(capabilities))
-      .build()
-      .execute();
+    final result =
+        await (jmapRequestBuilder..usings(capabilities)).build().execute();
 
     final resultCreated = result.parse<GetMailboxResponse>(
-      queryInvocation.methodCallId,
-      GetMailboxResponse.deserialize);
+        queryInvocation.methodCallId, GetMailboxResponse.deserialize);
 
-    return MailboxResponse(mailboxes: resultCreated?.list, state: resultCreated?.state);
+    return MailboxResponse(
+        mailboxes: resultCreated?.list, state: resultCreated?.state);
   }
 
-  Future<MailboxChangeResponse> getChanges(Session session, AccountId accountId, State sinceState) async {
+  Future<MailboxChangeResponse> getChanges(
+      Session session, AccountId accountId, State sinceState) async {
     final processingInvocation = ProcessingInvocation();
 
-    final jmapRequestBuilder = JmapRequestBuilder(httpClient, processingInvocation);
+    final jmapRequestBuilder =
+        JmapRequestBuilder(httpClient, processingInvocation);
 
-    final changesMailboxMethod = ChangesMailboxMethod(accountId, sinceState, maxChanges: UnsignedInt(128));
+    final changesMailboxMethod = ChangesMailboxMethod(accountId, sinceState,
+        maxChanges: UnsignedInt(128));
 
-    final changesMailboxInvocation = jmapRequestBuilder.invocation(changesMailboxMethod);
+    final changesMailboxInvocation =
+        jmapRequestBuilder.invocation(changesMailboxMethod);
 
     final getMailboxUpdated = GetMailboxMethod(accountId)
       ..addReferenceIds(processingInvocation.createResultReference(
-          changesMailboxInvocation.methodCallId,
-          ReferencePath.updatedPath))
+          changesMailboxInvocation.methodCallId, ReferencePath.updatedPath))
       ..addReferenceProperties(processingInvocation.createResultReference(
           changesMailboxInvocation.methodCallId,
           ReferencePath.updatedPropertiesPath));
 
     final getMailboxCreated = GetMailboxMethod(accountId)
       ..addReferenceIds(processingInvocation.createResultReference(
-          changesMailboxInvocation.methodCallId,
-          ReferencePath.createdPath));
+          changesMailboxInvocation.methodCallId, ReferencePath.createdPath));
 
-    final getMailboxUpdatedInvocation = jmapRequestBuilder.invocation(getMailboxUpdated);
-    final getMailboxCreatedInvocation = jmapRequestBuilder.invocation(getMailboxCreated);
+    final getMailboxUpdatedInvocation =
+        jmapRequestBuilder.invocation(getMailboxUpdated);
+    final getMailboxCreatedInvocation =
+        jmapRequestBuilder.invocation(getMailboxCreated);
 
     final capabilities = getMailboxUpdated.requiredCapabilities
-      .toCapabilitiesSupportTeamMailboxes(session, accountId);
+        .toCapabilitiesSupportTeamMailboxes(session, accountId);
 
-    final result = await (jmapRequestBuilder
-        ..usings(capabilities))
-      .build()
-      .execute();
+    final result =
+        await (jmapRequestBuilder..usings(capabilities)).build().execute();
 
     final resultChanges = result.parse<ChangesMailboxResponse>(
         changesMailboxInvocation.methodCallId,
@@ -112,82 +113,84 @@ class MailboxAPI with HandleSetErrorMixin {
         getMailboxCreatedInvocation.methodCallId,
         GetMailboxResponse.deserialize);
 
-    final listMailboxIdDestroyed = resultChanges?.destroyed.map((id) => MailboxId(id)).toList() ?? <MailboxId>[];
+    final listMailboxIdDestroyed =
+        resultChanges?.destroyed.map((id) => MailboxId(id)).toList() ??
+            <MailboxId>[];
 
     return MailboxChangeResponse(
-      updated: resultUpdated?.list,
-      created: resultCreated?.list,
-      destroyed: listMailboxIdDestroyed,
-      newStateMailbox: resultUpdated?.state,
-      newStateChanges: resultChanges?.newState,
-      hasMoreChanges: resultChanges?.hasMoreChanges ?? false,
-      updatedProperties: resultChanges?.updatedProperties);
+        updated: resultUpdated?.list,
+        created: resultCreated?.list,
+        destroyed: listMailboxIdDestroyed,
+        newStateMailbox: resultUpdated?.state,
+        newStateChanges: resultChanges?.newState,
+        hasMoreChanges: resultChanges?.hasMoreChanges ?? false,
+        updatedProperties: resultChanges?.updatedProperties);
   }
 
-  Future<Mailbox?> createNewMailbox(Session session, AccountId accountId, CreateNewMailboxRequest request) async {
+  Future<Mailbox?> createNewMailbox(Session session, AccountId accountId,
+      CreateNewMailboxRequest request) async {
     final setMailboxMethod = SetMailboxMethod(accountId)
       ..addCreate(
           request.creationId,
           Mailbox(
-            name: request.newName,
-            isSubscribed: IsSubscribed(request.isSubscribed),
-            parentId: request.parentId
-          )
-      );
+              name: request.newName,
+              isSubscribed: IsSubscribed(request.isSubscribed),
+              parentId: request.parentId));
 
-    final requestBuilder = JmapRequestBuilder(httpClient, ProcessingInvocation());
+    final requestBuilder =
+        JmapRequestBuilder(httpClient, ProcessingInvocation());
 
     final setMailboxInvocation = requestBuilder.invocation(setMailboxMethod);
 
     final capabilities = setMailboxMethod.requiredCapabilities
-      .toCapabilitiesSupportTeamMailboxes(session, accountId);
+        .toCapabilitiesSupportTeamMailboxes(session, accountId);
 
-    final response = await (requestBuilder
-          ..usings(capabilities))
-        .build()
-        .execute();
+    final response =
+        await (requestBuilder..usings(capabilities)).build().execute();
 
     final setMailboxResponse = response.parse<SetMailboxResponse>(
-        setMailboxInvocation.methodCallId,
-        SetMailboxResponse.deserialize);
+        setMailboxInvocation.methodCallId, SetMailboxResponse.deserialize);
 
     final mapMailboxCreated = setMailboxResponse?.created;
     if (mapMailboxCreated != null &&
         mapMailboxCreated.containsKey(request.creationId)) {
       final mailboxCreated = mapMailboxCreated[request.creationId]!;
-      final newMailboxCreated = mailboxCreated.toMailbox(
-          request.newName,
-          parentId: request.parentId);
+      final newMailboxCreated =
+          mailboxCreated.toMailbox(request.newName, parentId: request.parentId);
       return newMailboxCreated;
     } else {
-      throw _parseErrorForSetMailboxResponse(setMailboxResponse, request.creationId);
+      throw _parseErrorForSetMailboxResponse(
+          setMailboxResponse, request.creationId);
     }
   }
 
   _parseErrorForSetMailboxResponse(SetMailboxResponse? response, Id requestId) {
-    final mapError = response?.notCreated ?? response?.notUpdated ?? response?.notDestroyed;
+    final mapError =
+        response?.notCreated ?? response?.notUpdated ?? response?.notDestroyed;
     if (mapError != null && mapError.containsKey(requestId)) {
       final setError = mapError[requestId];
       log('MailboxAPI::_parseErrorForSetMailboxResponse():setError: $setError');
       if (setError?.type == ErrorMethodResponse.invalidArguments) {
-        throw InvalidArgumentsMethodResponse(description: setError?.description);
+        throw InvalidArgumentsMethodResponse(
+            description: setError?.description);
       } else if (setError?.type == ErrorMethodResponse.invalidResultReference) {
-        throw InvalidResultReferenceMethodResponse(description: setError?.description);
+        throw InvalidResultReferenceMethodResponse(
+            description: setError?.description);
       } else {
         throw UnknownMethodResponse(description: setError?.description);
       }
-    }  else {
+    } else {
       throw UnknownMethodResponse();
     }
   }
 
-  Future<Map<Id, SetError>> deleteMultipleMailbox(Session session, AccountId accountId, List<MailboxId> mailboxIds) async {
-
+  Future<Map<Id, SetError>> deleteMultipleMailbox(
+      Session session, AccountId accountId, List<MailboxId> mailboxIds) async {
     final coreCapability = session.getCapabilityProperties<CoreCapability>(
         accountId, CapabilityIdentifier.jmapCore);
     final maxMethodCount = coreCapability.maxCallsInRequest?.value.toInt() ?? 0;
 
-    final Map<Id,SetError> finalDeletedMailboxErrors = {};
+    final Map<Id, SetError> finalDeletedMailboxErrors = {};
     var start = 0;
     var end = 0;
     while (end < mailboxIds.length) {
@@ -200,35 +203,39 @@ class MailboxAPI with HandleSetErrorMixin {
       log('MailboxAPI::deleteMultipleMailbox(): delete from $start to $end / ${mailboxIds.length}');
       final currentExecuteList = mailboxIds.sublist(start, end);
 
-      final requestBuilder = JmapRequestBuilder(httpClient, ProcessingInvocation());
-      final currentSetMailboxInvocations = currentExecuteList.map((mailboxId) {
-          return SetMailboxMethod(accountId)
-            ..addDestroy({mailboxId.id})
-            ..addOnDestroyRemoveEmails(true);
+      final requestBuilder =
+          JmapRequestBuilder(httpClient, ProcessingInvocation());
+      final currentSetMailboxInvocations = currentExecuteList
+          .map((mailboxId) {
+            return SetMailboxMethod(accountId)
+              ..addDestroy({mailboxId.id})
+              ..addOnDestroyRemoveEmails(true);
           })
-        .map(requestBuilder.invocation)
-        .toList();
+          .map(requestBuilder.invocation)
+          .toList();
 
-      final capabilities = {CapabilityIdentifier.jmapCore, CapabilityIdentifier.jmapMail}
-        .toCapabilitiesSupportTeamMailboxes(session, accountId);
+      final capabilities = {
+        CapabilityIdentifier.jmapCore,
+        CapabilityIdentifier.jmapMail
+      }.toCapabilitiesSupportTeamMailboxes(session, accountId);
 
-      final response = await (requestBuilder
-          ..usings(capabilities))
-        .build()
-        .execute();
+      final response =
+          await (requestBuilder..usings(capabilities)).build().execute();
 
       final deleteMailboxErrors = currentSetMailboxInvocations
-        .map((currentInvocation) => response.parse(currentInvocation.methodCallId, SetMailboxResponse.deserialize))
-        .map(_handleDeleteMailboxResponse)
-        .expand((entries) => entries);
+          .map((currentInvocation) => response.parse(
+              currentInvocation.methodCallId, SetMailboxResponse.deserialize))
+          .map(_handleDeleteMailboxResponse)
+          .expand((entries) => entries);
       finalDeletedMailboxErrors.addAll(Map.fromEntries(deleteMailboxErrors));
     }
 
     return finalDeletedMailboxErrors;
   }
 
-  List<MapEntry<Id, SetError>> _handleDeleteMailboxResponse(SetMailboxResponse? response) {
-    final List<MapEntry<Id,SetError>> remainedErrors = [];
+  List<MapEntry<Id, SetError>> _handleDeleteMailboxResponse(
+      SetMailboxResponse? response) {
+    final List<MapEntry<Id, SetError>> remainedErrors = [];
     if (response != null) {
       handleSetErrors(
           notDestroyedError: response.notDestroyed,
@@ -240,31 +247,31 @@ class MailboxAPI with HandleSetErrorMixin {
           unCatchErrorHandler: (setErrorEntry) {
             remainedErrors.add(setErrorEntry);
             return false;
-          }
-      );
+          });
     }
     return remainedErrors;
   }
 
-  Future<bool> renameMailbox(Session session, AccountId accountId, RenameMailboxRequest request) async {
+  Future<bool> renameMailbox(Session session, AccountId accountId,
+      RenameMailboxRequest request) async {
     final setMailboxMethod = SetMailboxMethod(accountId)
-      ..addUpdates({request.mailboxId.id : PatchObject({'name' : request.newName.name})});
+      ..addUpdates({
+        request.mailboxId.id: PatchObject({'name': request.newName.name})
+      });
 
-    final requestBuilder = JmapRequestBuilder(httpClient, ProcessingInvocation());
+    final requestBuilder =
+        JmapRequestBuilder(httpClient, ProcessingInvocation());
 
     final setMailboxInvocation = requestBuilder.invocation(setMailboxMethod);
 
     final capabilities = setMailboxMethod.requiredCapabilities
-      .toCapabilitiesSupportTeamMailboxes(session, accountId);
+        .toCapabilitiesSupportTeamMailboxes(session, accountId);
 
-    final response = await (requestBuilder
-          ..usings(capabilities))
-        .build()
-        .execute();
+    final response =
+        await (requestBuilder..usings(capabilities)).build().execute();
 
     final setMailboxResponse = response.parse<SetMailboxResponse>(
-        setMailboxInvocation.methodCallId,
-        SetMailboxResponse.deserialize);
+        setMailboxInvocation.methodCallId, SetMailboxResponse.deserialize);
 
     return Future.sync(() async {
       return setMailboxResponse?.updated?.isNotEmpty == true;
@@ -273,29 +280,27 @@ class MailboxAPI with HandleSetErrorMixin {
     });
   }
 
-  Future<bool> moveMailbox(Session session, AccountId accountId, MoveMailboxRequest request) async {
+  Future<bool> moveMailbox(
+      Session session, AccountId accountId, MoveMailboxRequest request) async {
     final setMailboxMethod = SetMailboxMethod(accountId)
       ..addUpdates({
-        request.mailboxId.id : PatchObject({
-          'parentId': request.destinationMailboxId?.id.value
-        })
+        request.mailboxId.id:
+            PatchObject({'parentId': request.destinationMailboxId?.id.value})
       });
 
-    final requestBuilder = JmapRequestBuilder(httpClient, ProcessingInvocation());
+    final requestBuilder =
+        JmapRequestBuilder(httpClient, ProcessingInvocation());
 
     final setMailboxInvocation = requestBuilder.invocation(setMailboxMethod);
 
     final capabilities = setMailboxMethod.requiredCapabilities
-      .toCapabilitiesSupportTeamMailboxes(session, accountId);
+        .toCapabilitiesSupportTeamMailboxes(session, accountId);
 
-    final response = await (requestBuilder
-        ..usings(capabilities))
-      .build()
-      .execute();
+    final response =
+        await (requestBuilder..usings(capabilities)).build().execute();
 
     final setMailboxResponse = response.parse<SetMailboxResponse>(
-        setMailboxInvocation.methodCallId,
-        SetMailboxResponse.deserialize);
+        setMailboxInvocation.methodCallId, SetMailboxResponse.deserialize);
 
     return Future.sync(() async {
       return setMailboxResponse?.updated?.isNotEmpty == true;
@@ -304,69 +309,67 @@ class MailboxAPI with HandleSetErrorMixin {
     });
   }
 
-  Future<bool> subscribeMailbox(Session session, AccountId accountId, SubscribeMailboxRequest request) async {
+  Future<bool> subscribeMailbox(Session session, AccountId accountId,
+      SubscribeMailboxRequest request) async {
     final setMailboxMethod = SetMailboxMethod(accountId)
       ..addUpdates({
-        request.mailboxId.id : PatchObject({
-          MailboxProperty.isSubscribed: request.subscribeState == MailboxSubscribeState.enabled
+        request.mailboxId.id: PatchObject({
+          MailboxProperty.isSubscribed:
+              request.subscribeState == MailboxSubscribeState.enabled
         })
       });
 
-    final requestBuilder = JmapRequestBuilder(httpClient, ProcessingInvocation());
+    final requestBuilder =
+        JmapRequestBuilder(httpClient, ProcessingInvocation());
 
     final setMailboxInvocation = requestBuilder.invocation(setMailboxMethod);
 
     final capabilities = setMailboxMethod.requiredCapabilities
-      .toCapabilitiesSupportTeamMailboxes(session, accountId);
+        .toCapabilitiesSupportTeamMailboxes(session, accountId);
 
-    final response = await (requestBuilder
-        ..usings(capabilities))
-      .build()
-      .execute();
+    final response =
+        await (requestBuilder..usings(capabilities)).build().execute();
 
     final setMailboxResponse = response.parse<SetMailboxResponse>(
-        setMailboxInvocation.methodCallId,
-        SetMailboxResponse.deserialize);
+        setMailboxInvocation.methodCallId, SetMailboxResponse.deserialize);
 
     return Future.sync(() async {
-      return setMailboxResponse?.updated?.containsKey(request.mailboxId.id) ?? false;
+      return setMailboxResponse?.updated?.containsKey(request.mailboxId.id) ??
+          false;
     }).catchError((error) {
       throw error;
     });
   }
 
   Future<List<MailboxId>> subscribeMultipleMailbox(
-    Session session,
-    AccountId accountId,
-    SubscribeMultipleMailboxRequest subscribeRequest
-  ) async {
+      Session session,
+      AccountId accountId,
+      SubscribeMultipleMailboxRequest subscribeRequest) async {
     final mapMailboxUpdated = subscribeRequest.mailboxIdsSubscribe
-      .generateMapUpdateObjectSubscribeMailbox(subscribeRequest.subscribeState);
+        .generateMapUpdateObjectSubscribeMailbox(
+            subscribeRequest.subscribeState);
 
     final setMailboxMethod = SetMailboxMethod(accountId)
       ..addUpdates(mapMailboxUpdated);
 
-    final requestBuilder = JmapRequestBuilder(httpClient, ProcessingInvocation());
+    final requestBuilder =
+        JmapRequestBuilder(httpClient, ProcessingInvocation());
 
     final setMailboxInvocation = requestBuilder.invocation(setMailboxMethod);
 
     final capabilities = setMailboxMethod.requiredCapabilities
-      .toCapabilitiesSupportTeamMailboxes(session, accountId);
+        .toCapabilitiesSupportTeamMailboxes(session, accountId);
 
-    final response = await (requestBuilder
-        ..usings(capabilities))
-      .build()
-      .execute();
+    final response =
+        await (requestBuilder..usings(capabilities)).build().execute();
 
     final setMailboxResponse = response.parse<SetMailboxResponse>(
-      setMailboxInvocation.methodCallId,
-      SetMailboxResponse.deserialize
-    );
+        setMailboxInvocation.methodCallId, SetMailboxResponse.deserialize);
 
     final listMailboxIdSubscribe = setMailboxResponse?.updated?.keys
-      .whereNotNull()
-      .map((id) => MailboxId(id))
-      .toList();
+        .whereNotNull()
+        .map((id) => MailboxId(id))
+        .toList();
 
     log('MailboxAPI::subscribeMultipleMailbox():listMailboxIdSubscribe: $listMailboxIdSubscribe');
     return listMailboxIdSubscribe ?? [];

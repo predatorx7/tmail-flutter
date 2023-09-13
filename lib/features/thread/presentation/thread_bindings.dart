@@ -24,7 +24,6 @@ import 'package:tmail_ui_user/main/exceptions/cache_exception_thrower.dart';
 import 'package:tmail_ui_user/main/exceptions/remote_exception_thrower.dart';
 
 class ThreadBindings extends BaseBindings {
-
   @override
   void bindingsController() {
     Get.put(ThreadController(
@@ -45,22 +44,26 @@ class ThreadBindings extends BaseBindings {
 
   @override
   void bindingsDataSourceImpl() {
-    Get.lazyPut(() => ThreadDataSourceImpl(
-      Get.find<ThreadAPI>(),
-      Get.find<ThreadIsolateWorker>(),
-      Get.find<RemoteExceptionThrower>()));
-    Get.lazyPut(() => LocalThreadDataSourceImpl(Get.find<EmailCacheManager>(), Get.find<CacheExceptionThrower>()));
-    Get.lazyPut(() => StateDataSourceImpl(Get.find<StateCacheClient>(), Get.find<CacheExceptionThrower>()));
+    Get.lazyPut(() => ThreadDataSourceImpl(Get.find<ThreadAPI>(),
+        Get.find<ThreadIsolateWorker>(), Get.find<RemoteExceptionThrower>()));
+    Get.lazyPut(() => LocalThreadDataSourceImpl(
+        Get.find<EmailCacheManager>(), Get.find<CacheExceptionThrower>()));
+    Get.lazyPut(() => StateDataSourceImpl(
+        Get.find<StateCacheClient>(), Get.find<CacheExceptionThrower>()));
   }
 
   @override
   void bindingsInteractor() {
-    Get.lazyPut(() => GetEmailsInMailboxInteractor(Get.find<ThreadRepository>()));
-    Get.lazyPut(() => RefreshChangesEmailsInMailboxInteractor(Get.find<ThreadRepository>()));
-    Get.lazyPut(() => LoadMoreEmailsInMailboxInteractor(Get.find<ThreadRepository>()));
+    Get.lazyPut(
+        () => GetEmailsInMailboxInteractor(Get.find<ThreadRepository>()));
+    Get.lazyPut(() =>
+        RefreshChangesEmailsInMailboxInteractor(Get.find<ThreadRepository>()));
+    Get.lazyPut(
+        () => LoadMoreEmailsInMailboxInteractor(Get.find<ThreadRepository>()));
     Get.lazyPut(() => SearchEmailInteractor(Get.find<ThreadRepository>()));
     Get.lazyPut(() => SearchMoreEmailInteractor(Get.find<ThreadRepository>()));
-    Get.lazyPut(() => GetEmailByIdInteractor(Get.find<ThreadRepository>(), Get.find<EmailRepository>()));
+    Get.lazyPut(() => GetEmailByIdInteractor(
+        Get.find<ThreadRepository>(), Get.find<EmailRepository>()));
   }
 
   @override
@@ -70,12 +73,9 @@ class ThreadBindings extends BaseBindings {
 
   @override
   void bindingsRepositoryImpl() {
-    Get.lazyPut(() => ThreadRepositoryImpl(
-        {
+    Get.lazyPut(() => ThreadRepositoryImpl({
           DataSourceType.network: Get.find<ThreadDataSource>(),
           DataSourceType.local: Get.find<LocalThreadDataSourceImpl>()
-        },
-        Get.find<StateDataSource>()
-    ));
+        }, Get.find<StateDataSource>()));
   }
 }

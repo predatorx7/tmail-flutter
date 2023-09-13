@@ -2,20 +2,23 @@ import 'package:core/utils/app_logger.dart';
 import 'package:flutter/material.dart';
 
 extension StringExtension on String {
-
   String get firstLetterToUpperCase {
     try {
       final listWord = split(' ');
       if (listWord.length > 1) {
         final regexLetter = RegExp("([A-Za-z])");
-        final firstLetterOfFirstWord = regexLetter.firstMatch(listWord[0].trim())?.group(0);
-        final firstLetterOfSecondWord = regexLetter.firstMatch(listWord[1].trim())?.group(0);
+        final firstLetterOfFirstWord =
+            regexLetter.firstMatch(listWord[0].trim())?.group(0);
+        final firstLetterOfSecondWord =
+            regexLetter.firstMatch(listWord[1].trim())?.group(0);
 
         if (firstLetterOfFirstWord != null && firstLetterOfSecondWord != null) {
           return '${firstLetterOfFirstWord.toUpperCase()}${firstLetterOfSecondWord.toUpperCase()}';
-        } else if (firstLetterOfFirstWord != null && firstLetterOfSecondWord == null) {
+        } else if (firstLetterOfFirstWord != null &&
+            firstLetterOfSecondWord == null) {
           return '${firstLetterOfFirstWord.toUpperCase()}${firstLetterOfFirstWord.toUpperCase()}';
-        } else if (firstLetterOfFirstWord == null && firstLetterOfSecondWord != null) {
+        } else if (firstLetterOfFirstWord == null &&
+            firstLetterOfSecondWord != null) {
           return '${firstLetterOfSecondWord.toUpperCase()}${firstLetterOfSecondWord.toUpperCase()}';
         } else {
           return '';
@@ -42,8 +45,8 @@ extension StringExtension on String {
 
   String get overflow {
     return characters
-      .replaceAll(Characters(''), Characters('\u{200B}'))
-      .replaceAll(Characters('-'), Characters('\u{2011}'))
-      .toString();
+        .replaceAll(Characters(''), Characters('\u{200B}'))
+        .replaceAll(Characters('-'), Characters('\u{2011}'))
+        .toString();
   }
 }

@@ -24,14 +24,13 @@ class GetRuleFilterMethod extends GetMethod {
   MethodName get methodName => MethodName('Filter/get');
 
   @override
-  Set<CapabilityIdentifier> get requiredCapabilities => {
-    capabilityRuleFilter
-  };
+  Set<CapabilityIdentifier> get requiredCapabilities => {capabilityRuleFilter};
 
   @override
   List<Object?> get props => [methodName, accountId, ids, requiredCapabilities];
 
-  factory GetRuleFilterMethod.fromJson(Map<String, dynamic> json) => _$GetRuleFilterMethodFromJson(json);
+  factory GetRuleFilterMethod.fromJson(Map<String, dynamic> json) =>
+      _$GetRuleFilterMethodFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$GetRuleFilterMethodToJson(this);

@@ -12,6 +12,6 @@ class AddRecipientsInForwardingSuccess extends UIState {
 }
 
 class AddRecipientsInForwardingFailure extends FeatureFailure {
-
-  AddRecipientsInForwardingFailure(dynamic exception) : super(exception: exception);
+  AddRecipientsInForwardingFailure(dynamic exception)
+      : super(exception: exception);
 }

@@ -8,8 +8,8 @@ import 'package:tmail_ui_user/features/manage_account/presentation/profiles/iden
 import 'package:tmail_ui_user/features/manage_account/presentation/profiles/identities/widgets/identities_header_widget.dart';
 import 'package:tmail_ui_user/features/manage_account/presentation/profiles/identities/widgets/identities_radio_list_builder.dart';
 
-class IdentitiesView extends GetWidget<IdentitiesController> with PopupMenuWidgetMixin, AppLoaderMixin {
-
+class IdentitiesView extends GetWidget<IdentitiesController>
+    with PopupMenuWidgetMixin, AppLoaderMixin {
   final _responsiveUtils = Get.find<ResponsiveUtils>();
   final _imagePaths = Get.find<ImagePaths>();
 
@@ -20,8 +20,8 @@ class IdentitiesView extends GetWidget<IdentitiesController> with PopupMenuWidge
     return Container(
       margin: const EdgeInsets.all(24),
       child: _responsiveUtils.isWebDesktop(context)
-        ? _buildIdentitiesViewWebDesktop(context)
-        : _buildIdentitiesViewMobile(context),
+          ? _buildIdentitiesViewWebDesktop(context)
+          : _buildIdentitiesViewMobile(context),
     );
   }
 
@@ -30,14 +30,14 @@ class IdentitiesView extends GetWidget<IdentitiesController> with PopupMenuWidge
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         IdentitiesHeaderWidget(
-          onAddNewIdentityAction: () => controller.goToCreateNewIdentity(context),
+          onAddNewIdentityAction: () =>
+              controller.goToCreateNewIdentity(context),
         ),
         const SizedBox(height: 12),
         IdentitiesRadioListBuilder(
-          controller: controller,
-          responsiveUtils: _responsiveUtils,
-          imagePaths: _imagePaths
-        )
+            controller: controller,
+            responsiveUtils: _responsiveUtils,
+            imagePaths: _imagePaths)
       ],
     );
   }
@@ -47,17 +47,17 @@ class IdentitiesView extends GetWidget<IdentitiesController> with PopupMenuWidge
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          width: 224,
-          child: IdentitiesHeaderWidget(
-            onAddNewIdentityAction: () => controller.goToCreateNewIdentity(context),
-          )
-        ),
+            width: 224,
+            child: IdentitiesHeaderWidget(
+              onAddNewIdentityAction: () =>
+                  controller.goToCreateNewIdentity(context),
+            )),
         const SizedBox(width: 12),
-        Expanded(child: IdentitiesRadioListBuilder(
-          controller: controller,
-          responsiveUtils: _responsiveUtils,
-          imagePaths: _imagePaths
-        )),
+        Expanded(
+            child: IdentitiesRadioListBuilder(
+                controller: controller,
+                responsiveUtils: _responsiveUtils,
+                imagePaths: _imagePaths)),
       ],
     );
   }

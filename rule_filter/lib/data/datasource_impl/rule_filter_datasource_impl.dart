@@ -28,8 +28,8 @@ class RuleFilterDataSourceImpl extends RuleFilterDataSource {
     listTMailRule.addAll(listTMailRuleUpdate);
     for (var itemTMailRuleKeep in listTMailRuleKeep) {
       if (listTMailRuleUpdate
-          .where((itemTMailRuleUpdate) =>
-              itemTMailRuleKeep == itemTMailRuleUpdate)
+          .where(
+              (itemTMailRuleUpdate) => itemTMailRuleKeep == itemTMailRuleUpdate)
           .isNotEmpty) {
         listTMailRuleKeep.remove(itemTMailRuleKeep);
       }

@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:jmap_dart_client/jmap/core/utc_date.dart';
 
 extension DateTimeExtension on DateTime? {
-
   String formatDate({String pattern = 'yyyy/MM/dd', String locale = 'en_US'}) {
     if (this != null) {
       return DateFormat(pattern, locale).format(this!);
@@ -14,7 +13,8 @@ extension DateTimeExtension on DateTime? {
 
   DateTime? applied(TimeOfDay? time) {
     if (this != null && time != null) {
-      return DateTime(this!.year, this!.month, this!.day, time.hour, time.minute);
+      return DateTime(
+          this!.year, this!.month, this!.day, time.hour, time.minute);
     }
     return null;
   }
@@ -29,7 +29,6 @@ extension DateTimeExtension on DateTime? {
 }
 
 extension TimeOfDayExtension on TimeOfDay? {
-
   String formatTime(BuildContext context) {
     if (this != null) {
       return MaterialLocalizations.of(context).formatTimeOfDay(this!);

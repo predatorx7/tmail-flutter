@@ -7,9 +7,9 @@ import 'package:tmail_ui_user/features/mailbox_dashboard/presentation/controller
 import 'package:tmail_ui_user/features/mailbox_dashboard/presentation/mixin/filter_email_popup_menu_mixin.dart';
 import 'package:tmail_ui_user/features/mailbox_dashboard/presentation/mixin/user_setting_popup_menu_mixin.dart';
 
-abstract class BaseMailboxDashBoardView extends GetWidget<MailboxDashBoardController>
-    with UserSettingPopupMenuMixin, FilterEmailPopupMenuMixin,
-        AppLoaderMixin {
+abstract class BaseMailboxDashBoardView
+    extends GetWidget<MailboxDashBoardController>
+    with UserSettingPopupMenuMixin, FilterEmailPopupMenuMixin, AppLoaderMixin {
   BaseMailboxDashBoardView({Key? key}) : super(key: key);
 
   final responsiveUtils = Get.find<ResponsiveUtils>();

@@ -14,7 +14,8 @@ class UpdateEmailDraftsInteractor {
 
   UpdateEmailDraftsInteractor(this._emailRepository, this._mailboxRepository);
 
-  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId, Email newEmail, EmailId oldEmailId) async* {
+  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId,
+      Email newEmail, EmailId oldEmailId) async* {
     try {
       yield Right<Failure, Success>(UpdatingEmailDrafts());
 
@@ -26,14 +27,11 @@ class UpdateEmailDraftsInteractor {
       final currentMailboxState = listState.first;
       final currentEmailState = listState.last;
 
-      final newEmailDrafts = await _emailRepository.updateEmailDrafts(session, accountId, newEmail, oldEmailId);
-      yield Right<Failure, Success>(
-        UpdateEmailDraftsSuccess(
-          newEmailDrafts,
+      final newEmailDrafts = await _emailRepository.updateEmailDrafts(
+          session, accountId, newEmail, oldEmailId);
+      yield Right<Failure, Success>(UpdateEmailDraftsSuccess(newEmailDrafts,
           currentEmailState: currentEmailState,
-          currentMailboxState: currentMailboxState
-        )
-      );
+          currentMailboxState: currentMailboxState));
     } catch (e) {
       yield Left<Failure, Success>(UpdateEmailDraftsFailure(e));
     }

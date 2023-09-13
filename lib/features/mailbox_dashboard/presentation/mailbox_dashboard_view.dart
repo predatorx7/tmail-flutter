@@ -14,7 +14,6 @@ import 'package:tmail_ui_user/features/sending_queue/presentation/sending_queue_
 import 'package:tmail_ui_user/features/thread/presentation/thread_view.dart';
 
 class MailboxDashBoardView extends BaseMailboxDashBoardView {
-
   MailboxDashBoardView({Key? key}) : super(key: key);
 
   @override
@@ -32,13 +31,14 @@ class MailboxDashBoardView extends BaseMailboxDashBoardView {
     return FocusDetector(
       onForegroundGained: controller.handleOnForegroundGained,
       child: Scaffold(
-        drawerEnableOpenDragGesture: responsiveUtils.hasLeftMenuDrawerActive(context),
+        drawerEnableOpenDragGesture:
+            responsiveUtils.hasLeftMenuDrawerActive(context),
         body: Obx(() {
           var bodyView = controller.searchController.isSearchEmailRunning
-            ? EmailView()
-            : bodyLandscapeTablet;
-          
-          switch(controller.dashboardRoute.value) {
+              ? EmailView()
+              : bodyLandscapeTablet;
+
+          switch (controller.dashboardRoute.value) {
             case DashboardRoutes.thread:
               return ResponsiveWidget(
                   responsiveUtils: responsiveUtils,
@@ -60,23 +60,26 @@ class MailboxDashBoardView extends BaseMailboxDashBoardView {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: ResponsiveUtils.defaultSizeLeftMenuMobile,
-                    child: _buildScaffoldHaveDrawer(body: const SendingQueueView())),
+                      width: ResponsiveUtils.defaultSizeLeftMenuMobile,
+                      child: _buildScaffoldHaveDrawer(
+                          body: const SendingQueueView())),
                   Expanded(child: EmailView()),
                 ],
               );
               return ResponsiveWidget(
-                responsiveUtils: responsiveUtils,
-                desktop: bodyView,
-                tabletLarge: bodyView,
-                landscapeTablet: bodyView,
-                mobile: _buildScaffoldHaveDrawer(body: const SendingQueueView()));
+                  responsiveUtils: responsiveUtils,
+                  desktop: bodyView,
+                  tabletLarge: bodyView,
+                  landscapeTablet: bodyView,
+                  mobile:
+                      _buildScaffoldHaveDrawer(body: const SendingQueueView()));
             case DashboardRoutes.waiting:
               return const Center(
-                child: SizedBox(
-                  width: 30,
-                  height: 30,
-                  child: CupertinoActivityIndicator(color: AppColor.colorLoading)));
+                  child: SizedBox(
+                      width: 30,
+                      height: 30,
+                      child: CupertinoActivityIndicator(
+                          color: AppColor.colorLoading)));
             default:
               return ResponsiveWidget(
                   responsiveUtils: responsiveUtils,
@@ -95,32 +98,21 @@ class MailboxDashBoardView extends BaseMailboxDashBoardView {
       key: controller.scaffoldKey,
       body: body,
       drawer: ResponsiveWidget(
-        responsiveUtils: responsiveUtils,
-        mobile: SizedBox(
-          width: double.infinity,
-          child: MailboxView()
-        ),
-        landscapeMobile: SizedBox(
-          width: ResponsiveUtils.defaultSizeDrawer,
-          child: MailboxView()
-        ),
-        tablet: SizedBox(
-          width: ResponsiveUtils.defaultSizeDrawer,
-          child: MailboxView()
-        ),
-        landscapeTablet: SizedBox(
-          width: ResponsiveUtils.defaultSizeLeftMenuMobile,
-          child: MailboxView()
-        ),
-        tabletLarge: SizedBox(
-          width: ResponsiveUtils.defaultSizeLeftMenuMobile,
-          child: MailboxView()
-        ),
-        desktop: SizedBox(
-          width: ResponsiveUtils.defaultSizeLeftMenuMobile,
-          child: MailboxView()
-        )
-      ),
+          responsiveUtils: responsiveUtils,
+          mobile: SizedBox(width: double.infinity, child: MailboxView()),
+          landscapeMobile: SizedBox(
+              width: ResponsiveUtils.defaultSizeDrawer, child: MailboxView()),
+          tablet: SizedBox(
+              width: ResponsiveUtils.defaultSizeDrawer, child: MailboxView()),
+          landscapeTablet: SizedBox(
+              width: ResponsiveUtils.defaultSizeLeftMenuMobile,
+              child: MailboxView()),
+          tabletLarge: SizedBox(
+              width: ResponsiveUtils.defaultSizeLeftMenuMobile,
+              child: MailboxView()),
+          desktop: SizedBox(
+              width: ResponsiveUtils.defaultSizeLeftMenuMobile,
+              child: MailboxView())),
     );
   }
 }

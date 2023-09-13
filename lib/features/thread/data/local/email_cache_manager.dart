@@ -18,24 +18,22 @@ import 'package:tmail_ui_user/features/thread/data/model/email_cache.dart';
 import 'package:tmail_ui_user/features/thread/domain/model/filter_message_option.dart';
 
 class EmailCacheManager {
-
   final EmailCacheClient _emailCacheClient;
 
   EmailCacheManager(this._emailCacheClient);
 
-  Future<List<Email>> getAllEmail(
-    AccountId accountId,
-    UserName userName, {
-    MailboxId? inMailboxId,
-    Set<Comparator>? sort,
-    UnsignedInt? limit,
-    FilterMessageOption filterOption = FilterMessageOption.all
-  }) async {
-    final emailCacheList = await _emailCacheClient.getListByTupleKey(accountId.asString, userName.value);
+  Future<List<Email>> getAllEmail(AccountId accountId, UserName userName,
+      {MailboxId? inMailboxId,
+      Set<Comparator>? sort,
+      UnsignedInt? limit,
+      FilterMessageOption filterOption = FilterMessageOption.all}) async {
+    final emailCacheList = await _emailCacheClient.getListByTupleKey(
+        accountId.asString, userName.value);
     final emailList = emailCacheList
-      .toEmailList()
-      .where((email) => _filterEmailByMailbox(email, filterOption, inMailboxId))
-      .toList();
+        .toEmailList()
+        .where(
+            (email) => _filterEmailByMailbox(email, filterOption, inMailboxId))
+        .toList();
 
     if (sort != null) {
       for (var comparator in sort) {
@@ -49,7 +47,8 @@ class EmailCacheManager {
     return emailList;
   }
 
-  bool _filterEmailByMailbox(Email email, FilterMessageOption option, MailboxId? inMailboxId) {
+  bool _filterEmailByMailbox(
+      Email email, FilterMessageOption option, MailboxId? inMailboxId) {
     if (inMailboxId != null) {
       return email.belongTo(inMailboxId) && option.filterEmail(email);
     } else {
@@ -57,18 +56,16 @@ class EmailCacheManager {
     }
   }
 
-  Future<void> update(
-    AccountId accountId,
-    UserName userName, {
-    List<Email>? updated,
-    List<Email>? created,
-    List<EmailId>? destroyed
-  }) async {
+  Future<void> update(AccountId accountId, UserName userName,
+      {List<Email>? updated,
+      List<Email>? created,
+      List<EmailId>? destroyed}) async {
     final emailCacheExist = await _emailCacheClient.isExistTable();
     if (emailCacheExist) {
       final updatedCacheEmails = updated?.toMapCache(accountId, userName) ?? {};
       final createdCacheEmails = created?.toMapCache(accountId, userName) ?? {};
-      final destroyedCacheEmails = destroyed?.toCacheKeyList(accountId, userName) ?? [];
+      final destroyedCacheEmails =
+          destroyed?.toCacheKeyList(accountId, userName) ?? [];
 
       await Future.wait([
         _emailCacheClient.updateMultipleItem(updatedCacheEmails),
@@ -86,21 +83,27 @@ class EmailCacheManager {
     if (emailCacheExist) {
       final listEmailCache = await _emailCacheClient.getAll();
       final listEmailIdCacheExpire = listEmailCache
-        .where((emailCache) => emailCache.expireTimeCaching(cleanupRule))
-        .map((emailCache) => emailCache.id)
-        .toList();
+          .where((emailCache) => emailCache.expireTimeCaching(cleanupRule))
+          .map((emailCache) => emailCache.id)
+          .toList();
       await _emailCacheClient.deleteMultipleItem(listEmailIdCacheExpire);
     }
   }
 
-  Future<void> storeEmail(AccountId accountId, UserName userName, EmailCache emailCache) {
-    final keyCache = TupleKey(emailCache.id, accountId.asString, userName.value).encodeKey;
+  Future<void> storeEmail(
+      AccountId accountId, UserName userName, EmailCache emailCache) {
+    final keyCache =
+        TupleKey(emailCache.id, accountId.asString, userName.value).encodeKey;
     return _emailCacheClient.insertItem(keyCache, emailCache);
   }
 
-  Future<EmailCache> getStoredEmail(AccountId accountId, UserName userName, EmailId emailId) async {
-    final keyCache = TupleKey(emailId.asString, accountId.asString, userName.value).encodeKey;
-    final emailCache = await _emailCacheClient.getItem(keyCache, needToReopen: true);
+  Future<EmailCache> getStoredEmail(
+      AccountId accountId, UserName userName, EmailId emailId) async {
+    final keyCache =
+        TupleKey(emailId.asString, accountId.asString, userName.value)
+            .encodeKey;
+    final emailCache =
+        await _emailCacheClient.getItem(keyCache, needToReopen: true);
     if (emailCache != null) {
       return emailCache;
     } else {

@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:tmail_ui_user/features/mailbox_dashboard/presentation/controller/advanced_filter_controller.dart';
-import 'package:tmail_ui_user/features/mailbox_dashboard/presentation/controller/search_controller.dart'  as search;
+import 'package:tmail_ui_user/features/mailbox_dashboard/presentation/controller/search_controller.dart'
+    as search;
 import 'package:tmail_ui_user/main/utils/app_utils.dart';
 
 class IconOpenAdvancedSearchWidget extends StatelessWidget {
@@ -16,8 +17,10 @@ class IconOpenAdvancedSearchWidget extends StatelessWidget {
   }) : super(key: key);
 
   final _imagePaths = Get.find<ImagePaths>();
-  final search.SearchController searchController = Get.find<search.SearchController>();
-  final AdvancedFilterController advancedFilterController = Get.find<AdvancedFilterController>();
+  final search.SearchController searchController =
+      Get.find<search.SearchController>();
+  final AdvancedFilterController advancedFilterController =
+      Get.find<AdvancedFilterController>();
   final BuildContext _parentContext;
 
   @override
@@ -36,7 +39,8 @@ class IconOpenAdvancedSearchWidget extends StatelessWidget {
               left: AppUtils.isDirectionRTL(context) ? 2 : 0,
             ),
             icon: SvgPicture.asset(_imagePaths.icFilterAdvanced,
-                colorFilter: searchController.isAdvancedSearchViewOpen.isTrue || searchController.advancedSearchIsActivated.isTrue
+                colorFilter: searchController.isAdvancedSearchViewOpen.isTrue ||
+                        searchController.advancedSearchIsActivated.isTrue
                     ? AppColor.colorFilterMessageEnabled.asFilter()
                     : AppColor.colorFilterMessageDisabled.asFilter(),
                 width: 16,

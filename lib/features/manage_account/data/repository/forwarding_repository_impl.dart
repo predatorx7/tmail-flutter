@@ -12,17 +12,20 @@ class ForwardingRepositoryImpl extends ForwardingRepository {
   ForwardingRepositoryImpl(this.dataSource);
 
   @override
-  Future<TMailForward> addRecipientsInForwarding(AccountId accountId, AddRecipientInForwardingRequest addRequest) {
+  Future<TMailForward> addRecipientsInForwarding(
+      AccountId accountId, AddRecipientInForwardingRequest addRequest) {
     return dataSource.addRecipientsInForwarding(accountId, addRequest);
   }
 
   @override
-  Future<TMailForward> deleteRecipientInForwarding(AccountId accountId, DeleteRecipientInForwardingRequest deleteRequest) {
+  Future<TMailForward> deleteRecipientInForwarding(
+      AccountId accountId, DeleteRecipientInForwardingRequest deleteRequest) {
     return dataSource.deleteRecipientInForwarding(accountId, deleteRequest);
   }
 
   @override
-  Future<TMailForward> editLocalCopyInForwarding(AccountId accountId, EditLocalCopyInForwardingRequest editRequest) {
+  Future<TMailForward> editLocalCopyInForwarding(
+      AccountId accountId, EditLocalCopyInForwardingRequest editRequest) {
     return dataSource.editLocalCopyInForwarding(accountId, editRequest);
   }
 

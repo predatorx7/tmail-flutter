@@ -10,7 +10,8 @@ class StoreSubscriptionInteractor {
 
   StoreSubscriptionInteractor(this._fcmRepository);
 
-  Stream<Either<Failure, Success>> execute(FCMSubscription fcmSubscription) async* {
+  Stream<Either<Failure, Success>> execute(
+      FCMSubscription fcmSubscription) async* {
     try {
       yield Right<Failure, Success>(StoreSubscriptionLoading());
       await _fcmRepository.storeSubscription(fcmSubscription);

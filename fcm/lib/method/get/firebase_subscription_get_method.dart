@@ -13,7 +13,6 @@ part 'firebase_subscription_get_method.g.dart';
 @PropertiesConverter()
 @JsonSerializable(explicitToJson: true)
 class FirebaseSubscriptionGetMethod extends GetMethodNoNeedAccountId {
-
   FirebaseSubscriptionGetMethod() : super();
 
   @override
@@ -21,14 +20,15 @@ class FirebaseSubscriptionGetMethod extends GetMethodNoNeedAccountId {
 
   @override
   Set<CapabilityIdentifier> get requiredCapabilities => {
-    CapabilityIdentifier.jmapCore,
-    FirebaseCapability.fcmIdentifier,
-  };
+        CapabilityIdentifier.jmapCore,
+        FirebaseCapability.fcmIdentifier,
+      };
 
   @override
   List<Object?> get props => [methodName, ids, requiredCapabilities];
 
-  factory FirebaseSubscriptionGetMethod.fromJson(Map<String, dynamic> json) => _$FirebaseSubscriptionGetMethodFromJson(json);
+  factory FirebaseSubscriptionGetMethod.fromJson(Map<String, dynamic> json) =>
+      _$FirebaseSubscriptionGetMethodFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$FirebaseSubscriptionGetMethodToJson(this);

@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 
 class OIDCConfiguration with EquatableMixin {
@@ -11,11 +10,8 @@ class OIDCConfiguration with EquatableMixin {
   final String clientId;
   final List<String> scopes;
 
-  OIDCConfiguration({
-    required this.authority,
-    required this.clientId,
-    required this.scopes
-  });
+  OIDCConfiguration(
+      {required this.authority, required this.clientId, required this.scopes});
 
   String get discoveryUrl {
     if (authority.endsWith('/')) {
@@ -28,9 +24,5 @@ class OIDCConfiguration with EquatableMixin {
   String get clientIdHash => clientId.hashCode.toString();
 
   @override
-  List<Object?> get props => [
-    authority,
-    clientId,
-    scopes
-  ];
+  List<Object?> get props => [authority, clientId, scopes];
 }

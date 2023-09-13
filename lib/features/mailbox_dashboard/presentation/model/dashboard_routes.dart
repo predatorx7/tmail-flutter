@@ -1,4 +1,3 @@
-
 enum DashboardRoutes {
   thread,
   emailDetailed,

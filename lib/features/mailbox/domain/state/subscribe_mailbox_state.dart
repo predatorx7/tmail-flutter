@@ -12,23 +12,16 @@ class SubscribeMailboxSuccess extends UIActionState {
   final MailboxSubscribeAction subscribeAction;
 
   SubscribeMailboxSuccess(
-    this.mailboxId, 
-    this.subscribeAction,
-    {
-      jmap.State? currentEmailState,
-      jmap.State? currentMailboxState,
-    }
-  ) : super(currentEmailState, currentMailboxState);
+    this.mailboxId,
+    this.subscribeAction, {
+    jmap.State? currentEmailState,
+    jmap.State? currentMailboxState,
+  }) : super(currentEmailState, currentMailboxState);
 
   @override
-  List<Object?> get props => [
-    mailboxId,
-    subscribeAction,
-    ...super.props
-  ];
+  List<Object?> get props => [mailboxId, subscribeAction, ...super.props];
 }
 
 class SubscribeMailboxFailure extends FeatureFailure {
-
   SubscribeMailboxFailure(dynamic exception) : super(exception: exception);
 }

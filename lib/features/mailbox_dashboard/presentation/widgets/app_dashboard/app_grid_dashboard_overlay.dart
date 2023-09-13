@@ -6,7 +6,8 @@ import 'package:tmail_ui_user/features/mailbox_dashboard/presentation/widgets/ap
 class AppDashboardOverlay extends StatelessWidget {
   final LinagoraApplications _linagoraApplications;
 
-  const AppDashboardOverlay(this._linagoraApplications, {Key? key}) : super(key: key);
+  const AppDashboardOverlay(this._linagoraApplications, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,23 +16,23 @@ class AppDashboardOverlay extends StatelessWidget {
       child: Container(
         width: _widthAppGrid,
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(24),
-          boxShadow: const [
-            BoxShadow(
-              color: AppColor.colorShadowLayerBottom,
-              blurRadius: 96,
-              offset: Offset.zero),
-            BoxShadow(
-              color: AppColor.colorShadowLayerTop,
-              blurRadius: 2,
-              offset: Offset.zero),
-          ]
-        ),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: const [
+              BoxShadow(
+                  color: AppColor.colorShadowLayerBottom,
+                  blurRadius: 96,
+                  offset: Offset.zero),
+              BoxShadow(
+                  color: AppColor.colorShadowLayerTop,
+                  blurRadius: 2,
+                  offset: Offset.zero),
+            ]),
         padding: const EdgeInsets.all(24),
-        child: Wrap(children: _linagoraApplications.apps
-          .map((app) => AppGridDashboardItem(app))
-          .toList()),
+        child: Wrap(
+            children: _linagoraApplications.apps
+                .map((app) => AppGridDashboardItem(app))
+                .toList()),
       ),
     );
   }

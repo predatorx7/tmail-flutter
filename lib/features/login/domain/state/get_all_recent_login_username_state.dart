@@ -3,7 +3,6 @@ import 'package:core/presentation/state/success.dart';
 import 'package:tmail_ui_user/features/login/domain/model/recent_login_username.dart';
 
 class GetAllRecentLoginUsernameLatestSuccess extends UIState {
-
   final List<RecentLoginUsername> listRecentLoginUsername;
 
   GetAllRecentLoginUsernameLatestSuccess(this.listRecentLoginUsername);
@@ -13,6 +12,6 @@ class GetAllRecentLoginUsernameLatestSuccess extends UIState {
 }
 
 class GetAllRecentLoginUsernameLatestFailure extends FeatureFailure {
-
-  GetAllRecentLoginUsernameLatestFailure(dynamic exception) : super(exception: exception);
+  GetAllRecentLoginUsernameLatestFailure(dynamic exception)
+      : super(exception: exception);
 }

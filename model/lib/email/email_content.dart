@@ -1,12 +1,11 @@
-
 import 'package:core/utils/app_logger.dart';
 import 'package:equatable/equatable.dart';
 import 'package:model/email/email_content_type.dart';
 import 'package:model/model.dart';
 
 class EmailContent with EquatableMixin {
-
-  static const defaultHtmlTagsWrapContent = '<html><head></head><body></body></html>';
+  static const defaultHtmlTagsWrapContent =
+      '<html><head></head><body></body></html>';
 
   final String content;
   final EmailContentType type;

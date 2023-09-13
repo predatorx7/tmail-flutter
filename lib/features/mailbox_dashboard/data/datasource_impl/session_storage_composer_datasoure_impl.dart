@@ -12,7 +12,8 @@ class SessionStorageComposerDatasourceImpl
   @override
   ComposerCache getComposerCacheOnWeb() {
     try {
-      final result = html.window.sessionStorage.entries.firstWhereOrNull((e) => e.key == EmailActionType.reopenComposerBrowser.name);
+      final result = html.window.sessionStorage.entries.firstWhereOrNull(
+          (e) => e.key == EmailActionType.reopenComposerBrowser.name);
       if (result != null) {
         final emailCache = ComposerCache.fromJson(jsonDecode(result.value));
         return emailCache;
@@ -27,7 +28,8 @@ class SessionStorageComposerDatasourceImpl
   @override
   void removeComposerCacheOnWeb() {
     try {
-      html.window.sessionStorage.removeWhere((key, value) => key == EmailActionType.reopenComposerBrowser.name);
+      html.window.sessionStorage.removeWhere(
+          (key, value) => key == EmailActionType.reopenComposerBrowser.name);
     } catch (e) {
       throw NotFoundInWebSessionException(errorMessage: e.toString());
     }

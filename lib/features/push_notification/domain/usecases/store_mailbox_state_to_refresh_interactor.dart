@@ -13,10 +13,12 @@ class StoreMailboxStateToRefreshInteractor {
 
   StoreMailboxStateToRefreshInteractor(this._fcmRepository);
 
-  Stream<Either<Failure, Success>> execute(AccountId accountId, UserName userName, jmap.State newState) async* {
+  Stream<Either<Failure, Success>> execute(
+      AccountId accountId, UserName userName, jmap.State newState) async* {
     try {
       yield Right<Failure, Success>(StoreMailboxStateToRefreshLoading());
-      await _fcmRepository.storeStateToRefresh(accountId, userName, TypeName.mailboxType, newState);
+      await _fcmRepository.storeStateToRefresh(
+          accountId, userName, TypeName.mailboxType, newState);
       yield Right<Failure, Success>(StoreMailboxStateToRefreshSuccess());
     } catch (e) {
       yield Left<Failure, Success>(StoreMailboxStateToRefreshFailure(e));

@@ -19,8 +19,10 @@ class StoreSendingEmailInteractor {
   ) async* {
     try {
       yield Right<Failure, Success>(StoreSendingEmailLoading());
-      final storedSendingEmail = await _sendingQueueRepository.storeSendingEmail(accountId, userName, sendingEmail);
-      yield Right<Failure, Success>(StoreSendingEmailSuccess(storedSendingEmail));
+      final storedSendingEmail = await _sendingQueueRepository
+          .storeSendingEmail(accountId, userName, sendingEmail);
+      yield Right<Failure, Success>(
+          StoreSendingEmailSuccess(storedSendingEmail));
     } catch (e) {
       yield Left<Failure, Success>(StoreSendingEmailFailure(e));
     }

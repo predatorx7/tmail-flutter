@@ -18,17 +18,17 @@ class DefaultFirebaseOptions {
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
-              'you can reconfigure this by running the FlutterFire CLI again.',
+          'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
-              'you can reconfigure this by running the FlutterFire CLI again.',
+          'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
-              'you can reconfigure this by running the FlutterFire CLI again.',
+          'you can reconfigure this by running the FlutterFire CLI again.',
         );
       default:
         throw UnsupportedError(
@@ -40,7 +40,8 @@ class DefaultFirebaseOptions {
   static FirebaseOptions web = FirebaseOptions(
     apiKey: dotenv.get('FIREBASE_WEB_API_KEY', fallback: ''),
     appId: dotenv.get('FIREBASE_WEB_APP_ID', fallback: ''),
-    messagingSenderId: dotenv.get('FIREBASE_WEB_MESSAGING_SENDER_ID', fallback: ''),
+    messagingSenderId:
+        dotenv.get('FIREBASE_WEB_MESSAGING_SENDER_ID', fallback: ''),
     projectId: dotenv.get('FIREBASE_WEB_PROJECT_ID', fallback: ''),
     authDomain: dotenv.get('FIREBASE_WEB_AUTH_DOMAIN', fallback: ''),
     databaseURL: dotenv.get('FIREBASE_WEB_DATABASE_URL', fallback: ''),
@@ -50,7 +51,8 @@ class DefaultFirebaseOptions {
   static FirebaseOptions android = FirebaseOptions(
     apiKey: dotenv.get('FIREBASE_ANDROID_API_KEY', fallback: ''),
     appId: dotenv.get('FIREBASE_ANDROID_APP_ID', fallback: ''),
-    messagingSenderId: dotenv.get('FIREBASE_ANDROID_MESSAGING_SENDER_ID', fallback: ''),
+    messagingSenderId:
+        dotenv.get('FIREBASE_ANDROID_MESSAGING_SENDER_ID', fallback: ''),
     projectId: dotenv.get('FIREBASE_ANDROID_PROJECT_ID', fallback: ''),
     databaseURL: dotenv.get('FIREBASE_ANDROID_DATABASE_URL', fallback: ''),
     storageBucket: dotenv.get('FIREBASE_ANDROID_STORAGE_BUCKET', fallback: ''),
@@ -59,7 +61,8 @@ class DefaultFirebaseOptions {
   static FirebaseOptions ios = FirebaseOptions(
     apiKey: dotenv.get('FIREBASE_IOS_API_KEY', fallback: ''),
     appId: dotenv.get('FIREBASE_IOS_APP_ID', fallback: ''),
-    messagingSenderId: dotenv.get('FIREBASE_IOS_MESSAGING_SENDER_ID', fallback: ''),
+    messagingSenderId:
+        dotenv.get('FIREBASE_IOS_MESSAGING_SENDER_ID', fallback: ''),
     projectId: dotenv.get('FIREBASE_IOS_PROJECT_ID', fallback: ''),
     databaseURL: dotenv.get('FIREBASE_IOS_DATABASE_URL', fallback: ''),
     storageBucket: dotenv.get('FIREBASE_IOS_STORAGE_BUCKET', fallback: ''),

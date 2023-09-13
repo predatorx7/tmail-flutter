@@ -25,5 +25,6 @@ class RuleFilterId with EquatableMixin {
 }
 
 extension RuleFilterIdSingleton on RuleFilterId {
-  static RuleFilterId get ruleFilterIdSingleton => RuleFilterId(id: Id(RuleFilterIdType.singleton.value));
+  static RuleFilterId get ruleFilterIdSingleton =>
+      RuleFilterId(id: Id(RuleFilterIdType.singleton.value));
 }

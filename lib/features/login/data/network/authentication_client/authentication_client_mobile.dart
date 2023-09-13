@@ -1,4 +1,3 @@
-
 import 'package:core/utils/app_logger.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:get/get.dart';
@@ -13,7 +12,6 @@ import 'package:tmail_ui_user/features/login/domain/exceptions/authentication_ex
 import 'package:tmail_ui_user/features/login/domain/extensions/oidc_configuration_extensions.dart';
 
 class AuthenticationClientMobile implements AuthenticationClientBase {
-
   final FlutterAppAuth _appAuth;
 
   AuthenticationClientMobile(this._appAuth);
@@ -22,12 +20,10 @@ class AuthenticationClientMobile implements AuthenticationClientBase {
   Future<TokenOIDC> getTokenOIDC(String clientId, String redirectUrl,
       String discoveryUrl, List<String> scopes) async {
     final authorizationTokenResponse = await _appAuth.authorizeAndExchangeCode(
-        AuthorizationTokenRequest(
-          clientId,
-          redirectUrl,
-          discoveryUrl: discoveryUrl,
-          scopes: scopes,
-          preferEphemeralSession: true));
+        AuthorizationTokenRequest(clientId, redirectUrl,
+            discoveryUrl: discoveryUrl,
+            scopes: scopes,
+            preferEphemeralSession: true));
 
     log('AuthenticationClientMobile::getTokenOIDC(): token: ${authorizationTokenResponse?.accessToken}');
 
@@ -44,20 +40,22 @@ class AuthenticationClientMobile implements AuthenticationClientBase {
   }
 
   @override
-  Future<bool> logoutOidc(TokenId tokenId, OIDCConfiguration config, OIDCDiscoveryResponse oidcRescovery) async {
-    final authorizationServiceConfiguration = oidcRescovery.authorizationEndpoint == null || oidcRescovery.tokenEndpoint == null
-        ? null
-        : AuthorizationServiceConfiguration(
-            authorizationEndpoint: oidcRescovery.authorizationEndpoint!,
-            tokenEndpoint: oidcRescovery.tokenEndpoint!,
-            endSessionEndpoint: oidcRescovery.endSessionEndpoint);
-            
+  Future<bool> logoutOidc(TokenId tokenId, OIDCConfiguration config,
+      OIDCDiscoveryResponse oidcRescovery) async {
+    final authorizationServiceConfiguration =
+        oidcRescovery.authorizationEndpoint == null ||
+                oidcRescovery.tokenEndpoint == null
+            ? null
+            : AuthorizationServiceConfiguration(
+                authorizationEndpoint: oidcRescovery.authorizationEndpoint!,
+                tokenEndpoint: oidcRescovery.tokenEndpoint!,
+                endSessionEndpoint: oidcRescovery.endSessionEndpoint);
+
     final endSession = await _appAuth.endSession(EndSessionRequest(
         idTokenHint: tokenId.uuid,
         postLogoutRedirectUrl: config.logoutRedirectUrl,
         discoveryUrl: config.discoveryUrl,
-        serviceConfiguration: authorizationServiceConfiguration
-    ));
+        serviceConfiguration: authorizationServiceConfiguration));
     log('AuthenticationClientMobile::logoutOidc(): ${endSession?.state}');
     return endSession?.state?.isNotEmpty == true;
   }
@@ -66,8 +64,7 @@ class AuthenticationClientMobile implements AuthenticationClientBase {
   Future<TokenOIDC> refreshingTokensOIDC(String clientId, String redirectUrl,
       String discoveryUrl, List<String> scopes, String refreshToken) async {
     final tokenResponse = await _appAuth.token(TokenRequest(
-        clientId,
-        redirectUrl,
+        clientId, redirectUrl,
         discoveryUrl: discoveryUrl,
         refreshToken: refreshToken,
         scopes: scopes));
@@ -75,7 +72,8 @@ class AuthenticationClientMobile implements AuthenticationClientBase {
     log('AuthenticationClientMobile::refreshingTokensOIDC(): refreshToken: ${tokenResponse?.accessToken}');
 
     if (tokenResponse != null) {
-      final tokenOIDC = tokenResponse.toTokenOIDC(maybeAvailableRefreshToken: refreshToken);
+      final tokenOIDC =
+          tokenResponse.toTokenOIDC(maybeAvailableRefreshToken: refreshToken);
       if (tokenOIDC.isTokenValid()) {
         return tokenOIDC;
       } else {

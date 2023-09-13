@@ -25,64 +25,69 @@ import 'refresh_changes_emails_in_mailbox_interactor_test.mocks.dart';
 @GenerateMocks([ThreadRepository])
 void main() {
   late ThreadRepository threadRepository;
-  late RefreshChangesEmailsInMailboxInteractor refreshChangesEmailsInMailboxInteractor;
+  late RefreshChangesEmailsInMailboxInteractor
+      refreshChangesEmailsInMailboxInteractor;
 
   group('[RefreshChangesEmailsInMailboxInteractor]', () {
-
     setUp(() {
       threadRepository = MockThreadRepository();
-      refreshChangesEmailsInMailboxInteractor = RefreshChangesEmailsInMailboxInteractor(threadRepository);
+      refreshChangesEmailsInMailboxInteractor =
+          RefreshChangesEmailsInMailboxInteractor(threadRepository);
     });
 
-    test('refreshChangesEmailsInMailboxInteractor should execute to get changes email from cache and network', () async {
-      when(threadRepository.refreshChanges(
-          SessionFixtures.aliceSession,
-          AccountFixtures.aliceAccountId,
-          StateFixtures.currentEmailState,
-          sort: <EmailComparator>{}..add(EmailComparator(EmailComparatorProperty.sentAt)..setIsAscending(false)),
-          propertiesCreated: ThreadConstants.propertiesDefault,
-          propertiesUpdated: ThreadConstants.propertiesUpdatedDefault,
-          emailFilter: EmailFilter(
-            mailboxId: MailboxFixtures.inboxMailbox.id)
-      )).thenAnswer((_) => Stream.fromIterable({
-        EmailsResponse(
-            emailList: {
-              EmailFixtures.email1,
-              EmailFixtures.email2,
-              EmailFixtures.email3,
-              EmailFixtures.email4,
-              EmailFixtures.email5,
-            }.toList(),
-            state: jmap.State('s1'))
-        }));
+    test(
+        'refreshChangesEmailsInMailboxInteractor should execute to get changes email from cache and network',
+        () async {
+      when(threadRepository.refreshChanges(SessionFixtures.aliceSession,
+              AccountFixtures.aliceAccountId, StateFixtures.currentEmailState,
+              sort: <EmailComparator>{}..add(
+                  EmailComparator(EmailComparatorProperty.sentAt)
+                    ..setIsAscending(false)),
+              propertiesCreated: ThreadConstants.propertiesDefault,
+              propertiesUpdated: ThreadConstants.propertiesUpdatedDefault,
+              emailFilter:
+                  EmailFilter(mailboxId: MailboxFixtures.inboxMailbox.id)))
+          .thenAnswer((_) => Stream.fromIterable({
+                EmailsResponse(
+                    emailList: {
+                      EmailFixtures.email1,
+                      EmailFixtures.email2,
+                      EmailFixtures.email3,
+                      EmailFixtures.email4,
+                      EmailFixtures.email5,
+                    }.toList(),
+                    state: jmap.State('s1'))
+              }));
 
       final streamStates = refreshChangesEmailsInMailboxInteractor.execute(
         SessionFixtures.aliceSession,
         AccountFixtures.aliceAccountId,
         StateFixtures.currentEmailState,
-        sort: <EmailComparator>{}..add(EmailComparator(EmailComparatorProperty.sentAt)..setIsAscending(false)),
+        sort: <EmailComparator>{}..add(
+            EmailComparator(EmailComparatorProperty.sentAt)
+              ..setIsAscending(false)),
         propertiesCreated: ThreadConstants.propertiesDefault,
         propertiesUpdated: ThreadConstants.propertiesUpdatedDefault,
-        emailFilter: EmailFilter(
-          mailboxId: MailboxFixtures.inboxMailbox.id),
+        emailFilter: EmailFilter(mailboxId: MailboxFixtures.inboxMailbox.id),
       );
 
       final states = await streamStates.toList();
 
       expect(states.length, equals(2));
-      expect(states, containsAllInOrder({
-        Right(RefreshChangesAllEmailLoading()),
-        Right(RefreshChangesAllEmailSuccess(
-          emailList: {
-            EmailFixtures.email1.toPresentationEmail(),
-            EmailFixtures.email2.toPresentationEmail(),
-            EmailFixtures.email3.toPresentationEmail(),
-            EmailFixtures.email4.toPresentationEmail(),
-            EmailFixtures.email5.toPresentationEmail(),
-          }.toList(),
-          currentEmailState: jmap.State('s1'))
-        )
-      }));
+      expect(
+          states,
+          containsAllInOrder({
+            Right(RefreshChangesAllEmailLoading()),
+            Right(RefreshChangesAllEmailSuccess(
+                emailList: {
+                  EmailFixtures.email1.toPresentationEmail(),
+                  EmailFixtures.email2.toPresentationEmail(),
+                  EmailFixtures.email3.toPresentationEmail(),
+                  EmailFixtures.email4.toPresentationEmail(),
+                  EmailFixtures.email5.toPresentationEmail(),
+                }.toList(),
+                currentEmailState: jmap.State('s1')))
+          }));
     });
   });
 }

@@ -11,11 +11,14 @@ class DeleteMultipleSendingEmailInteractor {
 
   DeleteMultipleSendingEmailInteractor(this._sendingQueueRepository);
 
-  Stream<Either<Failure, Success>> execute(AccountId accountId, UserName userName, List<String> sendingIds) async* {
+  Stream<Either<Failure, Success>> execute(
+      AccountId accountId, UserName userName, List<String> sendingIds) async* {
     try {
       yield Right<Failure, Success>(DeleteMultipleSendingEmailLoading());
-      await _sendingQueueRepository.deleteMultipleSendingEmail(accountId, userName, sendingIds);
-      yield Right<Failure, Success>(DeleteMultipleSendingEmailSuccess(sendingIds));
+      await _sendingQueueRepository.deleteMultipleSendingEmail(
+          accountId, userName, sendingIds);
+      yield Right<Failure, Success>(
+          DeleteMultipleSendingEmailSuccess(sendingIds));
     } catch (e) {
       yield Left<Failure, Success>(DeleteMultipleSendingEmailFailure(e));
     }

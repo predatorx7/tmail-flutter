@@ -20,7 +20,6 @@ import 'package:tmail_ui_user/features/mailbox/domain/usecases/subscribe_mailbox
 import 'package:core/data/model/source_type/data_source_type.dart';
 
 class MailboxVisibilityInteractorBindings extends InteractorsBindings {
-
   @override
   void bindingsDataSource() {
     Get.lazyPut<MailboxDataSource>(() => Get.find<MailboxDataSourceImpl>());
@@ -29,22 +28,23 @@ class MailboxVisibilityInteractorBindings extends InteractorsBindings {
 
   @override
   void bindingsDataSourceImpl() {
-    Get.lazyPut(() => MailboxDataSourceImpl(
-      Get.find<MailboxAPI>(),
-      Get.find<MailboxIsolateWorker>(),
-      Get.find<RemoteExceptionThrower>()));
+    Get.lazyPut(() => MailboxDataSourceImpl(Get.find<MailboxAPI>(),
+        Get.find<MailboxIsolateWorker>(), Get.find<RemoteExceptionThrower>()));
     Get.lazyPut(() => MailboxCacheDataSourceImpl(
-      Get.find<MailboxCacheManager>(),
-      Get.find<CacheExceptionThrower>()));
-    Get.lazyPut(() => StateDataSourceImpl(Get.find<StateCacheClient>(), Get.find<CacheExceptionThrower>()));
+        Get.find<MailboxCacheManager>(), Get.find<CacheExceptionThrower>()));
+    Get.lazyPut(() => StateDataSourceImpl(
+        Get.find<StateCacheClient>(), Get.find<CacheExceptionThrower>()));
   }
 
   @override
   void bindingsInteractor() {
     Get.lazyPut(() => GetAllMailboxInteractor(Get.find<MailboxRepository>()));
-    Get.lazyPut(() => RefreshAllMailboxInteractor(Get.find<MailboxRepository>()));
-    Get.lazyPut(() => SubscribeMailboxInteractor(Get.find<MailboxRepository>()));
-    Get.lazyPut(() => SubscribeMultipleMailboxInteractor(Get.find<MailboxRepository>()));
+    Get.lazyPut(
+        () => RefreshAllMailboxInteractor(Get.find<MailboxRepository>()));
+    Get.lazyPut(
+        () => SubscribeMailboxInteractor(Get.find<MailboxRepository>()));
+    Get.lazyPut(() =>
+        SubscribeMultipleMailboxInteractor(Get.find<MailboxRepository>()));
   }
 
   @override
@@ -55,11 +55,11 @@ class MailboxVisibilityInteractorBindings extends InteractorsBindings {
   @override
   void bindingsRepositoryImpl() {
     Get.lazyPut(() => MailboxRepositoryImpl(
-      {
-        DataSourceType.network: Get.find<MailboxDataSource>(),
-        DataSourceType.local: Get.find<MailboxCacheDataSourceImpl>()
-      },
-      Get.find<StateDataSource>(),
-    ));
+          {
+            DataSourceType.network: Get.find<MailboxDataSource>(),
+            DataSourceType.local: Get.find<MailboxCacheDataSourceImpl>()
+          },
+          Get.find<StateDataSource>(),
+        ));
   }
 }

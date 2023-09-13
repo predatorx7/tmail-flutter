@@ -25,19 +25,21 @@ void main() {
       final session = Session(
           {
             CapabilityIdentifier.jmapSubmission: SubmissionCapability(
-              maxDelayedSend: UnsignedInt(0),
-              submissionExtensions: {}
-            ),
+                maxDelayedSend: UnsignedInt(0), submissionExtensions: {}),
             CapabilityIdentifier.jmapMail: MailCapability(
-              maxMailboxesPerEmail: UnsignedInt(10000000),
-              maxSizeAttachmentsPerEmail: UnsignedInt(20000000),
-              emailQuerySortOptions: {"receivedAt", "sentAt", "size", "from", "to", "subject"},
-              mayCreateTopLevelMailbox: true
-            ),
+                maxMailboxesPerEmail: UnsignedInt(10000000),
+                maxSizeAttachmentsPerEmail: UnsignedInt(20000000),
+                emailQuerySortOptions: {
+                  "receivedAt",
+                  "sentAt",
+                  "size",
+                  "from",
+                  "to",
+                  "subject"
+                },
+                mayCreateTopLevelMailbox: true),
             CapabilityIdentifier.jmapWebSocket: WebSocketCapability(
-              supportsPush: true,
-              url: Uri.parse('ws://domain.com/jmap/ws')
-            ),
+                supportsPush: true, url: Uri.parse('ws://domain.com/jmap/ws')),
             CapabilityIdentifier(
                     Uri.parse('urn:apache:james:params:jmap:mail:quota')):
                 DefaultCapability(<String, dynamic>{}),
@@ -48,21 +50,26 @@ void main() {
             CapabilityIdentifier.jmapMdn: MdnCapability()
           },
           {
-            AccountId(Id('29883977c13473ae7cb7678ef767cbfbaffc8a44a6e463d971d23a65c1dc4af6')): Account(AccountName('bob@domain.tld'), true, false, {
+            AccountId(Id(
+                    '29883977c13473ae7cb7678ef767cbfbaffc8a44a6e463d971d23a65c1dc4af6')):
+                Account(AccountName('bob@domain.tld'), true, false, {
               CapabilityIdentifier.jmapSubmission: SubmissionCapability(
-                maxDelayedSend: UnsignedInt(0),
-                submissionExtensions: {}
-              ),
+                  maxDelayedSend: UnsignedInt(0), submissionExtensions: {}),
               CapabilityIdentifier.jmapWebSocket: WebSocketCapability(
-                supportsPush: true,
-                url: Uri.parse('ws://domain.com/jmap/ws')
-              ),
+                  supportsPush: true,
+                  url: Uri.parse('ws://domain.com/jmap/ws')),
               CapabilityIdentifier.jmapMail: MailCapability(
-                maxMailboxesPerEmail: UnsignedInt(10000000),
-                maxSizeAttachmentsPerEmail: UnsignedInt(20000000),
-                emailQuerySortOptions: {"receivedAt", "sentAt", "size", "from", "to", "subject"},
-                mayCreateTopLevelMailbox: true
-              ),
+                  maxMailboxesPerEmail: UnsignedInt(10000000),
+                  maxSizeAttachmentsPerEmail: UnsignedInt(20000000),
+                  emailQuerySortOptions: {
+                    "receivedAt",
+                    "sentAt",
+                    "size",
+                    "from",
+                    "to",
+                    "subject"
+                  },
+                  mayCreateTopLevelMailbox: true),
               CapabilityIdentifier(
                       Uri.parse('urn:apache:james:params:jmap:mail:quota')):
                   DefaultCapability(<String, dynamic>{}),
@@ -104,43 +111,47 @@ void main() {
               'http://domain.com/eventSource?types={types}&closeAfter={closeafter}&ping={ping}'),
           State('2c9f1b12-b35a-43e6-9af2-0106fb53a943'));
       expect(
-        () => requireCapability(
-            session,
-            AccountId(Id('29883977c13473ae7cb7678ef767cbfbaffc8a44a6e463d971d23a65c1dc4af6')),
-            [CapabilityIdentifier.jmapCore, CapabilityIdentifier.jmapMail]),
-        throwsA(const TypeMatcher<SessionMissingCapability>()));
+          () => requireCapability(
+              session,
+              AccountId(Id(
+                  '29883977c13473ae7cb7678ef767cbfbaffc8a44a6e463d971d23a65c1dc4af6')),
+              [CapabilityIdentifier.jmapCore, CapabilityIdentifier.jmapMail]),
+          throwsA(const TypeMatcher<SessionMissingCapability>()));
     });
 
     test('when account capabilities is empty exception should throw', () {
       final session = Session(
           {
             CapabilityIdentifier.jmapSubmission: SubmissionCapability(
-              maxDelayedSend: UnsignedInt(0),
-              submissionExtensions: {}
-            ),
+                maxDelayedSend: UnsignedInt(0), submissionExtensions: {}),
             CapabilityIdentifier.jmapMail: MailCapability(
-              maxMailboxesPerEmail: UnsignedInt(10000000),
-              maxSizeAttachmentsPerEmail: UnsignedInt(20000000),
-              emailQuerySortOptions: {"receivedAt", "sentAt", "size", "from", "to", "subject"},
-              mayCreateTopLevelMailbox: true
-            ),
+                maxMailboxesPerEmail: UnsignedInt(10000000),
+                maxSizeAttachmentsPerEmail: UnsignedInt(20000000),
+                emailQuerySortOptions: {
+                  "receivedAt",
+                  "sentAt",
+                  "size",
+                  "from",
+                  "to",
+                  "subject"
+                },
+                mayCreateTopLevelMailbox: true),
             CapabilityIdentifier.jmapWebSocket: WebSocketCapability(
-              supportsPush: true,
-              url: Uri.parse('ws://domain.com/jmap/ws')
-            ),
+                supportsPush: true, url: Uri.parse('ws://domain.com/jmap/ws')),
             CapabilityIdentifier(
-                Uri.parse('urn:apache:james:params:jmap:mail:quota')):
-            DefaultCapability(<String, dynamic>{}),
+                    Uri.parse('urn:apache:james:params:jmap:mail:quota')):
+                DefaultCapability(<String, dynamic>{}),
             CapabilityIdentifier(
-                Uri.parse('urn:apache:james:params:jmap:mail:shares')):
-            DefaultCapability(<String, dynamic>{}),
+                    Uri.parse('urn:apache:james:params:jmap:mail:shares')):
+                DefaultCapability(<String, dynamic>{}),
             CapabilityIdentifier.jmapVacationResponse: VacationCapability(),
             CapabilityIdentifier.jmapMdn: MdnCapability()
           },
           {
             AccountId(Id(
-                '29883977c13473ae7cb7678ef767cbfbaffc8a44a6e463d971d23a65c1dc4af6')):
-            Account(AccountName('bob@domain.tld'), true, false, <CapabilityIdentifier, CapabilityProperties>{})
+                    '29883977c13473ae7cb7678ef767cbfbaffc8a44a6e463d971d23a65c1dc4af6')):
+                Account(AccountName('bob@domain.tld'), true, false,
+                    <CapabilityIdentifier, CapabilityProperties>{})
           },
           {
             CapabilityIdentifier.jmapSubmission: AccountId(Id(
@@ -173,64 +184,73 @@ void main() {
               'http://domain.com/eventSource?types={types}&closeAfter={closeafter}&ping={ping}'),
           State('2c9f1b12-b35a-43e6-9af2-0106fb53a943'));
       expect(
-        () => requireCapability(
-            session,
-            AccountId(Id('29883977c13473ae7cb7678ef767cbfbaffc8a44a6e463d971d23a65c1dc4af6')),
-            [CapabilityIdentifier.jmapCore, CapabilityIdentifier.jmapMail]),
-        throwsA(const TypeMatcher<SessionMissingCapability>()));
+          () => requireCapability(
+              session,
+              AccountId(Id(
+                  '29883977c13473ae7cb7678ef767cbfbaffc8a44a6e463d971d23a65c1dc4af6')),
+              [CapabilityIdentifier.jmapCore, CapabilityIdentifier.jmapMail]),
+          throwsA(const TypeMatcher<SessionMissingCapability>()));
     });
 
-    test('when accounts not have account with invalid accountId capability should throw', () {
-      final invalidId = Id("29883977c13473ae7cb7678ef767cbffabfc8a44a6e463d971d23a65c1dc4af6");
+    test(
+        'when accounts not have account with invalid accountId capability should throw',
+        () {
+      final invalidId = Id(
+          "29883977c13473ae7cb7678ef767cbffabfc8a44a6e463d971d23a65c1dc4af6");
       final session = Session(
           {
             CapabilityIdentifier.jmapSubmission: SubmissionCapability(
-              maxDelayedSend: UnsignedInt(0),
-              submissionExtensions: {}
-            ),
+                maxDelayedSend: UnsignedInt(0), submissionExtensions: {}),
             CapabilityIdentifier.jmapMail: MailCapability(
-              maxMailboxesPerEmail: UnsignedInt(10000000),
-              maxSizeAttachmentsPerEmail: UnsignedInt(20000000),
-              emailQuerySortOptions: {"receivedAt", "sentAt", "size", "from", "to", "subject"},
-              mayCreateTopLevelMailbox: true
-            ),
+                maxMailboxesPerEmail: UnsignedInt(10000000),
+                maxSizeAttachmentsPerEmail: UnsignedInt(20000000),
+                emailQuerySortOptions: {
+                  "receivedAt",
+                  "sentAt",
+                  "size",
+                  "from",
+                  "to",
+                  "subject"
+                },
+                mayCreateTopLevelMailbox: true),
             CapabilityIdentifier.jmapWebSocket: WebSocketCapability(
-              supportsPush: true,
-              url: Uri.parse('ws://domain.com/jmap/ws')
-            ),
+                supportsPush: true, url: Uri.parse('ws://domain.com/jmap/ws')),
             CapabilityIdentifier(
-                Uri.parse('urn:apache:james:params:jmap:mail:quota')):
-            DefaultCapability(<String, dynamic>{}),
+                    Uri.parse('urn:apache:james:params:jmap:mail:quota')):
+                DefaultCapability(<String, dynamic>{}),
             CapabilityIdentifier(
-                Uri.parse('urn:apache:james:params:jmap:mail:shares')):
-            DefaultCapability(<String, dynamic>{}),
+                    Uri.parse('urn:apache:james:params:jmap:mail:shares')):
+                DefaultCapability(<String, dynamic>{}),
             CapabilityIdentifier.jmapVacationResponse: VacationCapability(),
             CapabilityIdentifier.jmapMdn: MdnCapability()
           },
           {
             AccountId(Id(
-                '29883977c13473ae7cb7678ef767cbfbaffc8a44a6e463d971d23a65c1dc4af6')):
-            Account(AccountName('bob@domain.tld'), true, false, {
+                    '29883977c13473ae7cb7678ef767cbfbaffc8a44a6e463d971d23a65c1dc4af6')):
+                Account(AccountName('bob@domain.tld'), true, false, {
               CapabilityIdentifier.jmapSubmission: SubmissionCapability(
-                maxDelayedSend: UnsignedInt(0),
-                submissionExtensions: {}
-              ),
+                  maxDelayedSend: UnsignedInt(0), submissionExtensions: {}),
               CapabilityIdentifier.jmapWebSocket: WebSocketCapability(
-                supportsPush: true,
-                url: Uri.parse('ws://domain.com/jmap/ws')
-              ),
+                  supportsPush: true,
+                  url: Uri.parse('ws://domain.com/jmap/ws')),
               CapabilityIdentifier.jmapMail: MailCapability(
-                maxMailboxesPerEmail: UnsignedInt(10000000),
-                maxSizeAttachmentsPerEmail: UnsignedInt(20000000),
-                emailQuerySortOptions: {"receivedAt", "sentAt", "size", "from", "to", "subject"},
-                mayCreateTopLevelMailbox: true
-              ),
+                  maxMailboxesPerEmail: UnsignedInt(10000000),
+                  maxSizeAttachmentsPerEmail: UnsignedInt(20000000),
+                  emailQuerySortOptions: {
+                    "receivedAt",
+                    "sentAt",
+                    "size",
+                    "from",
+                    "to",
+                    "subject"
+                  },
+                  mayCreateTopLevelMailbox: true),
               CapabilityIdentifier(
-                  Uri.parse('urn:apache:james:params:jmap:mail:quota')):
-              DefaultCapability(<String, dynamic>{}),
+                      Uri.parse('urn:apache:james:params:jmap:mail:quota')):
+                  DefaultCapability(<String, dynamic>{}),
               CapabilityIdentifier(
-                  Uri.parse('urn:apache:james:params:jmap:mail:shares')):
-              DefaultCapability(<String, dynamic>{}),
+                      Uri.parse('urn:apache:james:params:jmap:mail:shares')):
+                  DefaultCapability(<String, dynamic>{}),
               CapabilityIdentifier.jmapVacationResponse: VacationCapability(),
               CapabilityIdentifier.jmapMdn: MdnCapability()
             })
@@ -266,36 +286,36 @@ void main() {
               'http://domain.com/eventSource?types={types}&closeAfter={closeafter}&ping={ping}'),
           State('2c9f1b12-b35a-43e6-9af2-0106fb53a943'));
       expect(
-        () => requireCapability(
-            session,
-            AccountId(invalidId),
-            [CapabilityIdentifier.jmapCore, CapabilityIdentifier.jmapMail]),
-        throwsA(const TypeMatcher<InvalidCapability>()));
+          () => requireCapability(session, AccountId(invalidId),
+              [CapabilityIdentifier.jmapCore, CapabilityIdentifier.jmapMail]),
+          throwsA(const TypeMatcher<InvalidCapability>()));
     });
 
     test('when accounts empty should throw exception', () {
       final session = Session(
           {
             CapabilityIdentifier.jmapSubmission: SubmissionCapability(
-              maxDelayedSend: UnsignedInt(0),
-              submissionExtensions: {}
-            ),
+                maxDelayedSend: UnsignedInt(0), submissionExtensions: {}),
             CapabilityIdentifier.jmapMail: MailCapability(
-              maxMailboxesPerEmail: UnsignedInt(10000000),
-              maxSizeAttachmentsPerEmail: UnsignedInt(20000000),
-              emailQuerySortOptions: {"receivedAt", "sentAt", "size", "from", "to", "subject"},
-              mayCreateTopLevelMailbox: true
-            ),
+                maxMailboxesPerEmail: UnsignedInt(10000000),
+                maxSizeAttachmentsPerEmail: UnsignedInt(20000000),
+                emailQuerySortOptions: {
+                  "receivedAt",
+                  "sentAt",
+                  "size",
+                  "from",
+                  "to",
+                  "subject"
+                },
+                mayCreateTopLevelMailbox: true),
             CapabilityIdentifier.jmapWebSocket: WebSocketCapability(
-              supportsPush: true,
-              url: Uri.parse('ws://domain.com/jmap/ws')
-            ),
+                supportsPush: true, url: Uri.parse('ws://domain.com/jmap/ws')),
             CapabilityIdentifier(
-                Uri.parse('urn:apache:james:params:jmap:mail:quota')):
-            DefaultCapability(<String, dynamic>{}),
+                    Uri.parse('urn:apache:james:params:jmap:mail:quota')):
+                DefaultCapability(<String, dynamic>{}),
             CapabilityIdentifier(
-                Uri.parse('urn:apache:james:params:jmap:mail:shares')):
-            DefaultCapability(<String, dynamic>{}),
+                    Uri.parse('urn:apache:james:params:jmap:mail:shares')):
+                DefaultCapability(<String, dynamic>{}),
             CapabilityIdentifier.jmapVacationResponse: VacationCapability(),
             CapabilityIdentifier.jmapMdn: MdnCapability()
           },
@@ -331,58 +351,22 @@ void main() {
               'http://domain.com/eventSource?types={types}&closeAfter={closeafter}&ping={ping}'),
           State('2c9f1b12-b35a-43e6-9af2-0106fb53a943'));
       expect(
-        () => requireCapability(
-            session,
-            AccountId(Id('29883977c13473ae7cb7678ef767cbfbaffc8a44a6e463d971d23a65c1dc4af6')),
-            [CapabilityIdentifier.jmapCore, CapabilityIdentifier.jmapMail]),
-        throwsA(const TypeMatcher<InvalidCapability>()));
+          () => requireCapability(
+              session,
+              AccountId(Id(
+                  '29883977c13473ae7cb7678ef767cbfbaffc8a44a6e463d971d23a65c1dc4af6')),
+              [CapabilityIdentifier.jmapCore, CapabilityIdentifier.jmapMail]),
+          throwsA(const TypeMatcher<InvalidCapability>()));
     });
 
-    test('when session have all required capabilities exception should not throw', () {
+    test(
+        'when session have all required capabilities exception should not throw',
+        () {
       final session = Session(
           {
             CapabilityIdentifier.jmapSubmission: SubmissionCapability(
-              maxDelayedSend: UnsignedInt(0),
-              submissionExtensions: {}
-            ),
+                maxDelayedSend: UnsignedInt(0), submissionExtensions: {}),
             CapabilityIdentifier.jmapCore: CoreCapability(
-              maxSizeUpload: UnsignedInt(20971520),
-              maxConcurrentUpload: UnsignedInt(4),
-              maxSizeRequest: UnsignedInt(10000000),
-              maxConcurrentRequests: UnsignedInt(4),
-              maxCallsInRequest: UnsignedInt(16),
-              maxObjectsInGet: UnsignedInt(500),
-              maxObjectsInSet: UnsignedInt(500),
-              collationAlgorithms: {CollationIdentifier("i;unicode-casemap")}
-            ),
-            CapabilityIdentifier.jmapMail: MailCapability(
-              maxMailboxesPerEmail: UnsignedInt(10000000),
-              maxSizeAttachmentsPerEmail: UnsignedInt(20000000),
-              emailQuerySortOptions: {"receivedAt", "sentAt", "size", "from", "to", "subject"},
-              mayCreateTopLevelMailbox: true
-            ),
-            CapabilityIdentifier.jmapWebSocket: WebSocketCapability(
-              supportsPush: true,
-              url: Uri.parse('ws://domain.com/jmap/ws')
-            ),
-            CapabilityIdentifier(
-                Uri.parse('urn:apache:james:params:jmap:mail:quota')):
-            DefaultCapability(<String, dynamic>{}),
-            CapabilityIdentifier(
-                Uri.parse('urn:apache:james:params:jmap:mail:shares')):
-            DefaultCapability(<String, dynamic>{}),
-            CapabilityIdentifier.jmapVacationResponse: VacationCapability(),
-            CapabilityIdentifier.jmapMdn: MdnCapability()
-          },
-          {
-            AccountId(Id(
-                '29883977c13473ae7cb7678ef767cbfbaffc8a44a6e463d971d23a65c1dc4af6')):
-            Account(AccountName('bob@domain.tld'), true, false, {
-              CapabilityIdentifier.jmapSubmission: SubmissionCapability(
-                maxDelayedSend: UnsignedInt(0),
-                submissionExtensions: {}
-              ),
-              CapabilityIdentifier.jmapCore: CoreCapability(
                 maxSizeUpload: UnsignedInt(20971520),
                 maxConcurrentUpload: UnsignedInt(4),
                 maxSizeRequest: UnsignedInt(10000000),
@@ -390,20 +374,67 @@ void main() {
                 maxCallsInRequest: UnsignedInt(16),
                 maxObjectsInGet: UnsignedInt(500),
                 maxObjectsInSet: UnsignedInt(500),
-                collationAlgorithms: {CollationIdentifier("i;unicode-casemap")}
-              ),
-              CapabilityIdentifier.jmapMail: MailCapability(
+                collationAlgorithms: {
+                  CollationIdentifier("i;unicode-casemap")
+                }),
+            CapabilityIdentifier.jmapMail: MailCapability(
                 maxMailboxesPerEmail: UnsignedInt(10000000),
                 maxSizeAttachmentsPerEmail: UnsignedInt(20000000),
-                emailQuerySortOptions: {"receivedAt", "sentAt", "size", "from", "to", "subject"},
-                mayCreateTopLevelMailbox: true
-              ),
+                emailQuerySortOptions: {
+                  "receivedAt",
+                  "sentAt",
+                  "size",
+                  "from",
+                  "to",
+                  "subject"
+                },
+                mayCreateTopLevelMailbox: true),
+            CapabilityIdentifier.jmapWebSocket: WebSocketCapability(
+                supportsPush: true, url: Uri.parse('ws://domain.com/jmap/ws')),
+            CapabilityIdentifier(
+                    Uri.parse('urn:apache:james:params:jmap:mail:quota')):
+                DefaultCapability(<String, dynamic>{}),
+            CapabilityIdentifier(
+                    Uri.parse('urn:apache:james:params:jmap:mail:shares')):
+                DefaultCapability(<String, dynamic>{}),
+            CapabilityIdentifier.jmapVacationResponse: VacationCapability(),
+            CapabilityIdentifier.jmapMdn: MdnCapability()
+          },
+          {
+            AccountId(Id(
+                    '29883977c13473ae7cb7678ef767cbfbaffc8a44a6e463d971d23a65c1dc4af6')):
+                Account(AccountName('bob@domain.tld'), true, false, {
+              CapabilityIdentifier.jmapSubmission: SubmissionCapability(
+                  maxDelayedSend: UnsignedInt(0), submissionExtensions: {}),
+              CapabilityIdentifier.jmapCore: CoreCapability(
+                  maxSizeUpload: UnsignedInt(20971520),
+                  maxConcurrentUpload: UnsignedInt(4),
+                  maxSizeRequest: UnsignedInt(10000000),
+                  maxConcurrentRequests: UnsignedInt(4),
+                  maxCallsInRequest: UnsignedInt(16),
+                  maxObjectsInGet: UnsignedInt(500),
+                  maxObjectsInSet: UnsignedInt(500),
+                  collationAlgorithms: {
+                    CollationIdentifier("i;unicode-casemap")
+                  }),
+              CapabilityIdentifier.jmapMail: MailCapability(
+                  maxMailboxesPerEmail: UnsignedInt(10000000),
+                  maxSizeAttachmentsPerEmail: UnsignedInt(20000000),
+                  emailQuerySortOptions: {
+                    "receivedAt",
+                    "sentAt",
+                    "size",
+                    "from",
+                    "to",
+                    "subject"
+                  },
+                  mayCreateTopLevelMailbox: true),
               CapabilityIdentifier(
-                  Uri.parse('urn:apache:james:params:jmap:mail:quota')):
-              DefaultCapability(<String, dynamic>{}),
+                      Uri.parse('urn:apache:james:params:jmap:mail:quota')):
+                  DefaultCapability(<String, dynamic>{}),
               CapabilityIdentifier(
-                  Uri.parse('urn:apache:james:params:jmap:mail:shares')):
-              DefaultCapability(<String, dynamic>{}),
+                      Uri.parse('urn:apache:james:params:jmap:mail:shares')):
+                  DefaultCapability(<String, dynamic>{}),
               CapabilityIdentifier.jmapVacationResponse: VacationCapability(),
               CapabilityIdentifier.jmapMdn: MdnCapability()
             })
@@ -437,15 +468,15 @@ void main() {
           Uri.parse('http://domain.com/upload/{accountId}'),
           Uri.parse(
               'http://domain.com/eventSource?types={types}&closeAfter={closeafter}&ping={ping}'),
-          State('2c9f1b12-b35a-43e6-9af2-0106fb53a943')
-      );
+          State('2c9f1b12-b35a-43e6-9af2-0106fb53a943'));
 
       expect(
-        () => requireCapability(
-            session,
-            AccountId(Id('29883977c13473ae7cb7678ef767cbfbaffc8a44a6e463d971d23a65c1dc4af6')),
-            [CapabilityIdentifier.jmapCore, CapabilityIdentifier.jmapMail]),
-        returnsNormally);
+          () => requireCapability(
+              session,
+              AccountId(Id(
+                  '29883977c13473ae7cb7678ef767cbfbaffc8a44a6e463d971d23a65c1dc4af6')),
+              [CapabilityIdentifier.jmapCore, CapabilityIdentifier.jmapMail]),
+          returnsNormally);
     });
   });
 }

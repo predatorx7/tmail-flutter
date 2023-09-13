@@ -1,4 +1,3 @@
-
 import 'package:core/data/model/query/query_parameter.dart';
 import 'package:core/data/network/config/service_path.dart';
 import 'package:core/utils/app_logger.dart';
@@ -12,7 +11,6 @@ import 'package:tmail_ui_user/main/routes/navigation_router.dart';
 import 'package:universal_html/html.dart' as html;
 
 abstract class RouteUtils {
-
   static String get baseOriginUrl => Uri.base.origin;
 
   static String get baseUrl => Uri.base.path;
@@ -53,7 +51,8 @@ abstract class RouteUtils {
     return Uri.parse(servicePath.path);
   }
 
-  static NavigationRouter parsingRouteParametersToNavigationRouter(Map<String, String?> parameters) {
+  static NavigationRouter parsingRouteParametersToNavigationRouter(
+      Map<String, String?> parameters) {
     final idParam = parameters['id'];
     final typeParam = parameters['type'];
     final contextPram = parameters['context'];
@@ -63,8 +62,8 @@ abstract class RouteUtils {
     final mailboxId = contextPram != null ? MailboxId(Id(contextPram)) : null;
     final searchQuery = queryParam != null ? SearchQuery(queryParam) : null;
     final dashboardType = typeParam == DashboardType.search.name
-      ? DashboardType.search
-      : DashboardType.normal;
+        ? DashboardType.search
+        : DashboardType.normal;
 
     return NavigationRouter(
       emailId: emailId,

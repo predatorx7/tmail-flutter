@@ -17,33 +17,30 @@ class SpamReportRepositoryImpl extends SpamReportRepository {
 
   @override
   Future<DateTime> getLastTimeDismissedSpamReported() async {
-   return await mapDataSource[DataSourceType.local]!.getLastTimeDismissedSpamReported();
+    return await mapDataSource[DataSourceType.local]!
+        .getLastTimeDismissedSpamReported();
   }
-  
+
   @override
-  Future<void> storeLastTimeDismissedSpamReported(DateTime lastTimeDismissedSpamReported) {
-   return mapDataSource[DataSourceType.local]!.storeLastTimeDismissedSpamReported(lastTimeDismissedSpamReported);
+  Future<void> storeLastTimeDismissedSpamReported(
+      DateTime lastTimeDismissedSpamReported) {
+    return mapDataSource[DataSourceType.local]!
+        .storeLastTimeDismissedSpamReported(lastTimeDismissedSpamReported);
   }
-  
+
   @override
   Future<void> deleteLastTimeDismissedSpamReported() {
-    return mapDataSource[DataSourceType.local]!.deleteLastTimeDismissedSpamReported();
+    return mapDataSource[DataSourceType.local]!
+        .deleteLastTimeDismissedSpamReported();
   }
 
   @override
   Future<UnreadSpamEmailsResponse> getUnreadSpamMailbox(
-    Session session,
-    AccountId accountId,
-    {
-      MailboxFilterCondition? mailboxFilterCondition,
-      UnsignedInt? limit
-    }
-  ) {
+      Session session, AccountId accountId,
+      {MailboxFilterCondition? mailboxFilterCondition, UnsignedInt? limit}) {
     return mapDataSource[DataSourceType.network]!.findNumberOfUnreadSpamEmails(
-      session,
-      accountId,
-      mailboxFilterCondition: mailboxFilterCondition,
-      limit: limit);
+        session, accountId,
+        mailboxFilterCondition: mailboxFilterCondition, limit: limit);
   }
 
   @override
@@ -53,9 +50,10 @@ class SpamReportRepositoryImpl extends SpamReportRepository {
 
   @override
   Future<void> storeSpamReportState(SpamReportState spamReportState) {
-    return mapDataSource[DataSourceType.local]!.storeSpamReportState(spamReportState);
+    return mapDataSource[DataSourceType.local]!
+        .storeSpamReportState(spamReportState);
   }
-  
+
   @override
   Future<void> deleteSpamReportState() {
     return mapDataSource[DataSourceType.local]!.deleteSpamReportState();
@@ -63,6 +61,7 @@ class SpamReportRepositoryImpl extends SpamReportRepository {
 
   @override
   Future<Mailbox> getSpamMailboxCached(AccountId accountId, UserName userName) {
-    return mapDataSource[DataSourceType.hiveCache]!.getSpamMailboxCached(accountId, userName);
+    return mapDataSource[DataSourceType.hiveCache]!
+        .getSpamMailboxCached(accountId, userName);
   }
 }

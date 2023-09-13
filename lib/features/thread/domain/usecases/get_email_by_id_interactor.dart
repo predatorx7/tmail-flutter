@@ -21,17 +21,17 @@ class GetEmailByIdInteractor {
   Stream<Either<Failure, Success>> execute(
     Session session,
     AccountId accountId,
-    EmailId emailId,
-    {
-      Properties? properties,
-    }
-  ) async* {
+    EmailId emailId, {
+    Properties? properties,
+  }) async* {
     try {
       yield Right<Failure, Success>(GetEmailByIdLoading());
       if (PlatformInfo.isMobile) {
-        yield* _getStoredEmail(session, accountId, emailId, properties: properties);
+        yield* _getStoredEmail(session, accountId, emailId,
+            properties: properties);
       } else {
-        yield* _getEmailByIdFromServer(session, accountId, emailId, properties: properties);
+        yield* _getEmailByIdFromServer(session, accountId, emailId,
+            properties: properties);
       }
     } catch (e) {
       logError('GetEmailByIdInteractor::execute():EXCEPTION: $e');
@@ -42,35 +42,36 @@ class GetEmailByIdInteractor {
   Stream<Either<Failure, Success>> _getEmailByIdFromServer(
     Session session,
     AccountId accountId,
-    EmailId emailId,
-    {
-      Properties? properties,
-    }
-  ) async* {
+    EmailId emailId, {
+    Properties? properties,
+  }) async* {
     try {
-      final email = await _threadRepository.getEmailById(session, accountId, emailId, properties: properties);
+      final email = await _threadRepository
+          .getEmailById(session, accountId, emailId, properties: properties);
       yield Right<Failure, Success>(GetEmailByIdSuccess(email));
     } catch (e) {
-      logError('GetEmailByIdInteractor::_getEmailByIdFromServer():EXCEPTION: $e');
+      logError(
+          'GetEmailByIdInteractor::_getEmailByIdFromServer():EXCEPTION: $e');
       yield Left<Failure, Success>(GetEmailByIdFailure(e));
     }
-
   }
 
   Stream<Either<Failure, Success>> _getStoredEmail(
     Session session,
     AccountId accountId,
-    EmailId emailId,
-    {
-      Properties? properties,
-    }
-  ) async* {
+    EmailId emailId, {
+    Properties? properties,
+  }) async* {
     try {
-      final email = await _emailRepository.getStoredEmail(session, accountId, emailId);
-      yield Right<Failure, Success>(GetEmailByIdSuccess(email.toPresentationEmail()));
+      final email =
+          await _emailRepository.getStoredEmail(session, accountId, emailId);
+      yield Right<Failure, Success>(
+          GetEmailByIdSuccess(email.toPresentationEmail()));
     } catch (e) {
-      logError('GetEmailByIdInteractor::_tryToGetEmailFromCache():EXCEPTION: $e');
-      yield* _getEmailByIdFromServer(session, accountId, emailId, properties: properties);
+      logError(
+          'GetEmailByIdInteractor::_tryToGetEmailFromCache():EXCEPTION: $e');
+      yield* _getEmailByIdFromServer(session, accountId, emailId,
+          properties: properties);
     }
   }
 }

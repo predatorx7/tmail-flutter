@@ -1,4 +1,3 @@
-
 import 'package:jmap_dart_client/jmap/account_id.dart';
 import 'package:jmap_dart_client/jmap/core/id.dart';
 import 'package:jmap_dart_client/jmap/mail/calendar/calendar_event.dart';
@@ -8,7 +7,6 @@ import 'package:tmail_ui_user/features/email/domain/model/event_action.dart';
 import 'package:tmail_ui_user/main/exceptions/exception_thrower.dart';
 
 class CalendarEventDataSourceImpl extends CalendarEventDataSource {
-
   final CalendarEventAPI _calendarEventAPI;
   final ExceptionThrower _exceptionThrower;
 

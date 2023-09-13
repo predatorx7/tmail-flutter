@@ -14,6 +14,5 @@ class GetSpamReportStateSuccess extends UIState {
 }
 
 class GetSpamReportStateFailure extends FeatureFailure {
-
   GetSpamReportStateFailure(dynamic exception) : super(exception: exception);
 }

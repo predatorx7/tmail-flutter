@@ -7,9 +7,12 @@ import 'package:tmail_ui_user/features/manage_account/domain/model/edit_email_ru
 abstract class RuleFilterDataSource {
   Future<List<TMailRule>> getAllTMailRule(AccountId accountId);
 
-  Future<List<TMailRule>> deleteTMailRule(AccountId accountId, DeleteEmailRuleRequest deleteEmailRuleRequest);
+  Future<List<TMailRule>> deleteTMailRule(
+      AccountId accountId, DeleteEmailRuleRequest deleteEmailRuleRequest);
 
-  Future<List<TMailRule>> createNewEmailRuleFilter(AccountId accountId, CreateNewEmailRuleFilterRequest ruleFilterRequest);
+  Future<List<TMailRule>> createNewEmailRuleFilter(
+      AccountId accountId, CreateNewEmailRuleFilterRequest ruleFilterRequest);
 
-  Future<List<TMailRule>> editEmailRuleFilter(AccountId accountId, EditEmailRuleFilterRequest ruleFilterRequest);
+  Future<List<TMailRule>> editEmailRuleFilter(
+      AccountId accountId, EditEmailRuleFilterRequest ruleFilterRequest);
 }

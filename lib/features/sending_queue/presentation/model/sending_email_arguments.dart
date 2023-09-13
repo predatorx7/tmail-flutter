@@ -13,21 +13,15 @@ class SendingEmailArguments extends RouterArguments {
   final SendingEmailActionType sendingEmailActionType;
 
   SendingEmailArguments(
-    this.session,
-    this.accountId,
-    this.emailRequest,
-    this.mailboxRequest,
-    {
-      this.sendingEmailActionType = SendingEmailActionType.create
-    }
-  );
+      this.session, this.accountId, this.emailRequest, this.mailboxRequest,
+      {this.sendingEmailActionType = SendingEmailActionType.create});
 
   @override
   List<Object?> get props => [
-    session,
-    accountId,
-    emailRequest,
-    mailboxRequest,
-    sendingEmailActionType
-  ];
+        session,
+        accountId,
+        emailRequest,
+        mailboxRequest,
+        sendingEmailActionType
+      ];
 }

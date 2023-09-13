@@ -18,34 +18,31 @@ class CreateNewDefaultIdentityInteractor {
   final IdentityUtils _identityUtils;
 
   CreateNewDefaultIdentityInteractor(
-    this._identityRepository,
-    this._identityUtils);
+      this._identityRepository, this._identityUtils);
 
-  Stream<Either<Failure, Success>> execute(
-    Session session,
-    AccountId accountId,
-    CreateNewIdentityRequest identityRequest
-  ) async* {
+  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId,
+      CreateNewIdentityRequest identityRequest) async* {
     try {
       yield Right(CreateNewDefaultIdentityLoading());
-      final listDefaultIdentities = await _getDefaultIdentities(session, accountId);
+      final listDefaultIdentities =
+          await _getDefaultIdentities(session, accountId);
 
-      final defaultRequest = _createNewIdentityDefault(identityRequest, listDefaultIdentities);
-      
-      final newIdentity = await _identityRepository.createNewIdentity(session, accountId, defaultRequest);
+      final defaultRequest =
+          _createNewIdentityDefault(identityRequest, listDefaultIdentities);
+
+      final newIdentity = await _identityRepository.createNewIdentity(
+          session, accountId, defaultRequest);
       yield Right(CreateNewDefaultIdentitySuccess(newIdentity));
     } catch (exception) {
       yield Left(CreateNewDefaultIdentityFailure(exception));
     }
   }
 
-  Future<List<Identity>?> _getDefaultIdentities(Session session, AccountId accountId) async {
-    final listIdentities = await _identityRepository
-      .getAllIdentities(
-        session,
-        accountId,
-        properties: Properties({'sortOrder', 'mayDelete'})
-      );
+  Future<List<Identity>?> _getDefaultIdentities(
+      Session session, AccountId accountId) async {
+    final listIdentities = await _identityRepository.getAllIdentities(
+        session, accountId,
+        properties: Properties({'sortOrder', 'mayDelete'}));
     listIdentities.identities?.removeWhere(_isIdentityUnDeletable);
     return _identityUtils.getSmallestOrderedIdentity(listIdentities.identities);
   }
@@ -59,10 +56,8 @@ class CreateNewDefaultIdentityInteractor {
     List<Identity>? listDefaultIdentities,
   ) {
     return CreateNewDefaultIdentityRequest(
-      identityRequest.creationId, 
-      identityRequest.newIdentity,
-      oldDefaultIdentityIds: listDefaultIdentities
-          ?.map((identity) => identity.id!)
-          .toList());
+        identityRequest.creationId, identityRequest.newIdentity,
+        oldDefaultIdentityIds:
+            listDefaultIdentities?.map((identity) => identity.id!).toList());
   }
 }

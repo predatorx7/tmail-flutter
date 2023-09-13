@@ -7,7 +7,6 @@ import 'package:tmail_ui_user/features/manage_account/presentation/mailbox_visib
 import 'package:tmail_ui_user/features/manage_account/presentation/mailbox_visibility/mailbox_visibility_controller.dart';
 
 class MailboxVisibilityBindings extends Bindings {
-
   @override
   void dependencies() {
     MailboxVisibilityInteractorBindings().dependencies();
@@ -15,11 +14,11 @@ class MailboxVisibilityBindings extends Bindings {
     _bindingsUtils();
 
     Get.lazyPut(() => MailboxVisibilityController(
-      Get.find<TreeBuilder>(),
-      Get.find<VerifyNameInteractor>(),
-      Get.find<GetAllMailboxInteractor>(),
-      Get.find<RefreshAllMailboxInteractor>(),
-    ));
+          Get.find<TreeBuilder>(),
+          Get.find<VerifyNameInteractor>(),
+          Get.find<GetAllMailboxInteractor>(),
+          Get.find<RefreshAllMailboxInteractor>(),
+        ));
   }
 
   void _bindingsUtils() {

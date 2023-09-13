@@ -6,29 +6,28 @@ import 'package:tmail_ui_user/features/login/domain/model/recent_login_url.dart'
 import 'package:tmail_ui_user/main/exceptions/exception_thrower.dart';
 
 class LoginUrlDataSourceImpl implements LoginUrlDataSource {
-  
   final RecentLoginUrlCacheClient _recentLoginUrlCacheClient;
   final ExceptionThrower _exceptionThrower;
 
-  LoginUrlDataSourceImpl(this._recentLoginUrlCacheClient, this._exceptionThrower);
-  
+  LoginUrlDataSourceImpl(
+      this._recentLoginUrlCacheClient, this._exceptionThrower);
+
   @override
   Future<void> saveLoginUrl(RecentLoginUrl recentLoginUrl) {
     return Future.sync(() async {
       if (await _recentLoginUrlCacheClient.isExistItem(recentLoginUrl.url)) {
         await _recentLoginUrlCacheClient.updateItem(
-            recentLoginUrl.url,
-            recentLoginUrl.toRecentLoginUrlCache());
+            recentLoginUrl.url, recentLoginUrl.toRecentLoginUrlCache());
       } else {
         await _recentLoginUrlCacheClient.insertItem(
-            recentLoginUrl.url,
-            recentLoginUrl.toRecentLoginUrlCache());
+            recentLoginUrl.url, recentLoginUrl.toRecentLoginUrlCache());
       }
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<List<RecentLoginUrl>> getAllRecentLoginUrlLatest({int? limit, String? pattern}) {
+  Future<List<RecentLoginUrl>> getAllRecentLoginUrlLatest(
+      {int? limit, String? pattern}) {
     return Future.sync(() async {
       final listRecentUrlCache = await _recentLoginUrlCacheClient.getAll();
       final listRecentUrl = listRecentUrlCache
@@ -47,7 +46,8 @@ class LoginUrlDataSourceImpl implements LoginUrlDataSource {
     }).catchError(_exceptionThrower.throwException);
   }
 
-  bool _filterRecentUrlCache(RecentLoginUrlCache recentLoginUrlCache, String? pattern) {
+  bool _filterRecentUrlCache(
+      RecentLoginUrlCache recentLoginUrlCache, String? pattern) {
     if (pattern == null || pattern.trim().isEmpty) {
       return true;
     } else {

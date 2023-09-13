@@ -3,5 +3,6 @@ import 'package:tmail_ui_user/features/login/domain/model/recent_login_username.
 abstract class LoginUsernameDataSource {
   Future<void> saveLoginUsername(RecentLoginUsername username);
 
-  Future<List<RecentLoginUsername>> getAllRecentLoginUsernamesLatest({int? limit, String? pattern});
+  Future<List<RecentLoginUsername>> getAllRecentLoginUsernamesLatest(
+      {int? limit, String? pattern});
 }

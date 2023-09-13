@@ -7,7 +7,6 @@ import 'package:tmail_ui_user/features/mailbox/domain/state/get_all_mailboxes_st
 import 'package:tmail_ui_user/features/mailbox/presentation/styles/mailbox_loading_bar_widget_styles.dart';
 
 class MailboxLoadingBarWidget extends StatelessWidget {
-
   final Either<Failure, Success> viewState;
 
   const MailboxLoadingBarWidget({
@@ -17,17 +16,14 @@ class MailboxLoadingBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return viewState.fold(
-      (failure) => const SizedBox.shrink(),
-      (success) {
-        if (success is GetAllMailboxLoading) {
-          return const Padding(
+    return viewState.fold((failure) => const SizedBox.shrink(), (success) {
+      if (success is GetAllMailboxLoading) {
+        return const Padding(
             padding: MailboxLoadingBarWidgetStyles.padding,
             child: CupertinoLoadingWidget());
-        } else {
-          return const SizedBox.shrink();
-        }
+      } else {
+        return const SizedBox.shrink();
       }
-    );
+    });
   }
 }

@@ -4,6 +4,7 @@ import 'package:tmail_ui_user/features/login/data/model/token_oidc_cache.dart';
 
 extension TokenOidcCacheExtension on TokenOidcCache {
   TokenOIDC toTokenOidc() {
-    return TokenOIDC(token, TokenId(tokenId), refreshToken, expiredTime: expiredTime);
+    return TokenOIDC(token, TokenId(tokenId), refreshToken,
+        expiredTime: expiredTime);
   }
 }

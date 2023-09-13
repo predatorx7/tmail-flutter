@@ -141,7 +141,7 @@ extension AppColor on Color {
   static const colorDefaultButton = Color(0xff9AA1AD);
   static const colorVacationSettingExplanation = Color(0xFF686E76);
   static const colorBackgroundVacationSettingField = Color(0xFFF2F3F5);
-  static const colorBackgroundNotificationVacationSetting= Color(0xFFFFF5C2);
+  static const colorBackgroundNotificationVacationSetting = Color(0xFFFFF5C2);
   static const colorDivider = Color(0xFFE7E8EC);
   static const colorDividerVertical = Color(0xFF99A2AD);
   static const colorCloseButton = Color(0xFF818C99);
@@ -220,10 +220,8 @@ extension AppColor on Color {
     [Color(0xFF87A6F8), Color(0xFF645FF6)],
   ];
 
-  String toHexTriplet() => '#${(value & 0xFFFFFF)
-      .toRadixString(16)
-      .padLeft(6, '0')
-      .toUpperCase()}';
+  String toHexTriplet() =>
+      '#${(value & 0xFFFFFF).toRadixString(16).padLeft(6, '0').toUpperCase()}';
 
   static List<Color> get listColorsPicker {
     return [
@@ -270,7 +268,6 @@ extension ColorNullableExtension on Color? {
 }
 
 extension MaterialColorExtension on MaterialColor {
-
   List<Color> get listShadeColors {
     return [
       const Color(0xFFFFFFFF),

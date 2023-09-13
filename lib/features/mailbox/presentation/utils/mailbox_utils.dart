@@ -8,11 +8,11 @@ import 'package:tmail_ui_user/features/mailbox/presentation/extensions/list_mail
 import 'package:tmail_ui_user/features/mailbox/presentation/model/mailbox_tree.dart';
 
 class MailboxUtils {
-
-  static Tuple2<Map<MailboxId, List<MailboxId>>, List<MailboxId>> generateMapDescendantIdsAndMailboxIdList(
-      List<PresentationMailbox> selectedMailboxList,
-      MailboxTree defaultMailboxTree,
-      MailboxTree folderMailboxTree,
+  static Tuple2<Map<MailboxId, List<MailboxId>>, List<MailboxId>>
+      generateMapDescendantIdsAndMailboxIdList(
+    List<PresentationMailbox> selectedMailboxList,
+    MailboxTree defaultMailboxTree,
+    MailboxTree folderMailboxTree,
   ) {
     Map<MailboxId, List<MailboxId>> mapDescendantIds = {};
     List<MailboxId> allMailboxIds = [];
@@ -23,10 +23,12 @@ class MailboxUtils {
       if (allMailboxIds.contains(currentMailboxId)) {
         continue;
       } else {
-        final matchedNode = defaultMailboxTree.findNode((node) => node.item.id == currentMailboxId)
-            ?? folderMailboxTree.findNode((node) => node.item.id == currentMailboxId);
+        final matchedNode = defaultMailboxTree
+                .findNode((node) => node.item.id == currentMailboxId) ??
+            folderMailboxTree
+                .findNode((node) => node.item.id == currentMailboxId);
 
-        if (matchedNode != null)  {
+        if (matchedNode != null) {
           final descendantIds = matchedNode.descendantsAsList().mailboxIds;
           final descendantIdsReversed = descendantIds.reversed.toList();
 
@@ -39,7 +41,8 @@ class MailboxUtils {
     return Tuple2(mapDescendantIds, allMailboxIds);
   }
 
-  static EdgeInsets getPaddingListViewMailboxSearched(BuildContext context, ResponsiveUtils responsiveUtils) {
+  static EdgeInsets getPaddingListViewMailboxSearched(
+      BuildContext context, ResponsiveUtils responsiveUtils) {
     if (responsiveUtils.isWebDesktop(context)) {
       return const EdgeInsets.only(left: 16, right: 16, bottom: 16);
     } else {

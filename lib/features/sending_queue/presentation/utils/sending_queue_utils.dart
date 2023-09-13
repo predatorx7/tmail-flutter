@@ -1,9 +1,7 @@
-
 import 'package:core/presentation/utils/responsive_utils.dart';
 import 'package:flutter/cupertino.dart';
 
 class SendingQueueUtils {
-
   static EdgeInsets getPaddingAppBarByResponsiveSize(double width) {
     if (ResponsiveUtils.isMatchedMobileWidth(width)) {
       return const EdgeInsets.symmetric(horizontal: 10);

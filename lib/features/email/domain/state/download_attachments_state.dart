@@ -12,6 +12,5 @@ class DownloadAttachmentsSuccess extends UIState {
 }
 
 class DownloadAttachmentsFailure extends FeatureFailure {
-
   DownloadAttachmentsFailure(dynamic exception) : super(exception: exception);
 }

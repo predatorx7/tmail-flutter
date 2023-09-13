@@ -14,6 +14,6 @@ class GetStoredOidcConfigurationSuccess extends UIState {
 }
 
 class GetStoredOidcConfigurationFailure extends FeatureFailure {
-
-  GetStoredOidcConfigurationFailure(dynamic exception) : super(exception: exception);
+  GetStoredOidcConfigurationFailure(dynamic exception)
+      : super(exception: exception);
 }

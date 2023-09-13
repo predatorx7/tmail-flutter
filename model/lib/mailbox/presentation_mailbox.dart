@@ -7,17 +7,17 @@ import 'package:model/mailbox/mailbox_state.dart';
 import 'package:model/mailbox/select_mode.dart';
 
 class PresentationMailbox with EquatableMixin {
-
   static const String inboxRole = 'inbox';
   static const String sentRole = 'sent';
   static const String trashRole = 'trash';
-  static const String templatesRole= 'templates';
+  static const String templatesRole = 'templates';
   static const String outboxRole = 'outbox';
   static const String draftsRole = 'drafts';
   static const String spamRole = 'spam';
   static const String archiveRole = 'archive';
 
-  static final PresentationMailbox unifiedMailbox = PresentationMailbox(MailboxId(Id('unified')));
+  static final PresentationMailbox unifiedMailbox =
+      PresentationMailbox(MailboxId(Id('unified')));
 
   static final roleInbox = Role(inboxRole);
   static final roleTrash = Role(trashRole);
@@ -48,43 +48,41 @@ class PresentationMailbox with EquatableMixin {
   final String? displayName;
 
   PresentationMailbox(
-    this.id,
-    {
-      this.name,
-      this.parentId,
-      this.role,
-      this.sortOrder,
-      this.totalEmails,
-      this.unreadEmails,
-      this.totalThreads,
-      this.unreadThreads,
-      this.myRights,
-      this.isSubscribed,
-      this.selectMode = SelectMode.INACTIVE,
-      this.mailboxPath,
-      this.state = MailboxState.activated,
-      this.namespace,
-      this.displayName,
-    }
-  );
+    this.id, {
+    this.name,
+    this.parentId,
+    this.role,
+    this.sortOrder,
+    this.totalEmails,
+    this.unreadEmails,
+    this.totalThreads,
+    this.unreadThreads,
+    this.myRights,
+    this.isSubscribed,
+    this.selectMode = SelectMode.INACTIVE,
+    this.mailboxPath,
+    this.state = MailboxState.activated,
+    this.namespace,
+    this.displayName,
+  });
 
   @override
   List<Object?> get props => [
-    id,
-    name,
-    parentId,
-    role,
-    sortOrder,
-    totalEmails,
-    unreadEmails,
-    totalThreads,
-    unreadThreads,
-    myRights,
-    isSubscribed,
-    selectMode,
-    mailboxPath,
-    state,
-    namespace,
-    displayName,
-  ];
+        id,
+        name,
+        parentId,
+        role,
+        sortOrder,
+        totalEmails,
+        unreadEmails,
+        totalThreads,
+        unreadThreads,
+        myRights,
+        isSubscribed,
+        selectMode,
+        mailboxPath,
+        state,
+        namespace,
+        displayName,
+      ];
 }

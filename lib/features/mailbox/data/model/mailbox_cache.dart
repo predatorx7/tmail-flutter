@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 import 'package:tmail_ui_user/features/caching/utils/caching_constants.dart';
@@ -8,7 +7,6 @@ part 'mailbox_cache.g.dart';
 
 @HiveType(typeId: CachingConstants.MAILBOX_CACHE_IDENTIFY)
 class MailboxCache extends HiveObject with EquatableMixin {
-
   @HiveField(0)
   final String id;
 
@@ -49,36 +47,34 @@ class MailboxCache extends HiveObject with EquatableMixin {
   final String? namespace;
 
   MailboxCache(
-    this.id,
-    {
-      this.name,
-      this.parentId,
-      this.role,
-      this.sortOrder,
-      this.totalEmails,
-      this.unreadEmails,
-      this.totalThreads,
-      this.unreadThreads,
-      this.myRights,
-      this.isSubscribed,
-      this.lastOpened,
-      this.namespace,
-    }
-  );
+    this.id, {
+    this.name,
+    this.parentId,
+    this.role,
+    this.sortOrder,
+    this.totalEmails,
+    this.unreadEmails,
+    this.totalThreads,
+    this.unreadThreads,
+    this.myRights,
+    this.isSubscribed,
+    this.lastOpened,
+    this.namespace,
+  });
 
   @override
   List<Object?> get props => [
-    id,
-    name,
-    parentId,
-    role,
-    totalEmails,
-    unreadEmails,
-    totalThreads,
-    unreadThreads,
-    lastOpened,
-    myRights,
-    isSubscribed,
-    namespace,
-  ];
+        id,
+        name,
+        parentId,
+        role,
+        totalEmails,
+        unreadEmails,
+        totalThreads,
+        unreadThreads,
+        lastOpened,
+        myRights,
+        isSubscribed,
+        namespace,
+      ];
 }

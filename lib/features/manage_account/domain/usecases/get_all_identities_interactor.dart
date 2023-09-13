@@ -18,15 +18,19 @@ class GetAllIdentitiesInteractor {
 
   GetAllIdentitiesInteractor(this._identityRepository, this._identityUtils);
 
-  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId, {Properties? properties}) async* {
+  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId,
+      {Properties? properties}) async* {
     try {
       yield Right<Failure, Success>(GetAllIdentitiesLoading());
-      final identitiesResponse = await _identityRepository.getAllIdentities(session, accountId, properties: properties);
-      final sortOrderIsSupported = [CapabilityIdentifier.jamesSortOrder].isSupported(session, accountId);
+      final identitiesResponse = await _identityRepository
+          .getAllIdentities(session, accountId, properties: properties);
+      final sortOrderIsSupported =
+          [CapabilityIdentifier.jamesSortOrder].isSupported(session, accountId);
       if (sortOrderIsSupported && identitiesResponse.identities != null) {
         _identityUtils.sortListIdentities(identitiesResponse.identities!);
       }
-      yield Right(GetAllIdentitiesSuccess(identitiesResponse.identities, identitiesResponse.state));
+      yield Right(GetAllIdentitiesSuccess(
+          identitiesResponse.identities, identitiesResponse.state));
     } catch (exception) {
       yield Left(GetAllIdentitiesFailure(exception));
     }

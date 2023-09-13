@@ -1,4 +1,3 @@
-
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 
@@ -19,13 +18,17 @@ class ContextMenuHeaderBuilder {
 
   ListTile build() {
     return ListTile(
-      key: _key,
-      title: Transform(
-        transform: Matrix4.translationValues(12, 5, 0.0),
-        child: Text(
-          _label ?? '',
-          style: _textStyle ?? const TextStyle(fontSize: 20.0, color: AppColor.nameUserColor, fontWeight: FontWeight.w500),
-        ),
-      ));
+        key: _key,
+        title: Transform(
+          transform: Matrix4.translationValues(12, 5, 0.0),
+          child: Text(
+            _label ?? '',
+            style: _textStyle ??
+                const TextStyle(
+                    fontSize: 20.0,
+                    color: AppColor.nameUserColor,
+                    fontWeight: FontWeight.w500),
+          ),
+        ));
   }
 }

@@ -12,10 +12,12 @@ class DeleteMailboxStateToRefreshInteractor {
 
   DeleteMailboxStateToRefreshInteractor(this._fcmRepository);
 
-  Stream<Either<Failure, Success>> execute(AccountId accountId, UserName userName) async* {
+  Stream<Either<Failure, Success>> execute(
+      AccountId accountId, UserName userName) async* {
     try {
       yield Right<Failure, Success>(DeleteMailboxStateToRefreshLoading());
-      await _fcmRepository.deleteStateToRefresh(accountId, userName, TypeName.mailboxType);
+      await _fcmRepository.deleteStateToRefresh(
+          accountId, userName, TypeName.mailboxType);
       yield Right<Failure, Success>(DeleteMailboxStateToRefreshSuccess());
     } catch (e) {
       yield Left<Failure, Success>(DeleteMailboxStateToRefreshFailure(e));

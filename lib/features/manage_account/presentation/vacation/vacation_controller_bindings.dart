@@ -7,11 +7,11 @@ import 'package:tmail_ui_user/features/manage_account/presentation/vacation/util
 import 'package:tmail_ui_user/features/manage_account/presentation/vacation/vacation_controller.dart';
 
 class VacationControllerBindings extends Bindings {
-
   @override
   void dependencies() {
     Get.lazyPut(() => VerifyNameInteractor());
-    Get.lazyPut(() => RichTextWebController(), tag: VacationUtils.vacationTagName);
+    Get.lazyPut(() => RichTextWebController(),
+        tag: VacationUtils.vacationTagName);
     Get.put(VacationController(
       Get.find<GetAllVacationInteractor>(),
       Get.find<UpdateVacationInteractor>(),

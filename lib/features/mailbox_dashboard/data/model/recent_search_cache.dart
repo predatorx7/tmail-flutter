@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 import 'package:jmap_dart_client/jmap/core/extensions/date_time_extension.dart';
@@ -9,7 +8,6 @@ part 'recent_search_cache.g.dart';
 
 @HiveType(typeId: CachingConstants.RECENT_SEARCH_HIVE_CACHE_IDENTIFY)
 class RecentSearchCache extends HiveObject with EquatableMixin {
-
   @HiveField(0)
   final String value;
 
@@ -39,10 +37,10 @@ extension RecentSearchCacheExtension on RecentSearchCache {
 }
 
 extension ListRecentSearchCacheExtension on List<RecentSearchCache> {
-
   void sortByCreationDate() {
     sort((recentSearch1, recentSearch2) {
-      return recentSearch1.creationDate.compareToSort(recentSearch1.creationDate, false);
+      return recentSearch1.creationDate
+          .compareToSort(recentSearch1.creationDate, false);
     });
   }
 }

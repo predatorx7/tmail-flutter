@@ -5,7 +5,6 @@ import 'package:model/download/download_task_id.dart';
 import 'package:model/email/attachment.dart';
 
 class StartDownloadAttachmentForWeb extends UIState {
-
   final DownloadTaskId taskId;
   final Attachment attachment;
 
@@ -16,7 +15,6 @@ class StartDownloadAttachmentForWeb extends UIState {
 }
 
 class DownloadingAttachmentForWeb extends UIState {
-
   final DownloadTaskId taskId;
   final Attachment attachment;
   final double progress;
@@ -24,25 +22,13 @@ class DownloadingAttachmentForWeb extends UIState {
   final int total;
 
   DownloadingAttachmentForWeb(
-    this.taskId,
-    this.attachment,
-    this.progress,
-    this.downloaded,
-    this.total
-  );
+      this.taskId, this.attachment, this.progress, this.downloaded, this.total);
 
   @override
-  List<Object> get props => [
-    taskId,
-    attachment,
-    progress,
-    downloaded,
-    total
-  ];
+  List<Object> get props => [taskId, attachment, progress, downloaded, total];
 }
 
 class DownloadAttachmentForWebSuccess extends UIState {
-
   final DownloadTaskId taskId;
   final Attachment attachment;
   final Uint8List bytes;
@@ -54,10 +40,10 @@ class DownloadAttachmentForWebSuccess extends UIState {
 }
 
 class DownloadAttachmentForWebFailure extends FeatureFailure {
-
   final DownloadTaskId taskId;
 
-  DownloadAttachmentForWebFailure(this.taskId, dynamic exception) : super(exception: exception);
+  DownloadAttachmentForWebFailure(this.taskId, dynamic exception)
+      : super(exception: exception);
 
   @override
   List<Object?> get props => [taskId, ...super.props];

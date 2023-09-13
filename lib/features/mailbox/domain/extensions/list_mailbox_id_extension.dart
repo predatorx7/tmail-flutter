@@ -5,12 +5,13 @@ import 'package:model/mailbox/mailbox_property.dart';
 import 'package:tmail_ui_user/features/mailbox/domain/model/mailbox_subscribe_state.dart';
 
 extension ListMailboxIdExtension on List<MailboxId> {
-
-  Map<Id, PatchObject> generateMapUpdateObjectSubscribeMailbox(MailboxSubscribeState subscribeState) {
+  Map<Id, PatchObject> generateMapUpdateObjectSubscribeMailbox(
+      MailboxSubscribeState subscribeState) {
     final Map<Id, PatchObject> maps = {
       for (var mailboxId in this)
         mailboxId.id: PatchObject({
-          MailboxProperty.isSubscribed: subscribeState == MailboxSubscribeState.enabled
+          MailboxProperty.isSubscribed:
+              subscribeState == MailboxSubscribeState.enabled
         })
     };
     return maps;

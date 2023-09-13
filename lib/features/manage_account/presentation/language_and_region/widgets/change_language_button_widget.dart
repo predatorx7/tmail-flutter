@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/resources/image_paths.dart';
 import 'package:core/presentation/utils/responsive_utils.dart';
@@ -14,7 +13,6 @@ import 'package:tmail_ui_user/features/manage_account/presentation/language_and_
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
 class ChangeLanguageButtonWidget extends StatelessWidget {
-
   final _controller = Get.find<LanguageAndRegionController>();
   final _responsiveUtils = Get.find<ResponsiveUtils>();
   final _imagePaths = Get.find<ImagePaths>();
@@ -25,71 +23,59 @@ class ChangeLanguageButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       return ResponsiveWidget(
-        responsiveUtils: _responsiveUtils,
-        mobile: Scaffold(
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildTitleLanguageWidget(context),
-              const SizedBox(height: 8),
-              _buildLanguageMenu(context, constraints.maxWidth)
-            ]
-          )
-        ),
-        desktop: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          responsiveUtils: _responsiveUtils,
+          mobile: Scaffold(
+              body: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                _buildTitleLanguageWidget(context),
+                const SizedBox(height: 8),
+                _buildLanguageMenu(context, constraints.maxWidth)
+              ])),
+          desktop:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             _buildTitleLanguageWidget(context),
             const SizedBox(height: 8),
             SizedBox(
-              width: constraints.maxWidth / 2,
-              child: _buildLanguageMenu(context, constraints.maxWidth / 2)
-            ),
-          ]
-        )
-      );
+                width: constraints.maxWidth / 2,
+                child: _buildLanguageMenu(context, constraints.maxWidth / 2)),
+          ]));
     });
   }
 
   Widget _buildTitleLanguageWidget(BuildContext context) {
-    return Text(
-      AppLocalizations.of(context).language,
-      style: const TextStyle(
-        fontSize: 14,
-        fontWeight: FontWeight.normal,
-        color: AppColor.colorContentEmail
-      )
-    );
+    return Text(AppLocalizations.of(context).language,
+        style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.normal,
+            color: AppColor.colorContentEmail));
   }
 
   Widget _buildLanguageMenu(BuildContext context, double maxWidth) {
     return Obx(() => PortalTarget(
-      visible: _controller.isLanguageMenuOverlayOpen.isTrue,
-      portalFollower: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () => _controller.toggleLanguageMenuOverlay()
-      ),
-      child: PortalTarget(
-        anchor: const Aligned(
-          follower: Alignment.topRight,
-          target: Alignment.bottomRight,
-          widthFactor: 1,
-          backup: Aligned(
-            follower: Alignment.topRight,
-            target: Alignment.bottomRight,
-            widthFactor: 1,
-          ),
-        ),
-        portalFollower: Obx(() => LanguageRegionOverlay(
-          listSupportedLanguages: _controller.listSupportedLanguages,
-          localeSelected: _controller.languageSelected.value,
-          maxWidth: maxWidth,
-          onSelectLanguageAction: _controller.selectLanguage,
-        )),
         visible: _controller.isLanguageMenuOverlayOpen.isTrue,
-        child: _buildDropDownMenuButton(context, maxWidth)
-      )
-    ));
+        portalFollower: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () => _controller.toggleLanguageMenuOverlay()),
+        child: PortalTarget(
+            anchor: const Aligned(
+              follower: Alignment.topRight,
+              target: Alignment.bottomRight,
+              widthFactor: 1,
+              backup: Aligned(
+                follower: Alignment.topRight,
+                target: Alignment.bottomRight,
+                widthFactor: 1,
+              ),
+            ),
+            portalFollower: Obx(() => LanguageRegionOverlay(
+                  listSupportedLanguages: _controller.listSupportedLanguages,
+                  localeSelected: _controller.languageSelected.value,
+                  maxWidth: maxWidth,
+                  onSelectLanguageAction: _controller.selectLanguage,
+                )),
+            visible: _controller.isLanguageMenuOverlayOpen.isTrue,
+            child: _buildDropDownMenuButton(context, maxWidth))));
   }
 
   Widget _buildDropDownMenuButton(BuildContext context, double maxWidth) {
@@ -111,13 +97,14 @@ class ChangeLanguageButtonWidget extends StatelessWidget {
           ),
           padding: const EdgeInsetsDirectional.only(start: 12, end: 10),
           child: Row(children: [
-            Expanded(child: Text(
-              _controller.languageSelected.value.getLanguageNameByCurrentLocale(context),
+            Expanded(
+                child: Text(
+              _controller.languageSelected.value
+                  .getLanguageNameByCurrentLocale(context),
               style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.normal,
-                color: Colors.black
-              ),
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.black),
               maxLines: 1,
               softWrap: CommonTextStyle.defaultSoftWrap,
               overflow: CommonTextStyle.defaultTextOverFlow,

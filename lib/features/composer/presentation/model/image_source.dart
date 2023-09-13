@@ -1,5 +1,1 @@
-
-enum ImageSource {
-  local,
-  network
-}
+enum ImageSource { local, network }

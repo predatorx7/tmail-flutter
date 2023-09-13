@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/resources/image_paths.dart';
 import 'package:core/presentation/views/button/icon_button_web.dart';
@@ -8,14 +7,13 @@ import 'package:get/get.dart';
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
 class AppBarContactWidget extends StatelessWidget {
-
   final _imagePaths = Get.find<ImagePaths>();
 
   final Function()? onCloseContactView;
 
   AppBarContactWidget({
-      Key? key,
-      this.onCloseContactView,
+    Key? key,
+    this.onCloseContactView,
   }) : super(key: key);
 
   @override
@@ -24,12 +22,11 @@ class AppBarContactWidget extends StatelessWidget {
       Positioned(
         left: 0,
         child: buildIconWeb(
-            icon: SvgPicture.asset(
-              _imagePaths.icCloseComposer,
-              colorFilter: AppColor.colorCloseButton.asFilter(),
-              width: 24,
-              height: 24,
-              fit: BoxFit.fill),
+            icon: SvgPicture.asset(_imagePaths.icCloseComposer,
+                colorFilter: AppColor.colorCloseButton.asFilter(),
+                width: 24,
+                height: 24,
+                fit: BoxFit.fill),
             minSize: 25,
             iconSize: 25,
             iconPadding: const EdgeInsets.all(5),
@@ -37,12 +34,12 @@ class AppBarContactWidget extends StatelessWidget {
             tooltip: AppLocalizations.of(context).close,
             onTap: onCloseContactView),
       ),
-      Center(child: Text(
-          AppLocalizations.of(context).contact,
-          style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.black))),
+      Center(
+          child: Text(AppLocalizations.of(context).contact,
+              style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black))),
     ]);
   }
 }

@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/state/failure.dart';
 import 'package:core/presentation/state/success.dart';
 import 'package:jmap_dart_client/jmap/core/state.dart' as jmap;
@@ -6,7 +5,6 @@ import 'package:jmap_dart_client/jmap/core/state.dart' as jmap;
 class GetMailboxStateToRefreshLoading extends UIState {}
 
 class GetMailboxStateToRefreshSuccess extends UIState {
-
   final jmap.State storedState;
 
   GetMailboxStateToRefreshSuccess(this.storedState);
@@ -16,6 +14,6 @@ class GetMailboxStateToRefreshSuccess extends UIState {
 }
 
 class GetMailboxStateToRefreshFailure extends FeatureFailure {
-
-  GetMailboxStateToRefreshFailure(dynamic exception) : super(exception: exception);
+  GetMailboxStateToRefreshFailure(dynamic exception)
+      : super(exception: exception);
 }

@@ -8,7 +8,6 @@ import 'package:jmap_dart_client/jmap/core/state.dart' as jmap;
 class LoadingMoveMailbox extends UIState {}
 
 class MoveMailboxSuccess extends UIActionState {
-
   final MailboxId mailboxIdSelected;
   final MoveAction moveAction;
   final MailboxId? parentId;
@@ -17,28 +16,25 @@ class MoveMailboxSuccess extends UIActionState {
 
   MoveMailboxSuccess(
     this.mailboxIdSelected,
-    this.moveAction,
-    {
-      this.parentId,
-      this.destinationMailboxId,
-      this.destinationMailboxDisplayName,
-      jmap.State? currentEmailState,
-      jmap.State? currentMailboxState,
-    }
-  ) : super(currentEmailState, currentMailboxState);
+    this.moveAction, {
+    this.parentId,
+    this.destinationMailboxId,
+    this.destinationMailboxDisplayName,
+    jmap.State? currentEmailState,
+    jmap.State? currentMailboxState,
+  }) : super(currentEmailState, currentMailboxState);
 
   @override
   List<Object?> get props => [
-    mailboxIdSelected,
-    moveAction,
-    parentId,
-    destinationMailboxId,
-    destinationMailboxDisplayName,
-    ...super.props
-  ];
+        mailboxIdSelected,
+        moveAction,
+        parentId,
+        destinationMailboxId,
+        destinationMailboxDisplayName,
+        ...super.props
+      ];
 }
 
 class MoveMailboxFailure extends FeatureFailure {
-
   MoveMailboxFailure(dynamic exception) : super(exception: exception);
 }

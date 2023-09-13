@@ -13,7 +13,6 @@ import 'package:tmail_ui_user/main/exceptions/cache_exception_thrower.dart';
 import 'package:tmail_ui_user/main/exceptions/remote_exception_thrower.dart';
 
 class SessionBindings extends InteractorsBindings {
-
   @override
   void bindingsDataSource() {
     Get.put<SessionDataSource>(Get.find<SessionDataSourceImpl>());
@@ -22,11 +21,9 @@ class SessionBindings extends InteractorsBindings {
   @override
   void bindingsDataSourceImpl() {
     Get.put(SessionDataSourceImpl(
-      Get.find<SessionAPI>(),
-      Get.find<RemoteExceptionThrower>()));
+        Get.find<SessionAPI>(), Get.find<RemoteExceptionThrower>()));
     Get.put(HiveSessionDataSourceImpl(
-      Get.find<SessionHiveCacheClient>(),
-      Get.find<CacheExceptionThrower>()));
+        Get.find<SessionHiveCacheClient>(), Get.find<CacheExceptionThrower>()));
   }
 
   @override

@@ -13,16 +13,15 @@ typedef OnEditIdentityAction = Function(Identity identitySelected);
 typedef OnDeleteIdentityAction = Function(Identity identitySelected);
 
 class IdentityListTileBuilder extends StatelessWidget {
-
-  const IdentityListTileBuilder({
-    Key? key, 
-    required this.identity,
-    required this.identitySelected,
-    required this.imagePaths,
-    this.onSelectIdentityAction,
-    this.onEditIdentityAction,
-    this.onDeleteIdentityAction
-  }) : super(key: key);
+  const IdentityListTileBuilder(
+      {Key? key,
+      required this.identity,
+      required this.identitySelected,
+      required this.imagePaths,
+      this.onSelectIdentityAction,
+      this.onEditIdentityAction,
+      this.onDeleteIdentityAction})
+      : super(key: key);
 
   final Identity identity;
   final Identity? identitySelected;
@@ -44,8 +43,8 @@ class IdentityListTileBuilder extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12.0),
               color: _isIdentitySelected
-                ? AppColor.colorItemSelected
-                : Colors.transparent,
+                  ? AppColor.colorItemSelected
+                  : Colors.transparent,
             ),
             padding: const EdgeInsets.all(12),
             child: Row(
@@ -59,48 +58,46 @@ class IdentityListTileBuilder extends StatelessWidget {
                 ),
                 const SizedBox(width: 10),
                 Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 6),
-                        child: TextOverflowBuilder(
-                          (identity.name ?? ''),
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 6),
+                      child: TextOverflowBuilder((identity.name ?? ''),
                           style: const TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            color: Colors.black)),
-                      ),
-                      if (identity.email?.isNotEmpty == true)
-                        _buildIconSVGWithTextLine(imagePaths.icEmail, identity.email),
-                      if (identity.replyTo?.isNotEmpty == true)
-                        _buildIconSVGWithTextLine(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: Colors.black)),
+                    ),
+                    if (identity.email?.isNotEmpty == true)
+                      _buildIconSVGWithTextLine(
+                          imagePaths.icEmail, identity.email),
+                    if (identity.replyTo?.isNotEmpty == true)
+                      _buildIconSVGWithTextLine(
                           imagePaths.icReplyTo,
-                          identity.replyTo?.listEmailAddressToString(isFullEmailAddress: true)
-                        ),
-                      if (identity.bcc?.isNotEmpty == true)
-                        _buildIconCharacterWithTextLine(
+                          identity.replyTo?.listEmailAddressToString(
+                              isFullEmailAddress: true)),
+                    if (identity.bcc?.isNotEmpty == true)
+                      _buildIconCharacterWithTextLine(
                           AppLocalizations.of(context).bcc_email_address_prefix,
-                          identity.bcc?.listEmailAddressToString(isFullEmailAddress: true)
-                        ),
-                    ],
-                  )
-                ),
-                if(_isIdentitySelected)
-                  ...[
-                    buildSVGIconButton(
-                      icon: imagePaths.icEditRule,
-                      iconSize: 24,
-                      iconColor: AppColor.primaryColor,
-                      onTap: () => onEditIdentityAction?.call(identity),
-                    ),
-                    buildSVGIconButton(
-                      icon: imagePaths.icDeleteRule,
-                      iconSize: 24,
-                      iconColor: AppColor.colorDeletePermanentlyButton,
-                      onTap: () => onDeleteIdentityAction?.call(identity),
-                    ),
-                  ]
+                          identity.bcc?.listEmailAddressToString(
+                              isFullEmailAddress: true)),
+                  ],
+                )),
+                if (_isIdentitySelected) ...[
+                  buildSVGIconButton(
+                    icon: imagePaths.icEditRule,
+                    iconSize: 24,
+                    iconColor: AppColor.primaryColor,
+                    onTap: () => onEditIdentityAction?.call(identity),
+                  ),
+                  buildSVGIconButton(
+                    icon: imagePaths.icDeleteRule,
+                    iconSize: 24,
+                    iconColor: AppColor.colorDeletePermanentlyButton,
+                    onTap: () => onDeleteIdentityAction?.call(identity),
+                  ),
+                ]
               ],
             ),
           ),
@@ -114,12 +111,13 @@ class IdentityListTileBuilder extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 4),
       child: Row(children: [
         SizedBox(
-          width: 30,
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: SvgPicture.asset(imagePath, width: 15, height: 15))),
+            width: 30,
+            child: Align(
+                alignment: Alignment.centerLeft,
+                child: SvgPicture.asset(imagePath, width: 15, height: 15))),
         const SizedBox(width: 4),
-        Expanded(child: TextOverflowBuilder(
+        Expanded(
+            child: TextOverflowBuilder(
           (text ?? ''),
           style: const TextStyle(
             color: AppColor.colorEmailAddressFull,
@@ -136,17 +134,17 @@ class IdentityListTileBuilder extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 4),
       child: Row(children: [
         Container(
-          width: 30,
-          alignment: Alignment.centerLeft,
-          child: Text(
-            character,
-            style: const TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.normal,
-              decoration: TextDecoration.underline,
-              color: AppColor.colorTextButton))),
+            width: 30,
+            alignment: Alignment.centerLeft,
+            child: Text(character,
+                style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.normal,
+                    decoration: TextDecoration.underline,
+                    color: AppColor.colorTextButton))),
         const SizedBox(width: 4),
-        Expanded(child: TextOverflowBuilder(
+        Expanded(
+            child: TextOverflowBuilder(
           (text ?? ''),
           style: const TextStyle(
             color: AppColor.colorEmailAddressFull,

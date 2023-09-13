@@ -14,21 +14,21 @@ class MarkAsEmailReadSuccess extends UIActionState {
   MarkAsEmailReadSuccess(
     this.updatedEmail,
     this.readActions,
-    this.markReadAction,
-    {
-      jmap.State? currentEmailState,
-      jmap.State? currentMailboxState,
-    }
-  ) : super(currentEmailState, currentMailboxState);
+    this.markReadAction, {
+    jmap.State? currentEmailState,
+    jmap.State? currentMailboxState,
+  }) : super(currentEmailState, currentMailboxState);
 
   @override
-  List<Object?> get props => [updatedEmail, readActions, markReadAction, ...super.props];
+  List<Object?> get props =>
+      [updatedEmail, readActions, markReadAction, ...super.props];
 }
 
 class MarkAsEmailReadFailure extends FeatureFailure {
   final ReadActions readActions;
 
-  MarkAsEmailReadFailure(this.readActions, {dynamic exception}) : super(exception: exception);
+  MarkAsEmailReadFailure(this.readActions, {dynamic exception})
+      : super(exception: exception);
 
   @override
   List<Object?> get props => [readActions, ...super.props];

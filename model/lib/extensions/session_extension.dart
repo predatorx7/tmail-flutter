@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/uri_extension.dart';
 import 'package:core/utils/app_logger.dart';
 import 'package:jmap_dart_client/jmap/account_id.dart';
@@ -11,13 +10,13 @@ import 'package:model/model.dart';
 import 'package:uri/uri.dart';
 
 extension SessionExtension on Session {
-
   String getDownloadUrl({String? jmapUrl}) {
     final downloadUrlValid = jmapUrl != null
-      ? downloadUrl.toQualifiedUrl(baseUrl: Uri.parse(jmapUrl))
-      : downloadUrl;
+        ? downloadUrl.toQualifiedUrl(baseUrl: Uri.parse(jmapUrl))
+        : downloadUrl;
     log('SessionExtension::getDownloadUrl():downloadUrlValid: $downloadUrlValid');
-    var baseUrl = '${downloadUrlValid.origin}${downloadUrlValid.path}?${downloadUrlValid.query}';
+    var baseUrl =
+        '${downloadUrlValid.origin}${downloadUrlValid.path}?${downloadUrlValid.query}';
     if (baseUrl.endsWith('/')) {
       baseUrl = baseUrl.substring(0, baseUrl.length - 1);
     }
@@ -29,22 +28,19 @@ extension SessionExtension on Session {
 
   Uri getUploadUri(AccountId accountId, {String? jmapUrl}) {
     final uploadUrlValid = jmapUrl != null
-      ? uploadUrl.toQualifiedUrl(baseUrl: Uri.parse(jmapUrl))
-      : uploadUrl;
+        ? uploadUrl.toQualifiedUrl(baseUrl: Uri.parse(jmapUrl))
+        : uploadUrl;
     log('SessionExtension::getUploadUri():downloadUrlValid: $uploadUrlValid');
     final baseUrl = '${uploadUrlValid.origin}${uploadUrlValid.path}';
     final uploadUriTemplate = UriTemplate(Uri.decodeFull(baseUrl));
-    final uploadUri = uploadUriTemplate.expand({
-      'accountId' : accountId.id.value
-    });
+    final uploadUri =
+        uploadUriTemplate.expand({'accountId': accountId.id.value});
     log('SessionExtension::getUploadUri(): uploadUri: $uploadUri');
     return Uri.parse(uploadUri);
   }
 
   T getCapabilityProperties<T extends CapabilityProperties>(
-    AccountId accountId,
-    CapabilityIdentifier identifier
-  ) {
+      AccountId accountId, CapabilityIdentifier identifier) {
     var capability = accounts[accountId]!.accountCapabilities[identifier];
     if (capability is EmptyCapability) {
       capability = capabilities[identifier] as T;
@@ -55,9 +51,9 @@ extension SessionExtension on Session {
   JmapAccount get personalAccount {
     if (accounts.isNotEmpty) {
       final listPersonalAccount = accounts.entries
-        .map((entry) => entry.value.toJmapAccount(entry.key))
-        .where((jmapAccount) => jmapAccount.isPersonal)
-        .toList();
+          .map((entry) => entry.value.toJmapAccount(entry.key))
+          .where((jmapAccount) => jmapAccount.isPersonal)
+          .toList();
 
       if (listPersonalAccount.isNotEmpty) {
         return listPersonalAccount.first;

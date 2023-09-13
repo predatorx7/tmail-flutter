@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/state/failure.dart';
 import 'package:core/presentation/state/success.dart';
 import 'package:tmail_ui_user/features/sending_queue/domain/model/sending_email.dart';
@@ -24,11 +23,11 @@ class UpdateMultipleSendingEmailHasSomeSuccess extends UIState {
 }
 
 class UpdateMultipleSendingEmailAllFailure extends FeatureFailure {
-
-  UpdateMultipleSendingEmailAllFailure(dynamic exception) : super(exception: exception);
+  UpdateMultipleSendingEmailAllFailure(dynamic exception)
+      : super(exception: exception);
 }
 
 class UpdateMultipleSendingEmailFailure extends FeatureFailure {
-
-  UpdateMultipleSendingEmailFailure(dynamic exception) : super(exception: exception);
+  UpdateMultipleSendingEmailFailure(dynamic exception)
+      : super(exception: exception);
 }

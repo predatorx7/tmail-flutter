@@ -6,8 +6,9 @@ class RecentLoginUsername with EquatableMixin {
 
   RecentLoginUsername(this.username, this.creationDate);
 
-  factory RecentLoginUsername.now(String username) => RecentLoginUsername(username, DateTime.now());
+  factory RecentLoginUsername.now(String username) =>
+      RecentLoginUsername(username, DateTime.now());
 
   @override
-  List<Object?> get props => [ username, creationDate ];
+  List<Object?> get props => [username, creationDate];
 }

@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/resources/image_paths.dart';
 import 'package:core/presentation/utils/responsive_utils.dart';
@@ -23,33 +22,26 @@ import 'package:tmail_ui_user/features/mailbox_dashboard/presentation/widgets/ap
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
 mixin MailboxWidgetMixin {
-
   MailboxActions _mailboxActionForSpam(bool spamReportEnabled) {
     return spamReportEnabled
-      ? MailboxActions.disableSpamReport
-      : MailboxActions.enableSpamReport;
+        ? MailboxActions.disableSpamReport
+        : MailboxActions.enableSpamReport;
   }
 
   List<MailboxActions> _listActionForDefaultMailbox(
-    PresentationMailbox mailbox,
-    bool spamReportEnabled
-  ) {
-
+      PresentationMailbox mailbox, bool spamReportEnabled) {
     return [
-      if (PlatformInfo.isWeb)
-        MailboxActions.openInNewTab,
-      if (mailbox.isSpam)
-        _mailboxActionForSpam(spamReportEnabled),
+      if (PlatformInfo.isWeb) MailboxActions.openInNewTab,
+      if (mailbox.isSpam) _mailboxActionForSpam(spamReportEnabled),
       if (mailbox.countUnReadEmailsAsString.isNotEmpty)
         MailboxActions.markAsRead,
-      if (mailbox.isTrash)
-        MailboxActions.emptyTrash,
-      if (PlatformInfo.isWeb && mailbox.isSpam)
-        MailboxActions.emptySpam,
+      if (mailbox.isTrash) MailboxActions.emptyTrash,
+      if (PlatformInfo.isWeb && mailbox.isSpam) MailboxActions.emptySpam,
     ];
   }
 
-  List<MailboxActions> _listActionForPersonalMailbox(PresentationMailbox mailbox) {
+  List<MailboxActions> _listActionForPersonalMailbox(
+      PresentationMailbox mailbox) {
     return [
       if (PlatformInfo.isWeb && mailbox.isSubscribedMailbox)
         MailboxActions.openInNewTab,
@@ -80,9 +72,7 @@ mixin MailboxWidgetMixin {
   }
 
   List<MailboxActions> _listActionForAllMailboxType(
-    PresentationMailbox mailbox,
-    bool spamReportEnabled
-  ) {
+      PresentationMailbox mailbox, bool spamReportEnabled) {
     if (mailbox.isDefault) {
       return _listActionForDefaultMailbox(mailbox, spamReportEnabled);
     } else if (mailbox.isPersonal) {
@@ -93,107 +83,89 @@ mixin MailboxWidgetMixin {
   }
 
   void openMailboxMenuActionOnMobile(
-    BuildContext context,
-    ImagePaths imagePaths,
-    PresentationMailbox mailbox,
-    MailboxController controller
-  ) {
+      BuildContext context,
+      ImagePaths imagePaths,
+      PresentationMailbox mailbox,
+      MailboxController controller) {
     final contextMenuActions = listContextMenuItemAction(
-      mailbox,
-      controller.mailboxDashBoardController.enableSpamReport
-    );
+        mailbox, controller.mailboxDashBoardController.enableSpamReport);
 
     if (contextMenuActions.isEmpty) {
       return;
     }
 
     controller.openContextMenuAction(
-      context,
-      contextMenuMailboxActionTiles(
         context,
-        imagePaths,
-        mailbox,
-        contextMenuActions,
-        handleMailboxAction: controller.handleMailboxAction
-      )
-    );
+        contextMenuMailboxActionTiles(
+            context, imagePaths, mailbox, contextMenuActions,
+            handleMailboxAction: controller.handleMailboxAction));
   }
 
   List<Widget> contextMenuMailboxActionTiles(
-    BuildContext context,
-    ImagePaths imagePaths,
-    PresentationMailbox mailbox,
-    List<ContextMenuItemMailboxAction> contextMenuActions,
-    {
-      required Function(BuildContext, MailboxActions, PresentationMailbox) handleMailboxAction
-    }
-  ) {
+      BuildContext context,
+      ImagePaths imagePaths,
+      PresentationMailbox mailbox,
+      List<ContextMenuItemMailboxAction> contextMenuActions,
+      {required Function(BuildContext, MailboxActions, PresentationMailbox)
+          handleMailboxAction}) {
     return contextMenuActions
-      .map((action) => _buildContextMenuActionTile(
-        context,
-        imagePaths,
-        action,
-        mailbox,
-        handleMailboxAction: handleMailboxAction
-      ))
-      .toList();
+        .map((action) => _buildContextMenuActionTile(
+            context, imagePaths, action, mailbox,
+            handleMailboxAction: handleMailboxAction))
+        .toList();
   }
 
   Widget _buildContextMenuActionTile(
-    BuildContext context,
-    ImagePaths imagePaths,
-    ContextMenuItemMailboxAction contextMenuItem,
-    PresentationMailbox mailbox,
-    {
-      required Function(BuildContext, MailboxActions, PresentationMailbox) handleMailboxAction
-    }
-  ) {
+      BuildContext context,
+      ImagePaths imagePaths,
+      ContextMenuItemMailboxAction contextMenuItem,
+      PresentationMailbox mailbox,
+      {required Function(BuildContext, MailboxActions, PresentationMailbox)
+          handleMailboxAction}) {
     return (MailboxBottomSheetActionTileBuilder(
-          Key('${contextMenuItem.action.name}_action'),
-          SvgPicture.asset(
-            contextMenuItem.action.getContextMenuIcon(imagePaths),
-            colorFilter: contextMenuItem.action.getColorContextMenuIcon().asFilter(),
-            width: 24,
-            height: 24
-          ),
-          contextMenuItem.action.getTitleContextMenu(context),
-          mailbox,
-          absorbing: !contextMenuItem.isActivated,
-          opacity: !contextMenuItem.isActivated)
-      ..actionTextStyle(textStyle: TextStyle(
-          fontSize: 16,
-          color: contextMenuItem.action.getColorContextMenuTitle(),
-          fontWeight: FontWeight.w500
-      ))
-      ..onActionClick((mailbox) => handleMailboxAction(context, contextMenuItem.action, mailbox))
-    ).build();
+            Key('${contextMenuItem.action.name}_action'),
+            SvgPicture.asset(
+                contextMenuItem.action.getContextMenuIcon(imagePaths),
+                colorFilter:
+                    contextMenuItem.action.getColorContextMenuIcon().asFilter(),
+                width: 24,
+                height: 24),
+            contextMenuItem.action.getTitleContextMenu(context),
+            mailbox,
+            absorbing: !contextMenuItem.isActivated,
+            opacity: !contextMenuItem.isActivated)
+          ..actionTextStyle(
+              textStyle: TextStyle(
+                  fontSize: 16,
+                  color: contextMenuItem.action.getColorContextMenuTitle(),
+                  fontWeight: FontWeight.w500))
+          ..onActionClick((mailbox) =>
+              handleMailboxAction(context, contextMenuItem.action, mailbox)))
+        .build();
   }
 
   List<ContextMenuItemMailboxAction> listContextMenuItemAction(
-    PresentationMailbox mailbox,
-    bool spamReportEnabled
-  ) {
-    final mailboxActionsSupported = _listActionForAllMailboxType(mailbox, spamReportEnabled);
+      PresentationMailbox mailbox, bool spamReportEnabled) {
+    final mailboxActionsSupported =
+        _listActionForAllMailboxType(mailbox, spamReportEnabled);
 
     final listContextMenuItemAction = mailboxActionsSupported
-      .map((action) => ContextMenuItemMailboxAction(action, action.getContextMenuItemState(mailbox)))
-      .toList();
+        .map((action) => ContextMenuItemMailboxAction(
+            action, action.getContextMenuItemState(mailbox)))
+        .toList();
 
     return listContextMenuItemAction;
   }
 
   void openMailboxMenuActionOnWeb(
-    BuildContext context,
-    ImagePaths imagePaths,
-    ResponsiveUtils responsiveUtils,
-    RelativeRect position,
-    PresentationMailbox mailbox,
-    MailboxController controller
-  ) {
+      BuildContext context,
+      ImagePaths imagePaths,
+      ResponsiveUtils responsiveUtils,
+      RelativeRect position,
+      PresentationMailbox mailbox,
+      MailboxController controller) {
     final contextMenuActions = listContextMenuItemAction(
-      mailbox,
-      controller.mailboxDashBoardController.enableSpamReport
-    );
+        mailbox, controller.mailboxDashBoardController.enableSpamReport);
 
     if (contextMenuActions.isEmpty) {
       return;
@@ -201,218 +173,196 @@ mixin MailboxWidgetMixin {
 
     if (responsiveUtils.isScreenWithShortestSide(context)) {
       controller.openContextMenuAction(
-        context,
+          context,
           contextMenuMailboxActionTiles(
-            context,
-            imagePaths,
-            mailbox,
-            contextMenuActions,
-            handleMailboxAction: controller.handleMailboxAction
-          )
-      );
+              context, imagePaths, mailbox, contextMenuActions,
+              handleMailboxAction: controller.handleMailboxAction));
     } else {
       controller.openPopupMenuAction(
-        context,
-        position,
-        popupMenuMailboxActionTiles(
           context,
-          imagePaths,
-          mailbox,
-          contextMenuActions,
-          handleMailboxAction: controller.handleMailboxAction
-        )
-      );
+          position,
+          popupMenuMailboxActionTiles(
+              context, imagePaths, mailbox, contextMenuActions,
+              handleMailboxAction: controller.handleMailboxAction));
     }
   }
 
   List<PopupMenuEntry> popupMenuMailboxActionTiles(
-    BuildContext context,
-    ImagePaths imagePaths,
-    PresentationMailbox mailbox,
-    List<ContextMenuItemMailboxAction> contextMenuActions,
-    {
-      required Function(BuildContext, MailboxActions, PresentationMailbox) handleMailboxAction
-    }
-  ) {
+      BuildContext context,
+      ImagePaths imagePaths,
+      PresentationMailbox mailbox,
+      List<ContextMenuItemMailboxAction> contextMenuActions,
+      {required Function(BuildContext, MailboxActions, PresentationMailbox)
+          handleMailboxAction}) {
     return contextMenuActions
-      .map((action) => _buildPopupMenuItem(
-        context,
-        imagePaths,
-        action,
-        mailbox,
-        handleMailboxAction: handleMailboxAction
-      ))
-      .toList();
+        .map((action) => _buildPopupMenuItem(
+            context, imagePaths, action, mailbox,
+            handleMailboxAction: handleMailboxAction))
+        .toList();
   }
 
-  PopupMenuItem _buildPopupMenuItem(
-    BuildContext context,
-    ImagePaths imagePaths,
-    ContextMenuItemMailboxAction contextMenuItem,
-    PresentationMailbox mailbox,
-    {
-      required Function(BuildContext, MailboxActions, PresentationMailbox) handleMailboxAction
-    }
-  ) {
+  PopupMenuItem _buildPopupMenuItem(BuildContext context, ImagePaths imagePaths,
+      ContextMenuItemMailboxAction contextMenuItem, PresentationMailbox mailbox,
+      {required Function(BuildContext, MailboxActions, PresentationMailbox)
+          handleMailboxAction}) {
     return PopupMenuItem(
-      padding: EdgeInsets.zero,
-      child: AbsorbPointer(
-        absorbing: !contextMenuItem.isActivated,
-        child: Opacity(
-          opacity: contextMenuItem.isActivated ? 1.0 : 0.3,
-          child: PopupItemWidget(
-            contextMenuItem.action.getContextMenuIcon(imagePaths),
-            contextMenuItem.action.getTitleContextMenu(context),
-            colorIcon: contextMenuItem.action.getColorContextMenuIcon(),
-            iconSize: 24,
-            styleName: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 16,
-              color: contextMenuItem.action.getColorContextMenuTitle()
-            ),
-            onCallbackAction: () => handleMailboxAction(context, contextMenuItem.action, mailbox)
+        padding: EdgeInsets.zero,
+        child: AbsorbPointer(
+          absorbing: !contextMenuItem.isActivated,
+          child: Opacity(
+            opacity: contextMenuItem.isActivated ? 1.0 : 0.3,
+            child: PopupItemWidget(
+                contextMenuItem.action.getContextMenuIcon(imagePaths),
+                contextMenuItem.action.getTitleContextMenu(context),
+                colorIcon: contextMenuItem.action.getColorContextMenuIcon(),
+                iconSize: 24,
+                styleName: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                    color: contextMenuItem.action.getColorContextMenuTitle()),
+                onCallbackAction: () => handleMailboxAction(
+                    context, contextMenuItem.action, mailbox)),
           ),
-        ),
-      )
-    );
+        ));
   }
 
   Widget buildHeaderMailboxCategory(
-    BuildContext context,
-    ResponsiveUtils responsiveUtils,
-    ImagePaths imagePaths,
-    MailboxCategories categories,
-    BaseMailboxController baseMailboxController,
-    {
-      required Function(MailboxCategories categories) toggleMailboxCategories,
-      EdgeInsets? padding
-    }
-  ) {
+      BuildContext context,
+      ResponsiveUtils responsiveUtils,
+      ImagePaths imagePaths,
+      MailboxCategories categories,
+      BaseMailboxController baseMailboxController,
+      {required Function(MailboxCategories categories) toggleMailboxCategories,
+      EdgeInsets? padding}) {
     return Padding(
-      padding: padding ?? EdgeInsets.only(
-        top: 10,
-        left: responsiveUtils.isDesktop(context) ? 0 : 16,
-        right: responsiveUtils.isDesktop(context) ? 0 : 16
-      ),
-      child: Row(children: [
-        Obx(() {
-          final expandMode = categories.getExpandMode(baseMailboxController.mailboxCategoriesExpandMode.value);
-          return buildIconWeb(
-            splashRadius: 12,
-            iconPadding: EdgeInsets.zero,
-            minSize: 12,
-            icon: SvgPicture.asset(
-              expandMode == ExpandMode.EXPAND
-                ? imagePaths.icArrowBottom
-                : DirectionUtils.isDirectionRTLByLanguage(context) ? imagePaths.icArrowLeft : imagePaths.icArrowRight,
-              colorFilter: AppColor.primaryColor.asFilter(),
-              fit: BoxFit.fill
-            ),
-            tooltip: expandMode == ExpandMode.EXPAND
-              ? AppLocalizations.of(context).collapse
-              : AppLocalizations.of(context).expand,
-            onTap: () => toggleMailboxCategories(categories)
-          );
-        }),
-        Expanded(child: Text(
-          categories.getTitle(context),
-          maxLines: 1,
-          overflow: CommonTextStyle.defaultTextOverFlow,
-          softWrap: CommonTextStyle.defaultSoftWrap,
-          style: const TextStyle(
-            fontSize: 17,
-            color: Colors.black,
-            fontWeight: FontWeight.bold
-          )
-        )),
-      ])
-    );
+        padding: padding ??
+            EdgeInsets.only(
+                top: 10,
+                left: responsiveUtils.isDesktop(context) ? 0 : 16,
+                right: responsiveUtils.isDesktop(context) ? 0 : 16),
+        child: Row(children: [
+          Obx(() {
+            final expandMode = categories.getExpandMode(
+                baseMailboxController.mailboxCategoriesExpandMode.value);
+            return buildIconWeb(
+                splashRadius: 12,
+                iconPadding: EdgeInsets.zero,
+                minSize: 12,
+                icon: SvgPicture.asset(
+                    expandMode == ExpandMode.EXPAND
+                        ? imagePaths.icArrowBottom
+                        : DirectionUtils.isDirectionRTLByLanguage(context)
+                            ? imagePaths.icArrowLeft
+                            : imagePaths.icArrowRight,
+                    colorFilter: AppColor.primaryColor.asFilter(),
+                    fit: BoxFit.fill),
+                tooltip: expandMode == ExpandMode.EXPAND
+                    ? AppLocalizations.of(context).collapse
+                    : AppLocalizations.of(context).expand,
+                onTap: () => toggleMailboxCategories(categories));
+          }),
+          Expanded(
+              child: Text(categories.getTitle(context),
+                  maxLines: 1,
+                  overflow: CommonTextStyle.defaultTextOverFlow,
+                  softWrap: CommonTextStyle.defaultSoftWrap,
+                  style: const TextStyle(
+                      fontSize: 17,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold))),
+        ]));
   }
 
   Widget buildAppGridDashboard(
-    BuildContext context,
-    ResponsiveUtils responsiveUtils,
-    ImagePaths imagePaths,
-    MailboxController controller
-  ) {
+      BuildContext context,
+      ResponsiveUtils responsiveUtils,
+      ImagePaths imagePaths,
+      MailboxController controller) {
     return Column(children: [
-      _buildGoToApplicationsCategory(
-        context,
-        responsiveUtils,
-        imagePaths,
-        MailboxCategories.appGrid,
-        controller),
+      _buildGoToApplicationsCategory(context, responsiveUtils, imagePaths,
+          MailboxCategories.appGrid, controller),
       AnimatedContainer(
-        duration: const Duration(milliseconds: 400),
-        child: Obx(() {
-          return controller.mailboxDashBoardController.appGridDashboardController.appDashboardExpandMode.value == ExpandMode.EXPAND
-            ? _buildAppGridInMailboxView(context, controller)
-            : const Offstage();
-        })
-      ),
+          duration: const Duration(milliseconds: 400),
+          child: Obx(() {
+            return controller
+                        .mailboxDashBoardController
+                        .appGridDashboardController
+                        .appDashboardExpandMode
+                        .value ==
+                    ExpandMode.EXPAND
+                ? _buildAppGridInMailboxView(context, controller)
+                : const Offstage();
+          })),
       const Divider(color: AppColor.colorDividerMailbox, height: 1)
     ]);
   }
 
   Widget _buildGoToApplicationsCategory(
-    BuildContext context,
-    ResponsiveUtils responsiveUtils,
-    ImagePaths imagePaths,
-    MailboxCategories categories,
-    MailboxController controller
-  ) {
+      BuildContext context,
+      ResponsiveUtils responsiveUtils,
+      ImagePaths imagePaths,
+      MailboxCategories categories,
+      MailboxController controller) {
     return Padding(
-      padding: const EdgeInsetsDirectional.only(start: 32, end: 4),
-      child: Row(children: [
-        SvgPicture.asset(
-          imagePaths.icAppDashboard,
-          colorFilter: AppColor.primaryColor.asFilter(),
-          width: 20,
-          height: 20,
-          fit: BoxFit.fill),
-        Expanded(child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Text(categories.getTitle(context),
-            maxLines: 1,
-            overflow: CommonTextStyle.defaultTextOverFlow,
-            softWrap: CommonTextStyle.defaultSoftWrap,
-            style: const TextStyle(
-              fontSize: 16,
-              color: AppColor.colorTextButton,
-              fontWeight: FontWeight.w500
-            )
-          )
-        )),
-        buildIconWeb(
-          icon: Obx(() => SvgPicture.asset(
-            controller.mailboxDashBoardController.appGridDashboardController.appDashboardExpandMode.value == ExpandMode.COLLAPSE
-              ? DirectionUtils.isDirectionRTLByLanguage(context) ? imagePaths.icBack : imagePaths.icCollapseFolder
-              : imagePaths.icExpandFolder,
-            colorFilter: controller.mailboxDashBoardController.appGridDashboardController.appDashboardExpandMode.value == ExpandMode.COLLAPSE
-              ? AppColor.colorIconUnSubscribedMailbox.asFilter()
-              : AppColor.primaryColor.asFilter(),
-            fit: BoxFit.fill
-          )),
-          tooltip: AppLocalizations.of(context).appGridTittle,
-          onTap: () => controller.toggleMailboxCategories(categories)
-        )
-      ])
-    );
+        padding: const EdgeInsetsDirectional.only(start: 32, end: 4),
+        child: Row(children: [
+          SvgPicture.asset(imagePaths.icAppDashboard,
+              colorFilter: AppColor.primaryColor.asFilter(),
+              width: 20,
+              height: 20,
+              fit: BoxFit.fill),
+          Expanded(
+              child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Text(categories.getTitle(context),
+                      maxLines: 1,
+                      overflow: CommonTextStyle.defaultTextOverFlow,
+                      softWrap: CommonTextStyle.defaultSoftWrap,
+                      style: const TextStyle(
+                          fontSize: 16,
+                          color: AppColor.colorTextButton,
+                          fontWeight: FontWeight.w500)))),
+          buildIconWeb(
+              icon: Obx(() => SvgPicture.asset(
+                  controller
+                              .mailboxDashBoardController
+                              .appGridDashboardController
+                              .appDashboardExpandMode
+                              .value ==
+                          ExpandMode.COLLAPSE
+                      ? DirectionUtils.isDirectionRTLByLanguage(context)
+                          ? imagePaths.icBack
+                          : imagePaths.icCollapseFolder
+                      : imagePaths.icExpandFolder,
+                  colorFilter: controller
+                              .mailboxDashBoardController
+                              .appGridDashboardController
+                              .appDashboardExpandMode
+                              .value ==
+                          ExpandMode.COLLAPSE
+                      ? AppColor.colorIconUnSubscribedMailbox.asFilter()
+                      : AppColor.primaryColor.asFilter(),
+                  fit: BoxFit.fill)),
+              tooltip: AppLocalizations.of(context).appGridTittle,
+              onTap: () => controller.toggleMailboxCategories(categories))
+        ]));
   }
 
-  Widget _buildAppGridInMailboxView(BuildContext context, MailboxController controller) {
+  Widget _buildAppGridInMailboxView(
+      BuildContext context, MailboxController controller) {
     return Obx(() {
-      final linagoraApps = controller.mailboxDashBoardController.appGridDashboardController.linagoraApplications.value;
+      final linagoraApps = controller.mailboxDashBoardController
+          .appGridDashboardController.linagoraApplications.value;
       if (linagoraApps != null && linagoraApps.apps.isNotEmpty) {
         return ListView.builder(
-          shrinkWrap: true,
-          primary: false,
-          padding: const EdgeInsetsDirectional.only(start: 16, end: 16, bottom: 8),
-          itemCount: linagoraApps.apps.length,
-          itemBuilder: (context, index) {
-            return AppListDashboardItem(linagoraApps.apps[index]);
-          }
-        );
+            shrinkWrap: true,
+            primary: false,
+            padding:
+                const EdgeInsetsDirectional.only(start: 16, end: 16, bottom: 8),
+            itemCount: linagoraApps.apps.length,
+            itemBuilder: (context, index) {
+              return AppListDashboardItem(linagoraApps.apps[index]);
+            });
       }
       return const SizedBox.shrink();
     });

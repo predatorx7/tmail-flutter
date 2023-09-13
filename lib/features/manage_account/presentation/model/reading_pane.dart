@@ -1,4 +1,3 @@
-
 enum ReadingPane {
   noSplit,
   rightOfInbox,

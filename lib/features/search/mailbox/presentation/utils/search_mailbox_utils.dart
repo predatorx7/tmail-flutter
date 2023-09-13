@@ -2,7 +2,8 @@ import 'package:core/presentation/utils/responsive_utils.dart';
 import 'package:flutter/material.dart';
 
 class SearchMailboxUtils {
-  static EdgeInsets getPaddingAppBar(BuildContext context, ResponsiveUtils responsiveUtils) {
+  static EdgeInsets getPaddingAppBar(
+      BuildContext context, ResponsiveUtils responsiveUtils) {
     if (responsiveUtils.isWebDesktop(context)) {
       return const EdgeInsets.symmetric(vertical: 8, horizontal: 16);
     } else {
@@ -14,7 +15,8 @@ class SearchMailboxUtils {
     }
   }
 
-  static EdgeInsets getPaddingInputSearchIcon(BuildContext context, ResponsiveUtils responsiveUtils) {
+  static EdgeInsets getPaddingInputSearchIcon(
+      BuildContext context, ResponsiveUtils responsiveUtils) {
     if (responsiveUtils.isWebDesktop(context)) {
       return const EdgeInsets.only(left: 5, right: 2);
     } else {
@@ -26,7 +28,8 @@ class SearchMailboxUtils {
     }
   }
 
-  static double getIconSize(BuildContext context, ResponsiveUtils responsiveUtils) {
+  static double getIconSize(
+      BuildContext context, ResponsiveUtils responsiveUtils) {
     if (responsiveUtils.isWebDesktop(context)) {
       return 30;
     } else {
@@ -34,7 +37,8 @@ class SearchMailboxUtils {
     }
   }
 
-  static double getIconSplashRadius(BuildContext context, ResponsiveUtils responsiveUtils) {
+  static double getIconSplashRadius(
+      BuildContext context, ResponsiveUtils responsiveUtils) {
     if (responsiveUtils.isWebDesktop(context)) {
       return 10;
     } else {
@@ -42,7 +46,8 @@ class SearchMailboxUtils {
     }
   }
 
-  static EdgeInsets getPaddingListViewMailboxSearched(BuildContext context, ResponsiveUtils responsiveUtils) {
+  static EdgeInsets getPaddingListViewMailboxSearched(
+      BuildContext context, ResponsiveUtils responsiveUtils) {
     if (responsiveUtils.isWebDesktop(context)) {
       return const EdgeInsets.only(left: 16, right: 16, bottom: 16);
     } else {
@@ -54,7 +59,8 @@ class SearchMailboxUtils {
     }
   }
 
-  static EdgeInsets getPaddingItemListView(BuildContext context, ResponsiveUtils responsiveUtils) {
+  static EdgeInsets getPaddingItemListView(
+      BuildContext context, ResponsiveUtils responsiveUtils) {
     if (responsiveUtils.isWebDesktop(context)) {
       return const EdgeInsets.all(8);
     } else {

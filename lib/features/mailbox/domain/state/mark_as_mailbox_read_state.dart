@@ -7,63 +7,50 @@ import 'package:tmail_ui_user/features/base/state/ui_action_state.dart';
 class MarkAsMailboxReadLoading extends UIState {}
 
 class UpdatingMarkAsMailboxReadState extends UIState {
-
   final MailboxId mailboxId;
   final int totalUnread;
   final int countRead;
 
-  UpdatingMarkAsMailboxReadState({
-    required this.mailboxId,
-    required this.totalUnread,
-    required this.countRead});
+  UpdatingMarkAsMailboxReadState(
+      {required this.mailboxId,
+      required this.totalUnread,
+      required this.countRead});
 
   @override
   List<Object?> get props => [mailboxId, countRead, totalUnread];
 }
 
 class MarkAsMailboxReadAllSuccess extends UIActionState {
-
   final String mailboxDisplayName;
 
-  MarkAsMailboxReadAllSuccess(this.mailboxDisplayName,
-    {
-      jmap.State? currentEmailState,
-      jmap.State? currentMailboxState,
-    }
-  ) : super(currentMailboxState, currentEmailState);
+  MarkAsMailboxReadAllSuccess(
+    this.mailboxDisplayName, {
+    jmap.State? currentEmailState,
+    jmap.State? currentMailboxState,
+  }) : super(currentMailboxState, currentEmailState);
 
   @override
-  List<Object?> get props => [
-    mailboxDisplayName,
-    ...super.props
-  ];
+  List<Object?> get props => [mailboxDisplayName, ...super.props];
 }
 
 class MarkAsMailboxReadHasSomeEmailFailure extends UIActionState {
-
   final String mailboxDisplayName;
   final int countEmailsRead;
 
   MarkAsMailboxReadHasSomeEmailFailure(
     this.mailboxDisplayName,
-    this.countEmailsRead,
-    {
-      jmap.State? currentEmailState,
-      jmap.State? currentMailboxState,
-    }
-  ) : super(currentMailboxState, currentEmailState);
+    this.countEmailsRead, {
+    jmap.State? currentEmailState,
+    jmap.State? currentMailboxState,
+  }) : super(currentMailboxState, currentEmailState);
 
   @override
-  List<Object?> get props => [
-    mailboxDisplayName,
-    countEmailsRead,
-    ...super.props
-  ];
+  List<Object?> get props =>
+      [mailboxDisplayName, countEmailsRead, ...super.props];
 }
 
 class MarkAsMailboxReadAllFailure extends FeatureFailure {}
 
 class MarkAsMailboxReadFailure extends FeatureFailure {
-
   MarkAsMailboxReadFailure(dynamic exception) : super(exception: exception);
 }

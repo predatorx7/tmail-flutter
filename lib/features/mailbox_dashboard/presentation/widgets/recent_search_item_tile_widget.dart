@@ -1,4 +1,3 @@
-
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -6,16 +5,15 @@ import 'package:get/get.dart';
 import 'package:tmail_ui_user/features/mailbox_dashboard/domain/model/recent_search.dart';
 
 class RecentSearchItemTileWidget extends StatelessWidget {
-
   final imagePath = Get.find<ImagePaths>();
 
   final RecentSearch recentSearch;
   final EdgeInsetsGeometry? contentPadding;
 
   RecentSearchItemTileWidget(
-      this.recentSearch, {
-      Key? key,
-      this.contentPadding,
+    this.recentSearch, {
+    Key? key,
+    this.contentPadding,
   }) : super(key: key);
 
   @override

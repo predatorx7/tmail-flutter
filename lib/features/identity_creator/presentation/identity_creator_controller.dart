@@ -43,7 +43,6 @@ import 'package:tmail_ui_user/main/routes/route_navigation.dart';
 import 'package:uuid/uuid.dart';
 
 class IdentityCreatorController extends BaseController {
-
   final VerifyNameInteractor _verifyNameInteractor;
   final GetAllIdentitiesInteractor _getAllIdentitiesInteractor;
   final IdentityUtils _identityUtils;
@@ -65,10 +64,13 @@ class IdentityCreatorController extends BaseController {
   final isMobileEditorFocus = RxBool(false);
 
   final RichTextController keyboardRichTextController = RichTextController();
-  final RichTextMobileTabletController richTextMobileTabletController = RichTextMobileTabletController();
+  final RichTextMobileTabletController richTextMobileTabletController =
+      RichTextMobileTabletController();
   final RichTextWebController richTextWebController = RichTextWebController();
-  final TextEditingController inputNameIdentityController = TextEditingController();
-  final TextEditingController inputBccIdentityController = TextEditingController();
+  final TextEditingController inputNameIdentityController =
+      TextEditingController();
+  final TextEditingController inputBccIdentityController =
+      TextEditingController();
   final FocusNode inputNameIdentityFocusNode = FocusNode();
   final FocusNode inputBccIdentityFocusNode = FocusNode();
   final ScrollController scrollController = ScrollController();
@@ -99,11 +101,8 @@ class IdentityCreatorController extends BaseController {
     }
   }
 
-  IdentityCreatorController(
-      this._verifyNameInteractor,
-      this._getAllIdentitiesInteractor,
-      this._identityUtils
-  );
+  IdentityCreatorController(this._verifyNameInteractor,
+      this._getAllIdentitiesInteractor, this._identityUtils);
 
   @override
   void onInit() {
@@ -159,7 +158,8 @@ class IdentityCreatorController extends BaseController {
 
   void _checkDefaultIdentityIsSupported() {
     if (session != null && accountId != null) {
-      isDefaultIdentitySupported.value = [CapabilityIdentifier.jamesSortOrder].isSupported(session!, accountId!);
+      isDefaultIdentitySupported.value = [CapabilityIdentifier.jamesSortOrder]
+          .isSupported(session!, accountId!);
     }
   }
 
@@ -170,7 +170,8 @@ class IdentityCreatorController extends BaseController {
     if (identity?.signatureAsString.isNotEmpty == true) {
       updateContentHtmlEditor(arguments?.identity?.signatureAsString ?? '');
       if (PlatformInfo.isWeb) {
-        richTextWebController.editorController.setText(arguments?.identity?.signatureAsString ?? '');
+        richTextWebController.editorController
+            .setText(arguments?.identity?.signatureAsString ?? '');
       }
     }
   }
@@ -178,10 +179,11 @@ class IdentityCreatorController extends BaseController {
   void _getAllIdentities() {
     if (accountId != null && session != null) {
       final propertiesRequired = isDefaultIdentitySupported.isTrue
-        ? Properties({'email', 'sortOrder'})
-        : Properties({'email'});
+          ? Properties({'email', 'sortOrder'})
+          : Properties({'email'});
 
-      consumeState(_getAllIdentitiesInteractor.execute(session!, accountId!, properties: propertiesRequired));
+      consumeState(_getAllIdentitiesInteractor.execute(session!, accountId!,
+          properties: propertiesRequired));
     }
   }
 
@@ -220,15 +222,16 @@ class IdentityCreatorController extends BaseController {
   }
 
   void _setUpAllFieldEmailAddress() {
-    listEmailAddressOfReplyTo.value = listEmailAddressOfReplyTo.toSet().toList();
+    listEmailAddressOfReplyTo.value =
+        listEmailAddressOfReplyTo.toSet().toList();
     listEmailAddressDefault.value = listEmailAddressDefault.toSet().toList();
 
     if (actionType.value == IdentityActionType.edit && identity != null) {
       if (identity?.replyTo?.isNotEmpty == true) {
         try {
-          replyToOfIdentity.value = listEmailAddressOfReplyTo
-              .firstWhere((emailAddress) => emailAddress ==  identity?.replyTo!.first);
-        } catch(e) {
+          replyToOfIdentity.value = listEmailAddressOfReplyTo.firstWhere(
+              (emailAddress) => emailAddress == identity?.replyTo!.first);
+        } catch (e) {
           replyToOfIdentity.value = noneEmailAddress;
         }
       } else {
@@ -237,16 +240,17 @@ class IdentityCreatorController extends BaseController {
 
       if (identity?.bcc?.isNotEmpty == true) {
         bccOfIdentity.value = identity?.bcc!.first;
-        inputBccIdentityController.text = identity?.bcc!.first.emailAddress ?? '';
+        inputBccIdentityController.text =
+            identity?.bcc!.first.emailAddress ?? '';
       } else {
         bccOfIdentity.value = null;
       }
 
       if (identity?.email?.isNotEmpty == true) {
         try {
-          emailOfIdentity.value = listEmailAddressDefault
-              .firstWhere((emailAddress) => emailAddress.email ==  identity?.email);
-        } catch(e) {
+          emailOfIdentity.value = listEmailAddressDefault.firstWhere(
+              (emailAddress) => emailAddress.email == identity?.email);
+        } catch (e) {
           emailOfIdentity.value = null;
         }
       } else {
@@ -267,20 +271,17 @@ class IdentityCreatorController extends BaseController {
     final listDefaultIdentityIds = _identityUtils
         .getSmallestOrderedIdentity(identities)
         ?.map((identity) => identity.id!);
-    
-    if (haveDefaultIdentities(identities, listDefaultIdentityIds) && 
-      listDefaultIdentityIds?.contains(identity?.id) == true
-    ) {
+
+    if (haveDefaultIdentities(identities, listDefaultIdentityIds) &&
+        listDefaultIdentityIds?.contains(identity?.id) == true) {
       isDefaultIdentity.value = true;
     } else {
       isDefaultIdentity.value = false;
     }
   }
 
-  bool haveDefaultIdentities(
-    Iterable<Identity>? allIdentities, 
-    Iterable<IdentityId>? defaultIdentityIds
-  ) {
+  bool haveDefaultIdentities(Iterable<Identity>? allIdentities,
+      Iterable<IdentityId>? defaultIdentityIds) {
     return defaultIdentityIds?.length != allIdentities?.length;
   }
 
@@ -321,41 +322,41 @@ class IdentityCreatorController extends BaseController {
       return;
     }
 
-    final signatureHtmlText = PlatformInfo.isWeb
-        ? contentHtmlEditor
-        : await _getSignatureHtmlText();
-    final bccAddress = bccOfIdentity.value != null && bccOfIdentity.value != noneEmailAddress
-        ? {bccOfIdentity.value!}
-        : <EmailAddress>{};
-    final replyToAddress = replyToOfIdentity.value != null && replyToOfIdentity.value != noneEmailAddress
+    final signatureHtmlText =
+        PlatformInfo.isWeb ? contentHtmlEditor : await _getSignatureHtmlText();
+    final bccAddress =
+        bccOfIdentity.value != null && bccOfIdentity.value != noneEmailAddress
+            ? {bccOfIdentity.value!}
+            : <EmailAddress>{};
+    final replyToAddress = replyToOfIdentity.value != null &&
+            replyToOfIdentity.value != noneEmailAddress
         ? {replyToOfIdentity.value!}
         : <EmailAddress>{};
 
     final sortOrder = isDefaultIdentitySupported.isTrue
-      ? UnsignedInt(isDefaultIdentity.value ? 0 : 100)
-      : null;
-    
+        ? UnsignedInt(isDefaultIdentity.value ? 0 : 100)
+        : null;
+
     final newIdentity = Identity(
-      name: _nameIdentity,
-      email: emailOfIdentity.value?.email,
-      replyTo: replyToAddress,
-      bcc: bccAddress,
-      htmlSignature: Signature(signatureHtmlText ?? ''),
-      sortOrder: sortOrder);
+        name: _nameIdentity,
+        email: emailOfIdentity.value?.email,
+        replyTo: replyToAddress,
+        bcc: bccAddress,
+        htmlSignature: Signature(signatureHtmlText ?? ''),
+        sortOrder: sortOrder);
 
     final generateCreateId = Id(_uuid.v1());
 
     if (actionType.value == IdentityActionType.create) {
       final identityRequest = CreateNewIdentityRequest(
-        generateCreateId, 
-        newIdentity,
-        isDefaultIdentity: isDefaultIdentity.value);
+          generateCreateId, newIdentity,
+          isDefaultIdentity: isDefaultIdentity.value);
       popBack(result: identityRequest);
     } else {
       final identityRequest = EditIdentityRequest(
-        identityId: identity!.id!,
-        identityRequest: newIdentity.toIdentityRequest(),
-        isDefaultIdentity: isDefaultIdentity.value);
+          identityId: identity!.id!,
+          identityRequest: newIdentity.toIdentityRequest(),
+          isDefaultIdentity: isDefaultIdentity.value);
       popBack(result: identityRequest);
     }
   }
@@ -365,19 +366,14 @@ class IdentityCreatorController extends BaseController {
   }
 
   String? _getErrorInputNameString(BuildContext context) {
-    return _verifyNameInteractor.execute(
-        _nameIdentity,
-        [EmptyNameValidator()]
-    ).fold(
-      (failure) {
-          if (failure is VerifyNameFailure) {
-            return failure.getMessageIdentity(context);
-          } else {
-            return null;
-          }
-        },
-      (success) => null
-    );
+    return _verifyNameInteractor
+        .execute(_nameIdentity, [EmptyNameValidator()]).fold((failure) {
+      if (failure is VerifyNameFailure) {
+        return failure.getMessageIdentity(context);
+      } else {
+        return null;
+      }
+    }, (success) => null);
   }
 
   String? _getErrorInputAddressString(BuildContext context, {String? value}) {
@@ -385,25 +381,20 @@ class IdentityCreatorController extends BaseController {
     if (emailAddress.trim().isEmpty) {
       return null;
     }
-    return _verifyNameInteractor.execute(
-        emailAddress,
-        [EmailAddressValidator()]
-    ).fold(
-        (failure) {
-          if (failure is VerifyNameFailure) {
-            return failure.getMessageIdentity(context);
-          } else {
-            return null;
-          }
-        },
-        (success) => null
-    );
+    return _verifyNameInteractor
+        .execute(emailAddress, [EmailAddressValidator()]).fold((failure) {
+      if (failure is VerifyNameFailure) {
+        return failure.getMessageIdentity(context);
+      } else {
+        return null;
+      }
+    }, (success) => null);
   }
 
   void validateInputBccAddress(BuildContext context, String? value) {
     final errorBcc = _getErrorInputAddressString(context, value: value);
-    if (errorBccIdentity.value?.isNotEmpty == true
-        && (errorBcc == null || errorBcc.isEmpty)) {
+    if (errorBccIdentity.value?.isNotEmpty == true &&
+        (errorBcc == null || errorBcc.isEmpty)) {
       errorBccIdentity.value = null;
     }
   }
@@ -412,9 +403,9 @@ class IdentityCreatorController extends BaseController {
     if (pattern == null || pattern.isEmpty) {
       return List.empty();
     }
-   return listEmailAddressOfReplyTo
-       .where((emailAddress) => emailAddress.email?.contains(pattern) == true)
-       .toList();
+    return listEmailAddressOfReplyTo
+        .where((emailAddress) => emailAddress.email?.contains(pattern) == true)
+        .toList();
   }
 
   void clearFocusEditor(BuildContext context) {
@@ -432,12 +423,10 @@ class IdentityCreatorController extends BaseController {
 
   void initRichTextForMobile(BuildContext context, HtmlEditorApi editorApi) {
     richTextMobileTabletController.htmlEditorApi = editorApi;
-    keyboardRichTextController.onCreateHTMLEditor(
-      editorApi,
-      onEnterKeyDown: _onEnterKeyDownOnMobile,
-      onFocus: _onFocusHTMLEditorOnMobile,
-      context: context
-    );
+    keyboardRichTextController.onCreateHTMLEditor(editorApi,
+        onEnterKeyDown: _onEnterKeyDownOnMobile,
+        onFocus: _onFocusHTMLEditorOnMobile,
+        context: context);
     keyboardRichTextController.htmlEditorApi?.onFocusOut = () {
       keyboardRichTextController.hideRichTextView();
       isMobileEditorFocus.value = false;
@@ -453,8 +442,8 @@ class IdentityCreatorController extends BaseController {
     }
     await Future.delayed(const Duration(milliseconds: 500), () {
       final offset = scrollController.position.pixels +
-        defaultKeyboardToolbarHeight +
-        htmlEditorMinHeight;
+          defaultKeyboardToolbarHeight +
+          htmlEditorMinHeight;
       scrollController.animateTo(
         offset,
         duration: const Duration(milliseconds: 1),
@@ -464,7 +453,8 @@ class IdentityCreatorController extends BaseController {
   }
 
   void _onEnterKeyDownOnMobile() {
-    if (scrollController.position.pixels < scrollController.position.maxScrollExtent) {
+    if (scrollController.position.pixels <
+        scrollController.position.maxScrollExtent) {
       scrollController.animateTo(
         scrollController.position.pixels + 20,
         duration: const Duration(milliseconds: 1),
@@ -476,10 +466,8 @@ class IdentityCreatorController extends BaseController {
   void pickImage(BuildContext context, {int? maxWidth}) async {
     clearFocusEditor(context);
 
-    final filePickerResult = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-      withData: true
-    );
+    final filePickerResult = await FilePicker.platform
+        .pickFiles(type: FileType.image, withData: true);
 
     if (context.mounted) {
       final platformFile = filePickerResult?.files.single;
@@ -487,9 +475,7 @@ class IdentityCreatorController extends BaseController {
         _insertInlineImage(context, platformFile, maxWidth: maxWidth);
       } else {
         _appToast.showToastErrorMessage(
-          context,
-          AppLocalizations.of(context).cannotSelectThisImage
-        );
+            context, AppLocalizations.of(context).cannotSelectThisImage);
       }
     } else {
       logError("IdentityCreatorController::pickImage: context is unmounted");
@@ -497,27 +483,24 @@ class IdentityCreatorController extends BaseController {
   }
 
   bool _isExceedMaxSizeInlineImage(int fileSize) =>
-    fileSize > IdentityCreatorConstants.maxKBSizeIdentityInlineImage.toBytes;
+      fileSize > IdentityCreatorConstants.maxKBSizeIdentityInlineImage.toBytes;
 
-  void _insertInlineImage(
-    BuildContext context,
-    PlatformFile platformFile,
-    {int? maxWidth}
-  ) {
+  void _insertInlineImage(BuildContext context, PlatformFile platformFile,
+      {int? maxWidth}) {
     if (_isExceedMaxSizeInlineImage(platformFile.size)) {
       _appToast.showToastErrorMessage(
-        context,
-        AppLocalizations.of(context).pleaseChooseAnImageSizeCorrectly(
-          IdentityCreatorConstants.maxKBSizeIdentityInlineImage
-        )
-      );
+          context,
+          AppLocalizations.of(context).pleaseChooseAnImageSizeCorrectly(
+              IdentityCreatorConstants.maxKBSizeIdentityInlineImage));
     } else {
       if (PlatformInfo.isWeb) {
         richTextWebController.insertImageAsBase64(platformFile: platformFile);
       } else if (PlatformInfo.isMobile) {
-        richTextMobileTabletController.insertImageAsBase64(platformFile: platformFile, maxWidth: maxWidth);
+        richTextMobileTabletController.insertImageAsBase64(
+            platformFile: platformFile, maxWidth: maxWidth);
       } else {
-        logError("IdentityCreatorController::_insertInlineImage: Platform not supported");
+        logError(
+            "IdentityCreatorController::_insertInlineImage: Platform not supported");
       }
     }
   }

@@ -15,9 +15,12 @@ part 'get_forward_response.g.dart';
 @IdConverter()
 @JsonSerializable()
 class GetForwardResponse extends GetResponse<TMailForward> {
-  GetForwardResponse(AccountId accountId, State state, List<TMailForward> list, List<Id>? notFound) : super(accountId, state, list, notFound);
+  GetForwardResponse(AccountId accountId, State state, List<TMailForward> list,
+      List<Id>? notFound)
+      : super(accountId, state, list, notFound);
 
-  factory GetForwardResponse.fromJson(Map<String, dynamic> json) => _$GetForwardResponseFromJson(json);
+  factory GetForwardResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetForwardResponseFromJson(json);
 
   static GetForwardResponse deserialize(Map<String, dynamic> json) {
     return GetForwardResponse.fromJson(json);

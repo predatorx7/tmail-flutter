@@ -1,20 +1,13 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:model/mailbox/expand_mode.dart';
 import 'package:tmail_ui_user/features/mailbox/presentation/model/mailbox_categories_expand_mode.dart';
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
-enum MailboxCategories {
-  exchange,
-  personalFolders,
-  appGrid,
-  teamMailboxes
-}
+enum MailboxCategories { exchange, personalFolders, appGrid, teamMailboxes }
 
 extension MailboxCategoriessExtension on MailboxCategories {
-
   String get keyValue {
-    switch(this) {
+    switch (this) {
       case MailboxCategories.exchange:
         return 'exchange';
       case MailboxCategories.personalFolders:
@@ -27,7 +20,7 @@ extension MailboxCategoriessExtension on MailboxCategories {
   }
 
   String getTitle(BuildContext context) {
-    switch(this) {
+    switch (this) {
       case MailboxCategories.exchange:
         return AppLocalizations.of(context).exchange;
       case MailboxCategories.personalFolders:
@@ -40,7 +33,7 @@ extension MailboxCategoriessExtension on MailboxCategories {
   }
 
   ExpandMode getExpandMode(MailboxCategoriesExpandMode categoriesExpandMode) {
-    switch(this) {
+    switch (this) {
       case MailboxCategories.exchange:
         return categoriesExpandMode.defaultMailbox;
       case MailboxCategories.personalFolders:

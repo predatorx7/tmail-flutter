@@ -1,4 +1,3 @@
-
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,7 +9,6 @@ typedef EndNowVacationSettingAction = Function();
 typedef GoToVacationSettingAction = Function();
 
 class VacationNotificationMessageWidget extends StatelessWidget {
-
   final VacationResponse vacationResponse;
   final EndNowVacationSettingAction? actionEndNow;
   final GoToVacationSettingAction? actionGotoVacationSetting;
@@ -44,7 +42,8 @@ class VacationNotificationMessageWidget extends StatelessWidget {
       padding: padding ?? const EdgeInsets.only(left: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(radius ?? 8),
-        color: backgroundColor ?? AppColor.colorBackgroundNotificationVacationSetting,
+        color: backgroundColor ??
+            AppColor.colorBackgroundNotificationVacationSetting,
       ),
       child: ResponsiveWidget(
         responsiveUtils: Get.find<ResponsiveUtils>(),
@@ -66,16 +65,14 @@ class VacationNotificationMessageWidget extends StatelessWidget {
     return Row(children: [
       if (leadingIcon != null) leadingIcon!,
       Expanded(
-          child: Text(
-              vacationResponse.getNotificationMessage(context),
+          child: Text(vacationResponse.getNotificationMessage(context),
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 16,
                 fontWeight: fontWeight ?? FontWeight.normal,
               ))),
       if (actionEndNow != null)
-        buildTextButton(
-            AppLocalizations.of(context).endNow,
+        buildTextButton(AppLocalizations.of(context).endNow,
             textStyle: const TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 16,
@@ -86,8 +83,7 @@ class VacationNotificationMessageWidget extends StatelessWidget {
             radius: 10,
             onTap: () => actionEndNow!.call()),
       if (actionGotoVacationSetting != null)
-        buildTextButton(
-            AppLocalizations.of(context).vacationSetting,
+        buildTextButton(AppLocalizations.of(context).vacationSetting,
             textStyle: const TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 16,
@@ -106,23 +102,21 @@ class VacationNotificationMessageWidget extends StatelessWidget {
         if (leadingIcon != null) leadingIcon!,
         Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(right: 12, top: 12),
-              child: Center(
-                child: Text(
-                    vacationResponse.getNotificationMessage(context),
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: fontWeight ?? FontWeight.normal,
-                    )),
-              ),
-            )),
+          padding: const EdgeInsets.only(right: 12, top: 12),
+          child: Center(
+            child: Text(vacationResponse.getNotificationMessage(context),
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: fontWeight ?? FontWeight.normal,
+                )),
+          ),
+        )),
       ]),
       Row(children: [
         const Spacer(),
         if (actionEndNow != null)
-          buildTextButton(
-              AppLocalizations.of(context).endNow,
+          buildTextButton(AppLocalizations.of(context).endNow,
               textStyle: const TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 16,
@@ -133,8 +127,7 @@ class VacationNotificationMessageWidget extends StatelessWidget {
               radius: 10,
               onTap: () => actionEndNow!.call()),
         if (actionGotoVacationSetting != null)
-          buildTextButton(
-              AppLocalizations.of(context).vacationSetting,
+          buildTextButton(AppLocalizations.of(context).vacationSetting,
               textStyle: const TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 16,

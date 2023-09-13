@@ -14,40 +14,38 @@ import 'package:tmail_ui_user/main/exceptions/cache_exception_thrower.dart';
 import 'package:tmail_ui_user/main/exceptions/remote_exception_thrower.dart';
 
 class CalendarEventInteractorBindings extends InteractorsBindings {
-
   @override
   void bindingsDataSource() {
-    Get.lazyPut<CalendarEventDataSource>(() => Get.find<CalendarEventDataSourceImpl>());
+    Get.lazyPut<CalendarEventDataSource>(
+        () => Get.find<CalendarEventDataSourceImpl>());
   }
 
   @override
   void bindingsDataSourceImpl() {
     Get.lazyPut(() => CalendarEventAPI(Get.find<HttpClient>()));
     Get.lazyPut(() => CalendarEventDataSourceImpl(
-      Get.find<CalendarEventAPI>(),
-      Get.find<RemoteExceptionThrower>()));
+        Get.find<CalendarEventAPI>(), Get.find<RemoteExceptionThrower>()));
     Get.lazyPut(() => LocalCalendarEventDataSourceImpl(
-      Get.find<HtmlAnalyzer>(),
-      Get.find<CacheExceptionThrower>()));
+        Get.find<HtmlAnalyzer>(), Get.find<CacheExceptionThrower>()));
   }
 
   @override
   void bindingsInteractor() {
-    Get.lazyPut(() => ParseCalendarEventInteractor(Get.find<CalendarEventRepository>()));
+    Get.lazyPut(() =>
+        ParseCalendarEventInteractor(Get.find<CalendarEventRepository>()));
   }
 
   @override
   void bindingsRepository() {
-    Get.lazyPut<CalendarEventRepository>(() => Get.find<CalendarEventRepositoryImpl>());
+    Get.lazyPut<CalendarEventRepository>(
+        () => Get.find<CalendarEventRepositoryImpl>());
   }
 
   @override
   void bindingsRepositoryImpl() {
-    Get.lazyPut(() => CalendarEventRepositoryImpl(
-      {
-        DataSourceType.network: Get.find<CalendarEventDataSource>(),
-        DataSourceType.local: Get.find<LocalCalendarEventDataSourceImpl>(),
-      }
-    ));
+    Get.lazyPut(() => CalendarEventRepositoryImpl({
+          DataSourceType.network: Get.find<CalendarEventDataSource>(),
+          DataSourceType.local: Get.find<LocalCalendarEventDataSourceImpl>(),
+        }));
   }
 }

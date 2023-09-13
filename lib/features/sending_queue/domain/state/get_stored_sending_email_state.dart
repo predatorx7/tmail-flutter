@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/state/failure.dart';
 import 'package:core/presentation/state/success.dart';
 import 'package:jmap_dart_client/jmap/account_id.dart';
@@ -9,29 +8,18 @@ import 'package:tmail_ui_user/features/sending_queue/domain/model/sending_email.
 class GetStoredSendingEmailLoading extends UIState {}
 
 class GetStoredSendingEmailSuccess extends UIState {
-
   final SendingEmail sendingEmail;
   final AccountId accountId;
   final UserName userName;
   final SendingState sendingState;
 
   GetStoredSendingEmailSuccess(
-    this.sendingEmail,
-    this.accountId,
-    this.userName,
-    this.sendingState
-  );
+      this.sendingEmail, this.accountId, this.userName, this.sendingState);
 
   @override
-  List<Object?> get props => [
-    sendingEmail,
-    accountId,
-    userName,
-    sendingState
-  ];
+  List<Object?> get props => [sendingEmail, accountId, userName, sendingState];
 }
 
 class GetStoredSendingEmailFailure extends FeatureFailure {
-
   GetStoredSendingEmailFailure(dynamic exception) : super(exception: exception);
 }

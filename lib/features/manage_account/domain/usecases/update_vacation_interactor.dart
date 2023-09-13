@@ -13,11 +13,14 @@ class UpdateVacationInteractor {
 
   UpdateVacationInteractor(this.vacationRepository);
 
-  Stream<Either<Failure, Success>> execute(AccountId accountId, VacationResponse vacationResponse) async* {
+  Stream<Either<Failure, Success>> execute(
+      AccountId accountId, VacationResponse vacationResponse) async* {
     try {
       yield Right<Failure, Success>(LoadingUpdateVacation());
-      final listVacationResponse = await vacationRepository.updateVacation(accountId, vacationResponse);
-      yield Right<Failure, Success>(UpdateVacationSuccess(listVacationResponse));
+      final listVacationResponse =
+          await vacationRepository.updateVacation(accountId, vacationResponse);
+      yield Right<Failure, Success>(
+          UpdateVacationSuccess(listVacationResponse));
     } catch (exception) {
       yield Left<Failure, Success>(UpdateVacationFailure(exception));
     }

@@ -12,24 +12,25 @@ import 'package:rule_filter/rule_filter/tmail_rule.dart';
 import 'package:tmail_ui_user/features/manage_account/data/extensions/list_tmail_rule_extensions.dart';
 
 class RuleFilterAPI {
-
   final HttpClient _httpClient;
 
   RuleFilterAPI(this._httpClient);
 
   Future<List<TMailRule>> getListTMailRule(AccountId accountId) async {
     final processingInvocation = ProcessingInvocation();
-    final requestBuilder = JmapRequestBuilder(_httpClient, processingInvocation);
+    final requestBuilder =
+        JmapRequestBuilder(_httpClient, processingInvocation);
 
     final getRuleFilterMethod = GetRuleFilterMethod(
-        accountId,
+      accountId,
     )..addIds({RuleFilterIdSingleton.ruleFilterIdSingleton.id});
 
-    final getRuleFilterInvocation = requestBuilder.invocation(getRuleFilterMethod);
+    final getRuleFilterInvocation =
+        requestBuilder.invocation(getRuleFilterMethod);
     final response = await (requestBuilder
-        ..usings(getRuleFilterMethod.requiredCapabilities))
-      .build()
-      .execute();
+          ..usings(getRuleFilterMethod.requiredCapabilities))
+        .build()
+        .execute();
 
     final result = response.parse<GetRuleFilterResponse>(
         getRuleFilterInvocation.methodCallId,
@@ -42,28 +43,30 @@ class RuleFilterAPI {
     return result?.list.first.rules ?? <TMailRule>[];
   }
 
-  Future<List<TMailRule>> updateListTMailRule(AccountId accountId, List<TMailRule> listTMailRule) async {
-
+  Future<List<TMailRule>> updateListTMailRule(
+      AccountId accountId, List<TMailRule> listTMailRule) async {
     final newListTMailRuleWithIds = listTMailRule.withIds;
 
     final processingInvocation = ProcessingInvocation();
-    final requestBuilder = JmapRequestBuilder(_httpClient, processingInvocation);
+    final requestBuilder =
+        JmapRequestBuilder(_httpClient, processingInvocation);
 
     final setRuleFilterMethod = SetRuleFilterMethod(accountId)
-      ..addUpdateRuleFilter({Id(RuleFilterIdType.singleton.value): newListTMailRuleWithIds});
+      ..addUpdateRuleFilter(
+          {Id(RuleFilterIdType.singleton.value): newListTMailRuleWithIds});
 
     requestBuilder.invocation(setRuleFilterMethod);
 
     final getListTMailRuleUpdated = GetRuleFilterMethod(accountId)
       ..addIds({RuleFilterIdSingleton.ruleFilterIdSingleton.id});
 
-    final getListTMailRuleUpdatedInvocation = requestBuilder.invocation(getListTMailRuleUpdated);
+    final getListTMailRuleUpdatedInvocation =
+        requestBuilder.invocation(getListTMailRuleUpdated);
 
     final response = await (requestBuilder
-        ..usings(getListTMailRuleUpdated.requiredCapabilities))
-      .build()
-      .execute();
-
+          ..usings(getListTMailRuleUpdated.requiredCapabilities))
+        .build()
+        .execute();
 
     final result = response.parse<GetRuleFilterResponse>(
         getListTMailRuleUpdatedInvocation.methodCallId,

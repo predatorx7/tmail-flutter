@@ -11,7 +11,8 @@ class LinagoraApplications with EquatableMixin {
 
   LinagoraApplications(this.apps);
 
-  factory LinagoraApplications.fromJson(Map<String, dynamic> json) => _$LinagoraApplicationsFromJson(json);
+  factory LinagoraApplications.fromJson(Map<String, dynamic> json) =>
+      _$LinagoraApplicationsFromJson(json);
 
   Map<String, dynamic> toJson() => _$LinagoraApplicationsToJson(this);
 

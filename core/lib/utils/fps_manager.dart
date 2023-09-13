@@ -8,7 +8,6 @@ import 'package:flutter/scheduler.dart';
 typedef FpsCallback = void Function(FpsInfo fpsInfo);
 
 class FpsManager {
-
   FpsManager._();
 
   factory FpsManager() => _instance ??= FpsManager._();
@@ -17,7 +16,8 @@ class FpsManager {
 
   /// Threshold time consuming per frame
   /// 1000/60hz ≈ 16.6ms  1000/120hz ≈ 8.3ms
-  Duration _thresholdPerFrame = const Duration(microseconds: Duration.microsecondsPerSecond ~/ 60);
+  Duration _thresholdPerFrame =
+      const Duration(microseconds: Duration.microsecondsPerSecond ~/ 60);
 
   /// Refresh rate, default 60
   double _refreshRate = 60;
@@ -26,7 +26,8 @@ class FpsManager {
   set refreshRate(double rate) {
     if (rate != _refreshRate && rate >= 60) {
       _refreshRate = rate;
-      _thresholdPerFrame = Duration(microseconds: Duration.microsecondsPerSecond ~/ _refreshRate);
+      _thresholdPerFrame = Duration(
+          microseconds: Duration.microsecondsPerSecond ~/ _refreshRate);
     }
   }
 
@@ -79,7 +80,7 @@ class FpsManager {
           drawFrames.add(timing);
         } else {
           int lastStart =
-          drawFrames.last.timestampInMicroseconds(FramePhase.vsyncStart);
+              drawFrames.last.timestampInMicroseconds(FramePhase.vsyncStart);
           int interval = lastStart -
               timing.timestampInMicroseconds(FramePhase.rasterFinish);
           if (interval > (_thresholdPerFrame.inMicroseconds * 2)) {
@@ -94,7 +95,8 @@ class FpsManager {
       // compute total frames count.
       int totalCount = drawFrames.map((frame) {
         // If droppedCount > 0,
-        int droppedCount = frame.totalSpan.inMicroseconds ~/ _thresholdPerFrame.inMicroseconds;
+        int droppedCount =
+            frame.totalSpan.inMicroseconds ~/ _thresholdPerFrame.inMicroseconds;
         return droppedCount + 1;
       }).fold(0, (a, b) => a + b);
 
@@ -115,12 +117,8 @@ class FpsInfo {
   final int droppedFramesCount;
   final int drawFramesCount;
 
-  FpsInfo(
-    this.fps,
-    this.totalFramesCount,
-    this.droppedFramesCount,
-    this.drawFramesCount
-  );
+  FpsInfo(this.fps, this.totalFramesCount, this.droppedFramesCount,
+      this.drawFramesCount);
 
   @override
   String toString() {

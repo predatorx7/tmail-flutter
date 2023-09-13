@@ -1,4 +1,3 @@
-
 import 'package:core/utils/app_logger.dart';
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/resources/image_paths.dart';
@@ -38,16 +37,19 @@ import 'package:tmail_ui_user/features/sending_queue/presentation/model/sending_
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 import 'package:tmail_ui_user/main/routes/route_navigation.dart';
 
-class SendingQueueController extends BaseController with MessageDialogActionMixin {
-
-  final DeleteMultipleSendingEmailInteractor _deleteMultipleSendingEmailInteractor;
-  final UpdateMultipleSendingEmailInteractor _updateMultipleSendingEmailInteractor;
+class SendingQueueController extends BaseController
+    with MessageDialogActionMixin {
+  final DeleteMultipleSendingEmailInteractor
+      _deleteMultipleSendingEmailInteractor;
+  final UpdateMultipleSendingEmailInteractor
+      _updateMultipleSendingEmailInteractor;
   final UpdateSendingEmailInteractor _updateSendingEmailInteractor;
   final DeleteSendingEmailInteractor _deleteSendingEmailInteractor;
   final GetStoredSendingEmailInteractor _getStoredSendingEmailInteractor;
 
   final dashboardController = getBinding<MailboxDashBoardController>();
-  final _networkConnectionController = getBinding<NetworkConnectionController>();
+  final _networkConnectionController =
+      getBinding<NetworkConnectionController>();
   final _sendingQueueIsolateManager = getBinding<SendingQueueIsolateManager>();
   final _imagePaths = getBinding<ImagePaths>();
   final _appToast = getBinding<AppToast>();
@@ -68,11 +70,11 @@ class SendingQueueController extends BaseController with MessageDialogActionMixi
   void onInit() {
     super.onInit();
     _sendingQueueIsolateManager?.initial(
-      onData: _handleSendingQueueEvent,
-      onError: (error, stackTrace) {
-        logError('SendingQueueController::onInit():onError:error: $error | stackTrace: $stackTrace');
-      }
-    );
+        onData: _handleSendingQueueEvent,
+        onError: (error, stackTrace) {
+          logError(
+              'SendingQueueController::onInit():onError:error: $error | stackTrace: $stackTrace');
+        });
   }
 
   void _handleSendingQueueEvent(Object? event) async {
@@ -83,57 +85,61 @@ class SendingQueueController extends BaseController with MessageDialogActionMixi
         log('SendingQueueController::_handleSendingQueueEvent():tupleKey: $tupleKey');
         if (tupleKey.parts.length >= 2) {
           final sendingId = tupleKey.parts[0];
-          final sendingState = SendingState.values.firstWhere((state) => state.name == tupleKey.parts[1]);
+          final sendingState = SendingState.values
+              .firstWhere((state) => state.name == tupleKey.parts[1]);
           if (tupleKey.parts.length >= 4) {
             final accountId = AccountId(Id(tupleKey.parts[2]));
             final userName = UserName(tupleKey.parts[3]);
             _updatingSendingStateAction(
-              sendingId: sendingId,
-              newState: sendingState,
-              accountId: accountId,
-              userName: userName
-            );
+                sendingId: sendingId,
+                newState: sendingState,
+                accountId: accountId,
+                userName: userName);
           } else {
-            _updatingSendingStateAction(sendingId: sendingId, newState: sendingState);
+            _updatingSendingStateAction(
+                sendingId: sendingId, newState: sendingState);
           }
         }
       }
     } catch (e) {
-      logError('SendingQueueController::_handleSendingQueueEvent(): EXCEPTION: $e');
+      logError(
+          'SendingQueueController::_handleSendingQueueEvent(): EXCEPTION: $e');
     }
   }
 
-  void _updatingSendingStateAction({
-    required String sendingId,
-    required SendingState newState,
-    AccountId? accountId,
-    UserName? userName
-  }) async {
+  void _updatingSendingStateAction(
+      {required String sendingId,
+      required SendingState newState,
+      AccountId? accountId,
+      UserName? userName}) async {
     log('SendingQueueController::_updatingSendingStateAction():sendingId: $sendingId | newState: $newState');
-    switch(newState) {
+    switch (newState) {
       case SendingState.waiting:
       case SendingState.running:
         if (dashboardController != null) {
           final listSendingEmails = dashboardController!.listSendingEmails
-            .map((sendingEmail) => sendingEmail.sendingId == sendingId
-              ? sendingEmail.updatingSendingState(newState)
-              : sendingEmail)
-            .toList();
+              .map((sendingEmail) => sendingEmail.sendingId == sendingId
+                  ? sendingEmail.updatingSendingState(newState)
+                  : sendingEmail)
+              .toList();
 
           dashboardController!.listSendingEmails.value = listSendingEmails;
         }
         break;
       case SendingState.error:
         if (accountId != null && userName != null) {
-          final matchedSendingEmail = dashboardController?.listSendingEmails.firstWhereOrNull((sendingEmail) => sendingEmail.sendingId == sendingId);
+          final matchedSendingEmail = dashboardController?.listSendingEmails
+              .firstWhereOrNull(
+                  (sendingEmail) => sendingEmail.sendingId == sendingId);
           if (matchedSendingEmail != null) {
             _updateSendingEmailAction(
-              newSendingEmail: matchedSendingEmail.updatingSendingState(SendingState.error),
-              accountId: accountId,
-              userName: userName
-            );
+                newSendingEmail: matchedSendingEmail
+                    .updatingSendingState(SendingState.error),
+                accountId: accountId,
+                userName: userName);
           } else {
-            _getStoredSendingEmailAction(sendingId, accountId, userName, SendingState.error);
+            _getStoredSendingEmailAction(
+                sendingId, accountId, userName, SendingState.error);
           }
         }
         break;
@@ -146,26 +152,30 @@ class SendingQueueController extends BaseController with MessageDialogActionMixi
   }
 
   void handleOnLongPressAction(SendingEmail sendingEmail) {
-    final newListSendingEmail = dashboardController!.listSendingEmails.toggleSelection(sendingEmailSelected: sendingEmail);
+    final newListSendingEmail = dashboardController!.listSendingEmails
+        .toggleSelection(sendingEmailSelected: sendingEmail);
     dashboardController!.listSendingEmails.value = newListSendingEmail;
 
     selectionState.value = newListSendingEmail.isAllUnSelected()
-      ? SelectMode.INACTIVE
-      : SelectMode.ACTIVE;
+        ? SelectMode.INACTIVE
+        : SelectMode.ACTIVE;
   }
 
   void toggleSelectionSendingEmail(SendingEmail sendingEmail) {
-    final newListSendingEmail = dashboardController!.listSendingEmails.toggleSelection(sendingEmailSelected: sendingEmail);
+    final newListSendingEmail = dashboardController!.listSendingEmails
+        .toggleSelection(sendingEmailSelected: sendingEmail);
     dashboardController!.listSendingEmails.value = newListSendingEmail;
 
     selectionState.value = newListSendingEmail.isAllUnSelected()
-      ? SelectMode.INACTIVE
-      : SelectMode.ACTIVE;
+        ? SelectMode.INACTIVE
+        : SelectMode.ACTIVE;
   }
 
-  bool get isAllUnSelected => dashboardController!.listSendingEmails.isAllUnSelected();
+  bool get isAllUnSelected =>
+      dashboardController!.listSendingEmails.isAllUnSelected();
 
-  bool get isConnectedNetwork => _networkConnectionController?.isNetworkConnectionAvailable() == true;
+  bool get isConnectedNetwork =>
+      _networkConnectionController?.isNetworkConnectionAvailable() == true;
 
   void refreshSendingQueue() {
     if (dashboardController != null) {
@@ -178,17 +188,15 @@ class SendingQueueController extends BaseController with MessageDialogActionMixi
   }
 
   void disableSelectionMode() {
-    final newListSendingEmail = dashboardController!.listSendingEmails.unAllSelected();
+    final newListSendingEmail =
+        dashboardController!.listSendingEmails.unAllSelected();
     dashboardController!.listSendingEmails.value = newListSendingEmail;
     selectionState.value = SelectMode.INACTIVE;
   }
 
-  void handleSendingEmailActionType(
-    BuildContext context,
-    SendingEmailActionType actionType,
-    List<SendingEmail> listSendingEmails
-  ) {
-    switch(actionType) {
+  void handleSendingEmailActionType(BuildContext context,
+      SendingEmailActionType actionType, List<SendingEmail> listSendingEmails) {
+    switch (actionType) {
       case SendingEmailActionType.delete:
         _deleteListSendingEmailAction(context, listSendingEmails);
         break;
@@ -205,7 +213,8 @@ class SendingQueueController extends BaseController with MessageDialogActionMixi
     }
   }
 
-  void _deleteListSendingEmailAction(BuildContext context, List<SendingEmail> listSendingEmails) {
+  void _deleteListSendingEmailAction(
+      BuildContext context, List<SendingEmail> listSendingEmails) {
     showConfirmDialogAction(
       context,
       AppLocalizations.of(context).messageDialogDeleteSendingEmail,
@@ -214,53 +223,46 @@ class SendingQueueController extends BaseController with MessageDialogActionMixi
       icon: SvgPicture.asset(_imagePaths!.icDeleteDialogRecipients),
       alignCenter: true,
       messageStyle: const TextStyle(
-        color: AppColor.colorTitleSendingItem,
-        fontSize: 15,
-        fontWeight: FontWeight.normal
-      ),
+          color: AppColor.colorTitleSendingItem,
+          fontSize: 15,
+          fontWeight: FontWeight.normal),
       titleStyle: const TextStyle(
-        color: AppColor.colorDeletePermanentlyButton,
-        fontSize: 20,
-        fontWeight: FontWeight.bold
-      ),
+          color: AppColor.colorDeletePermanentlyButton,
+          fontSize: 20,
+          fontWeight: FontWeight.bold),
       actionButtonColor: AppColor.colorDeletePermanentlyButton,
       actionStyle: const TextStyle(
-        color: Colors.white,
-        fontSize: 17,
-        fontWeight: FontWeight.w500
-      ),
+          color: Colors.white, fontSize: 17, fontWeight: FontWeight.w500),
       cancelStyle: const TextStyle(
-        color: AppColor.colorDeletePermanentlyButton,
-        fontSize: 17,
-        fontWeight: FontWeight.w500
-      ),
+          color: AppColor.colorDeletePermanentlyButton,
+          fontSize: 17,
+          fontWeight: FontWeight.w500),
       onConfirmAction: () => _handleDeleteListSendingEmail(listSendingEmails),
     );
   }
 
-  void _handleDeleteListSendingEmail(List<SendingEmail> listSendingEmails) async {
+  void _handleDeleteListSendingEmail(
+      List<SendingEmail> listSendingEmails) async {
     disableSelectionMode();
 
     final accountId = dashboardController!.accountId.value;
     final session = dashboardController!.sessionCurrent;
     if (accountId != null && session != null) {
-      consumeState(
-        _deleteMultipleSendingEmailInteractor.execute(
-          accountId,
-          session.username,
-          listSendingEmails.sendingIds
-        )
-      );
+      consumeState(_deleteMultipleSendingEmailInteractor.execute(
+          accountId, session.username, listSendingEmails.sendingIds));
     }
   }
 
-  void _handleDeleteListSendingEmailSuccess(DeleteMultipleSendingEmailSuccess success) async {
-    await Future.wait(success.sendingIds.map(WorkManagerController().cancelByUniqueId));
+  void _handleDeleteListSendingEmailSuccess(
+      DeleteMultipleSendingEmailSuccess success) async {
+    await Future.wait(
+        success.sendingIds.map(WorkManagerController().cancelByUniqueId));
 
     if (currentContext != null && currentOverlayContext != null) {
       _appToast!.showToastSuccessMessage(
-        currentOverlayContext!,
-        AppLocalizations.of(currentContext!).messageHaveBeenDeletedSuccessfully);
+          currentOverlayContext!,
+          AppLocalizations.of(currentContext!)
+              .messageHaveBeenDeletedSuccessfully);
     }
 
     refreshSendingQueue();
@@ -268,7 +270,8 @@ class SendingQueueController extends BaseController with MessageDialogActionMixi
 
   void _editSendingEmailAction(SendingEmail sendingEmail) {
     disableSelectionMode();
-    dashboardController?.goToComposer(ComposerArguments.fromSendingEmail(sendingEmail));
+    dashboardController
+        ?.goToComposer(ComposerArguments.fromSendingEmail(sendingEmail));
   }
 
   void _resendSendingEmailAction(List<SendingEmail> listSendingEmails) async {
@@ -278,61 +281,51 @@ class SendingQueueController extends BaseController with MessageDialogActionMixi
     final session = dashboardController!.sessionCurrent;
 
     if (accountId != null && session != null) {
-      consumeState(
-        _updateMultipleSendingEmailInteractor.execute(
-          accountId,
-          session.username,
-          listSendingEmails.toSendingStateWaiting()
-        )
-      );
+      consumeState(_updateMultipleSendingEmailInteractor.execute(accountId,
+          session.username, listSendingEmails.toSendingStateWaiting()));
     }
   }
 
-  void _handleResendSendingEmailSuccess(List<SendingEmail> newListSendingEmails) async {
-    await Future.forEach<SendingEmail>(newListSendingEmails, (sendingEmail) async {
+  void _handleResendSendingEmailSuccess(
+      List<SendingEmail> newListSendingEmails) async {
+    await Future.forEach<SendingEmail>(newListSendingEmails,
+        (sendingEmail) async {
       await WorkManagerController().cancelByUniqueId(sendingEmail.sendingId);
       dashboardController!.addSendingEmailToSendingQueue(sendingEmail);
     });
 
     if (currentContext != null && currentOverlayContext != null) {
-      _appToast!.showToastSuccessMessage(
-        currentOverlayContext!,
-        AppLocalizations.of(currentContext!).messagesHaveBeenResent);
+      _appToast!.showToastSuccessMessage(currentOverlayContext!,
+          AppLocalizations.of(currentContext!).messagesHaveBeenResent);
     }
     refreshSendingQueue();
   }
 
-  void _updateSendingEmailAction({
-    required SendingEmail newSendingEmail,
-    required AccountId accountId,
-    required UserName userName
-  }) {
-    consumeState(_updateSendingEmailInteractor.execute(accountId, userName, newSendingEmail));
+  void _updateSendingEmailAction(
+      {required SendingEmail newSendingEmail,
+      required AccountId accountId,
+      required UserName userName}) {
+    consumeState(_updateSendingEmailInteractor.execute(
+        accountId, userName, newSendingEmail));
   }
 
-  void _deleteSendingEmailAction(String sendingId, AccountId accountId, UserName userName) {
-    consumeState(_deleteSendingEmailInteractor.execute(accountId, userName, sendingId));
+  void _deleteSendingEmailAction(
+      String sendingId, AccountId accountId, UserName userName) {
+    consumeState(
+        _deleteSendingEmailInteractor.execute(accountId, userName, sendingId));
   }
 
-  void _handleUpdateSendingEmailSuccess(UpdateSendingEmailSuccess success) async {
-    await WorkManagerController().cancelByUniqueId(success.newSendingEmail.sendingId);
+  void _handleUpdateSendingEmailSuccess(
+      UpdateSendingEmailSuccess success) async {
+    await WorkManagerController()
+        .cancelByUniqueId(success.newSendingEmail.sendingId);
     refreshSendingQueue();
   }
 
-  void _getStoredSendingEmailAction(
-    String sendingId,
-    AccountId accountId,
-    UserName userName,
-    SendingState sendingState
-  ) {
-    consumeState(
-      _getStoredSendingEmailInteractor.execute(
-        accountId,
-        userName,
-        sendingId,
-        sendingState
-      )
-    );
+  void _getStoredSendingEmailAction(String sendingId, AccountId accountId,
+      UserName userName, SendingState sendingState) {
+    consumeState(_getStoredSendingEmailInteractor.execute(
+        accountId, userName, sendingId, sendingState));
   }
 
   @override
@@ -350,10 +343,10 @@ class SendingQueueController extends BaseController with MessageDialogActionMixi
       refreshSendingQueue();
     } else if (success is GetStoredSendingEmailSuccess) {
       _updateSendingEmailAction(
-        newSendingEmail: success.sendingEmail.updatingSendingState(success.sendingState),
-        accountId: success.accountId,
-        userName: success.userName
-      );
+          newSendingEmail:
+              success.sendingEmail.updatingSendingState(success.sendingState),
+          accountId: success.accountId,
+          userName: success.userName);
     }
   }
 

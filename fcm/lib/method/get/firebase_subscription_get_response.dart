@@ -8,21 +8,22 @@ part 'firebase_subscription_get_response.g.dart';
 
 @IdConverter()
 @JsonSerializable(explicitToJson: true)
-class FirebaseSubscriptionGetResponse extends GetResponseNoAccountId<FirebaseSubscription> {
-
+class FirebaseSubscriptionGetResponse
+    extends GetResponseNoAccountId<FirebaseSubscription> {
   FirebaseSubscriptionGetResponse(
-    List<FirebaseSubscription> list,
-    List<Id>? notFound
-  ) : super(list, notFound);
+      List<FirebaseSubscription> list, List<Id>? notFound)
+      : super(list, notFound);
 
   factory FirebaseSubscriptionGetResponse.fromJson(Map<String, dynamic> json) =>
-    _$FirebaseSubscriptionGetResponseFromJson(json);
+      _$FirebaseSubscriptionGetResponseFromJson(json);
 
-  static FirebaseSubscriptionGetResponse deserialize(Map<String, dynamic> json) {
+  static FirebaseSubscriptionGetResponse deserialize(
+      Map<String, dynamic> json) {
     return FirebaseSubscriptionGetResponse.fromJson(json);
   }
 
-  Map<String, dynamic> toJson() => _$FirebaseSubscriptionGetResponseToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$FirebaseSubscriptionGetResponseToJson(this);
 
   @override
   List<Object?> get props => [list, notFound];

@@ -14,6 +14,6 @@ class DeleteRecipientInForwardingSuccess extends UIState {
 }
 
 class DeleteRecipientInForwardingFailure extends FeatureFailure {
-
-  DeleteRecipientInForwardingFailure(dynamic exception) : super(exception: exception);
+  DeleteRecipientInForwardingFailure(dynamic exception)
+      : super(exception: exception);
 }

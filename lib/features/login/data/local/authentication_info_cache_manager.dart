@@ -6,17 +6,19 @@ class AuthenticationInfoCacheManager {
 
   AuthenticationInfoCacheManager(this._authenticationInfoCacheClient);
 
-  Future<void> storeAuthenticationInfo(AuthenticationInfoCache authenticationInfoCache) {
+  Future<void> storeAuthenticationInfo(
+      AuthenticationInfoCache authenticationInfoCache) {
     return _authenticationInfoCacheClient.insertItem(
-        AuthenticationInfoCache.keyCacheValue,
-        authenticationInfoCache);
+        AuthenticationInfoCache.keyCacheValue, authenticationInfoCache);
   }
 
   Future<AuthenticationInfoCache?> getAuthenticationInfoStored() {
-    return _authenticationInfoCacheClient.getItem(AuthenticationInfoCache.keyCacheValue);
+    return _authenticationInfoCacheClient
+        .getItem(AuthenticationInfoCache.keyCacheValue);
   }
 
   Future<void> removeAuthenticationInfo() {
-    return _authenticationInfoCacheClient.deleteItem(AuthenticationInfoCache.keyCacheValue);
+    return _authenticationInfoCacheClient
+        .deleteItem(AuthenticationInfoCache.keyCacheValue);
   }
 }

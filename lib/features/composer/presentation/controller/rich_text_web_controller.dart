@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:core/presentation/extensions/color_extension.dart';
@@ -21,7 +20,6 @@ import 'package:tmail_ui_user/features/composer/presentation/model/rich_text_sty
 import 'package:tmail_ui_user/main/routes/route_navigation.dart';
 
 class RichTextWebController extends BaseRichTextController {
-
   final editorController = HtmlEditorController(processNewLineAsBr: true);
 
   final listTextStyleApply = RxList<RichTextStyleType>();
@@ -83,7 +81,8 @@ class RichTextWebController extends BaseRichTextController {
 
   void _updateFontName(EditorSettings settings) {
     log('RichTextWebController::_updateFontName():fontName: ${settings.fontName}');
-    final matchedFontName = FontNameType.values.firstWhereOrNull((fontName) => fontName.value == settings.fontName);
+    final matchedFontName = FontNameType.values
+        .firstWhereOrNull((fontName) => fontName.value == settings.fontName);
     log('RichTextWebController::_updateFontName():matchedFontName: $matchedFontName');
     if (matchedFontName != null) {
       selectedFontName.value = matchedFontName;
@@ -118,23 +117,18 @@ class RichTextWebController extends BaseRichTextController {
     }
   }
 
-  void applyRichTextStyle(BuildContext context, RichTextStyleType textStyleType) {
-    switch(textStyleType) {
+  void applyRichTextStyle(
+      BuildContext context, RichTextStyleType textStyleType) {
+    switch (textStyleType) {
       case RichTextStyleType.textColor:
-        openMenuSelectColor(
-          context,
-          selectedTextColor.value,
-          onResetToDefault: () => _applyForegroundColor(Colors.black),
-          onSelectColor: _applyForegroundColor
-        );
+        openMenuSelectColor(context, selectedTextColor.value,
+            onResetToDefault: () => _applyForegroundColor(Colors.black),
+            onSelectColor: _applyForegroundColor);
         break;
       case RichTextStyleType.textBackgroundColor:
-        openMenuSelectColor(
-          context,
-          selectedTextBackgroundColor.value,
-          onResetToDefault: () => applyBackgroundColor(Colors.white),
-          onSelectColor: applyBackgroundColor
-        );
+        openMenuSelectColor(context, selectedTextBackgroundColor.value,
+            onResetToDefault: () => applyBackgroundColor(Colors.white),
+            onSelectColor: applyBackgroundColor);
         break;
       default:
         editorController.execSummernoteAPI(textStyleType.summernoteNameAPI);
@@ -149,8 +143,8 @@ class RichTextWebController extends BaseRichTextController {
     log('RichTextWebController::_applyForegroundColor():colorAsString: $colorAsString');
     selectedTextColor.value = newColor;
     editorController.execSummernoteAPI(
-      RichTextStyleType.textColor.summernoteNameAPI,
-      value: colorAsString);
+        RichTextStyleType.textColor.summernoteNameAPI,
+        value: colorAsString);
   }
 
   void applyBackgroundColor(Color? selectedColor) {
@@ -159,8 +153,8 @@ class RichTextWebController extends BaseRichTextController {
     log('RichTextWebController::_applyBackgroundColor():colorAsString: $colorAsString');
     selectedTextBackgroundColor.value = newColor;
     editorController.execSummernoteAPI(
-      RichTextStyleType.textBackgroundColor.summernoteNameAPI,
-      value: colorAsString);
+        RichTextStyleType.textBackgroundColor.summernoteNameAPI,
+        value: colorAsString);
   }
 
   void _selectTextStyleType(RichTextStyleType textStyleType) {
@@ -187,13 +181,15 @@ class RichTextWebController extends BaseRichTextController {
     final fontSelected = newFont ?? FontNameType.sansSerif;
     selectedFontName.value = fontSelected;
     editorController.execSummernoteAPI(
-      RichTextStyleType.fontName.summernoteNameAPI,
-      value: fontSelected.value);
+        RichTextStyleType.fontName.summernoteNameAPI,
+        value: fontSelected.value);
   }
 
-  bool get isMenuFontOpen => menuFontStatus.value == DropdownMenuFontStatus.open;
+  bool get isMenuFontOpen =>
+      menuFontStatus.value == DropdownMenuFontStatus.open;
 
-  bool get isMenuHeaderStyleOpen => menuHeaderStyleStatus.value == DropdownMenuFontStatus.open;
+  bool get isMenuHeaderStyleOpen =>
+      menuHeaderStyleStatus.value == DropdownMenuFontStatus.open;
 
   void _closeDropdownMenuFont() {
     popBack();
@@ -205,7 +201,8 @@ class RichTextWebController extends BaseRichTextController {
 
   bool get codeViewEnabled => codeViewState.value == CodeViewState.enabled;
 
-  Future<bool> get isActivatedCodeView => editorController.isActivatedCodeView();
+  Future<bool> get isActivatedCodeView =>
+      editorController.isActivatedCodeView();
 
   void setEnableCodeView() async {
     final isActivated = await isActivatedCodeView;
@@ -216,17 +213,18 @@ class RichTextWebController extends BaseRichTextController {
 
   void toggleCodeView() async {
     final isActivated = await isActivatedCodeView;
-    final newCodeViewState = isActivated ? CodeViewState.disabled : CodeViewState.enabled;
+    final newCodeViewState =
+        isActivated ? CodeViewState.disabled : CodeViewState.enabled;
     codeViewState.value = newCodeViewState;
     editorController.toggleCodeView();
   }
 
   void applyHeaderStyle(HeaderStyleType? newStyle) {
     final styleSelected = newStyle ?? HeaderStyleType.normal;
-    if (styleSelected == HeaderStyleType.blockquote || styleSelected == HeaderStyleType.code) {
-      editorController.execCommand(
-        RichTextStyleType.headerStyle.commandAction,
-        argument: styleSelected.styleValue);
+    if (styleSelected == HeaderStyleType.blockquote ||
+        styleSelected == HeaderStyleType.code) {
+      editorController.execCommand(RichTextStyleType.headerStyle.commandAction,
+          argument: styleSelected.styleValue);
       editorController.setFocus();
     } else {
       editorController.execSummernoteAPI(styleSelected.summernoteNameAPI);
@@ -264,8 +262,7 @@ class RichTextWebController extends BaseRichTextController {
     if (platformFile.bytes != null) {
       final base64Data = base64Encode(platformFile.bytes!);
       editorController.insertHtml(
-        '<img src="data:image/${platformFile.extension};base64,$base64Data" data-filename="${platformFile.name}" alt="Image in my signature" style="max-width: 100%"/>'
-      );
+          '<img src="data:image/${platformFile.extension};base64,$base64Data" data-filename="${platformFile.name}" alt="Image in my signature" style="max-width: 100%"/>');
     } else {
       logError("RichTextWebController::insertImageAsBase64: bytes is null");
     }

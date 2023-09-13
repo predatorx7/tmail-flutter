@@ -5,7 +5,6 @@ import 'package:jmap_dart_client/jmap/core/session/session.dart';
 class GetStoredSessionLoading extends UIState {}
 
 class GetStoredSessionSuccess extends UIState {
-
   final Session session;
 
   GetStoredSessionSuccess(this.session);
@@ -15,6 +14,5 @@ class GetStoredSessionSuccess extends UIState {
 }
 
 class GetStoredSessionFailure extends FeatureFailure {
-
   GetStoredSessionFailure(dynamic exception) : super(exception: exception);
 }

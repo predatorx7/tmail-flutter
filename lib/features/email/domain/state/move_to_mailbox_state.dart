@@ -22,30 +22,29 @@ class MoveToMailboxSuccess extends UIActionState {
     this.currentMailboxId,
     this.destinationMailboxId,
     this.moveAction,
-    this.emailActionType,
-    {
-      this.destinationPath,
-      jmap.State? currentEmailState,
-      jmap.State? currentMailboxState,
-    }
-  ) : super(currentEmailState, currentMailboxState);
+    this.emailActionType, {
+    this.destinationPath,
+    jmap.State? currentEmailState,
+    jmap.State? currentMailboxState,
+  }) : super(currentEmailState, currentMailboxState);
 
   @override
   List<Object?> get props => [
-    emailId,
-    currentMailboxId,
-    destinationMailboxId,
-    moveAction,
-    emailActionType,
-    destinationPath,
-    ...super.props
-  ];
+        emailId,
+        currentMailboxId,
+        destinationMailboxId,
+        moveAction,
+        emailActionType,
+        destinationPath,
+        ...super.props
+      ];
 }
 
 class MoveToMailboxFailure extends FeatureFailure {
   final EmailActionType emailActionType;
 
-  MoveToMailboxFailure(this.emailActionType, {dynamic exception}) : super(exception: exception);
+  MoveToMailboxFailure(this.emailActionType, {dynamic exception})
+      : super(exception: exception);
 
   @override
   List<Object?> get props => [emailActionType, ...super.props];

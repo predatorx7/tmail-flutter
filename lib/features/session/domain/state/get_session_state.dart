@@ -14,6 +14,5 @@ class GetSessionSuccess extends UIState {
 }
 
 class GetSessionFailure extends FeatureFailure {
-
   GetSessionFailure(dynamic exception) : super(exception: exception);
 }

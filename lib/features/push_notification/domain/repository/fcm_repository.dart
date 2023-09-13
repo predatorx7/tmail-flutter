@@ -13,42 +13,37 @@ import 'package:jmap_dart_client/jmap/core/state.dart' as jmap;
 
 abstract class FCMRepository {
   Future<EmailsResponse> getEmailChangesToPushNotification(
-    Session session,
-    AccountId accountId,
-    jmap.State currentState,
-    {
-      Properties? propertiesCreated,
-      Properties? propertiesUpdated
-    }
-  );
+      Session session, AccountId accountId, jmap.State currentState,
+      {Properties? propertiesCreated, Properties? propertiesUpdated});
 
-  Future<void> storeStateToRefresh(AccountId accountId, UserName userName, TypeName typeName, jmap.State newState);
+  Future<void> storeStateToRefresh(AccountId accountId, UserName userName,
+      TypeName typeName, jmap.State newState);
 
-  Future<jmap.State> getStateToRefresh(AccountId accountId, UserName userName, TypeName typeName);
+  Future<jmap.State> getStateToRefresh(
+      AccountId accountId, UserName userName, TypeName typeName);
 
-  Future<void> deleteStateToRefresh(AccountId accountId, UserName userName, TypeName typeName);
+  Future<void> deleteStateToRefresh(
+      AccountId accountId, UserName userName, TypeName typeName);
 
   Future<void> storeSubscription(FCMSubscription fcmSubscription);
 
-  Future<FirebaseSubscription> getFirebaseSubscriptionByDeviceId(String deviceId);
+  Future<FirebaseSubscription> getFirebaseSubscriptionByDeviceId(
+      String deviceId);
 
-  Future<FirebaseSubscription> registerNewToken(RegisterNewTokenRequest newTokenRequest);
+  Future<FirebaseSubscription> registerNewToken(
+      RegisterNewTokenRequest newTokenRequest);
 
   Future<FCMSubscription> getSubscription();
 
   Future<bool> destroySubscription(String subscriptionId);
 
-  Future<List<PresentationMailbox>> getMailboxesNotPutNotifications(Session session, AccountId accountId);
+  Future<List<PresentationMailbox>> getMailboxesNotPutNotifications(
+      Session session, AccountId accountId);
 
   Future<List<EmailId>> getEmailChangesToRemoveNotification(
-    Session session,
-    AccountId accountId,
-    jmap.State currentState,
-    {
-      Properties? propertiesCreated,
-      Properties? propertiesUpdated
-    }
-  );
+      Session session, AccountId accountId, jmap.State currentState,
+      {Properties? propertiesCreated, Properties? propertiesUpdated});
 
-  Future<List<EmailId>> getNewReceiveEmailFromNotification(Session session, AccountId accountId, jmap.State currentState);
+  Future<List<EmailId>> getNewReceiveEmailFromNotification(
+      Session session, AccountId accountId, jmap.State currentState);
 }

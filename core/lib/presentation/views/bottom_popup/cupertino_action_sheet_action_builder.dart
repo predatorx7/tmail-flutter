@@ -21,12 +21,14 @@ abstract class CupertinoActionSheetActionBuilder<T> {
     this.actionName,
   );
 
-  void onActionClick(OnCupertinoActionSheetActionClick<T> onCupertinoActionSheetActionClick) {
+  void onActionClick(
+      OnCupertinoActionSheetActionClick<T> onCupertinoActionSheetActionClick) {
     this.onCupertinoActionSheetActionClick = onCupertinoActionSheetActionClick;
   }
 
   TextStyle actionTextStyle({TextStyle? textStyle}) {
-    return textStyle ?? const TextStyle(fontSize: 17, color: AppColor.colorNameEmail);
+    return textStyle ??
+        const TextStyle(fontSize: 17, color: AppColor.colorNameEmail);
   }
 
   Widget build();

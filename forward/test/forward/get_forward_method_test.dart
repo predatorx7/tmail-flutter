@@ -76,16 +76,14 @@ void main() {
 
       final getForwardMethod = GetForwardMethod(accountId)
         ..addIds({ForwardIdSingleton.forwardIdSingleton.id});
-      final getForwardInvocation =
-          requestBuilder.invocation(getForwardMethod);
+      final getForwardInvocation = requestBuilder.invocation(getForwardMethod);
       final response = await (requestBuilder
             ..usings(getForwardMethod.requiredCapabilities))
           .build()
           .execute();
 
       final resultList = response.parse<GetForwardResponse>(
-          getForwardInvocation.methodCallId,
-          GetForwardResponse.deserialize);
+          getForwardInvocation.methodCallId, GetForwardResponse.deserialize);
 
       expect(resultList?.list.length, equals(1));
       expect(resultList?.list, containsAll({expectRuleFilter1}));

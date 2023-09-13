@@ -5,7 +5,6 @@ import 'package:jmap_dart_client/jmap/mdn/mdn.dart';
 class SendReceiptToSenderLoading extends UIState {}
 
 class SendReceiptToSenderSuccess extends UIState {
-
   final MDN mdn;
 
   SendReceiptToSenderSuccess(this.mdn);
@@ -15,6 +14,5 @@ class SendReceiptToSenderSuccess extends UIState {
 }
 
 class SendReceiptToSenderFailure extends FeatureFailure {
-
   SendReceiptToSenderFailure(dynamic exception) : super(exception: exception);
 }

@@ -1,4 +1,3 @@
-
 import 'package:core/core.dart';
 import 'package:dartz/dartz.dart';
 import 'package:model/autocomplete/auto_complete_pattern.dart';
@@ -10,12 +9,16 @@ class GetDeviceContactSuggestionsInteractor {
 
   GetDeviceContactSuggestionsInteractor(this._contactRepository);
 
-  Future<Either<Failure, Success>> execute(AutoCompletePattern autoCompletePattern) async {
+  Future<Either<Failure, Success>> execute(
+      AutoCompletePattern autoCompletePattern) async {
     try {
-      final resultList = await _contactRepository.getContactSuggestions(autoCompletePattern);
-      return Right<Failure, Success>(GetDeviceContactSuggestionsSuccess(resultList));
+      final resultList =
+          await _contactRepository.getContactSuggestions(autoCompletePattern);
+      return Right<Failure, Success>(
+          GetDeviceContactSuggestionsSuccess(resultList));
     } catch (exception) {
-      return Left<Failure, Success>(GetDeviceContactSuggestionsFailure(exception));
+      return Left<Failure, Success>(
+          GetDeviceContactSuggestionsFailure(exception));
     }
   }
 }

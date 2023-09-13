@@ -3,30 +3,23 @@ import 'package:tmail_ui_user/features/base/base_bindings.dart';
 import 'package:tmail_ui_user/features/manage_account/presentation/menu/settings/settings_controller.dart';
 
 class SettingsBindings extends BaseBindings {
-
   @override
   void bindingsController() {
     Get.lazyPut(() => SettingsController());
   }
 
   @override
-  void bindingsDataSource() {
-  }
+  void bindingsDataSource() {}
 
   @override
-  void bindingsDataSourceImpl() {
-  }
+  void bindingsDataSourceImpl() {}
 
   @override
-  void bindingsInteractor() {
-  }
+  void bindingsInteractor() {}
 
   @override
-  void bindingsRepository() {
-  }
+  void bindingsRepository() {}
 
   @override
-  void bindingsRepositoryImpl() {
-  }
-
+  void bindingsRepositoryImpl() {}
 }

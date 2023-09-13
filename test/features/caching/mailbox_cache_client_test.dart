@@ -10,7 +10,6 @@ import 'package:tmail_ui_user/features/mailbox/data/extensions/mailbox_extension
 import '../../fixtures/mailbox_fixtures.dart';
 
 void main() {
-
   late MailboxCacheClient mailboxCacheClient;
 
   setUpAll(() {
@@ -23,7 +22,8 @@ void main() {
 
   group('[delete]', () {
     test('cache should delete item successfully when cache empty', () async {
-      await mailboxCacheClient.deleteItem(MailboxFixtures.inboxMailbox.id.toString());
+      await mailboxCacheClient
+          .deleteItem(MailboxFixtures.inboxMailbox.id.toString());
 
       final remainingItems = await mailboxCacheClient.getAll();
 
@@ -39,34 +39,37 @@ void main() {
           MailboxFixtures.sentMailbox.id.toString(),
           MailboxFixtures.sentMailbox.toMailboxCache());
 
-      await mailboxCacheClient.deleteItem(MailboxFixtures.folder1.id.toString());
+      await mailboxCacheClient
+          .deleteItem(MailboxFixtures.folder1.id.toString());
 
       final remainingItems = await mailboxCacheClient.getAll();
 
       expect(remainingItems.length, equals(2));
       expect(
-        remainingItems,
-        containsAll({
-          MailboxFixtures.inboxMailbox.toMailboxCache(),
-          MailboxFixtures.sentMailbox.toMailboxCache()
-        }));
+          remainingItems,
+          containsAll({
+            MailboxFixtures.inboxMailbox.toMailboxCache(),
+            MailboxFixtures.sentMailbox.toMailboxCache()
+          }));
     });
 
     test('cache should delete item successfully', () async {
       await mailboxCacheClient.insertItem(
-        MailboxFixtures.inboxMailbox.id.toString(),
-        MailboxFixtures.inboxMailbox.toMailboxCache());
+          MailboxFixtures.inboxMailbox.id.toString(),
+          MailboxFixtures.inboxMailbox.toMailboxCache());
 
       await mailboxCacheClient.insertItem(
-        MailboxFixtures.sentMailbox.id.toString(),
-        MailboxFixtures.sentMailbox.toMailboxCache());
+          MailboxFixtures.sentMailbox.id.toString(),
+          MailboxFixtures.sentMailbox.toMailboxCache());
 
-      await mailboxCacheClient.deleteItem(MailboxFixtures.inboxMailbox.id.toString());
+      await mailboxCacheClient
+          .deleteItem(MailboxFixtures.inboxMailbox.id.toString());
 
       final remainingItems = await mailboxCacheClient.getAll();
 
       expect(remainingItems.length, equals(1));
-      expect(remainingItems[0], equals(MailboxFixtures.sentMailbox.toMailboxCache()));
+      expect(remainingItems[0],
+          equals(MailboxFixtures.sentMailbox.toMailboxCache()));
     });
 
     test('cache should not delete item twice', () async {
@@ -78,13 +81,16 @@ void main() {
           MailboxFixtures.sentMailbox.id.toString(),
           MailboxFixtures.sentMailbox.toMailboxCache());
 
-      await mailboxCacheClient.deleteItem(MailboxFixtures.inboxMailbox.id.toString());
-      await mailboxCacheClient.deleteItem(MailboxFixtures.inboxMailbox.id.toString());
+      await mailboxCacheClient
+          .deleteItem(MailboxFixtures.inboxMailbox.id.toString());
+      await mailboxCacheClient
+          .deleteItem(MailboxFixtures.inboxMailbox.id.toString());
 
       final remainingItems = await mailboxCacheClient.getAll();
 
       expect(remainingItems.length, equals(1));
-      expect(remainingItems[0], equals(MailboxFixtures.sentMailbox.toMailboxCache()));
+      expect(remainingItems[0],
+          equals(MailboxFixtures.sentMailbox.toMailboxCache()));
     });
   });
 
@@ -97,7 +103,8 @@ void main() {
       final remainingItems = await mailboxCacheClient.getAll();
 
       expect(remainingItems.length, equals(1));
-      expect(remainingItems[0], equals(MailboxFixtures.inboxMailbox.toMailboxCache()));
+      expect(remainingItems[0],
+          equals(MailboxFixtures.inboxMailbox.toMailboxCache()));
     });
 
     test('cache should add item when cache not empty', () async {
@@ -113,11 +120,11 @@ void main() {
 
       expect(remainingItems.length, equals(2));
       expect(
-        remainingItems,
-        containsAll({
-          MailboxFixtures.inboxMailbox.toMailboxCache(),
-          MailboxFixtures.sentMailbox.toMailboxCache()
-        }));
+          remainingItems,
+          containsAll({
+            MailboxFixtures.inboxMailbox.toMailboxCache(),
+            MailboxFixtures.sentMailbox.toMailboxCache()
+          }));
     });
 
     test('cache should not add item twice', () async {
@@ -133,15 +140,16 @@ void main() {
 
       expect(remainingItems.length, equals(1));
       expect(
-        remainingItems,
-        containsAll({
-          MailboxFixtures.inboxMailbox.toMailboxCache(),
-        }));
+          remainingItems,
+          containsAll({
+            MailboxFixtures.inboxMailbox.toMailboxCache(),
+          }));
     });
   });
 
   group('[update]', () {
-    test('cache should update item when update to iem which not in cache', () async {
+    test('cache should update item when update to iem which not in cache',
+        () async {
       await mailboxCacheClient.updateItem(
           MailboxFixtures.inboxMailbox.id.toString(),
           MailboxFixtures.inboxMailbox.toMailboxCache());
@@ -149,7 +157,8 @@ void main() {
       final remainingItems = await mailboxCacheClient.getAll();
 
       expect(remainingItems.length, equals(1));
-      expect(remainingItems[0], equals(MailboxFixtures.inboxMailbox.toMailboxCache()));
+      expect(remainingItems[0],
+          equals(MailboxFixtures.inboxMailbox.toMailboxCache()));
     });
 
     test('cache should update correctly item', () async {
@@ -169,11 +178,11 @@ void main() {
 
       expect(remainingItems.length, equals(2));
       expect(
-        remainingItems,
-        containsAll({
-          MailboxFixtures.sentMailbox.toMailboxCache(),
-          MailboxFixtures.folder1.toMailboxCache()
-        }));
+          remainingItems,
+          containsAll({
+            MailboxFixtures.sentMailbox.toMailboxCache(),
+            MailboxFixtures.folder1.toMailboxCache()
+          }));
     });
   });
 

@@ -8,8 +8,5 @@ class AvatarTagItemStyle {
   static const Color iconBorderColor = AppColor.colorShadowBgContentEmail;
 
   static const TextStyle labelTextStyle = TextStyle(
-    color: Colors.white,
-    fontSize: 8.57,
-    fontWeight: FontWeight.w600
-  );
+      color: Colors.white, fontSize: 8.57, fontWeight: FontWeight.w600);
 }

@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/resources/image_paths.dart';
 import 'package:core/presentation/utils/responsive_utils.dart';
@@ -25,9 +24,9 @@ import 'package:tmail_ui_user/features/manage_account/presentation/vacation/vaca
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 import 'package:tmail_ui_user/main/routes/route_navigation.dart';
 
-class ManageAccountDashBoardView extends GetWidget<ManageAccountDashBoardController>
+class ManageAccountDashBoardView
+    extends GetWidget<ManageAccountDashBoardController>
     with UserSettingPopupMenuMixin {
-
   final _responsiveUtils = Get.find<ResponsiveUtils>();
   final _imagePaths = Get.find<ImagePaths>();
 
@@ -46,66 +45,94 @@ class ManageAccountDashBoardView extends GetWidget<ManageAccountDashBoardControl
               responsiveUtils: _responsiveUtils,
               desktop: Column(children: [
                 Row(children: [
-                  Container(width: 256, color: Colors.white,
+                  Container(
+                      width: 256,
+                      color: Colors.white,
                       padding: SettingsUtils.getPaddingHeaderSetting(context),
                       child: Row(children: [
                         SloganBuilder(
                           sizeLogo: 24,
                           text: AppLocalizations.of(context).app_name,
                           textAlign: TextAlign.center,
-                          textStyle: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+                          textStyle: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
                           logoSVG: _imagePaths.icTMailLogo,
-                          onTapCallback: () => controller.backToMailboxDashBoard(context),
+                          onTapCallback: () =>
+                              controller.backToMailboxDashBoard(context),
                         ),
                         Obx(() {
                           if (controller.appInformation.value != null) {
-                            return Padding(padding: const EdgeInsets.only(top: 6),
+                            return Padding(
+                                padding: const EdgeInsets.only(top: 6),
                                 child: Text(
                                   'v.${controller.appInformation.value!.version}',
                                   textAlign: TextAlign.center,
-                                  style: const TextStyle(fontSize: 13, color: AppColor.colorContentEmail, fontWeight: FontWeight.w500),
+                                  style: const TextStyle(
+                                      fontSize: 13,
+                                      color: AppColor.colorContentEmail,
+                                      fontWeight: FontWeight.w500),
                                 ));
                           } else {
                             return const SizedBox.shrink();
                           }
                         }),
-                      ])
-                  ),
-                  Expanded(child: Padding(
-                      padding: SettingsUtils.getPaddingRightHeaderSetting(context),
-                      child: _buildRightHeader(context)))
+                      ])),
+                  Expanded(
+                      child: Padding(
+                          padding: SettingsUtils.getPaddingRightHeaderSetting(
+                              context),
+                          child: _buildRightHeader(context)))
                 ]),
-                Expanded(child: Row(
+                Expanded(
+                    child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(width: ResponsiveUtils.defaultSizeMenu, child: ManageAccountMenuView()),
-                    Expanded(child: Container(
+                    SizedBox(
+                        width: ResponsiveUtils.defaultSizeMenu,
+                        child: ManageAccountMenuView()),
+                    Expanded(
+                        child: Container(
                       color: AppColor.colorBgDesktop,
                       child: Column(children: [
                         Obx(() {
-                          if (controller.vacationResponse.value?.vacationResponderIsValid == true) {
+                          if (controller.vacationResponse.value
+                                  ?.vacationResponderIsValid ==
+                              true) {
                             return VacationNotificationMessageWidget(
                                 margin: const EdgeInsets.only(
                                     top: 16,
                                     left: PlatformInfo.isWeb ? 24 : 16,
                                     right: PlatformInfo.isWeb ? 24 : 16),
                                 fromAccountDashBoard: true,
-                                vacationResponse: controller.vacationResponse.value!,
-                                actionGotoVacationSetting: !controller.inVacationSettings()
-                                    ? () => controller.selectAccountMenuItem(AccountMenuItem.vacation)
+                                vacationResponse:
+                                    controller.vacationResponse.value!,
+                                actionGotoVacationSetting: !controller
+                                        .inVacationSettings()
+                                    ? () => controller.selectAccountMenuItem(
+                                        AccountMenuItem.vacation)
                                     : null,
-                                actionEndNow: () => controller.disableVacationResponder());
-                          } else if ((controller.vacationResponse.value?.vacationResponderIsWaiting == true
-                              || controller.vacationResponse.value?.vacationResponderIsStopped == true)
-                              && controller.accountMenuItemSelected.value == AccountMenuItem.vacation) {
+                                actionEndNow: () =>
+                                    controller.disableVacationResponder());
+                          } else if ((controller.vacationResponse.value
+                                          ?.vacationResponderIsWaiting ==
+                                      true ||
+                                  controller.vacationResponse.value
+                                          ?.vacationResponderIsStopped ==
+                                      true) &&
+                              controller.accountMenuItemSelected.value ==
+                                  AccountMenuItem.vacation) {
                             return VacationNotificationMessageWidget(
                                 margin: const EdgeInsets.only(
                                     top: 16,
                                     left: PlatformInfo.isWeb ? 24 : 16,
                                     right: PlatformInfo.isWeb ? 24 : 16),
                                 fromAccountDashBoard: true,
-                                vacationResponse: controller.vacationResponse.value!,
-                                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                                vacationResponse:
+                                    controller.vacationResponse.value!,
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 16),
                                 leadingIcon: const Padding(
                                   padding: EdgeInsets.only(right: 16),
                                   child: Icon(Icons.timer, size: 20),
@@ -120,8 +147,9 @@ class ManageAccountDashBoardView extends GetWidget<ManageAccountDashBoardControl
                   ],
                 ))
               ]),
-              mobile: SettingsView(closeAction: () => controller.backToMailboxDashBoard(context))
-          ),
+              mobile: SettingsView(
+                  closeAction: () =>
+                      controller.backToMailboxDashBoard(context))),
         ),
       ),
     );
@@ -132,45 +160,52 @@ class ManageAccountDashBoardView extends GetWidget<ManageAccountDashBoardControl
       const Spacer(),
       const SizedBox(width: 16),
       Obx(() => (AvatarBuilder()
-          ..text(controller.userProfile.value?.getAvatarText() ?? '')
-          ..backgroundColor(Colors.white)
-          ..textColor(Colors.black)
-          ..context(context)
-          ..addOnTapAvatarActionWithPositionClick((position) =>
-              controller.openPopupMenuAction(context, position, popupMenuUserSettingActionTile(context,
-                  controller.userProfile.value,
-                  onLogoutAction: () {
-                    popBack();
-                    controller.logout(controller.sessionCurrent, controller.accountId.value);
-                    },
-                  onSettingAction: ()  {
-                    popBack();
-                    controller.goToSettings();
-                  })))
-          ..addBoxShadows([const BoxShadow(
-              color: AppColor.colorShadowBgContentEmail,
-              spreadRadius: 1, blurRadius: 1, offset: Offset(0, 0.5))])
-          ..size(48))
-        .build()),
+            ..text(controller.userProfile.value?.getAvatarText() ?? '')
+            ..backgroundColor(Colors.white)
+            ..textColor(Colors.black)
+            ..context(context)
+            ..addOnTapAvatarActionWithPositionClick((position) =>
+                controller.openPopupMenuAction(
+                    context,
+                    position,
+                    popupMenuUserSettingActionTile(
+                        context, controller.userProfile.value,
+                        onLogoutAction: () {
+                      popBack();
+                      controller.logout(controller.sessionCurrent,
+                          controller.accountId.value);
+                    }, onSettingAction: () {
+                      popBack();
+                      controller.goToSettings();
+                    })))
+            ..addBoxShadows([
+              const BoxShadow(
+                  color: AppColor.colorShadowBgContentEmail,
+                  spreadRadius: 1,
+                  blurRadius: 1,
+                  offset: Offset(0, 0.5))
+            ])
+            ..size(48))
+          .build()),
       const SizedBox(width: 16)
     ]);
   }
 
   Widget _viewDisplayedOfAccountMenuItem() {
     return Obx(() {
-      switch(controller.accountMenuItemSelected.value) {
+      switch (controller.accountMenuItemSelected.value) {
         case AccountMenuItem.profiles:
           return ProfilesView();
         case AccountMenuItem.languageAndRegion:
           return LanguageAndRegionView();
         case AccountMenuItem.emailRules:
-          if(controller.isRuleFilterCapabilitySupported){
+          if (controller.isRuleFilterCapabilitySupported) {
             return EmailRulesView();
           } else {
             return const SizedBox.shrink();
           }
         case AccountMenuItem.forward:
-          if(controller.isForwardCapabilitySupported){
+          if (controller.isForwardCapabilitySupported) {
             return ForwardView();
           } else {
             return const SizedBox.shrink();

@@ -14,15 +14,15 @@ class EditIdentityInteractor {
 
   EditIdentityInteractor(this._identityRepository);
 
-  Stream<Either<Failure, Success>> execute(
-    Session session,
-    AccountId accountId,
-    EditIdentityRequest editIdentityRequest
-  ) async* {
+  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId,
+      EditIdentityRequest editIdentityRequest) async* {
     try {
       yield Right(EditIdentityLoading());
-      final result = await _identityRepository.editIdentity(session, accountId, editIdentityRequest);
-      yield result ? Right(EditIdentitySuccess()) : Left(EditIdentityFailure(null));
+      final result = await _identityRepository.editIdentity(
+          session, accountId, editIdentityRequest);
+      yield result
+          ? Right(EditIdentitySuccess())
+          : Left(EditIdentityFailure(null));
     } catch (exception) {
       yield Left(EditIdentityFailure(exception));
     }

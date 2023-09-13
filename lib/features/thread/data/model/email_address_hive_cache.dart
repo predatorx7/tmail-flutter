@@ -6,7 +6,6 @@ part 'email_address_hive_cache.g.dart';
 
 @HiveType(typeId: CachingConstants.EMAIL_ADDRESS_HIVE_CACHE_IDENTIFY)
 class EmailAddressHiveCache extends HiveObject with EquatableMixin {
-
   @HiveField(0)
   final String? name;
 

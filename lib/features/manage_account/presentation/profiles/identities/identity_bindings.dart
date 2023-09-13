@@ -10,19 +10,17 @@ import 'package:tmail_ui_user/features/manage_account/presentation/profiles/iden
 import 'package:tmail_ui_user/features/manage_account/presentation/profiles/identities/identity_interactors_bindings.dart';
 
 class IdentityBindings extends Bindings {
-
   @override
   void dependencies() {
     IdentityInteractorsBindings().dependencies();
 
     Get.put(IdentitiesController(
-      Get.find<GetAllIdentitiesInteractor>(),
-      Get.find<DeleteIdentityInteractor>(),
-      Get.find<CreateNewIdentityInteractor>(),
-      Get.find<EditIdentityInteractor>(),
-      Get.find<CreateNewDefaultIdentityInteractor>(),
-      Get.find<EditDefaultIdentityInteractor>(),
-      Get.find<TransformHtmlSignatureInteractor>()
-    ));
+        Get.find<GetAllIdentitiesInteractor>(),
+        Get.find<DeleteIdentityInteractor>(),
+        Get.find<CreateNewIdentityInteractor>(),
+        Get.find<EditIdentityInteractor>(),
+        Get.find<CreateNewDefaultIdentityInteractor>(),
+        Get.find<EditDefaultIdentityInteractor>(),
+        Get.find<TransformHtmlSignatureInteractor>()));
   }
 }

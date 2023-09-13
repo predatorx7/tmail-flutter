@@ -4,7 +4,6 @@ import 'package:tmail_ui_user/features/mailbox/domain/model/mailbox_subscribe_st
 import 'package:tmail_ui_user/features/mailbox/domain/model/subscribe_request.dart';
 
 class SubscribeMailboxRequest extends SubscribeRequest {
-
   final MailboxId mailboxId;
 
   SubscribeMailboxRequest(
@@ -12,10 +11,7 @@ class SubscribeMailboxRequest extends SubscribeRequest {
     MailboxSubscribeState subscribeState,
     MailboxSubscribeAction subscribeAction,
   ) : super(subscribeState, subscribeAction);
-  
+
   @override
-  List<Object?> get props => [
-    mailboxId,
-    super.props
-  ];
+  List<Object?> get props => [mailboxId, super.props];
 }

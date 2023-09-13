@@ -1,4 +1,3 @@
-
 import 'package:collection/collection.dart';
 
 extension CompareListExtension on List {

@@ -35,10 +35,8 @@ class SessionController extends ReloadableController {
     this._appToast,
     this._dynamicUrlInterceptors,
     this._getStoredSessionInteractor,
-  ) : super(
-    getAuthenticatedAccountInteractor,
-    updateAuthenticationAccountInteractor
-  );
+  ) : super(getAuthenticatedAccountInteractor,
+            updateAuthenticationAccountInteractor);
 
   @override
   void onReady() {
@@ -72,7 +70,9 @@ class SessionController extends ReloadableController {
   @override
   void handleExceptionAction({Failure? failure, Exception? exception}) {
     super.handleExceptionAction(failure: failure, exception: exception);
-    if (PlatformInfo.isMobile && failure is GetSessionFailure && exception is NoNetworkError) {
+    if (PlatformInfo.isMobile &&
+        failure is GetSessionFailure &&
+        exception is NoNetworkError) {
       _handleGetStoredSession();
     }
   }
@@ -80,8 +80,9 @@ class SessionController extends ReloadableController {
   @override
   void handleReloaded(Session session) {
     popAndPush(
-      RouteUtils.generateNavigationRoute(AppRoutes.dashboard, NavigationRouter()),
-      arguments: session);
+        RouteUtils.generateNavigationRoute(
+            AppRoutes.dashboard, NavigationRouter()),
+        arguments: session);
   }
 
   void _handleGetStoredSession() {
@@ -100,13 +101,16 @@ class SessionController extends ReloadableController {
       var errorMessage = '';
       if (_checkUrlError(sessionException) && currentContext != null) {
         errorMessage = AppLocalizations.of(currentContext!).wrongUrlMessage;
-      } else if (sessionException is BadCredentialsException && currentContext != null) {
+      } else if (sessionException is BadCredentialsException &&
+          currentContext != null) {
         errorMessage = AppLocalizations.of(currentContext!).badCredentials;
-      } else if (sessionException is ConnectionError && currentContext != null) {
+      } else if (sessionException is ConnectionError &&
+          currentContext != null) {
         errorMessage = AppLocalizations.of(currentContext!).connectionError;
       } else if (sessionException is UnknownError && currentContext != null) {
         if (sessionException.message != null && sessionException.code != null) {
-          errorMessage = '[${sessionException.code}] ${sessionException.message}';
+          errorMessage =
+              '[${sessionException.code}] ${sessionException.message}';
         } else if (sessionException.message != null) {
           errorMessage = sessionException.message!;
         } else {
@@ -114,7 +118,8 @@ class SessionController extends ReloadableController {
         }
       }
 
-      logError('SessionController::_handleSessionFailure():errorMessage: $errorMessage');
+      logError(
+          'SessionController::_handleSessionFailure():errorMessage: $errorMessage');
       if (errorMessage.isNotEmpty && currentOverlayContext != null) {
         _appToast.showToastErrorMessage(currentOverlayContext!, errorMessage);
       }
@@ -122,17 +127,21 @@ class SessionController extends ReloadableController {
   }
 
   bool _checkUrlError(dynamic sessionException) {
-    return sessionException is ConnectionTimeout || sessionException is BadGateway || sessionException is SocketError;
+    return sessionException is ConnectionTimeout ||
+        sessionException is BadGateway ||
+        sessionException is SocketError;
   }
 
   void _goToMailboxDashBoard(Session session) {
-    final apiUrl = session.getQualifiedApiUrl(baseUrl: _dynamicUrlInterceptors.jmapUrl);
+    final apiUrl =
+        session.getQualifiedApiUrl(baseUrl: _dynamicUrlInterceptors.jmapUrl);
     log('SessionController::_goToMailboxDashBoard():apiUrl: $apiUrl');
     if (apiUrl.isNotEmpty) {
       _dynamicUrlInterceptors.changeBaseUrl(apiUrl);
       popAndPush(
-        RouteUtils.generateNavigationRoute(AppRoutes.dashboard, NavigationRouter()),
-        arguments: session);
+          RouteUtils.generateNavigationRoute(
+              AppRoutes.dashboard, NavigationRouter()),
+          arguments: session);
     } else {
       logError('SessionController::_goToMailboxDashBoard(): apiUrl is NULL');
       performInvokeLogoutAction();

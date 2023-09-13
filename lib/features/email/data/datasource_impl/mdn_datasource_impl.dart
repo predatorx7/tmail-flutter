@@ -8,14 +8,14 @@ import 'package:tmail_ui_user/features/email/domain/model/send_receipt_to_sender
 import 'package:tmail_ui_user/main/exceptions/exception_thrower.dart';
 
 class MdnDataSourceImpl extends MdnDataSource {
-
   final MdnAPI _mdnAPI;
   final ExceptionThrower _exceptionThrower;
 
   MdnDataSourceImpl(this._mdnAPI, this._exceptionThrower);
 
   @override
-  Future<MDN?> sendReceiptToSender(AccountId accountId, SendReceiptToSenderRequest request) {
+  Future<MDN?> sendReceiptToSender(
+      AccountId accountId, SendReceiptToSenderRequest request) {
     return Future.sync(() async {
       return await _mdnAPI.sendReceiptToSender(accountId, request);
     }).catchError(_exceptionThrower.throwException);

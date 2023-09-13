@@ -10,7 +10,6 @@ import 'package:tmail_ui_user/features/offline_mode/work_manager/worker_type.dar
 import 'package:workmanager/workmanager.dart';
 
 class WorkManagerController {
-
   static WorkManagerController? _instance;
 
   WorkManagerController._();
@@ -22,43 +21,42 @@ class WorkManagerController {
       log('WorkSchedulerController::enqueue():workRequest: $workRequest');
       if (workRequest is OneTimeWorkRequest) {
         await Workmanager().registerOneOffTask(
-          workRequest.uniqueId,
-          workRequest.taskId,
-          tag: workRequest.tag,
-          initialDelay: workRequest.initialDelay,
-          constraints: workRequest.constraints,
-          backoffPolicy: workRequest.backoffPolicy,
-          backoffPolicyDelay: workRequest.backoffPolicyDelay,
-          outOfQuotaPolicy: workRequest.outOfQuotaPolicy,
-          inputData: workRequest.inputData
-        );
-      } if (workRequest is PeriodicWorkRequest) {
+            workRequest.uniqueId, workRequest.taskId,
+            tag: workRequest.tag,
+            initialDelay: workRequest.initialDelay,
+            constraints: workRequest.constraints,
+            backoffPolicy: workRequest.backoffPolicy,
+            backoffPolicyDelay: workRequest.backoffPolicyDelay,
+            outOfQuotaPolicy: workRequest.outOfQuotaPolicy,
+            inputData: workRequest.inputData);
+      }
+      if (workRequest is PeriodicWorkRequest) {
         await Workmanager().registerPeriodicTask(
-          workRequest.uniqueId,
-          workRequest.taskId,
-          tag: workRequest.tag,
-          frequency: workRequest.frequency,
-          initialDelay: workRequest.initialDelay,
-          constraints: workRequest.constraints,
-          backoffPolicy: workRequest.backoffPolicy,
-          backoffPolicyDelay: workRequest.backoffPolicyDelay,
-          outOfQuotaPolicy: workRequest.outOfQuotaPolicy,
-          inputData: workRequest.inputData
-        );
+            workRequest.uniqueId, workRequest.taskId,
+            tag: workRequest.tag,
+            frequency: workRequest.frequency,
+            initialDelay: workRequest.initialDelay,
+            constraints: workRequest.constraints,
+            backoffPolicy: workRequest.backoffPolicy,
+            backoffPolicyDelay: workRequest.backoffPolicyDelay,
+            outOfQuotaPolicy: workRequest.outOfQuotaPolicy,
+            inputData: workRequest.inputData);
       }
     } catch (e) {
       logError('WorkSchedulerController::enqueue(): EXCEPTION: $e');
     }
   }
 
-  Future<bool> handleBackgroundTask(String taskName, Map<String, dynamic>? inputData) async {
+  Future<bool> handleBackgroundTask(
+      String taskName, Map<String, dynamic>? inputData) async {
     log('WorkSchedulerController::handleBackgroundTask():taskName: $taskName | inputData: $inputData');
     try {
       if (inputData != null && inputData.isNotEmpty) {
         final workerType = inputData.remove(WorkManagerConstants.workerTypeKey);
         final dataObject = inputData;
         log('WorkSchedulerController::handleBackgroundTask():workerType: $workerType | dataObject: $dataObject');
-        final matchedType = WorkerType.values.firstWhereOrNull((type) => type.name == workerType);
+        final matchedType = WorkerType.values
+            .firstWhereOrNull((type) => type.name == workerType);
 
         if (matchedType != null) {
           final worker = matchedType.getWorker();
@@ -77,7 +75,8 @@ class WorkManagerController {
     }
   }
 
-  Future<void> cancelByWorkType(WorkerType type) => Workmanager().cancelByTag(type.name);
+  Future<void> cancelByWorkType(WorkerType type) =>
+      Workmanager().cancelByTag(type.name);
 
   Future<void> cancelByUniqueId(String uniqueId) {
     try {

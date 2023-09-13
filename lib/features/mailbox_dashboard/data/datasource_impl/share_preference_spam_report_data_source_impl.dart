@@ -11,48 +11,50 @@ import 'package:tmail_ui_user/features/mailbox_dashboard/domain/model/unread_spa
 import 'package:tmail_ui_user/main/exceptions/exception_thrower.dart';
 
 class SharePreferenceSpamReportDataSourceImpl extends SpamReportDataSource {
-  final SharePreferenceSpamReportDataSource _sharePreferenceSpamReportDataSource;
+  final SharePreferenceSpamReportDataSource
+      _sharePreferenceSpamReportDataSource;
   final ExceptionThrower _exceptionThrower;
 
-  SharePreferenceSpamReportDataSourceImpl(this._sharePreferenceSpamReportDataSource, this._exceptionThrower);
+  SharePreferenceSpamReportDataSourceImpl(
+      this._sharePreferenceSpamReportDataSource, this._exceptionThrower);
 
   @override
   Future<DateTime> getLastTimeDismissedSpamReported() async {
     return Future.sync(() async {
-      return await _sharePreferenceSpamReportDataSource.getLastTimeDismissedSpamReported();
+      return await _sharePreferenceSpamReportDataSource
+          .getLastTimeDismissedSpamReported();
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<bool> storeLastTimeDismissedSpamReported(DateTime lastTimeDismissedSpamReported) async {
+  Future<bool> storeLastTimeDismissedSpamReported(
+      DateTime lastTimeDismissedSpamReported) async {
     return Future.sync(() async {
-      return await _sharePreferenceSpamReportDataSource.storeLastTimeDismissedSpamReported(lastTimeDismissedSpamReported);
+      return await _sharePreferenceSpamReportDataSource
+          .storeLastTimeDismissedSpamReported(lastTimeDismissedSpamReported);
     }).catchError(_exceptionThrower.throwException);
   }
-  
+
   @override
   Future<bool> deleteLastTimeDismissedSpamReported() {
     return Future.sync(() async {
-      return await _sharePreferenceSpamReportDataSource.deleteLastTimeDismissedSpamReported();
+      return await _sharePreferenceSpamReportDataSource
+          .deleteLastTimeDismissedSpamReported();
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
   Future<UnreadSpamEmailsResponse> findNumberOfUnreadSpamEmails(
-    Session session,
-    AccountId accountId,
-    {
-      MailboxFilterCondition? mailboxFilterCondition,
-      UnsignedInt? limit
-    }
-  ) {
+      Session session, AccountId accountId,
+      {MailboxFilterCondition? mailboxFilterCondition, UnsignedInt? limit}) {
     throw UnimplementedError();
   }
 
   @override
   Future<void> deleteSpamReportState() {
     return Future.sync(() async {
-      return await _sharePreferenceSpamReportDataSource.deleteLastTimeDismissedSpamReported();
+      return await _sharePreferenceSpamReportDataSource
+          .deleteLastTimeDismissedSpamReported();
     }).catchError(_exceptionThrower.throwException);
   }
 
@@ -66,7 +68,8 @@ class SharePreferenceSpamReportDataSourceImpl extends SpamReportDataSource {
   @override
   Future<void> storeSpamReportState(SpamReportState spamReportState) {
     return Future.sync(() async {
-      return await _sharePreferenceSpamReportDataSource.storeSpamReportState(spamReportState);
+      return await _sharePreferenceSpamReportDataSource
+          .storeSpamReportState(spamReportState);
     }).catchError(_exceptionThrower.throwException);
   }
 

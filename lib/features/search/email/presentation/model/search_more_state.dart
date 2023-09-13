@@ -1,4 +1,3 @@
-
 enum SearchMoreState {
   idle,
   waiting,

@@ -23,14 +23,15 @@ class GetForwardMethod extends GetMethod {
 
   @override
   Set<CapabilityIdentifier> get requiredCapabilities => {
-    CapabilityIdentifier.jmapCore,
-    capabilityForward,
-  };
+        CapabilityIdentifier.jmapCore,
+        capabilityForward,
+      };
 
   @override
   List<Object?> get props => [methodName, accountId, ids, requiredCapabilities];
 
-  factory GetForwardMethod.fromJson(Map<String, dynamic> json) => _$GetForwardMethodFromJson(json);
+  factory GetForwardMethod.fromJson(Map<String, dynamic> json) =>
+      _$GetForwardMethodFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$GetForwardMethodToJson(this);

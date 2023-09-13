@@ -12,21 +12,27 @@ flutter pub get
 # flutter pub get && pod install
 
 cd ../model
+echo building model
 flutter pub get && dart run build_runner build --delete-conflicting-outputs
 
 cd ../contact
+echo building contact
 flutter pub get && dart run build_runner build --delete-conflicting-outputs
 
 cd ../forward
+echo building forward
 flutter pub get && dart run build_runner build --delete-conflicting-outputs
 
 cd ../rule_filter
+echo building rule_filter
 flutter pub get && dart run build_runner build --delete-conflicting-outputs
 
 cd ../fcm
+echo building fcm
 flutter pub get && dart run build_runner build --delete-conflicting-outputs
 
 cd ..
+echo building main
 flutter pub get \
     && dart run build_runner build --delete-conflicting-outputs \
     && dart run intl_generator:extract_to_arb --output-dir=./lib/l10n lib/main/localizations/app_localizations.dart \

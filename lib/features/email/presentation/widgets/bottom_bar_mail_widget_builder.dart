@@ -10,24 +10,17 @@ import 'package:model/extensions/presentation_email_extension.dart';
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
 typedef OnPressEmailActionClick = void Function(
-  EmailActionType emailActionType,
-  PresentationEmail presentationEmail
-);
+    EmailActionType emailActionType, PresentationEmail presentationEmail);
 
 class BottomBarMailWidgetBuilder extends StatelessWidget {
-
   static const double maxWidthBottomBar = 540;
 
   final PresentationEmail _presentationEmail;
   final OnPressEmailActionClick? onPressEmailActionClick;
 
-  const BottomBarMailWidgetBuilder(
-    this._presentationEmail,
-    {
-      Key? key,
-      this.onPressEmailActionClick
-    }
-  ) : super(key: key);
+  const BottomBarMailWidgetBuilder(this._presentationEmail,
+      {Key? key, this.onPressEmailActionClick})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,17 +28,15 @@ class BottomBarMailWidgetBuilder extends StatelessWidget {
     final responsiveUtils = Get.find<ResponsiveUtils>();
 
     return Container(
-      decoration: const BoxDecoration(
-        border: Border(
-          top: BorderSide(
+        decoration: const BoxDecoration(
+          border: Border(
+              top: BorderSide(
             color: AppColor.colorDividerHorizontal,
             width: 0.5,
-          )
+          )),
         ),
-      ),
-      child: IntrinsicHeight(
-        child: Row(
-          children: [
+        child: IntrinsicHeight(
+          child: Row(children: [
             if (_presentationEmail.numberOfAllEmailAddress() > 1)
               Expanded(
                 child: TMailButtonWidget(
@@ -56,14 +47,16 @@ class BottomBarMailWidgetBuilder extends StatelessWidget {
                   iconSize: 15,
                   textAlign: TextAlign.center,
                   flexibleText: true,
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
                   backgroundColor: Colors.transparent,
                   textStyle: TextStyle(
-                    fontSize: responsiveUtils.isPortraitMobile(context) ? 12 : 16,
-                    color: AppColor.colorTextButton
-                  ),
+                      fontSize:
+                          responsiveUtils.isPortraitMobile(context) ? 12 : 16,
+                      color: AppColor.colorTextButton),
                   verticalDirection: responsiveUtils.isPortraitMobile(context),
-                  onTapActionCallback: () => onPressEmailActionClick?.call(EmailActionType.replyAll, _presentationEmail),
+                  onTapActionCallback: () => onPressEmailActionClick?.call(
+                      EmailActionType.replyAll, _presentationEmail),
                 ),
               ),
             Expanded(
@@ -75,14 +68,16 @@ class BottomBarMailWidgetBuilder extends StatelessWidget {
                 iconSize: 20,
                 textAlign: TextAlign.center,
                 flexibleText: true,
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
                 backgroundColor: Colors.transparent,
                 textStyle: TextStyle(
-                  fontSize: responsiveUtils.isPortraitMobile(context) ? 12 : 16,
-                  color: AppColor.colorTextButton
-                ),
+                    fontSize:
+                        responsiveUtils.isPortraitMobile(context) ? 12 : 16,
+                    color: AppColor.colorTextButton),
                 verticalDirection: responsiveUtils.isPortraitMobile(context),
-                onTapActionCallback: () => onPressEmailActionClick?.call(EmailActionType.reply, _presentationEmail),
+                onTapActionCallback: () => onPressEmailActionClick?.call(
+                    EmailActionType.reply, _presentationEmail),
               ),
             ),
             Expanded(
@@ -94,14 +89,16 @@ class BottomBarMailWidgetBuilder extends StatelessWidget {
                 iconSize: 20,
                 textAlign: TextAlign.center,
                 flexibleText: true,
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
                 backgroundColor: Colors.transparent,
                 textStyle: TextStyle(
-                  fontSize: responsiveUtils.isPortraitMobile(context) ? 12 : 16,
-                  color: AppColor.colorTextButton
-                ),
+                    fontSize:
+                        responsiveUtils.isPortraitMobile(context) ? 12 : 16,
+                    color: AppColor.colorTextButton),
                 verticalDirection: responsiveUtils.isPortraitMobile(context),
-                onTapActionCallback: () => onPressEmailActionClick?.call(EmailActionType.forward, _presentationEmail),
+                onTapActionCallback: () => onPressEmailActionClick?.call(
+                    EmailActionType.forward, _presentationEmail),
               ),
             ),
             Expanded(
@@ -113,19 +110,19 @@ class BottomBarMailWidgetBuilder extends StatelessWidget {
                 iconSize: 20,
                 textAlign: TextAlign.center,
                 flexibleText: true,
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
                 backgroundColor: Colors.transparent,
                 textStyle: TextStyle(
-                  fontSize: responsiveUtils.isPortraitMobile(context) ? 12 : 16,
-                  color: AppColor.colorTextButton
-                ),
+                    fontSize:
+                        responsiveUtils.isPortraitMobile(context) ? 12 : 16,
+                    color: AppColor.colorTextButton),
                 verticalDirection: responsiveUtils.isPortraitMobile(context),
-                onTapActionCallback: () => onPressEmailActionClick?.call(EmailActionType.compose, _presentationEmail),
+                onTapActionCallback: () => onPressEmailActionClick?.call(
+                    EmailActionType.compose, _presentationEmail),
               ),
             ),
-          ]
-        ),
-      )
-    );
+          ]),
+        ));
   }
 }

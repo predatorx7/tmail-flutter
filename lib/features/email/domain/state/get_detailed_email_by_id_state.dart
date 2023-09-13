@@ -8,18 +8,17 @@ import 'package:tmail_ui_user/features/email/domain/model/detailed_email.dart';
 class GetDetailedEmailByIdLoading extends UIState {}
 
 class GetDetailedEmailByIdSuccess extends UIState {
-
   final Map<Email, DetailedEmail> mapDetailedEmail;
   final AccountId accountId;
   final Session session;
 
-  GetDetailedEmailByIdSuccess(this.mapDetailedEmail, this.accountId, this.session);
+  GetDetailedEmailByIdSuccess(
+      this.mapDetailedEmail, this.accountId, this.session);
 
   @override
   List<Object?> get props => [mapDetailedEmail, accountId, session];
 }
 
 class GetDetailedEmailByIdFailure extends FeatureFailure {
-
   GetDetailedEmailByIdFailure(dynamic exception) : super(exception: exception);
 }

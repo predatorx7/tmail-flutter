@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:jmap_dart_client/jmap/account_id.dart';
@@ -8,7 +7,6 @@ import 'package:jmap_dart_client/jmap/mail/email/email_body_part.dart';
 import 'package:uri/uri.dart';
 
 class Attachment with EquatableMixin {
-
   final PartId? partId;
   final Id? blobId;
   final UnsignedInt? size;
@@ -34,10 +32,10 @@ class Attachment with EquatableMixin {
   String getDownloadUrl(String baseDownloadUrl, AccountId accountId) {
     final downloadUriTemplate = UriTemplate(baseDownloadUrl);
     final downloadUri = downloadUriTemplate.expand({
-      'accountId' : accountId.id.value,
-      'blobId' : '${blobId?.value}',
-      'name' : '$name',
-      'type' : '${type?.mimeType}',
+      'accountId': accountId.id.value,
+      'blobId': '${blobId?.value}',
+      'name': '$name',
+      'type': '${type?.mimeType}',
     });
     return Uri.decodeFull(downloadUri);
   }
@@ -50,21 +48,19 @@ class Attachment with EquatableMixin {
     }
   }
 
-  bool get isCalendarEvent => type?.subtype == 'ics' || type?.subtype == 'calendar';
+  bool get isCalendarEvent =>
+      type?.subtype == 'ics' || type?.subtype == 'calendar';
 
   @override
-  List<Object?> get props => [partId, blobId, size, name, type, cid, disposition];
+  List<Object?> get props =>
+      [partId, blobId, size, name, type, cid, disposition];
 }
 
-enum ContentDisposition {
-  inline,
-  attachment,
-  other
-}
+enum ContentDisposition { inline, attachment, other }
 
 extension ContentDispositionExtension on ContentDisposition {
   String get value {
-    switch(this) {
+    switch (this) {
       case ContentDisposition.inline:
         return 'inline';
       case ContentDisposition.attachment:
@@ -78,7 +74,7 @@ extension ContentDispositionExtension on ContentDisposition {
 extension DispositionStringExtension on String? {
   ContentDisposition? toContentDisposition() {
     if (this != null) {
-      switch(this) {
+      switch (this) {
         case 'inline':
           return ContentDisposition.inline;
         case 'attachment':

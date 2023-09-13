@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/resources/image_paths.dart';
 import 'package:core/presentation/utils/responsive_utils.dart';
@@ -33,13 +32,13 @@ import 'package:tmail_ui_user/main/routes/route_navigation.dart';
 import 'package:tmail_ui_user/main/utils/app_utils.dart';
 
 mixin EmailActionController {
-
   final mailboxDashBoardController = Get.find<MailboxDashBoardController>();
   final responsiveUtils = Get.find<ResponsiveUtils>();
   final imagePaths = Get.find<ImagePaths>();
 
   void editDraftEmail(PresentationEmail presentationEmail) {
-    mailboxDashBoardController.goToComposer(ComposerArguments.editDraftEmail(presentationEmail));
+    mailboxDashBoardController
+        .goToComposer(ComposerArguments.editDraftEmail(presentationEmail));
   }
 
   void previewEmail(PresentationEmail presentationEmail) {
@@ -47,226 +46,243 @@ mixin EmailActionController {
     mailboxDashBoardController.openEmailDetailedView(presentationEmail);
   }
 
-  void moveToTrash(PresentationEmail email, {PresentationMailbox? mailboxContain}) async {
+  void moveToTrash(PresentationEmail email,
+      {PresentationMailbox? mailboxContain}) async {
     final session = mailboxDashBoardController.sessionCurrent;
     final accountId = mailboxDashBoardController.accountId.value;
-    final trashMailboxId = mailboxDashBoardController.mapDefaultMailboxIdByRole[PresentationMailbox.roleTrash];
+    final trashMailboxId = mailboxDashBoardController
+        .mapDefaultMailboxIdByRole[PresentationMailbox.roleTrash];
 
-    if (session != null && mailboxContain != null && accountId != null && trashMailboxId != null) {
+    if (session != null &&
+        mailboxContain != null &&
+        accountId != null &&
+        trashMailboxId != null) {
       _moveToTrashAction(
-        session,
-        accountId,
-        MoveToMailboxRequest(
-          {mailboxContain.id: email.id != null ? [email.id!] : []},
-          trashMailboxId,
-          MoveAction.moving,
-          mailboxDashBoardController.sessionCurrent!,
-          EmailActionType.moveToTrash)
-      );
+          session,
+          accountId,
+          MoveToMailboxRequest({
+            mailboxContain.id: email.id != null ? [email.id!] : []
+          },
+              trashMailboxId,
+              MoveAction.moving,
+              mailboxDashBoardController.sessionCurrent!,
+              EmailActionType.moveToTrash));
     }
   }
 
-  void _moveToTrashAction(Session session, AccountId accountId, MoveToMailboxRequest moveRequest) {
+  void _moveToTrashAction(
+      Session session, AccountId accountId, MoveToMailboxRequest moveRequest) {
     mailboxDashBoardController.moveToMailbox(session, accountId, moveRequest);
   }
 
-  void moveToSpam(PresentationEmail email, {PresentationMailbox? mailboxContain}) async {
+  void moveToSpam(PresentationEmail email,
+      {PresentationMailbox? mailboxContain}) async {
     final session = mailboxDashBoardController.sessionCurrent;
     final accountId = mailboxDashBoardController.accountId.value;
-    final spamMailboxId = mailboxDashBoardController.getMailboxIdByRole(PresentationMailbox.roleSpam);
+    final spamMailboxId = mailboxDashBoardController
+        .getMailboxIdByRole(PresentationMailbox.roleSpam);
 
-    if (session != null && mailboxContain != null && accountId != null && spamMailboxId != null) {
+    if (session != null &&
+        mailboxContain != null &&
+        accountId != null &&
+        spamMailboxId != null) {
       moveToSpamAction(
-        session,
-        accountId,
-        MoveToMailboxRequest(
-          {mailboxContain.id: email.id != null ? [email.id!] : []},
-          spamMailboxId,
-          MoveAction.moving,
-          mailboxDashBoardController.sessionCurrent!,
-          EmailActionType.moveToSpam)
-      );
+          session,
+          accountId,
+          MoveToMailboxRequest({
+            mailboxContain.id: email.id != null ? [email.id!] : []
+          },
+              spamMailboxId,
+              MoveAction.moving,
+              mailboxDashBoardController.sessionCurrent!,
+              EmailActionType.moveToSpam));
     }
   }
 
   void unSpam(PresentationEmail email) async {
     final session = mailboxDashBoardController.sessionCurrent;
     final accountId = mailboxDashBoardController.accountId.value;
-    final spamMailboxId = mailboxDashBoardController.getMailboxIdByRole(PresentationMailbox.roleSpam);
-    final inboxMailboxId = mailboxDashBoardController.getMailboxIdByRole(PresentationMailbox.roleInbox);
+    final spamMailboxId = mailboxDashBoardController
+        .getMailboxIdByRole(PresentationMailbox.roleSpam);
+    final inboxMailboxId = mailboxDashBoardController
+        .getMailboxIdByRole(PresentationMailbox.roleInbox);
 
-    if (session != null && inboxMailboxId != null && accountId != null && spamMailboxId != null) {
+    if (session != null &&
+        inboxMailboxId != null &&
+        accountId != null &&
+        spamMailboxId != null) {
       moveToSpamAction(
-        session,
-        accountId,
-        MoveToMailboxRequest(
-          {spamMailboxId: email.id != null ? [email.id!] : []},
-          inboxMailboxId,
-          MoveAction.moving,
-          mailboxDashBoardController.sessionCurrent!,
-          EmailActionType.unSpam)
-      );
+          session,
+          accountId,
+          MoveToMailboxRequest({
+            spamMailboxId: email.id != null ? [email.id!] : []
+          },
+              inboxMailboxId,
+              MoveAction.moving,
+              mailboxDashBoardController.sessionCurrent!,
+              EmailActionType.unSpam));
     }
   }
 
-  void moveToSpamAction(Session session, AccountId accountId, MoveToMailboxRequest moveRequest) {
+  void moveToSpamAction(
+      Session session, AccountId accountId, MoveToMailboxRequest moveRequest) {
     mailboxDashBoardController.moveToMailbox(session, accountId, moveRequest);
   }
 
-  void moveToMailbox(
-    BuildContext context,
-    PresentationEmail email,
-    {PresentationMailbox? mailboxContain}
-  ) async {
+  void moveToMailbox(BuildContext context, PresentationEmail email,
+      {PresentationMailbox? mailboxContain}) async {
     final accountId = mailboxDashBoardController.accountId.value;
     final session = mailboxDashBoardController.sessionCurrent;
 
     if (mailboxContain != null && accountId != null) {
       final arguments = DestinationPickerArguments(
-        accountId,
-        MailboxActions.moveEmail,
-        session,
-        mailboxIdSelected: mailboxContain.mailboxId);
+          accountId, MailboxActions.moveEmail, session,
+          mailboxIdSelected: mailboxContain.mailboxId);
 
       final destinationMailbox = PlatformInfo.isWeb
-        ? await DialogRouter.pushGeneralDialog(routeName: AppRoutes.destinationPicker, arguments: arguments)
-        : await push(AppRoutes.destinationPicker, arguments: arguments);
+          ? await DialogRouter.pushGeneralDialog(
+              routeName: AppRoutes.destinationPicker, arguments: arguments)
+          : await push(AppRoutes.destinationPicker, arguments: arguments);
 
       if (destinationMailbox != null &&
           context.mounted &&
           destinationMailbox is PresentationMailbox &&
-          mailboxDashBoardController.sessionCurrent != null
-      ) {
+          mailboxDashBoardController.sessionCurrent != null) {
         _dispatchMoveToAction(
-          context,
-          accountId,
-          mailboxDashBoardController.sessionCurrent!,
-          email,
-          mailboxContain,
-          destinationMailbox);
+            context,
+            accountId,
+            mailboxDashBoardController.sessionCurrent!,
+            email,
+            mailboxContain,
+            destinationMailbox);
       }
     }
   }
 
   void _dispatchMoveToAction(
-    BuildContext context,
-    AccountId accountId,
-    Session session,
-    PresentationEmail emailSelected,
-    PresentationMailbox currentMailbox,
-    PresentationMailbox destinationMailbox
-  ) {
+      BuildContext context,
+      AccountId accountId,
+      Session session,
+      PresentationEmail emailSelected,
+      PresentationMailbox currentMailbox,
+      PresentationMailbox destinationMailbox) {
     if (destinationMailbox.isTrash) {
       moveToSpamAction(
-        session,
-        accountId,
-        MoveToMailboxRequest(
-          {currentMailbox.id: emailSelected.id != null ? [emailSelected.id!] : []},
-          destinationMailbox.id,
-          MoveAction.moving,
           session,
-          EmailActionType.moveToTrash));
+          accountId,
+          MoveToMailboxRequest({
+            currentMailbox.id:
+                emailSelected.id != null ? [emailSelected.id!] : []
+          }, destinationMailbox.id, MoveAction.moving, session,
+              EmailActionType.moveToTrash));
     } else if (destinationMailbox.isSpam) {
       moveToSpamAction(
-        session,
-        accountId,
-        MoveToMailboxRequest(
-          {currentMailbox.id: emailSelected.id != null ? [emailSelected.id!] : []},
-          destinationMailbox.id,
-          MoveAction.moving,
           session,
-          EmailActionType.moveToSpam));
+          accountId,
+          MoveToMailboxRequest({
+            currentMailbox.id:
+                emailSelected.id != null ? [emailSelected.id!] : []
+          }, destinationMailbox.id, MoveAction.moving, session,
+              EmailActionType.moveToSpam));
     } else {
       _moveToMailboxAction(
-        session,
-        accountId,
-        MoveToMailboxRequest(
-          {currentMailbox.id: emailSelected.id != null ? [emailSelected.id!] : []},
-          destinationMailbox.id,
-          MoveAction.moving,
           session,
-          EmailActionType.moveToMailbox,
-          destinationPath: destinationMailbox.mailboxPath));
+          accountId,
+          MoveToMailboxRequest({
+            currentMailbox.id:
+                emailSelected.id != null ? [emailSelected.id!] : []
+          }, destinationMailbox.id, MoveAction.moving, session,
+              EmailActionType.moveToMailbox,
+              destinationPath: destinationMailbox.mailboxPath));
     }
   }
 
-  void _moveToMailboxAction(Session session, AccountId accountId, MoveToMailboxRequest moveRequest) {
+  void _moveToMailboxAction(
+      Session session, AccountId accountId, MoveToMailboxRequest moveRequest) {
     mailboxDashBoardController.moveToMailbox(session, accountId, moveRequest);
   }
 
   void deleteEmailPermanently(BuildContext context, PresentationEmail email) {
     if (responsiveUtils.isScreenWithShortestSide(context)) {
       (ConfirmationDialogActionSheetBuilder(context)
-        ..messageText(DeleteActionType.single.getContentDialog(context))
-        ..onCancelAction(AppLocalizations.of(context).cancel, () => popBack())
-        ..onConfirmAction(
-            DeleteActionType.single.getConfirmActionName(context),
-            () => _deleteEmailPermanentlyAction(context, email)))
+            ..messageText(DeleteActionType.single.getContentDialog(context))
+            ..onCancelAction(
+                AppLocalizations.of(context).cancel, () => popBack())
+            ..onConfirmAction(
+                DeleteActionType.single.getConfirmActionName(context),
+                () => _deleteEmailPermanentlyAction(context, email)))
           .show();
     } else {
       showDialog(
-        context: context,
-        barrierColor: AppColor.colorDefaultCupertinoActionSheet,
-        builder: (BuildContext context) => PointerInterceptor(child: (ConfirmDialogBuilder(imagePaths)
-          ..key(const Key('confirm_dialog_delete_email_permanently'))
-          ..title(DeleteActionType.single.getTitleDialog(context))
-          ..content(DeleteActionType.single.getContentDialog(context))
-          ..addIcon(SvgPicture.asset(imagePaths.icRemoveDialog, fit: BoxFit.fill))
-          ..colorConfirmButton(AppColor.colorConfirmActionDialog)
-          ..styleTextConfirmButton(
-              const TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.w500,
-                color: AppColor.colorActionDeleteConfirmDialog))
-          ..onCloseButtonAction(() => popBack())
-          ..onConfirmButtonAction(
-              DeleteActionType.single.getConfirmActionName(context),
-              () => _deleteEmailPermanentlyAction(context, email))
-          ..onCancelButtonAction(
-              AppLocalizations.of(context).cancel,
-              () => popBack()))
-        .build()));
+          context: context,
+          barrierColor: AppColor.colorDefaultCupertinoActionSheet,
+          builder: (BuildContext context) => PointerInterceptor(
+              child: (ConfirmDialogBuilder(imagePaths)
+                    ..key(const Key('confirm_dialog_delete_email_permanently'))
+                    ..title(DeleteActionType.single.getTitleDialog(context))
+                    ..content(DeleteActionType.single.getContentDialog(context))
+                    ..addIcon(SvgPicture.asset(imagePaths.icRemoveDialog,
+                        fit: BoxFit.fill))
+                    ..colorConfirmButton(AppColor.colorConfirmActionDialog)
+                    ..styleTextConfirmButton(const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        color: AppColor.colorActionDeleteConfirmDialog))
+                    ..onCloseButtonAction(() => popBack())
+                    ..onConfirmButtonAction(
+                        DeleteActionType.single.getConfirmActionName(context),
+                        () => _deleteEmailPermanentlyAction(context, email))
+                    ..onCancelButtonAction(
+                        AppLocalizations.of(context).cancel, () => popBack()))
+                  .build()));
     }
   }
 
-  void _deleteEmailPermanentlyAction(BuildContext context, PresentationEmail email) {
+  void _deleteEmailPermanentlyAction(
+      BuildContext context, PresentationEmail email) {
     popBack();
     mailboxDashBoardController.deleteEmailPermanently(email);
   }
 
-  void markAsEmailRead(PresentationEmail presentationEmail, ReadActions readActions, MarkReadAction markReadAction) async {
-    mailboxDashBoardController.markAsEmailRead(presentationEmail, readActions, markReadAction);
+  void markAsEmailRead(PresentationEmail presentationEmail,
+      ReadActions readActions, MarkReadAction markReadAction) async {
+    mailboxDashBoardController.markAsEmailRead(
+        presentationEmail, readActions, markReadAction);
   }
 
-  void markAsStarEmail(PresentationEmail presentationEmail, MarkStarAction action) {
+  void markAsStarEmail(
+      PresentationEmail presentationEmail, MarkStarAction action) {
     mailboxDashBoardController.markAsStarEmail(presentationEmail, action);
   }
 
-  void markAsReadSelectedMultipleEmail(List<PresentationEmail> listEmails, ReadActions readActions) {
-    mailboxDashBoardController.markAsReadSelectedMultipleEmail(listEmails, readActions);
+  void markAsReadSelectedMultipleEmail(
+      List<PresentationEmail> listEmails, ReadActions readActions) {
+    mailboxDashBoardController.markAsReadSelectedMultipleEmail(
+        listEmails, readActions);
   }
 
-  void markAsStarSelectedMultipleEmail(List<PresentationEmail> listEmails, MarkStarAction markStarAction) {
-    mailboxDashBoardController.markAsStarSelectedMultipleEmail(listEmails, markStarAction);
+  void markAsStarSelectedMultipleEmail(
+      List<PresentationEmail> listEmails, MarkStarAction markStarAction) {
+    mailboxDashBoardController.markAsStarSelectedMultipleEmail(
+        listEmails, markStarAction);
   }
 
-  void moveSelectedMultipleEmailToMailbox(
-    BuildContext context,
-    List<PresentationEmail> listEmails,
-    PresentationMailbox mailboxCurrent
-  ) {
+  void moveSelectedMultipleEmailToMailbox(BuildContext context,
+      List<PresentationEmail> listEmails, PresentationMailbox mailboxCurrent) {
     mailboxDashBoardController.moveSelectedMultipleEmailToMailbox(
-      context,
-      listEmails,
-      mailboxCurrent);
+        context, listEmails, mailboxCurrent);
   }
 
-  void moveSelectedMultipleEmailToTrash(List<PresentationEmail> listEmails, PresentationMailbox mailboxCurrent) {
-    mailboxDashBoardController.moveSelectedMultipleEmailToTrash(listEmails, mailboxCurrent);
+  void moveSelectedMultipleEmailToTrash(
+      List<PresentationEmail> listEmails, PresentationMailbox mailboxCurrent) {
+    mailboxDashBoardController.moveSelectedMultipleEmailToTrash(
+        listEmails, mailboxCurrent);
   }
 
-  void moveSelectedMultipleEmailToSpam(List<PresentationEmail> listEmails, PresentationMailbox mailboxCurrent) {
-    mailboxDashBoardController.moveSelectedMultipleEmailToSpam(listEmails, mailboxCurrent);
+  void moveSelectedMultipleEmailToSpam(
+      List<PresentationEmail> listEmails, PresentationMailbox mailboxCurrent) {
+    mailboxDashBoardController.moveSelectedMultipleEmailToSpam(
+        listEmails, mailboxCurrent);
   }
 
   void unSpamSelectedMultipleEmail(List<PresentationEmail> listEmails) {
@@ -275,19 +291,16 @@ mixin EmailActionController {
 
   void deleteSelectionEmailsPermanently(
     BuildContext context,
-    DeleteActionType actionType,
-    {
-      List<PresentationEmail>? listEmails,
-      PresentationMailbox? mailboxCurrent,
-      Function? onCancelSelectionEmail,
-    }
-  ) {
+    DeleteActionType actionType, {
+    List<PresentationEmail>? listEmails,
+    PresentationMailbox? mailboxCurrent,
+    Function? onCancelSelectionEmail,
+  }) {
     mailboxDashBoardController.deleteSelectionEmailsPermanently(
-      context,
-      actionType,
-      listEmails: listEmails,
-      mailboxCurrent: mailboxCurrent,
-      onCancelSelectionEmail: onCancelSelectionEmail);
+        context, actionType,
+        listEmails: listEmails,
+        mailboxCurrent: mailboxCurrent,
+        onCancelSelectionEmail: onCancelSelectionEmail);
   }
 
   void openEmailInNewTabAction(BuildContext context, PresentationEmail email) {

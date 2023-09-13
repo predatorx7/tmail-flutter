@@ -17,109 +17,114 @@ import 'package:model/mailbox/presentation_mailbox.dart';
 import 'package:model/mailbox/select_mode.dart';
 
 extension PresentationEmailExtension on PresentationEmail {
-
   List<Color> get avatarColors {
     return from?.first.avatarColors ?? AppColor.mapGradientColor.first;
   }
 
-  int numberOfAllEmailAddress() => to.numberEmailAddress() + cc.numberEmailAddress() + bcc.numberEmailAddress();
+  int numberOfAllEmailAddress() =>
+      to.numberEmailAddress() +
+      cc.numberEmailAddress() +
+      bcc.numberEmailAddress();
 
   String getReceivedAt(String newLocale, {String? pattern}) {
     final emailTime = receivedAt;
     if (emailTime != null) {
       return emailTime.formatDateToLocal(
-        pattern: pattern ?? emailTime.value.toLocal().toPattern(),
-        locale: newLocale);
+          pattern: pattern ?? emailTime.value.toLocal().toPattern(),
+          locale: newLocale);
     }
     return '';
   }
 
-  Set<EmailAddress> get listEmailAddressSender => from.asSet()..addAll(replyTo.asSet());
+  Set<EmailAddress> get listEmailAddressSender =>
+      from.asSet()..addAll(replyTo.asSet());
 
   PresentationEmail toggleSelect() {
     return PresentationEmail(
-      id: this.id,
-      keywords: keywords,
-      size: size,
-      receivedAt: receivedAt,
-      hasAttachment: hasAttachment,
-      preview: preview,
-      subject: subject,
-      sentAt: sentAt,
-      from: from,
-      to: to,
-      cc: cc,
-      bcc: bcc,
-      replyTo: replyTo,
-      mailboxIds: mailboxIds,
-      selectMode: selectMode == SelectMode.INACTIVE ? SelectMode.ACTIVE : SelectMode.INACTIVE,
-      routeWeb: routeWeb,
-      mailboxContain: mailboxContain,
-      headerCalendarEvent: headerCalendarEvent
-    );
+        id: this.id,
+        keywords: keywords,
+        size: size,
+        receivedAt: receivedAt,
+        hasAttachment: hasAttachment,
+        preview: preview,
+        subject: subject,
+        sentAt: sentAt,
+        from: from,
+        to: to,
+        cc: cc,
+        bcc: bcc,
+        replyTo: replyTo,
+        mailboxIds: mailboxIds,
+        selectMode: selectMode == SelectMode.INACTIVE
+            ? SelectMode.ACTIVE
+            : SelectMode.INACTIVE,
+        routeWeb: routeWeb,
+        mailboxContain: mailboxContain,
+        headerCalendarEvent: headerCalendarEvent);
   }
 
   PresentationEmail toSelectedEmail({required SelectMode selectMode}) {
     return PresentationEmail(
-      id: this.id,
-      keywords: keywords,
-      size: size,
-      receivedAt: receivedAt,
-      hasAttachment: hasAttachment,
-      preview: preview,
-      subject: subject,
-      sentAt: sentAt,
-      from: from,
-      to: to,
-      cc: cc,
-      bcc: bcc,
-      replyTo: replyTo,
-      mailboxIds: mailboxIds,
-      selectMode: selectMode,
-      routeWeb: routeWeb,
-      mailboxContain: mailboxContain,
-      headerCalendarEvent: headerCalendarEvent
-    );
+        id: this.id,
+        keywords: keywords,
+        size: size,
+        receivedAt: receivedAt,
+        hasAttachment: hasAttachment,
+        preview: preview,
+        subject: subject,
+        sentAt: sentAt,
+        from: from,
+        to: to,
+        cc: cc,
+        bcc: bcc,
+        replyTo: replyTo,
+        mailboxIds: mailboxIds,
+        selectMode: selectMode,
+        routeWeb: routeWeb,
+        mailboxContain: mailboxContain,
+        headerCalendarEvent: headerCalendarEvent);
   }
 
   Email toEmail() {
     return Email(
-      id: this.id,
-      keywords: keywords,
-      size: size,
-      receivedAt: receivedAt,
-      hasAttachment: hasAttachment,
-      preview: preview,
-      subject: subject,
-      sentAt: sentAt,
-      from: from,
-      to: to,
-      cc: cc,
-      bcc: bcc,
-      replyTo: replyTo,
-      htmlBody: htmlBody,
-      bodyValues: bodyValues,
-      mailboxIds: mailboxIds,
-      headers: emailHeader?.toSet(),
-      headerCalendarEvent: headerCalendarEvent
-    );
+        id: this.id,
+        keywords: keywords,
+        size: size,
+        receivedAt: receivedAt,
+        hasAttachment: hasAttachment,
+        preview: preview,
+        subject: subject,
+        sentAt: sentAt,
+        from: from,
+        to: to,
+        cc: cc,
+        bcc: bcc,
+        replyTo: replyTo,
+        htmlBody: htmlBody,
+        bodyValues: bodyValues,
+        mailboxIds: mailboxIds,
+        headers: emailHeader?.toSet(),
+        headerCalendarEvent: headerCalendarEvent);
   }
 
   String recipientsName() {
-    final allEmailAddress = to.emailAddressToListString() + cc.emailAddressToListString() + bcc.emailAddressToListString();
+    final allEmailAddress = to.emailAddressToListString() +
+        cc.emailAddressToListString() +
+        bcc.emailAddressToListString();
     return allEmailAddress.isNotEmpty ? allEmailAddress.join(', ') : '';
   }
 
-  Tuple3<List<EmailAddress>, List<EmailAddress>, List<EmailAddress>> generateRecipientsEmailAddressForComposer({
-    required EmailActionType emailActionType,
-    Role? mailboxRole
-  }) {
-    switch(emailActionType) {
+  Tuple3<List<EmailAddress>, List<EmailAddress>, List<EmailAddress>>
+      generateRecipientsEmailAddressForComposer(
+          {required EmailActionType emailActionType, Role? mailboxRole}) {
+    switch (emailActionType) {
       case EmailActionType.reply:
         if (mailboxRole == PresentationMailbox.roleSent) {
           return Tuple3(to.asList(), [], []);
         } else {
-          final replyToAddress = replyTo.asList().isNotEmpty ? to.asList() + replyTo.asList() : from.asList();
+          final replyToAddress = replyTo.asList().isNotEmpty
+              ? to.asList() + replyTo.asList()
+              : from.asList();
           return Tuple3(replyToAddress, [], []);
         }
       case EmailActionType.replyAll:
@@ -133,34 +138,35 @@ extension PresentationEmailExtension on PresentationEmail {
     }
   }
 
-  PresentationEmail toSearchPresentationEmail(Map<MailboxId, PresentationMailbox> mapMailboxes) {
+  PresentationEmail toSearchPresentationEmail(
+      Map<MailboxId, PresentationMailbox> mapMailboxes) {
     mailboxIds?.removeWhere((key, value) => !value);
 
     final matchedMailbox = findMailboxContain(mapMailboxes);
 
     return PresentationEmail(
-      id: this.id,
-      keywords: keywords,
-      size: size,
-      receivedAt: receivedAt,
-      hasAttachment: hasAttachment,
-      preview: preview,
-      subject: subject,
-      sentAt: sentAt,
-      from: from,
-      to: to,
-      cc: cc,
-      bcc: bcc,
-      replyTo: replyTo,
-      mailboxIds: mailboxIds,
-      selectMode: selectMode,
-      routeWeb: routeWeb,
-      mailboxContain: matchedMailbox,
-      headerCalendarEvent: headerCalendarEvent
-    );
+        id: this.id,
+        keywords: keywords,
+        size: size,
+        receivedAt: receivedAt,
+        hasAttachment: hasAttachment,
+        preview: preview,
+        subject: subject,
+        sentAt: sentAt,
+        from: from,
+        to: to,
+        cc: cc,
+        bcc: bcc,
+        replyTo: replyTo,
+        mailboxIds: mailboxIds,
+        selectMode: selectMode,
+        routeWeb: routeWeb,
+        mailboxContain: matchedMailbox,
+        headerCalendarEvent: headerCalendarEvent);
   }
 
-  PresentationMailbox? findMailboxContain(Map<MailboxId, PresentationMailbox> mapMailbox) {
+  PresentationMailbox? findMailboxContain(
+      Map<MailboxId, PresentationMailbox> mapMailbox) {
     final newMailboxIds = mailboxIds;
     newMailboxIds?.removeWhere((key, value) => !value);
 
@@ -175,71 +181,69 @@ extension PresentationEmailExtension on PresentationEmail {
 
   PresentationEmail withRouteWeb(Uri routeWeb) {
     return PresentationEmail(
-      id: this.id,
-      keywords: keywords,
-      size: size,
-      receivedAt: receivedAt,
-      hasAttachment: hasAttachment,
-      preview: preview,
-      subject: subject,
-      sentAt: sentAt,
-      from: from,
-      to: to,
-      cc: cc,
-      bcc: bcc,
-      replyTo: replyTo,
-      mailboxIds: mailboxIds,
-      selectMode: selectMode,
-      routeWeb: routeWeb,
-      mailboxContain: mailboxContain,
-      headerCalendarEvent: headerCalendarEvent
-    );
+        id: this.id,
+        keywords: keywords,
+        size: size,
+        receivedAt: receivedAt,
+        hasAttachment: hasAttachment,
+        preview: preview,
+        subject: subject,
+        sentAt: sentAt,
+        from: from,
+        to: to,
+        cc: cc,
+        bcc: bcc,
+        replyTo: replyTo,
+        mailboxIds: mailboxIds,
+        selectMode: selectMode,
+        routeWeb: routeWeb,
+        mailboxContain: mailboxContain,
+        headerCalendarEvent: headerCalendarEvent);
   }
 
   PresentationEmail updateKeywords(Map<KeyWordIdentifier, bool>? newKeywords) {
     return PresentationEmail(
-      id: this.id,
-      keywords: newKeywords,
-      size: size,
-      receivedAt: receivedAt,
-      hasAttachment: hasAttachment,
-      preview: preview,
-      subject: subject,
-      sentAt: sentAt,
-      from: from,
-      to: to,
-      cc: cc,
-      bcc: bcc,
-      replyTo: replyTo,
-      mailboxIds: mailboxIds,
-      selectMode: selectMode,
-      routeWeb: routeWeb,
-      mailboxContain: mailboxContain,
-      headerCalendarEvent: headerCalendarEvent
-    );
+        id: this.id,
+        keywords: newKeywords,
+        size: size,
+        receivedAt: receivedAt,
+        hasAttachment: hasAttachment,
+        preview: preview,
+        subject: subject,
+        sentAt: sentAt,
+        from: from,
+        to: to,
+        cc: cc,
+        bcc: bcc,
+        replyTo: replyTo,
+        mailboxIds: mailboxIds,
+        selectMode: selectMode,
+        routeWeb: routeWeb,
+        mailboxContain: mailboxContain,
+        headerCalendarEvent: headerCalendarEvent);
   }
 
-  PresentationEmail syncPresentationEmail({PresentationMailbox? mailboxContain, Uri? routeWeb}) {
+  PresentationEmail syncPresentationEmail(
+      {PresentationMailbox? mailboxContain, Uri? routeWeb}) {
     return PresentationEmail(
-      id: this.id,
-      keywords: keywords,
-      size: size,
-      receivedAt: receivedAt,
-      hasAttachment: hasAttachment,
-      preview: preview,
-      subject: subject,
-      sentAt: sentAt,
-      from: from,
-      to: to,
-      cc: cc,
-      bcc: bcc,
-      replyTo: replyTo,
-      mailboxIds: mailboxIds,
-      selectMode: selectMode,
-      routeWeb: routeWeb,
-      mailboxContain: mailboxContain,
-      headerCalendarEvent: headerCalendarEvent
-    );
+        id: this.id,
+        keywords: keywords,
+        size: size,
+        receivedAt: receivedAt,
+        hasAttachment: hasAttachment,
+        preview: preview,
+        subject: subject,
+        sentAt: sentAt,
+        from: from,
+        to: to,
+        cc: cc,
+        bcc: bcc,
+        replyTo: replyTo,
+        mailboxIds: mailboxIds,
+        selectMode: selectMode,
+        routeWeb: routeWeb,
+        mailboxContain: mailboxContain,
+        headerCalendarEvent: headerCalendarEvent);
   }
 
   bool isBelongToOneOfTheMailboxes(List<MailboxId> mailboxIdsSource) {
@@ -249,7 +253,8 @@ extension PresentationEmailExtension on PresentationEmail {
     if (mapMailboxIds?.isNotEmpty == true) {
       final listMailboxId = mapMailboxIds!.keys.toList();
       log('PresentationEmailExtension::isBelongToOneOfTheMailboxes():listMailboxId: $listMailboxId');
-      final listMailboxIdValid = listMailboxId.where((mailboxId) => mailboxIdsSource.contains(mailboxId));
+      final listMailboxIdValid = listMailboxId
+          .where((mailboxId) => mailboxIdsSource.contains(mailboxId));
       log('PresentationEmailExtension::isBelongToOneOfTheMailboxes():listMailboxIdValid: $listMailboxIdValid');
       return listMailboxIdValid.isNotEmpty;
     }

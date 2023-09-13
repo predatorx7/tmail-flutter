@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:model/email/email_action_type.dart';
 import 'package:model/email/presentation_email.dart';
@@ -23,7 +22,6 @@ class SelectionAllEmailAction extends DashBoardAction {}
 class CancelSelectionAllEmailAction extends DashBoardAction {}
 
 class FilterMessageAction extends DashBoardAction {
-
   final BuildContext context;
   final FilterMessageOption option;
 
@@ -34,23 +32,23 @@ class FilterMessageAction extends DashBoardAction {
 }
 
 class HandleEmailActionTypeAction extends DashBoardAction {
-
   final BuildContext context;
   final EmailActionType emailAction;
   final List<PresentationEmail> listEmailSelected;
 
-  HandleEmailActionTypeAction(this.context, this.listEmailSelected, this.emailAction);
+  HandleEmailActionTypeAction(
+      this.context, this.listEmailSelected, this.emailAction);
 
   @override
   List<Object> get props => [listEmailSelected, emailAction];
 }
 
 class OpenEmailDetailedFromSuggestionQuickSearchAction extends DashBoardAction {
-
   final BuildContext context;
   final PresentationEmail presentationEmail;
 
-  OpenEmailDetailedFromSuggestionQuickSearchAction(this.context, this.presentationEmail);
+  OpenEmailDetailedFromSuggestionQuickSearchAction(
+      this.context, this.presentationEmail);
 
   @override
   List<Object?> get props => [presentationEmail];
@@ -59,7 +57,6 @@ class OpenEmailDetailedFromSuggestionQuickSearchAction extends DashBoardAction {
 class StartSearchEmailAction extends DashBoardAction {}
 
 class EmptyTrashAction extends DashBoardAction {
-
   final BuildContext context;
 
   EmptyTrashAction(this.context);
@@ -73,7 +70,6 @@ class ClearSearchEmailAction extends DashBoardAction {}
 class ClearAllFieldOfAdvancedSearchAction extends DashBoardAction {}
 
 class SelectEmailByIdAction extends DashBoardAction {
-
   final NavigationRouter navigationRouter;
 
   SelectEmailByIdAction(this.navigationRouter);
@@ -83,7 +79,6 @@ class SelectEmailByIdAction extends DashBoardAction {
 }
 
 class SearchEmailByQueryAction extends DashBoardAction {
-
   final NavigationRouter navigationRouter;
 
   SearchEmailByQueryAction(this.navigationRouter);
@@ -93,7 +88,6 @@ class SearchEmailByQueryAction extends DashBoardAction {
 }
 
 class SelectDateRangeToAdvancedSearch extends DashBoardAction {
-
   final DateTime? startDate;
   final DateTime? endDate;
 
@@ -104,7 +98,6 @@ class SelectDateRangeToAdvancedSearch extends DashBoardAction {
 }
 
 class ClearDateRangeToAdvancedSearch extends DashBoardAction {
-
   final EmailReceiveTimeType receiveTime;
 
   ClearDateRangeToAdvancedSearch(this.receiveTime);

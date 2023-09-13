@@ -12,6 +12,6 @@ class GetAuthenticatedAccountSuccess extends UIState {
 }
 
 class GetAuthenticatedAccountFailure extends FeatureFailure {
-
-  GetAuthenticatedAccountFailure(dynamic exception) : super(exception: exception);
+  GetAuthenticatedAccountFailure(dynamic exception)
+      : super(exception: exception);
 }

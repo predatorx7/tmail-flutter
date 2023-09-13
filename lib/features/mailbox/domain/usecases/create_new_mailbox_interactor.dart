@@ -11,19 +11,17 @@ class CreateNewMailboxInteractor {
 
   CreateNewMailboxInteractor(this._mailboxRepository);
 
-  Stream<Either<Failure, Success>> execute(
-    Session session,
-    AccountId accountId,
-    CreateNewMailboxRequest newMailboxRequest
-  ) async* {
+  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId,
+      CreateNewMailboxRequest newMailboxRequest) async* {
     try {
       yield Right<Failure, Success>(LoadingCreateNewMailbox());
 
-      final currentMailboxState = await _mailboxRepository.getMailboxState(session, accountId);
-      final newMailbox = await _mailboxRepository.createNewMailbox(session, accountId, newMailboxRequest);
+      final currentMailboxState =
+          await _mailboxRepository.getMailboxState(session, accountId);
+      final newMailbox = await _mailboxRepository.createNewMailbox(
+          session, accountId, newMailboxRequest);
       if (newMailbox != null) {
-        yield Right<Failure, Success>(CreateNewMailboxSuccess(
-            newMailbox,
+        yield Right<Failure, Success>(CreateNewMailboxSuccess(newMailbox,
             currentMailboxState: currentMailboxState));
       } else {
         yield Left<Failure, Success>(CreateNewMailboxFailure(null));

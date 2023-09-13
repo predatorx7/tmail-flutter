@@ -3,27 +3,46 @@ import 'package:model/mailbox/expand_mode.dart';
 import 'package:model/extensions/email_address_extension.dart';
 
 extension ListEmailAddressExtension on Set<EmailAddress>? {
-
-  List<String>? getListAddress() => this?.map((emailAddress) => emailAddress.emailAddress).toList();
+  List<String>? getListAddress() =>
+      this?.map((emailAddress) => emailAddress.emailAddress).toList();
 
   List<EmailAddress> asList() => this != null ? this!.toList() : List.empty();
 
   Set<EmailAddress> asSet() => this ?? {};
 
-  List<String> emailAddressToListString({ExpandMode expandMode = ExpandMode.EXPAND, int limitAddress = 1, bool isFullEmailAddress = false}) {
+  List<String> emailAddressToListString(
+      {ExpandMode expandMode = ExpandMode.EXPAND,
+      int limitAddress = 1,
+      bool isFullEmailAddress = false}) {
     if (this != null) {
       if (expandMode == ExpandMode.EXPAND) {
-        return this!.map((emailAddress) => isFullEmailAddress ? emailAddress.asFullString() : emailAddress.asString()).toList();
+        return this!
+            .map((emailAddress) => isFullEmailAddress
+                ? emailAddress.asFullString()
+                : emailAddress.asString())
+            .toList();
       } else {
-        final address = this!.map((emailAddress) => isFullEmailAddress ? emailAddress.asFullString() : emailAddress.asString()).toList();
-        return address.length > limitAddress ? address.sublist(0, limitAddress) : address;
+        final address = this!
+            .map((emailAddress) => isFullEmailAddress
+                ? emailAddress.asFullString()
+                : emailAddress.asString())
+            .toList();
+        return address.length > limitAddress
+            ? address.sublist(0, limitAddress)
+            : address;
       }
     }
     return [];
   }
 
-  String listEmailAddressToString({ExpandMode expandMode = ExpandMode.EXPAND, int limitAddress = 1, bool isFullEmailAddress = false}) {
-    final listEmail = emailAddressToListString(expandMode: expandMode, limitAddress: limitAddress, isFullEmailAddress: isFullEmailAddress);
+  String listEmailAddressToString(
+      {ExpandMode expandMode = ExpandMode.EXPAND,
+      int limitAddress = 1,
+      bool isFullEmailAddress = false}) {
+    final listEmail = emailAddressToListString(
+        expandMode: expandMode,
+        limitAddress: limitAddress,
+        isFullEmailAddress: isFullEmailAddress);
     return listEmail.isNotEmpty ? listEmail.join(', ') : '';
   }
 
@@ -31,7 +50,9 @@ extension ListEmailAddressExtension on Set<EmailAddress>? {
 
   List<EmailAddress> filterEmailAddress(String emailAddressNotExist) {
     return this != null
-      ? this!.where((emailAddress) => emailAddress.email != emailAddressNotExist).toList()
-      : List.empty();
+        ? this!
+            .where((emailAddress) => emailAddress.email != emailAddressNotExist)
+            .toList()
+        : List.empty();
   }
 }

@@ -1,4 +1,3 @@
-
 class MailboxItemWidgetStyles {
   static const double selectionIconSize = 20;
   static const double space = 4;

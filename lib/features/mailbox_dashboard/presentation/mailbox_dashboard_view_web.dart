@@ -40,7 +40,6 @@ import 'package:tmail_ui_user/main/utils/app_utils.dart';
 import 'widgets/app_dashboard/app_grid_dashboard_overlay.dart';
 
 class MailboxDashBoardView extends BaseMailboxDashBoardView {
-
   MailboxDashBoardView({Key? key}) : super(key: key);
 
   @override
@@ -50,15 +49,15 @@ class MailboxDashBoardView extends BaseMailboxDashBoardView {
     return Portal(
       child: Stack(children: [
         ResponsiveWidget(
-            responsiveUtils: responsiveUtils,
-            desktop: Scaffold(
-              body: GestureDetector(
-                onTap: () => FocusScope.of(context).unfocus(),
-                child: Container(
-                  color: AppColor.colorBgDesktop,
-                  child: Column(children: [
-                    Row(children: [
-                      Container(
+          responsiveUtils: responsiveUtils,
+          desktop: Scaffold(
+            body: GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: Container(
+                color: AppColor.colorBgDesktop,
+                child: Column(children: [
+                  Row(children: [
+                    Container(
                         width: ResponsiveUtils.defaultSizeMenu,
                         color: Colors.white,
                         padding: EdgeInsets.only(
@@ -72,158 +71,165 @@ class MailboxDashBoardView extends BaseMailboxDashBoardView {
                             sizeLogo: 24,
                             text: AppLocalizations.of(context).app_name,
                             textAlign: TextAlign.center,
-                            textStyle: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+                            textStyle: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
                             logoSVG: imagePaths.icTMailLogo,
                             onTapCallback: controller.redirectToInboxAction,
                           ),
                           Obx(() {
                             if (controller.appInformation.value != null) {
-                              return Padding(padding: const EdgeInsets.only(top: 6),
-                                child: Text(
-                                  'v${controller.appInformation.value!.version}',
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    fontSize: 13,
-                                    color: AppColor.colorContentEmail,
-                                    fontWeight: FontWeight.w500),
-                                ));
+                              return Padding(
+                                  padding: const EdgeInsets.only(top: 6),
+                                  child: Text(
+                                    'v${controller.appInformation.value!.version}',
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                        fontSize: 13,
+                                        color: AppColor.colorContentEmail,
+                                        fontWeight: FontWeight.w500),
+                                  ));
                             } else {
                               return const SizedBox.shrink();
                             }
                           }),
-                        ])
-                      ),
-                      Expanded(child: Container(
-                        color: Colors.white,
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.only(
-                          right: AppUtils.isDirectionRTL(context) ? 0 : 10,
-                          left: AppUtils.isDirectionRTL(context) ? 10 : 0,
-                        ),
-                        height: 80,
-                        child: _buildRightHeader(context)))
-                    ]),
-                    Expanded(child: Row(children: [
-                      Column(children: [
-                        _buildComposerButton(context),
-                        Expanded(child: SizedBox(
-                          width: ResponsiveUtils.defaultSizeMenu,
-                          child: Obx(() {
-                            if (controller.searchMailboxActivated.isTrue) {
-                              return const SearchMailboxView(
-                                backgroundColor: AppColor.colorBgDesktop
-                              );
-                            } else {
-                              return MailboxView();
-                            }
-                          })
-                        ))
-                      ]),
-                      Expanded(child: Column(children: [
-                        const SpamReportBannerWebWidget(),
-                        const QuotasBannerWidget(),
-                        _buildVacationNotificationMessage(context),
-                        Obx(() {
-                          if (controller.isEmptyTrashBannerEnabledOnWeb(context)) {
-                            return Padding(
-                              padding: const EdgeInsetsDirectional.only(
-                                top: BannerEmptyTrashStyles.webTopMargin,
-                                end: BannerEmptyTrashStyles.webEndMargin
-                              ),
-                              child: BannerEmptyTrashWidget(
-                                onTapAction: () => controller.emptyTrashAction(context)
-                              ),
-                            );
-                          } else {
-                            return const SizedBox.shrink();
-                          }
-                        }),
-                        Obx(() {
-                          if (controller.isEmptySpamBannerEnabledOnWeb(context)) {
-                            return Padding(
-                              padding: const EdgeInsetsDirectional.only(
-                                top: BannerDeleteAllSpamEmailsStyles.webTopMargin,
-                                end: BannerDeleteAllSpamEmailsStyles.webEndMargin
-                              ),
-                              child: BannerDeleteAllSpamEmailsWidget(
-                                onTapAction: () => controller.openDialogEmptySpamFolder(context)
-                              ),
-                            );
-                          } else {
-                            return const SizedBox.shrink();
-                          }
-                        }),
-                        _buildListButtonQuickSearchFilter(context),
-                        _buildMarkAsMailboxReadLoading(context),
-                        Expanded(child: Obx(() {
-                          switch(controller.dashboardRoute.value) {
-                            case DashboardRoutes.thread:
-                              return _buildThreadViewForWebDesktop(context);
-                            case DashboardRoutes.emailDetailed:
-                              return EmailView();
-                            default:
-                              return const SizedBox.shrink();
-                          }
-                        }))
-                      ]))
-                    ]))
+                        ])),
+                    Expanded(
+                        child: Container(
+                            color: Colors.white,
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.only(
+                              right: AppUtils.isDirectionRTL(context) ? 0 : 10,
+                              left: AppUtils.isDirectionRTL(context) ? 10 : 0,
+                            ),
+                            height: 80,
+                            child: _buildRightHeader(context)))
                   ]),
-                ),
+                  Expanded(
+                      child: Row(children: [
+                    Column(children: [
+                      _buildComposerButton(context),
+                      Expanded(
+                          child: SizedBox(
+                              width: ResponsiveUtils.defaultSizeMenu,
+                              child: Obx(() {
+                                if (controller.searchMailboxActivated.isTrue) {
+                                  return const SearchMailboxView(
+                                      backgroundColor: AppColor.colorBgDesktop);
+                                } else {
+                                  return MailboxView();
+                                }
+                              })))
+                    ]),
+                    Expanded(
+                        child: Column(children: [
+                      const SpamReportBannerWebWidget(),
+                      const QuotasBannerWidget(),
+                      _buildVacationNotificationMessage(context),
+                      Obx(() {
+                        if (controller
+                            .isEmptyTrashBannerEnabledOnWeb(context)) {
+                          return Padding(
+                            padding: const EdgeInsetsDirectional.only(
+                                top: BannerEmptyTrashStyles.webTopMargin,
+                                end: BannerEmptyTrashStyles.webEndMargin),
+                            child: BannerEmptyTrashWidget(
+                                onTapAction: () =>
+                                    controller.emptyTrashAction(context)),
+                          );
+                        } else {
+                          return const SizedBox.shrink();
+                        }
+                      }),
+                      Obx(() {
+                        if (controller.isEmptySpamBannerEnabledOnWeb(context)) {
+                          return Padding(
+                            padding: const EdgeInsetsDirectional.only(
+                                top: BannerDeleteAllSpamEmailsStyles
+                                    .webTopMargin,
+                                end: BannerDeleteAllSpamEmailsStyles
+                                    .webEndMargin),
+                            child: BannerDeleteAllSpamEmailsWidget(
+                                onTapAction: () => controller
+                                    .openDialogEmptySpamFolder(context)),
+                          );
+                        } else {
+                          return const SizedBox.shrink();
+                        }
+                      }),
+                      _buildListButtonQuickSearchFilter(context),
+                      _buildMarkAsMailboxReadLoading(context),
+                      Expanded(child: Obx(() {
+                        switch (controller.dashboardRoute.value) {
+                          case DashboardRoutes.thread:
+                            return _buildThreadViewForWebDesktop(context);
+                          case DashboardRoutes.emailDetailed:
+                            return EmailView();
+                          default:
+                            return const SizedBox.shrink();
+                        }
+                      }))
+                    ]))
+                  ]))
+                ]),
               ),
             ),
-            tabletLarge: Obx(() {
-              switch(controller.dashboardRoute.value) {
-                case DashboardRoutes.searchEmail:
-                  return SearchEmailView();
-                case DashboardRoutes.emailDetailed:
-                  return controller.searchController.isSearchEmailRunning
-                      ? EmailView()
-                      : _buildScaffoldHaveDrawer(
+          ),
+          tabletLarge: Obx(() {
+            switch (controller.dashboardRoute.value) {
+              case DashboardRoutes.searchEmail:
+                return SearchEmailView();
+              case DashboardRoutes.emailDetailed:
+                return controller.searchController.isSearchEmailRunning
+                    ? EmailView()
+                    : _buildScaffoldHaveDrawer(
                         body: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                  width: ResponsiveUtils.defaultSizeLeftMenuMobile,
-                                  child: ThreadView()),
-                              Expanded(child: EmailView()),
-                            ],
-                          ),
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                                width:
+                                    ResponsiveUtils.defaultSizeLeftMenuMobile,
+                                child: ThreadView()),
+                            Expanded(child: EmailView()),
+                          ],
+                        ),
                       );
-                default:
-                  return _buildScaffoldHaveDrawer(
-                    body: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                            width: ResponsiveUtils.defaultSizeLeftMenuMobile,
-                            child: ThreadView()),
-                        Expanded(child: EmailView()),
-                      ],
-                    ),
-                  );
-              }
-            }),
-            mobile: Obx(() {
-              switch(controller.dashboardRoute.value) {
-                case DashboardRoutes.thread:
-                  return _buildScaffoldHaveDrawer(body: ThreadView());
-                case DashboardRoutes.emailDetailed:
-                  return EmailView();
-                case DashboardRoutes.searchEmail:
-                  return SearchEmailView();
-                default:
-                  return _buildScaffoldHaveDrawer(body: ThreadView());
-              }
-            }),
+              default:
+                return _buildScaffoldHaveDrawer(
+                  body: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                          width: ResponsiveUtils.defaultSizeLeftMenuMobile,
+                          child: ThreadView()),
+                      Expanded(child: EmailView()),
+                    ],
+                  ),
+                );
+            }
+          }),
+          mobile: Obx(() {
+            switch (controller.dashboardRoute.value) {
+              case DashboardRoutes.thread:
+                return _buildScaffoldHaveDrawer(body: ThreadView());
+              case DashboardRoutes.emailDetailed:
+                return EmailView();
+              case DashboardRoutes.searchEmail:
+                return SearchEmailView();
+              default:
+                return _buildScaffoldHaveDrawer(body: ThreadView());
+            }
+          }),
         ),
-        Obx(() => controller.composerOverlayState.value == ComposerOverlayState.active
-            ? ComposerView()
-            : const SizedBox.shrink()
-        ),
-        Obx(() => controller.searchMailboxActivated.value == true && !responsiveUtils.isWebDesktop(context)
-          ? const SearchMailboxView()
-          : const SizedBox.shrink()
-        ),
+        Obx(() =>
+            controller.composerOverlayState.value == ComposerOverlayState.active
+                ? ComposerView()
+                : const SizedBox.shrink()),
+        Obx(() => controller.searchMailboxActivated.value == true &&
+                !responsiveUtils.isWebDesktop(context)
+            ? const SearchMailboxView()
+            : const SizedBox.shrink()),
         _buildDownloadTaskStateWidget(),
       ]),
     );
@@ -233,11 +239,13 @@ class MailboxDashBoardView extends BaseMailboxDashBoardView {
     return Scaffold(
       key: controller.scaffoldKey,
       drawer: ResponsiveWidget(
-        responsiveUtils: responsiveUtils,
-        mobile: SizedBox(width: ResponsiveUtils.defaultSizeDrawer, child: MailboxView()),
-        tabletLarge: SizedBox(width: ResponsiveUtils.defaultSizeLeftMenuMobile, child: MailboxView()),
-        desktop: const SizedBox.shrink()
-      ),
+          responsiveUtils: responsiveUtils,
+          mobile: SizedBox(
+              width: ResponsiveUtils.defaultSizeDrawer, child: MailboxView()),
+          tabletLarge: SizedBox(
+              width: ResponsiveUtils.defaultSizeLeftMenuMobile,
+              child: MailboxView()),
+          desktop: const SizedBox.shrink()),
       body: body,
     );
   }
@@ -245,15 +253,14 @@ class MailboxDashBoardView extends BaseMailboxDashBoardView {
   Widget _buildThreadViewForWebDesktop(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-        right: AppUtils.isDirectionRTL(context) ? 0 : 16,
-        left: AppUtils.isDirectionRTL(context) ? 16 : 0,
-        top: 8,
-        bottom: 16
-      ),
+          right: AppUtils.isDirectionRTL(context) ? 0 : 16,
+          left: AppUtils.isDirectionRTL(context) ? 16 : 0,
+          top: 8,
+          bottom: 16),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColor.colorBorderBodyThread, width: 1),
-        color: Colors.white),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppColor.colorBorderBodyThread, width: 1),
+          color: Colors.white),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: Column(children: [
@@ -265,14 +272,11 @@ class MailboxDashBoardView extends BaseMailboxDashBoardView {
                   context,
                   controller.listEmailSelected,
                   controller.mapMailboxById,
-                  onCancelSelection: () =>
-                    controller.dispatchAction(CancelSelectionAllEmailAction()),
+                  onCancelSelection: () => controller
+                      .dispatchAction(CancelSelectionAllEmailAction()),
                   onEmailActionTypeAction: (listEmails, actionType) =>
-                    controller.dispatchAction(HandleEmailActionTypeAction(
-                      context,
-                      listEmails,
-                      actionType
-                    )),
+                      controller.dispatchAction(HandleEmailActionTypeAction(
+                          context, listEmails, actionType)),
                 ).build(),
               );
             } else {
@@ -293,68 +297,75 @@ class MailboxDashBoardView extends BaseMailboxDashBoardView {
     return LayoutBuilder(builder: (context, constraint) {
       return Row(children: [
         SizedBox(
-          width: constraint.maxWidth / 2,
-          height: 52,
-          child: SearchInputFormWidget()
-        ),
+            width: constraint.maxWidth / 2,
+            height: 52,
+            child: SearchInputFormWidget()),
         const Spacer(),
         AppConfig.appGridDashboardAvailable
-          ? Obx(() => PortalTarget(
-              visible: controller.appGridDashboardController.isAppGridDashboardOverlayOpen.isTrue,
-              portalFollower: GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () => controller.appGridDashboardController.toggleAppGridDashboard()),
-              child: PortalTarget(
-                anchor: Aligned(
-                  follower: AppUtils.isDirectionRTL(context)
-                    ? Alignment.topLeft
-                    : Alignment.topRight,
-                  target: AppUtils.isDirectionRTL(context)
-                    ? Alignment.bottomLeft
-                    : Alignment.bottomRight
-                ),
-                portalFollower: Obx(() {
-                  if (controller.appGridDashboardController.linagoraApplications.value != null) {
-                    return AppDashboardOverlay(controller.appGridDashboardController.linagoraApplications.value!);
-                  }
-                  return const SizedBox.shrink();
-                }),
-                visible: controller.appGridDashboardController.isAppGridDashboardOverlayOpen.isTrue,
-                child: buildIconWeb(
-                  onTap: controller.showAppDashboardAction,
-                  splashRadius: 20,
-                  icon: SvgPicture.asset(
-                    imagePaths.icAppDashboard,
-                    width: 28,
-                    height: 28,
-                    fit: BoxFit.fill
+            ? Obx(() => PortalTarget(
+                visible: controller.appGridDashboardController
+                    .isAppGridDashboardOverlayOpen.isTrue,
+                portalFollower: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => controller.appGridDashboardController
+                        .toggleAppGridDashboard()),
+                child: PortalTarget(
+                  anchor: Aligned(
+                      follower: AppUtils.isDirectionRTL(context)
+                          ? Alignment.topLeft
+                          : Alignment.topRight,
+                      target: AppUtils.isDirectionRTL(context)
+                          ? Alignment.bottomLeft
+                          : Alignment.bottomRight),
+                  portalFollower: Obx(() {
+                    if (controller.appGridDashboardController
+                            .linagoraApplications.value !=
+                        null) {
+                      return AppDashboardOverlay(controller
+                          .appGridDashboardController
+                          .linagoraApplications
+                          .value!);
+                    }
+                    return const SizedBox.shrink();
+                  }),
+                  visible: controller.appGridDashboardController
+                      .isAppGridDashboardOverlayOpen.isTrue,
+                  child: buildIconWeb(
+                    onTap: controller.showAppDashboardAction,
+                    splashRadius: 20,
+                    icon: SvgPicture.asset(imagePaths.icAppDashboard,
+                        width: 28, height: 28, fit: BoxFit.fill),
                   ),
-                ),
-              )
-            )
-          )
-          : const SizedBox.shrink(),
+                )))
+            : const SizedBox.shrink(),
         const SizedBox(width: 24),
         Obx(() => (AvatarBuilder()
-          ..text(controller.userProfile.value?.getAvatarText() ?? '')
-          ..backgroundColor(Colors.white)
-          ..textColor(Colors.black)
-          ..context(context)
-          ..addOnTapAvatarActionWithPositionClick((position) =>
-              controller.openPopupMenuAction(context, position, popupMenuUserSettingActionTile(context,
-                  controller.userProfile.value,
-                  onLogoutAction: () {
-                    popBack();
-                    controller.logout(controller.sessionCurrent, controller.accountId.value);
-                  },
-                  onSettingAction: () {
-                    popBack();
-                    controller.goToSettings();
-                  })))
-          ..addBoxShadows([const BoxShadow(
-              color: AppColor.colorShadowBgContentEmail,
-              spreadRadius: 1, blurRadius: 1, offset: Offset(0, 0.5))])
-          ..size(48))
+              ..text(controller.userProfile.value?.getAvatarText() ?? '')
+              ..backgroundColor(Colors.white)
+              ..textColor(Colors.black)
+              ..context(context)
+              ..addOnTapAvatarActionWithPositionClick((position) =>
+                  controller.openPopupMenuAction(
+                      context,
+                      position,
+                      popupMenuUserSettingActionTile(
+                          context, controller.userProfile.value,
+                          onLogoutAction: () {
+                        popBack();
+                        controller.logout(controller.sessionCurrent,
+                            controller.accountId.value);
+                      }, onSettingAction: () {
+                        popBack();
+                        controller.goToSettings();
+                      })))
+              ..addBoxShadows([
+                const BoxShadow(
+                    color: AppColor.colorShadowBgContentEmail,
+                    spreadRadius: 1,
+                    blurRadius: 1,
+                    offset: Offset(0, 0.5))
+              ])
+              ..size(48))
             .build()),
         const SizedBox(width: 16)
       ]);
@@ -364,8 +375,22 @@ class MailboxDashBoardView extends BaseMailboxDashBoardView {
   Widget _buildListButtonTopBar(BuildContext context) {
     return Row(children: [
       Obx(() {
-        return controller.refreshingMailboxState.value.fold(
-          (failure) {
+        return controller.refreshingMailboxState.value.fold((failure) {
+          return TMailButtonWidget.fromIcon(
+            key: const Key('refresh_mailbox_button'),
+            icon: imagePaths.icRefresh,
+            borderRadius: 10,
+            iconSize: 16,
+            onTapActionCallback: controller.refreshMailboxAction,
+          );
+        }, (success) {
+          if (success is RefreshAllEmailLoading) {
+            return const TMailContainerWidget(
+                borderRadius: 10,
+                padding: EdgeInsetsDirectional.symmetric(
+                    vertical: 8, horizontal: 8.5),
+                child: CupertinoLoadingWidget(size: 16));
+          } else {
             return TMailButtonWidget.fromIcon(
               key: const Key('refresh_mailbox_button'),
               icon: imagePaths.icRefresh,
@@ -373,24 +398,8 @@ class MailboxDashBoardView extends BaseMailboxDashBoardView {
               iconSize: 16,
               onTapActionCallback: controller.refreshMailboxAction,
             );
-          },
-          (success) {
-            if (success is RefreshAllEmailLoading) {
-              return const TMailContainerWidget(
-                borderRadius: 10,
-                padding: EdgeInsetsDirectional.symmetric(vertical: 8, horizontal: 8.5),
-                child: CupertinoLoadingWidget(size: 16));
-            } else {
-              return TMailButtonWidget.fromIcon(
-                key: const Key('refresh_mailbox_button'),
-                icon: imagePaths.icRefresh,
-                borderRadius: 10,
-                iconSize: 16,
-                onTapActionCallback: controller.refreshMailboxAction,
-              );
-            }
           }
-        );
+        });
       }),
       const SizedBox(width: 16),
       TMailButtonWidget(
@@ -399,7 +408,8 @@ class MailboxDashBoardView extends BaseMailboxDashBoardView {
         icon: imagePaths.icSelectAll,
         borderRadius: 10,
         iconSize: 16,
-        padding: const EdgeInsetsDirectional.symmetric(horizontal: 12, vertical: 8),
+        padding:
+            const EdgeInsetsDirectional.symmetric(horizontal: 12, vertical: 8),
         onTapActionCallback: controller.selectAllEmailAction,
       ),
       if (controller.isAbleMarkAllAsRead())
@@ -411,72 +421,77 @@ class MailboxDashBoardView extends BaseMailboxDashBoardView {
             icon: imagePaths.icSelectAll,
             borderRadius: 10,
             iconSize: 16,
-            padding: const EdgeInsetsDirectional.symmetric(horizontal: 12, vertical: 8),
-            onTapActionCallback: () => controller.markAsReadMailboxAction(context),
+            padding: const EdgeInsetsDirectional.symmetric(
+                horizontal: 12, vertical: 8),
+            onTapActionCallback: () =>
+                controller.markAsReadMailboxAction(context),
           ),
         ),
       const SizedBox(width: 16),
       Obx(() => TMailButtonWidget(
-        key: const Key('filter_emails_button'),
-        text: controller.filterMessageOption.value == FilterMessageOption.all
-          ? AppLocalizations.of(context).filter_messages
-          : controller.filterMessageOption.value.getTitle(context),
-        icon: controller.filterMessageOption.value.getIconSelected(imagePaths),
-        borderRadius: 10,
-        iconSize: 16,
-        padding: const EdgeInsetsDirectional.symmetric(horizontal: 12, vertical: 8),
-        backgroundColor: controller.filterMessageOption.value.getBackgroundColor(),
-        textStyle: controller.filterMessageOption.value.getTextStyle(),
-        trailingIcon: imagePaths.icArrowDown,
-        onTapActionAtPositionCallback: (position) {
-          return controller.openPopupMenuAction(
-            context,
-            position,
-            popupMenuFilterEmailActionTile(
-              context,
-              controller.filterMessageOption.value,
-              (option) => controller.dispatchAction(FilterMessageAction(context, option)),
-              isSearchEmailRunning: controller.searchController.isSearchEmailRunning
-            )
-          );
-        },
-      )),
+            key: const Key('filter_emails_button'),
+            text:
+                controller.filterMessageOption.value == FilterMessageOption.all
+                    ? AppLocalizations.of(context).filter_messages
+                    : controller.filterMessageOption.value.getTitle(context),
+            icon: controller.filterMessageOption.value
+                .getIconSelected(imagePaths),
+            borderRadius: 10,
+            iconSize: 16,
+            padding: const EdgeInsetsDirectional.symmetric(
+                horizontal: 12, vertical: 8),
+            backgroundColor:
+                controller.filterMessageOption.value.getBackgroundColor(),
+            textStyle: controller.filterMessageOption.value.getTextStyle(),
+            trailingIcon: imagePaths.icArrowDown,
+            onTapActionAtPositionCallback: (position) {
+              return controller.openPopupMenuAction(
+                  context,
+                  position,
+                  popupMenuFilterEmailActionTile(
+                      context,
+                      controller.filterMessageOption.value,
+                      (option) => controller
+                          .dispatchAction(FilterMessageAction(context, option)),
+                      isSearchEmailRunning:
+                          controller.searchController.isSearchEmailRunning));
+            },
+          )),
     ]);
   }
 
   Widget _buildMarkAsMailboxReadLoading(BuildContext context) {
     return Obx(() {
       final viewState = controller.viewStateMarkAsReadMailbox.value;
-      return viewState.fold(
-          (failure) => const SizedBox.shrink(),
-          (success) {
-            if (success is MarkAsMailboxReadLoading) {
-              return Padding(
-                  padding: EdgeInsets.only(
-                      top: responsiveUtils.isDesktop(context) ? 16 : 0,
-                      left: 16,
-                      right: 16,
-                      bottom: responsiveUtils.isDesktop(context) ? 0 : 16),
-                  child: horizontalLoadingWidget);
-            } else if (success is UpdatingMarkAsMailboxReadState) {
-              final percent = success.countRead / success.totalUnread;
-              return Padding(
-                  padding: EdgeInsets.only(
-                      top: responsiveUtils.isDesktop(context) ? 16 : 0,
-                      left: 16,
-                      right: 16,
-                      bottom: responsiveUtils.isDesktop(context) ? 0 : 16),
-                  child: horizontalPercentLoadingWidget(percent));
-            }
-            return const SizedBox.shrink();
-          });
+      return viewState.fold((failure) => const SizedBox.shrink(), (success) {
+        if (success is MarkAsMailboxReadLoading) {
+          return Padding(
+              padding: EdgeInsets.only(
+                  top: responsiveUtils.isDesktop(context) ? 16 : 0,
+                  left: 16,
+                  right: 16,
+                  bottom: responsiveUtils.isDesktop(context) ? 0 : 16),
+              child: horizontalLoadingWidget);
+        } else if (success is UpdatingMarkAsMailboxReadState) {
+          final percent = success.countRead / success.totalUnread;
+          return Padding(
+              padding: EdgeInsets.only(
+                  top: responsiveUtils.isDesktop(context) ? 16 : 0,
+                  left: 16,
+                  right: 16,
+                  bottom: responsiveUtils.isDesktop(context) ? 0 : 16),
+              child: horizontalPercentLoadingWidget(percent));
+        }
+        return const SizedBox.shrink();
+      });
     });
   }
 
   Widget _buildDownloadTaskStateWidget() {
     return Obx(() {
       if (controller.downloadController.notEmptyListDownloadTask) {
-        final downloadTasks = controller.downloadController.listDownloadTaskState;
+        final downloadTasks =
+            controller.downloadController.listDownloadTaskState;
 
         return Align(
           alignment: Alignment.bottomCenter,
@@ -488,17 +503,13 @@ class MailboxDashBoardView extends BaseMailboxDashBoardView {
                 scrollDirection: Axis.horizontal,
                 padding: EdgeInsets.zero,
                 itemCount: downloadTasks.length,
-                separatorBuilder: (context, index) =>
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5),
-                    child: VerticalDivider(
-                      color: Colors.grey,
-                      width: 2.5,
-                      thickness: 0.2),
-                  ),
+                separatorBuilder: (context, index) => const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 5),
+                      child: VerticalDivider(
+                          color: Colors.grey, width: 2.5, thickness: 0.2),
+                    ),
                 itemBuilder: (context, index) =>
-                    DownloadTaskItemWidget(downloadTasks[index])
-            ),
+                    DownloadTaskItemWidget(downloadTasks[index])),
           ),
         );
       } else {
@@ -526,8 +537,8 @@ class MailboxDashBoardView extends BaseMailboxDashBoardView {
   }
 
   bool supportListButtonQuickSearchFilter(BuildContext context) {
-    return controller.searchController.isSearchEmailRunning
-      && controller.dashboardRoute.value == DashboardRoutes.thread;
+    return controller.searchController.isSearchEmailRunning &&
+        controller.dashboardRoute.value == DashboardRoutes.thread;
   }
 
   Widget _buildListButtonQuickSearchFilter(BuildContext context) {
@@ -535,14 +546,14 @@ class MailboxDashBoardView extends BaseMailboxDashBoardView {
       if (supportListButtonQuickSearchFilter(context)) {
         return Padding(
           padding: EdgeInsets.only(
-            right: AppUtils.isDirectionRTL(context) ? 0 : 16,
-            left: AppUtils.isDirectionRTL(context) ? 16 : 0,
-            top: 16
-          ),
-          child: Row(children: QuickSearchFilter.values
-            .map((filter) => _buildQuickSearchFilterButton(context, filter))
-            .toList()
-          ),
+              right: AppUtils.isDirectionRTL(context) ? 0 : 16,
+              left: AppUtils.isDirectionRTL(context) ? 16 : 0,
+              top: 16),
+          child: Row(
+              children: QuickSearchFilter.values
+                  .map((filter) =>
+                      _buildQuickSearchFilterButton(context, filter))
+                  .toList()),
         );
       } else {
         return const SizedBox.shrink();
@@ -551,14 +562,11 @@ class MailboxDashBoardView extends BaseMailboxDashBoardView {
   }
 
   Widget _buildQuickSearchFilterButton(
-      BuildContext context,
-      QuickSearchFilter filter
-  ) {
+      BuildContext context, QuickSearchFilter filter) {
     return Obx(() {
       final isFilterSelected = filter.isSelected(
-        controller.searchController.searchEmailFilter.value,
-        controller.userProfile.value
-      );
+          controller.searchController.searchEmailFilter.value,
+          controller.userProfile.value);
 
       return Padding(
         padding: EdgeInsets.only(
@@ -582,49 +590,47 @@ class MailboxDashBoardView extends BaseMailboxDashBoardView {
                 screenSize.height - offset.dy,
               );
               controller.openPopupMenuAction(
-                context,
-                position,
-                popupMenuEmailReceiveTimeType(
                   context,
-                  controller.searchController.receiveTimeFiltered,
-                  onCallBack: (receiveTime) => controller.selectReceiveTimeQuickSearchFilter(context, receiveTime)
-                )
-              );
+                  position,
+                  popupMenuEmailReceiveTimeType(
+                      context, controller.searchController.receiveTimeFiltered,
+                      onCallBack: (receiveTime) =>
+                          controller.selectReceiveTimeQuickSearchFilter(
+                              context, receiveTime)));
             }
           },
           borderRadius: const BorderRadius.all(Radius.circular(10)),
           child: Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: filter.getBackgroundColor(isFilterSelected: isFilterSelected)),
+                  color: filter.getBackgroundColor(
+                      isFilterSelected: isFilterSelected)),
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 SvgPicture.asset(
-                    filter.getIcon(imagePaths, isFilterSelected: isFilterSelected),
+                    filter.getIcon(imagePaths,
+                        isFilterSelected: isFilterSelected),
                     width: 16,
                     height: 16,
                     fit: BoxFit.fill),
                 const SizedBox(width: 4),
                 Text(
-                  filter.getTitle(
-                    context,
-                    receiveTimeType: controller.searchController.receiveTimeFiltered,
-                    startDate: controller.searchController.startDateFiltered,
-                    endDate: controller.searchController.endDateFiltered
-                  ),
+                  filter.getTitle(context,
+                      receiveTimeType:
+                          controller.searchController.receiveTimeFiltered,
+                      startDate: controller.searchController.startDateFiltered,
+                      endDate: controller.searchController.endDateFiltered),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: filter.getTextStyle(isFilterSelected: isFilterSelected),
+                  style:
+                      filter.getTextStyle(isFilterSelected: isFilterSelected),
                 ),
-                if (filter == QuickSearchFilter.last7Days)
-                  ... [
-                    const SizedBox(width: 4),
-                    SvgPicture.asset(
-                        imagePaths.icChevronDown,
-                        width: 16,
-                        height: 16,
-                        fit: BoxFit.fill),
-                  ]
+                if (filter == QuickSearchFilter.last7Days) ...[
+                  const SizedBox(width: 4),
+                  SvgPicture.asset(imagePaths.icChevronDown,
+                      width: 16, height: 16, fit: BoxFit.fill),
+                ]
               ])),
         ),
       );
@@ -632,31 +638,25 @@ class MailboxDashBoardView extends BaseMailboxDashBoardView {
   }
 
   List<PopupMenuEntry> popupMenuEmailReceiveTimeType(
-    BuildContext context,
-    EmailReceiveTimeType? receiveTimeSelected,
-    {Function(EmailReceiveTimeType)? onCallBack}
-  ) {
+      BuildContext context, EmailReceiveTimeType? receiveTimeSelected,
+      {Function(EmailReceiveTimeType)? onCallBack}) {
     return EmailReceiveTimeType.values
-      .map((receiveTime) => PopupMenuItem(
-        padding: EdgeInsets.zero,
-        child: PopupItemNoIconWidget(
-          receiveTime.getTitle(context),
-          svgIconSelected: imagePaths.icFilterSelected,
-          maxWidth: 320,
-          isSelected: receiveTimeSelected == receiveTime,
-          onCallbackAction: () => onCallBack?.call(receiveTime),
-        )))
-      .toList();
+        .map((receiveTime) => PopupMenuItem(
+            padding: EdgeInsets.zero,
+            child: PopupItemNoIconWidget(
+              receiveTime.getTitle(context),
+              svgIconSelected: imagePaths.icFilterSelected,
+              maxWidth: 320,
+              isSelected: receiveTimeSelected == receiveTime,
+              onCallbackAction: () => onCallBack?.call(receiveTime),
+            )))
+        .toList();
   }
 
   Widget _buildComposerButton(BuildContext context) {
     return Container(
       padding: const EdgeInsetsDirectional.only(
-        start: 16,
-        end: 16,
-        top: 16,
-        bottom: 8
-      ),
+          start: 16, end: 16, top: 16, bottom: 8),
       width: ResponsiveUtils.defaultSizeMenu,
       alignment: Alignment.centerLeft,
       child: TMailButtonWidget(
@@ -669,16 +669,10 @@ class MailboxDashBoardView extends BaseMailboxDashBoardView {
         padding: const EdgeInsetsDirectional.symmetric(vertical: 8),
         backgroundColor: AppColor.colorTextButton,
         boxShadow: const [
-          BoxShadow(
-            blurRadius: 12.0,
-            color: AppColor.colorShadowComposerButton
-          )
+          BoxShadow(blurRadius: 12.0, color: AppColor.colorShadowComposerButton)
         ],
         textStyle: const TextStyle(
-          fontSize: 15,
-          color: Colors.white,
-          fontWeight: FontWeight.w500
-        ),
+            fontSize: 15, color: Colors.white, fontWeight: FontWeight.w500),
         onTapActionCallback: () => controller.goToComposer(ComposerArguments()),
       ),
     );

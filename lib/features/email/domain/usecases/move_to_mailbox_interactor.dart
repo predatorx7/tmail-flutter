@@ -13,7 +13,8 @@ class MoveToMailboxInteractor {
 
   MoveToMailboxInteractor(this._emailRepository, this._mailboxRepository);
 
-  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId, MoveToMailboxRequest moveRequest) async* {
+  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId,
+      MoveToMailboxRequest moveRequest) async* {
     try {
       yield Right(LoadingMoveToMailbox());
 
@@ -25,22 +26,24 @@ class MoveToMailboxInteractor {
       final currentMailboxState = listState.first;
       final currentEmailState = listState.last;
 
-      final result = await _emailRepository.moveToMailbox(session, accountId, moveRequest);
+      final result =
+          await _emailRepository.moveToMailbox(session, accountId, moveRequest);
       if (result.isNotEmpty) {
         yield Right(MoveToMailboxSuccess(
-          result.first,
-          moveRequest.currentMailboxes.keys.first,
-          moveRequest.destinationMailboxId,
-          moveRequest.moveAction,
-          moveRequest.emailActionType,
-          destinationPath: moveRequest.destinationPath,
-          currentMailboxState: currentMailboxState,
-          currentEmailState: currentEmailState));
+            result.first,
+            moveRequest.currentMailboxes.keys.first,
+            moveRequest.destinationMailboxId,
+            moveRequest.moveAction,
+            moveRequest.emailActionType,
+            destinationPath: moveRequest.destinationPath,
+            currentMailboxState: currentMailboxState,
+            currentEmailState: currentEmailState));
       } else {
         yield Left(MoveToMailboxFailure(moveRequest.emailActionType));
       }
     } catch (e) {
-      yield Left(MoveToMailboxFailure(moveRequest.emailActionType, exception: e));
+      yield Left(
+          MoveToMailboxFailure(moveRequest.emailActionType, exception: e));
     }
   }
 }

@@ -13,7 +13,8 @@ class AppGridDashboardController {
   final appDashboardExpandMode = ExpandMode.COLLAPSE.obs;
   final linagoraApplications = Rxn<LinagoraApplications>();
 
-  final GetAppDashboardConfigurationInteractor _getAppDashboardConfigurationInteractor;
+  final GetAppDashboardConfigurationInteractor
+      _getAppDashboardConfigurationInteractor;
 
   AppGridDashboardController(this._getAppDashboardConfigurationInteractor);
 
@@ -26,7 +27,8 @@ class AppGridDashboardController {
   }
 
   Stream<Either<Failure, Success>> showDashboardAction() {
-    return _getAppDashboardConfigurationInteractor.execute(AppConfig.appDashboardConfigurationPath);
+    return _getAppDashboardConfigurationInteractor
+        .execute(AppConfig.appDashboardConfigurationPath);
   }
 
   void handleShowAppDashboard(LinagoraApplications linagoraApps) {

@@ -15,9 +15,12 @@ part 'get_rule_filter_response.g.dart';
 @IdConverter()
 @JsonSerializable()
 class GetRuleFilterResponse extends GetResponse<RuleFilter> {
-  GetRuleFilterResponse(AccountId accountId, State state, List<RuleFilter> list, List<Id>? notFound) : super(accountId, state, list, notFound);
+  GetRuleFilterResponse(AccountId accountId, State state, List<RuleFilter> list,
+      List<Id>? notFound)
+      : super(accountId, state, list, notFound);
 
-  factory GetRuleFilterResponse.fromJson(Map<String, dynamic> json) => _$GetRuleFilterResponseFromJson(json);
+  factory GetRuleFilterResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetRuleFilterResponseFromJson(json);
 
   static GetRuleFilterResponse deserialize(Map<String, dynamic> json) {
     return GetRuleFilterResponse.fromJson(json);

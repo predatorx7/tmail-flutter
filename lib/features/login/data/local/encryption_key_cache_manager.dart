@@ -8,8 +8,7 @@ class EncryptionKeyCacheManager {
 
   Future<void> storeEncryptionKey(EncryptionKeyCache encryptionKeyCache) {
     return _encryptionKeyCacheClient.insertItem(
-        EncryptionKeyCache.keyCacheValue,
-        encryptionKeyCache);
+        EncryptionKeyCache.keyCacheValue, encryptionKeyCache);
   }
 
   Future<EncryptionKeyCache?> getEncryptionKeyStored() {

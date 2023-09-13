@@ -1,4 +1,3 @@
-
 import 'package:model/extensions/email_id_extensions.dart';
 import 'package:tmail_ui_user/features/caching/utils/caching_constants.dart';
 import 'package:tmail_ui_user/features/email/domain/extensions/list_attachments_extension.dart';
@@ -10,18 +9,18 @@ import 'package:tmail_ui_user/features/thread/data/extensions/map_keywords_exten
 extension DetailedEmailExtension on DetailedEmail {
   DetailedEmailHiveCache toHiveCache() {
     return DetailedEmailHiveCache(
-      emailId: emailId.asString,
-      timeSaved: createdTime,
-      attachments: attachments?.toHiveCache(),
-      headers: headers?.toList().toHiveCache(),
-      keywords: keywords?.toMapString(),
-      emailContentPath: emailContentPath
-    );
+        emailId: emailId.asString,
+        timeSaved: createdTime,
+        attachments: attachments?.toHiveCache(),
+        headers: headers?.toList().toHiveCache(),
+        keywords: keywords?.toMapString(),
+        emailContentPath: emailContentPath);
   }
 
   String get newEmailFolderPath => CachingConstants.newEmailsContentFolderName;
 
-  String get openedEmailFolderPath => CachingConstants.openedEmailContentFolderName;
+  String get openedEmailFolderPath =>
+      CachingConstants.openedEmailContentFolderName;
 
   DetailedEmail fromEmailContentPath(String path) {
     return DetailedEmail(

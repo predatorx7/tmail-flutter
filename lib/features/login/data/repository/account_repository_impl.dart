@@ -4,7 +4,6 @@ import 'package:tmail_ui_user/features/login/data/datasource/account_datasource.
 import 'package:tmail_ui_user/features/login/domain/repository/account_repository.dart';
 
 class AccountRepositoryImpl extends AccountRepository {
-
   final AccountDatasource _accountDatasource;
 
   AccountRepositoryImpl(this._accountDatasource);

@@ -6,7 +6,6 @@ import 'package:tmail_ui_user/features/base/state/ui_action_state.dart';
 class SendEmailLoading extends UIState {}
 
 class SendEmailSuccess extends UIActionState {
-
   SendEmailSuccess({
     jmap.State? currentEmailState,
     jmap.State? currentMailboxState,
@@ -14,6 +13,5 @@ class SendEmailSuccess extends UIActionState {
 }
 
 class SendEmailFailure extends FeatureFailure {
-
   SendEmailFailure(dynamic exception) : super(exception: exception);
 }

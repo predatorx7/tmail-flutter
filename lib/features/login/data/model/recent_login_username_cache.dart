@@ -8,7 +8,6 @@ part 'recent_login_username_cache.g.dart';
 
 @HiveType(typeId: CachingConstants.RECENT_LOGIN_USERNAME_HIVE_CACHE_IDENTITY)
 class RecentLoginUsernameCache extends HiveObject with EquatableMixin {
-
   @HiveField(0)
   final String username;
 
@@ -37,10 +36,12 @@ extension RecentLoginUsernameCacheExtension on RecentLoginUsernameCache {
   }
 }
 
-extension ListRecentLoginUsernameCacheExtension on List<RecentLoginUsernameCache> {
+extension ListRecentLoginUsernameCacheExtension
+    on List<RecentLoginUsernameCache> {
   void sortByCreationDate() {
     sort((recentUsername1, recentUsername2) {
-      return recentUsername1.creationDate.compareToSort(recentUsername2.creationDate, false);
+      return recentUsername1.creationDate
+          .compareToSort(recentUsername2.creationDate, false);
     });
   }
 }

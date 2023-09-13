@@ -36,35 +36,37 @@ dependencies:
       ref: master
 
   ### Dependencies from pub.dev ###
-  cupertino_icons: 1.0.5
+  cupertino_icons: ^1.0.5
 
-  equatable: 2.0.5
+  equatable: ^2.0.5
 
-  quiver: 3.2.1
+  quiver: ^3.2.1
 
-  intl: 0.18.0
+  intl: ^0.18.0
 
-  uri: 1.0.0
+  uri: ^1.0.0
 
-  json_annotation: 4.8.0
+  json_annotation: ^4.8.0
 
-  http_parser: 4.0.2
+  http_parser: ^4.0.2
 
-  mime: 1.0.4
+  mime: ^1.0.4
 
-  collection: 1.17.1
+  collection: ^1.17.1
 
-  dartz: 0.10.1
+  dartz: ^0.10.1
+
+  watcher: ^1.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: 2.0.1
+  flutter_lints: ^2.0.1
 
-  build_runner: 2.3.3
+  build_runner: ^2.3.3
 
-  json_serializable: 6.6.1
+  json_serializable: ^6.6.1
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

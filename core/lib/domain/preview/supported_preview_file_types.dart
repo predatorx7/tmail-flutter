@@ -3,7 +3,8 @@ class SupportedPreviewFileTypes {
     'image/bmp',
     'image/jpeg',
     'image/gif',
-    'image/png',];
+    'image/png',
+  ];
 
   static const docMimeTypes = [
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -12,11 +13,10 @@ class SupportedPreviewFileTypes {
     'application/vnd.oasis.opendocument.text-web',
     'application/vnd.oasis.opendocument.text-master',
     'application/msword',
-    'application/vnd.ms-works'];
+    'application/vnd.ms-works'
+  ];
 
-  static const pdfMimeTypes = [
-    'application/pdf',
-    'application/rtf'];
+  static const pdfMimeTypes = ['application/pdf', 'application/rtf'];
 
   static const xlsMimeTypes = [
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -24,13 +24,15 @@ class SupportedPreviewFileTypes {
     'application/vnd.oasis.opendocument.spreadsheet-template',
     'application/vnd.oasis.opendocument.chart',
     'application/vnd.oasis.opendocument.formula',
-    'application/vnd.ms-excel'];
+    'application/vnd.ms-excel'
+  ];
 
   static const pptMimeTypes = [
     'application/vnd.openxmlformats-officedocument.presentationml.presentation',
     'application/vnd.oasis.opendocument.presentation',
     'application/vnd.oasis.opendocument.presentation-template',
-    'application/vnd.ms-powerpoint'];
+    'application/vnd.ms-powerpoint'
+  ];
 
   static const zipMimeTypes = [
     'application/x-tar',
@@ -38,35 +40,39 @@ class SupportedPreviewFileTypes {
     'application/x-gzip',
     'application/x-compressed',
     'application/x-zip-compressed',
-    'application/java-archive'];
+    'application/java-archive'
+  ];
 
   static const iOSSupportedTypes = {
-    'text/plain' : 'public.plain-text',
-    'text/html' : 'public.html',
-    'video/x-msvideo' : 'public.avi',
-    'video/mpeg' : 'public.mpeg',
-    'video/mp4' : 'public.mpeg-4',
-    'video/3gpp' : 'public.3gpp',
-    'video/quicktime' : 'public.mpeg-4',
-    'audio/mpeg' : 'public.mp3',
-    'audio/wav' : 'com.microsoft.waveform-​audio',
-    'audio/x-ms-wmv' : 'com.microsoft.windows-​media-wmv',
-    'image/jpeg' : 'public.jpeg',
-    'image/png' : 'public.png',
-    'image/gif' : 'com.compuserve.gif',
-    'image/bmp' : 'com.microsoft.bmp',
-    'image/vnd.microsoft.icon' : 'com.microsoft.ico',
-    'application/zip' : 'com.pkware.zip-archive',
-    'application/rtf' : 'public.rtf',
-    'application/xml' : 'public.xml',
-    'application/x-tar' : 'public.tar-archive',
-    'application/gzip' : 'org.gnu.gnu-zip-archive',
-    'application/x-compressed' : 'org.gnu.gnu-zip-tar-archive',
-    'application/msword' : 'com.microsoft.word.doc',
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document' : 'com.microsoft.word.doc',
-    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' : 'com.microsoft.excel.xls',
-    'application/vnd.openxmlformats-officedocument.presentationml.presentation' : 'com.microsoft.powerpoint.​ppt',
-    'application/pdf' : 'com.adobe.pdf',
+    'text/plain': 'public.plain-text',
+    'text/html': 'public.html',
+    'video/x-msvideo': 'public.avi',
+    'video/mpeg': 'public.mpeg',
+    'video/mp4': 'public.mpeg-4',
+    'video/3gpp': 'public.3gpp',
+    'video/quicktime': 'public.mpeg-4',
+    'audio/mpeg': 'public.mp3',
+    'audio/wav': 'com.microsoft.waveform-​audio',
+    'audio/x-ms-wmv': 'com.microsoft.windows-​media-wmv',
+    'image/jpeg': 'public.jpeg',
+    'image/png': 'public.png',
+    'image/gif': 'com.compuserve.gif',
+    'image/bmp': 'com.microsoft.bmp',
+    'image/vnd.microsoft.icon': 'com.microsoft.ico',
+    'application/zip': 'com.pkware.zip-archive',
+    'application/rtf': 'public.rtf',
+    'application/xml': 'public.xml',
+    'application/x-tar': 'public.tar-archive',
+    'application/gzip': 'org.gnu.gnu-zip-archive',
+    'application/x-compressed': 'org.gnu.gnu-zip-tar-archive',
+    'application/msword': 'com.microsoft.word.doc',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+        'com.microsoft.word.doc',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+        'com.microsoft.excel.xls',
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+        'com.microsoft.powerpoint.​ppt',
+    'application/pdf': 'com.adobe.pdf',
   };
 
   static const androidSupportedTypes = [

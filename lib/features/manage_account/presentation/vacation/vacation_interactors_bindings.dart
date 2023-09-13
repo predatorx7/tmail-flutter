@@ -11,7 +11,6 @@ import 'package:tmail_ui_user/features/manage_account/domain/usecases/update_vac
 import 'package:tmail_ui_user/main/exceptions/remote_exception_thrower.dart';
 
 class VacationInteractorsBindings extends InteractorsBindings {
-
   @override
   void bindingsDataSource() {
     Get.lazyPut<VacationDataSource>(() => Get.find<VacationDataSourceImpl>());
@@ -20,8 +19,7 @@ class VacationInteractorsBindings extends InteractorsBindings {
   @override
   void bindingsDataSourceImpl() {
     Get.lazyPut(() => VacationDataSourceImpl(
-      Get.find<VacationAPI>(),
-      Get.find<RemoteExceptionThrower>()));
+        Get.find<VacationAPI>(), Get.find<RemoteExceptionThrower>()));
   }
 
   @override

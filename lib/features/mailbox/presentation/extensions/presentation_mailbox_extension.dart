@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/resources/image_paths.dart';
 import 'package:flutter/material.dart';
 import 'package:model/extensions/presentation_mailbox_extension.dart';
@@ -9,10 +8,9 @@ import 'package:tmail_ui_user/main/routes/navigation_router.dart';
 import 'package:tmail_ui_user/main/routes/route_utils.dart';
 
 extension PresentationMailboxExtension on PresentationMailbox {
-
   String getDisplayName(BuildContext context) {
     if (isDefault) {
-      switch(role!.value.toLowerCase()) {
+      switch (role!.value.toLowerCase()) {
         case PresentationMailbox.inboxRole:
           return AppLocalizations.of(context).inboxMailboxDisplayName;
         case PresentationMailbox.archiveRole:
@@ -36,7 +34,7 @@ extension PresentationMailboxExtension on PresentationMailbox {
 
   String getMailboxIcon(ImagePaths imagePaths) {
     if (hasRole()) {
-      switch(role!.value) {
+      switch (role!.value) {
         case PresentationMailbox.inboxRole:
           return imagePaths.icMailboxInbox;
         case PresentationMailbox.draftsRole:
@@ -59,7 +57,7 @@ extension PresentationMailboxExtension on PresentationMailbox {
           return imagePaths.icFolderMailbox;
       }
     } else if (isChildOfTeamMailboxes) {
-      switch(name!.name.toLowerCase()) {
+      switch (name!.name.toLowerCase()) {
         case 'inbox':
           return imagePaths.icMailboxInbox;
         case 'outbox':
@@ -84,5 +82,6 @@ extension PresentationMailboxExtension on PresentationMailbox {
     }
   }
 
-  Uri get mailboxRouteWeb => RouteUtils.generateRouteBrowser(AppRoutes.dashboard, NavigationRouter(mailboxId: id));
+  Uri get mailboxRouteWeb => RouteUtils.generateRouteBrowser(
+      AppRoutes.dashboard, NavigationRouter(mailboxId: id));
 }

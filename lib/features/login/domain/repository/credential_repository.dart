@@ -7,7 +7,8 @@ abstract class CredentialRepository {
 
   Future<Uri> getBaseUrl();
 
-  Future<void> storeAuthenticationInfo(AuthenticationInfoCache authenticationInfoCache);
+  Future<void> storeAuthenticationInfo(
+      AuthenticationInfoCache authenticationInfoCache);
 
   Future<AuthenticationInfoCache?> getAuthenticationInfoStored();
 

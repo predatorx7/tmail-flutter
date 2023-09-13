@@ -1,4 +1,3 @@
-
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,20 +13,20 @@ typedef OnComposeEmailDialogAction = void Function(EmailAddress);
 typedef OnQuickCreatingRuleEmailDialogAction = void Function(EmailAddress);
 
 class EmailAddressDialogBuilder extends StatelessWidget {
-
   final EmailAddress _emailAddress;
   final OnCloseDialogAction? onCloseDialogAction;
   final OnCopyEmailAddressDialogAction? onCopyEmailAddressAction;
   final OnComposeEmailDialogAction? onComposeEmailAction;
-  final OnQuickCreatingRuleEmailDialogAction? onQuickCreatingRuleEmailDialogAction;
+  final OnQuickCreatingRuleEmailDialogAction?
+      onQuickCreatingRuleEmailDialogAction;
 
   const EmailAddressDialogBuilder(
-      this._emailAddress, {
-      Key? key,
-      this.onCloseDialogAction,
-      this.onCopyEmailAddressAction,
-      this.onComposeEmailAction,
-      this.onQuickCreatingRuleEmailDialogAction,
+    this._emailAddress, {
+    Key? key,
+    this.onCloseDialogAction,
+    this.onCopyEmailAddressAction,
+    this.onComposeEmailAction,
+    this.onQuickCreatingRuleEmailDialogAction,
   }) : super(key: key);
 
   @override
@@ -37,152 +36,143 @@ class EmailAddressDialogBuilder extends StatelessWidget {
     return Dialog(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(16))),
-      insetPadding: const EdgeInsets.symmetric(
-          horizontal: 24.0,
-          vertical: 16.0),
+      insetPadding:
+          const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
       child: Container(
-        margin: EdgeInsets.zero,
-        padding: EdgeInsets.zero,
-        width: 400,
-        decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(16))),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Align(
-                alignment: Alignment.centerRight,
-                child: IconButton(
-                    padding: const EdgeInsets.only(top: 16, right: 16),
-                    onPressed: () => onCloseDialogAction?.call(),
-                    icon: SvgPicture.asset(
-                        imagePaths.icCloseMailbox,
-                        width: 24,
-                        height: 24,
-                        fit: BoxFit.fill))),
-            Padding(padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Center(child: (AvatarBuilder()
-                  ..text(_emailAddress.asString().firstLetterToUpperCase)
-                  ..size(64)
-                  ..addTextStyle(const TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 23,
-                      color: Colors.white))
-                  ..avatarColor(_emailAddress.avatarColors))
-                .build())),
-            if (_emailAddress.displayName.isNotEmpty)
+          margin: EdgeInsets.zero,
+          padding: EdgeInsets.zero,
+          width: 400,
+          decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(16))),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Align(
+                  alignment: Alignment.centerRight,
+                  child: IconButton(
+                      padding: const EdgeInsets.only(top: 16, right: 16),
+                      onPressed: () => onCloseDialogAction?.call(),
+                      icon: SvgPicture.asset(imagePaths.icCloseMailbox,
+                          width: 24, height: 24, fit: BoxFit.fill))),
               Padding(
-                  padding: const EdgeInsets.only(
-                      left: 16,
-                      right: 16,
-                      top: 16),
-                  child: Center(child: Text(
-                    _emailAddress.displayName,
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    overflow: CommonTextStyle.defaultTextOverFlow,
-                    softWrap: CommonTextStyle.defaultSoftWrap,
-                    style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        color: AppColor.colorNameEmail),
-                  ))
-              ),
-            Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: () {},
-                onLongPress: () {
-                  AppUtils.copyEmailAddressToClipboard(context, _emailAddress.emailAddress);
-                },
-                borderRadius: const BorderRadius.all(Radius.circular(8)),
-                child: Padding(
-                  padding: const EdgeInsetsDirectional.symmetric(horizontal: 16, vertical: 8),
-                  child: Text(
-                    _emailAddress.emailAddress,
-                    textAlign: TextAlign.center,
-                    overflow: CommonTextStyle.defaultTextOverFlow,
-                    softWrap: CommonTextStyle.defaultSoftWrap,
-                    maxLines: 2,
-                    style: const TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.normal,
-                      color: AppColor.colorMessageConfirmDialog),
-                  )
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Center(
+                      child: (AvatarBuilder()
+                            ..text(
+                                _emailAddress.asString().firstLetterToUpperCase)
+                            ..size(64)
+                            ..addTextStyle(const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 23,
+                                color: Colors.white))
+                            ..avatarColor(_emailAddress.avatarColors))
+                          .build())),
+              if (_emailAddress.displayName.isNotEmpty)
+                Padding(
+                    padding:
+                        const EdgeInsets.only(left: 16, right: 16, top: 16),
+                    child: Center(
+                        child: Text(
+                      _emailAddress.displayName,
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      overflow: CommonTextStyle.defaultTextOverFlow,
+                      softWrap: CommonTextStyle.defaultSoftWrap,
+                      style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: AppColor.colorNameEmail),
+                    ))),
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () {},
+                  onLongPress: () {
+                    AppUtils.copyEmailAddressToClipboard(
+                        context, _emailAddress.emailAddress);
+                  },
+                  borderRadius: const BorderRadius.all(Radius.circular(8)),
+                  child: Padding(
+                      padding: const EdgeInsetsDirectional.symmetric(
+                          horizontal: 16, vertical: 8),
+                      child: Text(
+                        _emailAddress.emailAddress,
+                        textAlign: TextAlign.center,
+                        overflow: CommonTextStyle.defaultTextOverFlow,
+                        softWrap: CommonTextStyle.defaultSoftWrap,
+                        maxLines: 2,
+                        style: const TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.normal,
+                            color: AppColor.colorMessageConfirmDialog),
+                      )),
                 ),
               ),
-            ),
-            Padding(padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Center(child: Material(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.transparent,
-                  child: TextButton(
-                      child: Text(
-                        AppLocalizations.of(context).copy_email_address,
-                        style: const TextStyle(
-                            fontSize: 13,
-                            color: AppColor.colorTextButton,
-                            fontWeight: FontWeight.normal),
-                      ),
-                      onPressed: () => onCopyEmailAddressAction?.call(_emailAddress)
-                  )
-              ))),
-            const SizedBox(height: 24),
-            Padding(
-              padding: const EdgeInsets.only(left: 24, right: 24, bottom: 12),
-              child: SizedBox(
-                key: const Key('quick_creating_rule_email_button'),
-                width: double.infinity,
-                height: 44,
-                child: TextButton(
-                  style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) => AppColor.colorTextButton),
-                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) => AppColor.colorItemEmailSelectedDesktop),
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      side: const BorderSide(
-                        width: 0,
-                        color: AppColor.colorItemEmailSelectedDesktop)))),
-                  child: Text(
-                    AppLocalizations.of(context).quickCreatingRule,
-                    style: const TextStyle(
-                      fontSize: 17,
-                      color: AppColor.colorTextButton,
-                      fontWeight: FontWeight.w500)),
-                  onPressed: () => onQuickCreatingRuleEmailDialogAction?.call(_emailAddress)),
-              )
-            ),
-            Padding(
-                padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
-                child: SizedBox(
-                  key: const Key('compose_email_button'),
-                  width: double.infinity,
-                  height: 44,
-                  child: TextButton(
-                      style: ButtonStyle(
-                          foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) => Colors.white),
-                          backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) => AppColor.colorTextButton),
-                          shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              side: const BorderSide(
-                                  width: 0,
-                                  color: AppColor.colorTextButton)))),
-                      child: Text(
-                          AppLocalizations.of(context).compose_email,
-                          style: const TextStyle(
-                              fontSize: 17,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500)),
-                      onPressed: () => onComposeEmailAction?.call(_emailAddress)),
-                )
-            )
-          ],
-        )
-      ),
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Center(
+                      child: Material(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.transparent,
+                          child: TextButton(
+                              child: Text(
+                                AppLocalizations.of(context).copy_email_address,
+                                style: const TextStyle(
+                                    fontSize: 13,
+                                    color: AppColor.colorTextButton,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                              onPressed: () => onCopyEmailAddressAction
+                                  ?.call(_emailAddress))))),
+              const SizedBox(height: 24),
+              Padding(
+                  padding:
+                      const EdgeInsets.only(left: 24, right: 24, bottom: 12),
+                  child: SizedBox(
+                    key: const Key('quick_creating_rule_email_button'),
+                    width: double.infinity,
+                    height: 44,
+                    child: TextButton(
+                        style: ButtonStyle(
+                            foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                                (Set<MaterialState> states) =>
+                                    AppColor.colorTextButton),
+                            backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                                (Set<MaterialState> states) =>
+                                    AppColor.colorItemEmailSelectedDesktop),
+                            shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                side: const BorderSide(
+                                    width: 0,
+                                    color: AppColor.colorItemEmailSelectedDesktop)))),
+                        child: Text(AppLocalizations.of(context).quickCreatingRule, style: const TextStyle(fontSize: 17, color: AppColor.colorTextButton, fontWeight: FontWeight.w500)),
+                        onPressed: () => onQuickCreatingRuleEmailDialogAction?.call(_emailAddress)),
+                  )),
+              Padding(
+                  padding:
+                      const EdgeInsets.only(left: 24, right: 24, bottom: 24),
+                  child: SizedBox(
+                    key: const Key('compose_email_button'),
+                    width: double.infinity,
+                    height: 44,
+                    child: TextButton(
+                        style: ButtonStyle(
+                            foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                                (Set<MaterialState> states) => Colors.white),
+                            backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) =>
+                                AppColor.colorTextButton),
+                            shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                side: const BorderSide(
+                                    width: 0,
+                                    color: AppColor.colorTextButton)))),
+                        child: Text(AppLocalizations.of(context).compose_email,
+                            style: const TextStyle(fontSize: 17, color: Colors.white, fontWeight: FontWeight.w500)),
+                        onPressed: () => onComposeEmailAction?.call(_emailAddress)),
+                  ))
+            ],
+          )),
     );
   }
 }

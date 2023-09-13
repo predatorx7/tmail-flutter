@@ -17,7 +17,6 @@ import 'package:tmail_ui_user/features/manage_account/presentation/profiles/iden
 import 'package:tmail_ui_user/main/exceptions/remote_exception_thrower.dart';
 
 class IdentityInteractorsBindings extends InteractorsBindings {
-
   @override
   void dependencies() {
     _bindingsUtils();
@@ -35,27 +34,24 @@ class IdentityInteractorsBindings extends InteractorsBindings {
 
   @override
   void bindingsDataSourceImpl() {
-    Get.lazyPut(() => IdentityDataSourceImpl(
-      Get.find<HtmlTransform>(),
-      Get.find<IdentityAPI>(),
-      Get.find<RemoteExceptionThrower>()));
+    Get.lazyPut(() => IdentityDataSourceImpl(Get.find<HtmlTransform>(),
+        Get.find<IdentityAPI>(), Get.find<RemoteExceptionThrower>()));
   }
 
   @override
   void bindingsInteractor() {
     Get.lazyPut(() => GetAllIdentitiesInteractor(
-      Get.find<IdentityRepository>(), 
-      Get.find<IdentityUtils>()));
-    Get.lazyPut(() => CreateNewIdentityInteractor(Get.find<IdentityRepository>()));
+        Get.find<IdentityRepository>(), Get.find<IdentityUtils>()));
+    Get.lazyPut(
+        () => CreateNewIdentityInteractor(Get.find<IdentityRepository>()));
     Get.lazyPut(() => CreateNewDefaultIdentityInteractor(
-      Get.find<IdentityRepository>(), 
-      Get.find<IdentityUtils>()));
+        Get.find<IdentityRepository>(), Get.find<IdentityUtils>()));
     Get.lazyPut(() => DeleteIdentityInteractor(Get.find<IdentityRepository>()));
     Get.lazyPut(() => EditIdentityInteractor(Get.find<IdentityRepository>()));
     Get.lazyPut(() => EditDefaultIdentityInteractor(
-      Get.find<IdentityRepository>(), 
-      Get.find<IdentityUtils>()));
-    Get.lazyPut(() => TransformHtmlSignatureInteractor(Get.find<IdentityRepository>()));
+        Get.find<IdentityRepository>(), Get.find<IdentityUtils>()));
+    Get.lazyPut(
+        () => TransformHtmlSignatureInteractor(Get.find<IdentityRepository>()));
   }
 
   @override

@@ -1,2 +1,1 @@
-
 class NotFoundPersonalAccountException implements Exception {}

@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/extensions/string_extension.dart';
 import 'package:core/presentation/resources/image_paths.dart';
@@ -22,25 +21,21 @@ import 'package:tmail_ui_user/features/thread/domain/model/search_query.dart';
 import 'package:tmail_ui_user/features/thread/presentation/styles/item_email_tile_styles.dart';
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
-typedef OnPressEmailActionClick = void Function(EmailActionType, PresentationEmail);
+typedef OnPressEmailActionClick = void Function(
+    EmailActionType, PresentationEmail);
 typedef OnMoreActionClick = void Function(PresentationEmail, RelativeRect?);
 
 mixin BaseEmailItemTile {
-
   final responsiveUtils = Get.find<ResponsiveUtils>();
   final imagePaths = Get.find<ImagePaths>();
 
-  Widget buildMailboxContain(
-    BuildContext context,
-    bool isSearchEmailRunning,
-    PresentationEmail email
-  ) {
+  Widget buildMailboxContain(BuildContext context, bool isSearchEmailRunning,
+      PresentationEmail email) {
     if (hasMailboxLabel(isSearchEmailRunning, email)) {
       return Container(
           margin: const EdgeInsetsDirectional.only(start: 8),
-          padding: const EdgeInsetsDirectional.symmetric(
-              horizontal: 8,
-              vertical: 3),
+          padding:
+              const EdgeInsetsDirectional.symmetric(horizontal: 8, vertical: 3),
           constraints: const BoxConstraints(maxWidth: 100),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
@@ -51,8 +46,7 @@ mixin BaseEmailItemTile {
                 fontSize: 10,
                 color: AppColor.mailboxTextColor,
                 fontWeight: FontWeight.bold),
-          )
-      );
+          ));
     } else {
       return const SizedBox.shrink();
     }
@@ -72,8 +66,11 @@ mixin BaseEmailItemTile {
     return isSearchEmailRunning && email.mailboxContain != null;
   }
 
-  String informationSender(PresentationEmail email, PresentationMailbox? mailbox) {
-    if (mailbox?.isSent == true || mailbox?.isDrafts == true || mailbox?.isOutbox == true) {
+  String informationSender(
+      PresentationEmail email, PresentationMailbox? mailbox) {
+    if (mailbox?.isSent == true ||
+        mailbox?.isDrafts == true ||
+        mailbox?.isOutbox == true) {
       return email.recipientsName();
     } else {
       return email.getSenderName();
@@ -81,102 +78,87 @@ mixin BaseEmailItemTile {
   }
 
   Widget buildInformationSender(
-    BuildContext context,
-    PresentationEmail email,
-    PresentationMailbox? mailbox,
-    bool isSearchEmailRunning,
-    SearchQuery? query
-  ) {
+      BuildContext context,
+      PresentationEmail email,
+      PresentationMailbox? mailbox,
+      bool isSearchEmailRunning,
+      SearchQuery? query) {
     if (isSearchEnabled(isSearchEmailRunning, query)) {
       return RichTextBuilder(
-          DirectionUtils.isDirectionRTLByLanguage(context)
-            ? informationSender(email, mailbox)
-            : informationSender(email, mailbox).overflow,
-          query?.value ?? '',
-          TextStyle(
-              fontSize: 15,
-              color: buildTextColorForReadEmail(email),
-              fontWeight: buildFontForReadEmail(email)),
-          TextStyle(
-              fontSize: 15,
-              color: buildTextColorForReadEmail(email),
-              backgroundColor: AppColor.bgWordSearch,
-              fontWeight: buildFontForReadEmail(email))
-      ).build();
+              DirectionUtils.isDirectionRTLByLanguage(context)
+                  ? informationSender(email, mailbox)
+                  : informationSender(email, mailbox).overflow,
+              query?.value ?? '',
+              TextStyle(
+                  fontSize: 15,
+                  color: buildTextColorForReadEmail(email),
+                  fontWeight: buildFontForReadEmail(email)),
+              TextStyle(
+                  fontSize: 15,
+                  color: buildTextColorForReadEmail(email),
+                  backgroundColor: AppColor.bgWordSearch,
+                  fontWeight: buildFontForReadEmail(email)))
+          .build();
     } else {
-      return TextOverflowBuilder(
-        informationSender(email, mailbox),
-        style: TextStyle(
-          fontSize: 15,
-          overflow: CommonTextStyle.defaultTextOverFlow,
-          color: buildTextColorForReadEmail(email),
-          fontWeight: buildFontForReadEmail(email))
-      );
+      return TextOverflowBuilder(informationSender(email, mailbox),
+          style: TextStyle(
+              fontSize: 15,
+              overflow: CommonTextStyle.defaultTextOverFlow,
+              color: buildTextColorForReadEmail(email),
+              fontWeight: buildFontForReadEmail(email)));
     }
   }
 
-  Widget buildEmailTitle(
-    BuildContext context,
-    PresentationEmail email,
-    bool isSearchEmailRunning,
-    SearchQuery? query
-  ) {
+  Widget buildEmailTitle(BuildContext context, PresentationEmail email,
+      bool isSearchEmailRunning, SearchQuery? query) {
     if (isSearchEnabled(isSearchEmailRunning, query)) {
       return RichTextBuilder(
-          DirectionUtils.isDirectionRTLByLanguage(context)
-            ? email.getEmailTitle()
-            : email.getEmailTitle().overflow,
-          query?.value ?? '',
-          TextStyle(
-              fontSize: 13,
-              color: buildTextColorForReadEmail(email),
-              fontWeight: buildFontForReadEmail(email)),
-          TextStyle(
-              fontSize: 13,
-              backgroundColor: AppColor.bgWordSearch,
-              color: buildTextColorForReadEmail(email),
-              fontWeight: buildFontForReadEmail(email))
-      ).build();
+              DirectionUtils.isDirectionRTLByLanguage(context)
+                  ? email.getEmailTitle()
+                  : email.getEmailTitle().overflow,
+              query?.value ?? '',
+              TextStyle(
+                  fontSize: 13,
+                  color: buildTextColorForReadEmail(email),
+                  fontWeight: buildFontForReadEmail(email)),
+              TextStyle(
+                  fontSize: 13,
+                  backgroundColor: AppColor.bgWordSearch,
+                  color: buildTextColorForReadEmail(email),
+                  fontWeight: buildFontForReadEmail(email)))
+          .build();
     } else {
-      return TextOverflowBuilder(
-        email.getEmailTitle(),
-        style: TextStyle(
-          fontSize: 13,
-          color: buildTextColorForReadEmail(email),
-          fontWeight: buildFontForReadEmail(email))
-      );
+      return TextOverflowBuilder(email.getEmailTitle(),
+          style: TextStyle(
+              fontSize: 13,
+              color: buildTextColorForReadEmail(email),
+              fontWeight: buildFontForReadEmail(email)));
     }
   }
 
-  Widget buildEmailPartialContent(
-    BuildContext context,
-    PresentationEmail email,
-    bool isSearchEmailRunning,
-    SearchQuery? query
-  ) {
+  Widget buildEmailPartialContent(BuildContext context, PresentationEmail email,
+      bool isSearchEmailRunning, SearchQuery? query) {
     if (isSearchEnabled(isSearchEmailRunning, query)) {
       return RichTextBuilder(
-          DirectionUtils.isDirectionRTLByLanguage(context)
-            ? email.getPartialContent()
-            : email.getPartialContent().overflow,
-          query?.value ?? '',
-          const TextStyle(
-              fontSize: 13,
-              color: AppColor.colorContentEmail,
-              fontWeight: FontWeight.normal),
-          const TextStyle(
-              fontSize: 13,
-              color: AppColor.colorContentEmail,
-              backgroundColor: AppColor.bgWordSearch)
-      ).build();
+              DirectionUtils.isDirectionRTLByLanguage(context)
+                  ? email.getPartialContent()
+                  : email.getPartialContent().overflow,
+              query?.value ?? '',
+              const TextStyle(
+                  fontSize: 13,
+                  color: AppColor.colorContentEmail,
+                  fontWeight: FontWeight.normal),
+              const TextStyle(
+                  fontSize: 13,
+                  color: AppColor.colorContentEmail,
+                  backgroundColor: AppColor.bgWordSearch))
+          .build();
     } else {
-      return TextOverflowBuilder(
-        email.getPartialContent(),
-        style: const TextStyle(
-          fontSize: 13,
-          color: AppColor.colorContentEmail,
-          fontWeight: FontWeight.normal)
-      );
+      return TextOverflowBuilder(email.getPartialContent(),
+          style: const TextStyle(
+              fontSize: 13,
+              color: AppColor.colorContentEmail,
+              fontWeight: FontWeight.normal));
     }
   }
 
@@ -186,41 +168,29 @@ mixin BaseEmailItemTile {
         maxLines: 1,
         softWrap: CommonTextStyle.defaultSoftWrap,
         overflow: CommonTextStyle.defaultTextOverFlow,
-        style:  TextStyle(
+        style: TextStyle(
             fontSize: 13,
             color: buildTextColorForReadEmail(email),
-            fontWeight: buildFontForReadEmail(email))
-    );
+            fontWeight: buildFontForReadEmail(email)));
   }
 
   Widget buildIconChevron() {
-    return SvgPicture.asset(
-        imagePaths.icChevron,
-        width: 16,
-        height: 16,
-        fit: BoxFit.fill);
+    return SvgPicture.asset(imagePaths.icChevron,
+        width: 16, height: 16, fit: BoxFit.fill);
   }
 
   Widget buildIconAttachment() {
-    return SvgPicture.asset(
-        imagePaths.icAttachment,
-        width: 16,
-        height: 16,
-        fit: BoxFit.fill);
+    return SvgPicture.asset(imagePaths.icAttachment,
+        width: 16, height: 16, fit: BoxFit.fill);
   }
 
   Widget buildIconStar() {
-    return SvgPicture.asset(
-        imagePaths.icStar,
-        width: 15,
-        height: 15,
-        fit: BoxFit.fill);
+    return SvgPicture.asset(imagePaths.icStar,
+        width: 15, height: 15, fit: BoxFit.fill);
   }
 
-  Widget buildIconAvatarText(PresentationEmail email, {
-    double? iconSize,
-    TextStyle? textStyle
-  }) {
+  Widget buildIconAvatarText(PresentationEmail email,
+      {double? iconSize, TextStyle? textStyle}) {
     return Container(
         width: iconSize ?? 56,
         height: iconSize ?? 56,
@@ -233,26 +203,17 @@ mixin BaseEmailItemTile {
                 end: Alignment.bottomCenter,
                 stops: const [0.0, 1.0],
                 colors: email.avatarColors),
-            color: AppColor.avatarColor
-        ),
-        child: Text(
-            email.getAvatarText(),
-            style: textStyle ?? const TextStyle(
-                fontSize: 20,
-                color: Colors.white,
-                fontWeight: FontWeight.w500)
-        )
-    );
+            color: AppColor.avatarColor),
+        child: Text(email.getAvatarText(),
+            style: textStyle ??
+                const TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500)));
   }
 
-  Widget buildIconAvatarSelection(
-      BuildContext context,
-      PresentationEmail email,
-      {
-        double? iconSize,
-        TextStyle? textStyle
-      }
-  ) {
+  Widget buildIconAvatarSelection(BuildContext context, PresentationEmail email,
+      {double? iconSize, TextStyle? textStyle}) {
     if (PlatformInfo.isWeb) {
       return Container(
         color: Colors.transparent,
@@ -276,77 +237,65 @@ mixin BaseEmailItemTile {
               email.selectMode == SelectMode.ACTIVE
                   ? imagePaths.icSelected
                   : imagePaths.icUnSelected,
-              width: 24, height: 24));
+              width: 24,
+              height: 24));
     }
   }
 
-  Widget buildIconAnsweredOrForwarded({
-    required PresentationEmail presentationEmail,
-    double? width,
-    double? height
-  }) {
+  Widget buildIconAnsweredOrForwarded(
+      {required PresentationEmail presentationEmail,
+      double? width,
+      double? height}) {
     if (presentationEmail.isAnsweredAndForwarded) {
       return _iconAnsweredOrForwardedWidget(
-        iconPath:  imagePaths.icReplyAndForward,
-        width: width,
-        height: height
-      );
+          iconPath: imagePaths.icReplyAndForward, width: width, height: height);
     } else if (presentationEmail.isAnswered) {
       return _iconAnsweredOrForwardedWidget(
-        iconPath: imagePaths.icReply,
-        width: width,
-        height: height
-      );
+          iconPath: imagePaths.icReply, width: width, height: height);
     } else if (presentationEmail.isForwarded) {
       return _iconAnsweredOrForwardedWidget(
-        iconPath: imagePaths.icForwarded,
-        width: width,
-        height: height
-      );
+          iconPath: imagePaths.icForwarded, width: width, height: height);
     } else {
       return const SizedBox(width: 16, height: 16);
     }
   }
 
-  Widget _iconAnsweredOrForwardedWidget({
-    required String iconPath,
-    double? width,
-    double? height
-  }) {
-    return SvgPicture.asset(
-      iconPath,
-      width: width ?? 20,
-      height: height ?? 20,
-      colorFilter: AppColor.colorAttachmentIcon.asFilter(),
-      fit: BoxFit.fill);
+  Widget _iconAnsweredOrForwardedWidget(
+      {required String iconPath, double? width, double? height}) {
+    return SvgPicture.asset(iconPath,
+        width: width ?? 20,
+        height: height ?? 20,
+        colorFilter: AppColor.colorAttachmentIcon.asFilter(),
+        fit: BoxFit.fill);
   }
 
-  String? messageToolTipForAnsweredOrForwarded(BuildContext context, PresentationEmail presentationEmail) {
+  String? messageToolTipForAnsweredOrForwarded(
+      BuildContext context, PresentationEmail presentationEmail) {
     if (presentationEmail.isAnsweredAndForwarded) {
       return AppLocalizations.of(context).repliedAndForwardedMessage;
     } else if (presentationEmail.isAnswered) {
       return AppLocalizations.of(context).repliedMessage;
-    } else if (presentationEmail.isForwarded){
+    } else if (presentationEmail.isForwarded) {
       return AppLocalizations.of(context).forwardedMessage;
     } else {
       return null;
     }
   }
 
-  Widget buildCalendarEventIcon({
-    required BuildContext context,
-    required PresentationEmail presentationEmail
-  }) {
+  Widget buildCalendarEventIcon(
+      {required BuildContext context,
+      required PresentationEmail presentationEmail}) {
     return Padding(
-      padding: ItemEmailTileStyles.getSpaceCalendarEventIcon(context, responsiveUtils),
+      padding: ItemEmailTileStyles.getSpaceCalendarEventIcon(
+          context, responsiveUtils),
       child: SvgPicture.asset(
         imagePaths.icCalendarEvent,
         width: 20,
         height: 20,
         fit: BoxFit.fill,
         colorFilter: presentationEmail.hasRead
-          ? AppColor.colorCalendarEventRead.asFilter()
-          : AppColor.colorCalendarEventUnread.asFilter(),
+            ? AppColor.colorCalendarEventRead.asFilter()
+            : AppColor.colorCalendarEventUnread.asFilter(),
       ),
     );
   }

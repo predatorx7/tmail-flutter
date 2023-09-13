@@ -12,9 +12,11 @@ class DeleteEmailRuleInteractor {
 
   DeleteEmailRuleInteractor(this._ruleFilterRepository);
 
-  Stream<Either<Failure, Success>> execute(AccountId accountId, DeleteEmailRuleRequest deleteEmailRuleRequest) async* {
+  Stream<Either<Failure, Success>> execute(AccountId accountId,
+      DeleteEmailRuleRequest deleteEmailRuleRequest) async* {
     try {
-    final result = await _ruleFilterRepository.deleteTMailRule(accountId, deleteEmailRuleRequest);
+      final result = await _ruleFilterRepository.deleteTMailRule(
+          accountId, deleteEmailRuleRequest);
       yield Right(DeleteEmailRuleSuccess(result));
     } catch (exception) {
       yield Left(DeleteEmailRuleFailure(exception));

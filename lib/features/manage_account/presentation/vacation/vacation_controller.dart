@@ -24,8 +24,8 @@ import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 import 'package:tmail_ui_user/main/routes/route_navigation.dart';
 
 class VacationController extends BaseController {
-
-  final _accountDashBoardController = Get.find<ManageAccountDashBoardController>();
+  final _accountDashBoardController =
+      Get.find<ManageAccountDashBoardController>();
   final _appToast = Get.find<AppToast>();
   final _settingController = Get.find<SettingsController>();
 
@@ -50,15 +50,15 @@ class VacationController extends BaseController {
   final ScrollController scrollController = ScrollController();
 
   VacationController(
-    this._getAllVacationInteractor,
-    this._updateVacationInteractor,
-    this._verifyNameInteractor,
-    this._richTextControllerForWeb
-  );
+      this._getAllVacationInteractor,
+      this._updateVacationInteractor,
+      this._verifyNameInteractor,
+      this._richTextControllerForWeb);
 
   String? get vacationMessageHtmlText => _vacationMessageHtmlText;
 
-  RichTextWebController get richTextControllerForWeb => _richTextControllerForWeb;
+  RichTextWebController get richTextControllerForWeb =>
+      _richTextControllerForWeb;
 
   @override
   void onInit() {
@@ -86,8 +86,10 @@ class VacationController extends BaseController {
     ever(_accountDashBoardController.vacationResponse, (vacation) {
       if (vacation is VacationResponse) {
         currentVacation = vacation;
-        final newVacationPresentation = currentVacation?.toVacationPresentation();
-        _initializeValueForVacation(newVacationPresentation ?? VacationPresentation.initialize());
+        final newVacationPresentation =
+            currentVacation?.toVacationPresentation();
+        _initializeValueForVacation(
+            newVacationPresentation ?? VacationPresentation.initialize());
       }
     });
   }
@@ -105,7 +107,8 @@ class VacationController extends BaseController {
       log('VacationController::_handleGetAllVacationSuccess(): $currentVacation');
 
       if (currentVacation != null) {
-        final newVacationPresentation = currentVacation!.toVacationPresentation();
+        final newVacationPresentation =
+            currentVacation!.toVacationPresentation();
         _initializeValueForVacation(newVacationPresentation);
       }
     }
@@ -114,17 +117,21 @@ class VacationController extends BaseController {
   void _initializeValueForVacation(VacationPresentation newVacation) {
     vacationPresentation.value = newVacation;
     subjectTextController.text = newVacation.subject ?? '';
-    updateMessageHtmlText(newVacation.messageHtmlText ?? newVacation.messagePlainText ?? '');
+    updateMessageHtmlText(
+        newVacation.messageHtmlText ?? newVacation.messagePlainText ?? '');
     if (PlatformInfo.isWeb) {
-      _richTextControllerForWeb.editorController.setText(newVacation.messageHtmlText ?? '');
+      _richTextControllerForWeb.editorController
+          .setText(newVacation.messageHtmlText ?? '');
     } else {
-      richTextControllerForMobile.htmlEditorApi?.setText(newVacation.messageHtmlText ?? '');
+      richTextControllerForMobile.htmlEditorApi
+          ?.setText(newVacation.messageHtmlText ?? '');
     }
   }
 
   bool get isVacationDeactivated => !vacationPresentation.value.isEnabled;
 
-  bool get isVacationStopEnabled => vacationPresentation.value.vacationStopEnabled;
+  bool get isVacationStopEnabled =>
+      vacationPresentation.value.vacationStopEnabled;
 
   bool get canChangeEndDate => !isVacationDeactivated && isVacationStopEnabled;
 
@@ -147,13 +154,13 @@ class VacationController extends BaseController {
         endTime: endTime,
         vacationStopEnabled: vacationStopEnabled,
         messagePlainText: messagePlainText,
-        messageHtmlText: messageHtmlText
-    );
+        messageHtmlText: messageHtmlText);
     log('VacationController::updateVacationPresentation():newVacation: $newVacation');
     vacationPresentation.value = newVacation;
   }
 
-  void selectDate(BuildContext context, DateType dateType, DateTime? currentDate) async {
+  void selectDate(
+      BuildContext context, DateType dateType, DateTime? currentDate) async {
     final datePicked = await showDatePicker(
         context: context,
         initialDate: currentDate ?? DateTime.now(),
@@ -169,10 +176,10 @@ class VacationController extends BaseController {
                       onPrimary: Colors.white,
                       onSurface: Colors.black),
                   textButtonTheme: TextButtonThemeData(
-                      style: TextButton.styleFrom(foregroundColor: AppColor.primaryColor))),
+                      style: TextButton.styleFrom(
+                          foregroundColor: AppColor.primaryColor))),
               child: child!);
-        }
-    );
+        });
 
     if (datePicked == null) {
       return;
@@ -185,27 +192,28 @@ class VacationController extends BaseController {
     }
   }
 
-  void selectTime(BuildContext context, DateType dateType, TimeOfDay? currentTime) async {
+  void selectTime(
+      BuildContext context, DateType dateType, TimeOfDay? currentTime) async {
     final timePicked = await showTimePicker(
-      context: context,
-      initialTime: currentTime ?? TimeOfDay.now(),
-      builder: (context, child) {
-        return PointerInterceptor(
-          child: Theme(
-            data: Theme.of(context).copyWith(
-              colorScheme: const ColorScheme.light(
-                primary: AppColor.primaryColor,
-                onPrimary: Colors.white,
-                onSurface: Colors.black),
-              textButtonTheme: TextButtonThemeData(
-                style: TextButton.styleFrom(foregroundColor: AppColor.primaryColor))),
-            child: MediaQuery(
-                data: const MediaQueryData(alwaysUse24HourFormat: false),
-                child: child!),
-          ),
-        );
-      }
-    );
+        context: context,
+        initialTime: currentTime ?? TimeOfDay.now(),
+        builder: (context, child) {
+          return PointerInterceptor(
+            child: Theme(
+              data: Theme.of(context).copyWith(
+                  colorScheme: const ColorScheme.light(
+                      primary: AppColor.primaryColor,
+                      onPrimary: Colors.white,
+                      onSurface: Colors.black),
+                  textButtonTheme: TextButtonThemeData(
+                      style: TextButton.styleFrom(
+                          foregroundColor: AppColor.primaryColor))),
+              child: MediaQuery(
+                  data: const MediaQueryData(alwaysUse24HourFormat: false),
+                  child: child!),
+            ),
+          );
+        });
 
     if (timePicked == null) {
       return;
@@ -218,17 +226,16 @@ class VacationController extends BaseController {
     }
   }
 
-  String? _getErrorStringByInputValue(BuildContext context, String? inputValue) {
-    return _verifyNameInteractor.execute(inputValue, [EmptyNameValidator()]).fold(
-      (failure) {
-        if (failure is VerifyNameFailure) {
-          return failure.getMessageVacation(context);
-        } else {
-          return null;
-        }
-      },
-      (success) => null
-    );
+  String? _getErrorStringByInputValue(
+      BuildContext context, String? inputValue) {
+    return _verifyNameInteractor
+        .execute(inputValue, [EmptyNameValidator()]).fold((failure) {
+      if (failure is VerifyNameFailure) {
+        return failure.getMessageVacation(context);
+      } else {
+        return null;
+      }
+    }, (success) => null);
   }
 
   void updateMessageBody(BuildContext context, String? value) {
@@ -243,29 +250,36 @@ class VacationController extends BaseController {
       if (fromDate == null) {
         if (currentOverlayContext != null && currentContext != null) {
           _appToast.showToastErrorMessage(
-            currentOverlayContext!,
-            AppLocalizations.of(currentContext!).errorMessageWhenStartDateVacationIsEmpty);
+              currentOverlayContext!,
+              AppLocalizations.of(currentContext!)
+                  .errorMessageWhenStartDateVacationIsEmpty);
         }
         return;
       }
 
-      final vacationStopEnabled = vacationPresentation.value.vacationStopEnabled;
+      final vacationStopEnabled =
+          vacationPresentation.value.vacationStopEnabled;
       final toDate = vacationPresentation.value.toDate;
       if (vacationStopEnabled && toDate != null && toDate.isBefore(fromDate)) {
         if (currentOverlayContext != null && currentContext != null) {
           _appToast.showToastErrorMessage(
-            currentOverlayContext!,
-            AppLocalizations.of(currentContext!).errorMessageWhenEndDateVacationIsInValid);
+              currentOverlayContext!,
+              AppLocalizations.of(currentContext!)
+                  .errorMessageWhenEndDateVacationIsInValid);
         }
         return;
       }
 
-      final messageHtmlText = (PlatformInfo.isWeb ? _vacationMessageHtmlText : await _getMessageHtmlText()) ?? '';
+      final messageHtmlText = (PlatformInfo.isWeb
+              ? _vacationMessageHtmlText
+              : await _getMessageHtmlText()) ??
+          '';
       if (messageHtmlText.isEmpty && context.mounted) {
         if (currentOverlayContext != null && currentContext != null) {
           _appToast.showToastErrorMessage(
-            currentOverlayContext!,
-            AppLocalizations.of(currentContext!).errorMessageWhenMessageVacationIsEmpty);
+              currentOverlayContext!,
+              AppLocalizations.of(currentContext!)
+                  .errorMessageWhenMessageVacationIsEmpty);
         }
         return;
       }
@@ -273,9 +287,7 @@ class VacationController extends BaseController {
       final subjectVacation = subjectTextController.text;
 
       final newVacationPresentation = vacationPresentation.value.copyWidth(
-        messageHtmlText: messageHtmlText,
-        subject: subjectVacation
-      );
+          messageHtmlText: messageHtmlText, subject: subjectVacation);
       log('VacationController::saveVacation(): newVacationPresentation: $newVacationPresentation');
       final newVacationResponse = newVacationPresentation.toVacationResponse();
       log('VacationController::saveVacation(): newVacationResponse: $newVacationResponse');
@@ -292,22 +304,23 @@ class VacationController extends BaseController {
   void _updateVacationAction(VacationResponse vacationResponse) {
     final accountId = _accountDashBoardController.accountId.value;
     if (accountId != null) {
-      consumeState(_updateVacationInteractor.execute(accountId, vacationResponse));
+      consumeState(
+          _updateVacationInteractor.execute(accountId, vacationResponse));
     }
   }
 
   void _handleUpdateVacationSuccess(UpdateVacationSuccess success) {
     if (success.listVacationResponse.isNotEmpty) {
       if (currentOverlayContext != null && currentContext != null) {
-        _appToast.showToastSuccessMessage(
-          currentOverlayContext!,
-          AppLocalizations.of(currentContext!).vacationSettingSaved);
+        _appToast.showToastSuccessMessage(currentOverlayContext!,
+            AppLocalizations.of(currentContext!).vacationSettingSaved);
       }
       currentVacation = success.listVacationResponse.first;
       log('VacationController::_handleUpdateVacationSuccess(): $currentVacation');
 
       if (currentVacation != null) {
-        final newVacationPresentation = currentVacation!.toVacationPresentation();
+        final newVacationPresentation =
+            currentVacation!.toVacationPresentation();
         _initializeValueForVacation(newVacationPresentation);
       }
 
@@ -344,7 +357,9 @@ class VacationController extends BaseController {
     await Scrollable.ensureVisible(htmlKey.currentContext!);
     await Future.delayed(const Duration(milliseconds: 500), () {
       scrollController.animateTo(
-        scrollController.position.pixels + defaultKeyboardToolbarHeight + htmlEditorMinHeight,
+        scrollController.position.pixels +
+            defaultKeyboardToolbarHeight +
+            htmlEditorMinHeight,
         duration: const Duration(milliseconds: 1),
         curve: Curves.linear,
       );
@@ -352,7 +367,8 @@ class VacationController extends BaseController {
   }
 
   void onEnterKeyDown() {
-    if(scrollController.position.pixels < scrollController.position.maxScrollExtent) {
+    if (scrollController.position.pixels <
+        scrollController.position.maxScrollExtent) {
       scrollController.animateTo(
         scrollController.position.pixels + 20,
         duration: const Duration(milliseconds: 1),

@@ -7,7 +7,6 @@ import 'package:tmail_ui_user/features/thread/domain/state/load_more_emails_stat
 import 'package:tmail_ui_user/features/thread/domain/state/search_more_email_state.dart';
 
 class ThreadViewBottomLoadingBarWidget extends StatelessWidget {
-
   final Either<Failure, Success> viewState;
 
   const ThreadViewBottomLoadingBarWidget({
@@ -17,17 +16,14 @@ class ThreadViewBottomLoadingBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return viewState.fold(
-      (failure) => const SizedBox.shrink(),
-      (success) {
-        if (success is SearchingMoreState || success is LoadingMoreEmails) {
-          return const Padding(
+    return viewState.fold((failure) => const SizedBox.shrink(), (success) {
+      if (success is SearchingMoreState || success is LoadingMoreEmails) {
+        return const Padding(
             padding: EdgeInsetsDirectional.only(bottom: 16),
             child: CupertinoLoadingWidget());
-        } else {
-          return const SizedBox.shrink();
-        }
+      } else {
+        return const SizedBox.shrink();
       }
-    );
+    });
   }
 }

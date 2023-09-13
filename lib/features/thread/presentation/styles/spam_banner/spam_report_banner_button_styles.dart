@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +7,9 @@ class SpamReportBannerButtonStyles {
   static const double borderRadius = 10;
   static const double labelTextSize = 16;
   static const double iconSize = 20;
-  static const Color backgroundColor = AppColor.colorSpamReportBannerButtonBackground;
+  static const Color backgroundColor =
+      AppColor.colorSpamReportBannerButtonBackground;
   static const Color positiveButtonTextColor = AppColor.primaryColor;
-  static const Color negativeButtonTextColor = AppColor.textFieldErrorBorderColor;
+  static const Color negativeButtonTextColor =
+      AppColor.textFieldErrorBorderColor;
 }

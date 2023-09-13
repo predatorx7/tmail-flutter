@@ -27,7 +27,6 @@ import 'package:tmail_ui_user/features/thread/domain/model/email_response.dart';
 import 'package:worker_manager/worker_manager.dart';
 
 class MailboxIsolateWorker {
-
   final ThreadAPI _threadApi;
   final EmailAPI _emailApi;
   final Executor _isolateExecutor;
@@ -35,35 +34,26 @@ class MailboxIsolateWorker {
   MailboxIsolateWorker(this._threadApi, this._emailApi, this._isolateExecutor);
 
   Future<List<Email>> markAsMailboxRead(
-    Session session,
-    AccountId accountId,
-    MailboxId mailboxId,
-    int totalEmailUnread,
-    StreamController<Either<Failure, Success>> onProgressController
-  ) async {
+      Session session,
+      AccountId accountId,
+      MailboxId mailboxId,
+      int totalEmailUnread,
+      StreamController<Either<Failure, Success>> onProgressController) async {
     if (PlatformInfo.isWeb) {
-      return _handleMarkAsMailboxReadActionOnWeb(
-        session,
-        accountId,
-        mailboxId,
-        totalEmailUnread,
-        onProgressController);
+      return _handleMarkAsMailboxReadActionOnWeb(session, accountId, mailboxId,
+          totalEmailUnread, onProgressController);
     } else {
       final result = await _isolateExecutor.execute(
           arg1: MailboxMarkAsReadArguments(
-            session,
-            _threadApi,
-            _emailApi,
-            accountId,
-            mailboxId),
+              session, _threadApi, _emailApi, accountId, mailboxId),
           fun1: _handleMarkAsMailboxReadAction,
           notification: (value) {
             if (value is List<Email>) {
               log('MailboxIsolateWorker::markAsMailboxRead(): onUpdateProgress: PERCENT ${value.length / totalEmailUnread}');
               onProgressController.add(Right(UpdatingMarkAsMailboxReadState(
-                mailboxId: mailboxId,
-                totalUnread: totalEmailUnread,
-                countRead: value.length)));
+                  mailboxId: mailboxId,
+                  totalUnread: totalEmailUnread,
+                  countRead: value.length)));
             }
           });
       return result;
@@ -71,9 +61,7 @@ class MailboxIsolateWorker {
   }
 
   static Future<List<Email>> _handleMarkAsMailboxReadAction(
-      MailboxMarkAsReadArguments args,
-      TypeSendPort sendPort
-  ) async {
+      MailboxMarkAsReadArguments args, TypeSendPort sendPort) async {
     List<Email> emailListCompleted = List.empty(growable: true);
     try {
       bool mailboxHasEmails = true;
@@ -82,31 +70,30 @@ class MailboxIsolateWorker {
 
       while (mailboxHasEmails) {
         final emailResponse = await args.threadAPI
-            .getAllEmail(
-              args.session,
-              args.accountId,
-              limit: UnsignedInt(30),
-              filter: EmailFilterCondition(
+            .getAllEmail(args.session, args.accountId,
+                limit: UnsignedInt(30),
+                filter: EmailFilterCondition(
                     inMailbox: args.mailboxId,
                     notKeyword: KeyWordIdentifier.emailSeen.value,
                     before: lastReceivedDate),
-              sort: <Comparator>{}..add(
-                EmailComparator(EmailComparatorProperty.receivedAt)
-                  ..setIsAscending(false)),
-              properties: Properties({
+                sort: <Comparator>{}..add(
+                    EmailComparator(EmailComparatorProperty.receivedAt)
+                      ..setIsAscending(false)),
+                properties: Properties({
                   EmailProperty.id,
                   EmailProperty.keywords,
                   EmailProperty.receivedAt,
                 }))
             .then((response) {
-              var listEmails = response.emailList;
-              if (listEmails != null && listEmails.isNotEmpty && lastEmailId != null) {
-                listEmails = listEmails
-                  .where((email) => email.id != lastEmailId)
-                  .toList();
-              }
-              return EmailsResponse(emailList: listEmails, state: response.state);
-            });
+          var listEmails = response.emailList;
+          if (listEmails != null &&
+              listEmails.isNotEmpty &&
+              lastEmailId != null) {
+            listEmails =
+                listEmails.where((email) => email.id != lastEmailId).toList();
+          }
+          return EmailsResponse(emailList: listEmails, state: response.state);
+        });
         final listEmailUnread = emailResponse.emailList;
 
         log('MailboxIsolateWorker::_handleMarkAsMailboxRead(): listEmailUnread: ${listEmailUnread?.length}');
@@ -117,11 +104,8 @@ class MailboxIsolateWorker {
           lastEmailId = listEmailUnread.last.id;
           lastReceivedDate = listEmailUnread.last.receivedAt;
 
-          final result = await args.emailAPI.markAsRead(
-            args.session,
-            args.accountId,
-            listEmailUnread,
-            ReadActions.markAsRead);
+          final result = await args.emailAPI.markAsRead(args.session,
+              args.accountId, listEmailUnread, ReadActions.markAsRead);
 
           log('MailboxIsolateWorker::_handleMarkAsMailboxRead(): MARK_READ: ${result.length}');
           emailListCompleted.addAll(result);
@@ -136,12 +120,11 @@ class MailboxIsolateWorker {
   }
 
   Future<List<Email>> _handleMarkAsMailboxReadActionOnWeb(
-    Session session,
-    AccountId accountId,
-    MailboxId mailboxId,
-    int totalEmailUnread,
-    StreamController<Either<Failure, Success>> onProgressController
-  ) async {
+      Session session,
+      AccountId accountId,
+      MailboxId mailboxId,
+      int totalEmailUnread,
+      StreamController<Either<Failure, Success>> onProgressController) async {
     List<Email> emailListCompleted = List.empty(growable: true);
     try {
       bool mailboxHasEmails = true;
@@ -150,31 +133,30 @@ class MailboxIsolateWorker {
 
       while (mailboxHasEmails) {
         final emailResponse = await _threadApi
-            .getAllEmail(
-              session,
-              accountId,
-              limit: UnsignedInt(30),
-              filter: EmailFilterCondition(
-                inMailbox: mailboxId,
-                notKeyword: KeyWordIdentifier.emailSeen.value,
-                before: lastReceivedDate),
-              sort: <Comparator>{}..add(
+            .getAllEmail(session, accountId,
+                limit: UnsignedInt(30),
+                filter: EmailFilterCondition(
+                    inMailbox: mailboxId,
+                    notKeyword: KeyWordIdentifier.emailSeen.value,
+                    before: lastReceivedDate),
+                sort: <Comparator>{}..add(
                     EmailComparator(EmailComparatorProperty.receivedAt)
                       ..setIsAscending(false)),
-              properties: Properties({
+                properties: Properties({
                   EmailProperty.id,
                   EmailProperty.keywords,
                   EmailProperty.receivedAt,
-              })
-            ).then((response) {
-              var listEmails = response.emailList;
-              if (listEmails != null && listEmails.isNotEmpty && lastEmailId != null) {
-                listEmails = listEmails
-                  .where((email) => email.id != lastEmailId)
-                  .toList();
-            }
-              return EmailsResponse(emailList: listEmails, state: response.state);
-            });
+                }))
+            .then((response) {
+          var listEmails = response.emailList;
+          if (listEmails != null &&
+              listEmails.isNotEmpty &&
+              lastEmailId != null) {
+            listEmails =
+                listEmails.where((email) => email.id != lastEmailId).toList();
+          }
+          return EmailsResponse(emailList: listEmails, state: response.state);
+        });
         final listEmailUnread = emailResponse.emailList;
 
         log('MailboxIsolateWorker::_handleMarkAsMailboxReadActionOnWeb(): listEmailUnread: ${listEmailUnread?.length}');
@@ -185,7 +167,8 @@ class MailboxIsolateWorker {
           lastEmailId = listEmailUnread.last.id;
           lastReceivedDate = listEmailUnread.last.receivedAt;
 
-          final result = await _emailApi.markAsRead(session, accountId, listEmailUnread, ReadActions.markAsRead);
+          final result = await _emailApi.markAsRead(
+              session, accountId, listEmailUnread, ReadActions.markAsRead);
           log('MailboxIsolateWorker::_handleMarkAsMailboxReadActionOnWeb(): MARK_READ: ${result.length}');
           emailListCompleted.addAll(result);
 

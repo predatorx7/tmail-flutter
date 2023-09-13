@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/resources/image_paths.dart';
 import 'package:core/presentation/utils/style_utils.dart';
@@ -13,18 +12,17 @@ import 'package:tmail_ui_user/features/contact/presentation/widgets/gradient_col
 typedef SelectedContactCallbackAction = Function(EmailAddress contactSelected);
 
 class ContactSuggestionBoxItem extends StatelessWidget {
-
   final SuggestionEmailAddress suggestionEmailAddress;
   final SelectedContactCallbackAction? selectedContactCallbackAction;
   final EdgeInsets? padding;
   final ShapeBorder? shapeBorder;
 
-  const ContactSuggestionBoxItem(this.suggestionEmailAddress, {
-    Key? key,
-    this.padding,
-    this.shapeBorder,
-    this.selectedContactCallbackAction
-  }) : super(key: key);
+  const ContactSuggestionBoxItem(this.suggestionEmailAddress,
+      {Key? key,
+      this.padding,
+      this.shapeBorder,
+      this.selectedContactCallbackAction})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,51 +34,46 @@ class ContactSuggestionBoxItem extends StatelessWidget {
         label: suggestionEmailAddress.emailAddress.labelAvatar,
       ),
       const SizedBox(width: 12),
-      Expanded(child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            suggestionEmailAddress.emailAddress.asString(),
-            maxLines: 1,
-            overflow: CommonTextStyle.defaultTextOverFlow,
-            softWrap: CommonTextStyle.defaultSoftWrap,
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 16,
-              fontWeight: FontWeight.w500)
-          ),
-          if (suggestionEmailAddress.emailAddress.displayName.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(top: 2),
-              child: Text(
-                suggestionEmailAddress.emailAddress.emailAddress,
+      Expanded(
+          child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+            Text(suggestionEmailAddress.emailAddress.asString(),
                 maxLines: 1,
                 overflow: CommonTextStyle.defaultTextOverFlow,
                 softWrap: CommonTextStyle.defaultSoftWrap,
                 style: const TextStyle(
-                  color: AppColor.colorEmailAddressFull,
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal)
-              )
-            )
-        ]
-      )),
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500)),
+            if (suggestionEmailAddress.emailAddress.displayName.isNotEmpty)
+              Padding(
+                  padding: const EdgeInsets.only(top: 2),
+                  child: Text(suggestionEmailAddress.emailAddress.emailAddress,
+                      maxLines: 1,
+                      overflow: CommonTextStyle.defaultTextOverFlow,
+                      softWrap: CommonTextStyle.defaultSoftWrap,
+                      style: const TextStyle(
+                          color: AppColor.colorEmailAddressFull,
+                          fontSize: 14,
+                          fontWeight: FontWeight.normal)))
+          ])),
       if (suggestionEmailAddress.state == SuggestionEmailState.duplicated)
         Padding(
           padding: const EdgeInsets.only(left: 12),
           child: SvgPicture.asset(imagePaths.icFilterSelected,
-            width: 24,
-            height: 24,
-            fit: BoxFit.fill),
+              width: 24, height: 24, fit: BoxFit.fill),
         )
     ]);
 
-    if (selectedContactCallbackAction != null && suggestionEmailAddress.state == SuggestionEmailState.valid) {
+    if (selectedContactCallbackAction != null &&
+        suggestionEmailAddress.state == SuggestionEmailState.valid) {
       return Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () => selectedContactCallbackAction?.call(suggestionEmailAddress.emailAddress),
+          onTap: () => selectedContactCallbackAction
+              ?.call(suggestionEmailAddress.emailAddress),
           customBorder: shapeBorder,
           child: Padding(
             padding: padding ?? const EdgeInsets.all(12),

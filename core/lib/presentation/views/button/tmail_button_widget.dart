@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/action/action_callback_define.dart';
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/views/container/tmail_container_widget.dart';
@@ -6,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class TMailButtonWidget extends StatelessWidget {
-
   final OnTapActionCallback? onTapActionCallback;
   final OnTapActionAtPositionCallback? onTapActionAtPositionCallback;
 
@@ -92,7 +90,7 @@ class TMailButtonWidget extends StatelessWidget {
       onTapActionAtPositionCallback: onTapActionAtPositionCallback,
       borderRadius: borderRadius,
       width: width,
-      maxWidth : maxWidth,
+      maxWidth: maxWidth,
       maxHeight: maxHeight,
       minWidth: minWidth,
       tooltipMessage: tooltipMessage,
@@ -137,7 +135,7 @@ class TMailButtonWidget extends StatelessWidget {
       onTapActionAtPositionCallback: onTapActionAtPositionCallback,
       borderRadius: borderRadius,
       width: width,
-      maxWidth : maxWidth,
+      maxWidth: maxWidth,
       maxHeight: maxHeight,
       minWidth: minWidth,
       tooltipMessage: tooltipMessage,
@@ -158,99 +156,83 @@ class TMailButtonWidget extends StatelessWidget {
 
     if (icon != null && text.isNotEmpty) {
       if (verticalDirection) {
-        childWidget = Column(
-          children: [
-            SvgPicture.asset(
-              icon!,
+        childWidget = Column(children: [
+          SvgPicture.asset(icon!,
               width: iconSize,
               height: iconSize,
               fit: BoxFit.fill,
-              colorFilter: iconColor?.asFilter()
+              colorFilter: iconColor?.asFilter()),
+          SizedBox(height: iconSpace),
+          Text(
+            text,
+            textAlign: textAlign,
+            style: textStyle ??
+                const TextStyle(
+                    fontSize: 12, color: AppColor.colorTextButtonHeaderThread),
+          ),
+          if (trailingIcon != null)
+            Padding(
+              padding: EdgeInsetsDirectional.only(top: iconSpace),
+              child: SvgPicture.asset(trailingIcon!,
+                  width: trailingIconSize,
+                  height: trailingIconSize,
+                  fit: BoxFit.fill,
+                  colorFilter: trailingIconColor?.asFilter()),
             ),
-            SizedBox(height: iconSpace),
+        ]);
+      } else {
+        childWidget =
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          SvgPicture.asset(icon!,
+              width: iconSize,
+              height: iconSize,
+              fit: BoxFit.fill,
+              colorFilter: iconColor?.asFilter()),
+          SizedBox(width: iconSpace),
+          if (flexibleText)
+            Flexible(
+              child: Text(
+                text,
+                textAlign: textAlign,
+                style: textStyle ??
+                    const TextStyle(
+                        fontSize: 12,
+                        color: AppColor.colorTextButtonHeaderThread),
+              ),
+            )
+          else
             Text(
               text,
               textAlign: textAlign,
-              style: textStyle ?? const TextStyle(
-                fontSize: 12,
-                color: AppColor.colorTextButtonHeaderThread
-              ),
+              style: textStyle ??
+                  const TextStyle(
+                      fontSize: 12,
+                      color: AppColor.colorTextButtonHeaderThread),
             ),
-            if (trailingIcon != null)
-              Padding(
-                padding: EdgeInsetsDirectional.only(top: iconSpace),
-                child: SvgPicture.asset(
-                  trailingIcon!,
+          if (trailingIcon != null)
+            Padding(
+              padding: EdgeInsetsDirectional.only(start: iconSpace),
+              child: SvgPicture.asset(trailingIcon!,
                   width: trailingIconSize,
                   height: trailingIconSize,
                   fit: BoxFit.fill,
-                  colorFilter: trailingIconColor?.asFilter()
-                ),
-              ),
-          ]
-        );
-      } else {
-        childWidget = Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              icon!,
-              width: iconSize,
-              height: iconSize,
-              fit: BoxFit.fill,
-              colorFilter: iconColor?.asFilter()
+                  colorFilter: trailingIconColor?.asFilter()),
             ),
-            SizedBox(width: iconSpace),
-            if (flexibleText)
-              Flexible(
-                child: Text(
-                  text,
-                  textAlign: textAlign,
-                  style: textStyle ?? const TextStyle(
-                    fontSize: 12,
-                    color: AppColor.colorTextButtonHeaderThread
-                  ),
-                ),
-              )
-            else
-              Text(
-                text,
-                textAlign: textAlign,
-                style: textStyle ?? const TextStyle(
-                  fontSize: 12,
-                  color: AppColor.colorTextButtonHeaderThread
-                ),
-              ),
-            if (trailingIcon != null)
-              Padding(
-                padding: EdgeInsetsDirectional.only(start: iconSpace),
-                child: SvgPicture.asset(
-                  trailingIcon!,
-                  width: trailingIconSize,
-                  height: trailingIconSize,
-                  fit: BoxFit.fill,
-                  colorFilter: trailingIconColor?.asFilter()
-                ),
-              ),
-          ]
-        );
+        ]);
       }
     } else if (icon != null) {
-      childWidget = SvgPicture.asset(
-        icon!,
-        width: iconSize,
-        height: iconSize,
-        fit: BoxFit.fill,
-        colorFilter: iconColor?.asFilter()
-      );
+      childWidget = SvgPicture.asset(icon!,
+          width: iconSize,
+          height: iconSize,
+          fit: BoxFit.fill,
+          colorFilter: iconColor?.asFilter());
     } else {
       childWidget = Text(
         text,
         textAlign: textAlign,
-        style: textStyle ?? const TextStyle(
-          fontSize: 12,
-          color: AppColor.colorTextButtonHeaderThread
-        ),
+        style: textStyle ??
+            const TextStyle(
+                fontSize: 12, color: AppColor.colorTextButtonHeaderThread),
       );
     }
 

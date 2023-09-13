@@ -13,34 +13,38 @@ import 'package:tmail_ui_user/features/manage_account/domain/usecases/get_forwar
 import 'package:tmail_ui_user/main/exceptions/remote_exception_thrower.dart';
 
 class ForwardingInteractorsBindings extends InteractorsBindings {
-
   @override
   void bindingsDataSource() {
-    Get.lazyPut<ForwardingDataSource>(() => Get.find<ForwardingDataSourceImpl>());
+    Get.lazyPut<ForwardingDataSource>(
+        () => Get.find<ForwardingDataSourceImpl>());
   }
 
   @override
   void bindingsDataSourceImpl() {
     Get.lazyPut(() => ForwardingDataSourceImpl(
-      Get.find<ForwardingAPI>(),
-      Get.find<RemoteExceptionThrower>()));
+        Get.find<ForwardingAPI>(), Get.find<RemoteExceptionThrower>()));
   }
 
   @override
   void bindingsInteractor() {
     Get.lazyPut(() => GetForwardInteractor(Get.find<ForwardingRepository>()));
-    Get.lazyPut(() => DeleteRecipientInForwardingInteractor(Get.find<ForwardingRepository>()));
-    Get.lazyPut(() => AddRecipientsInForwardingInteractor(Get.find<ForwardingRepository>()));
-    Get.lazyPut(() => EditLocalCopyInForwardingInteractor(Get.find<ForwardingRepository>()));
+    Get.lazyPut(() => DeleteRecipientInForwardingInteractor(
+        Get.find<ForwardingRepository>()));
+    Get.lazyPut(() =>
+        AddRecipientsInForwardingInteractor(Get.find<ForwardingRepository>()));
+    Get.lazyPut(() =>
+        EditLocalCopyInForwardingInteractor(Get.find<ForwardingRepository>()));
   }
 
   @override
   void bindingsRepository() {
-    Get.lazyPut<ForwardingRepository>(() => Get.find<ForwardingRepositoryImpl>());
+    Get.lazyPut<ForwardingRepository>(
+        () => Get.find<ForwardingRepositoryImpl>());
   }
 
   @override
   void bindingsRepositoryImpl() {
-    Get.lazyPut(() => ForwardingRepositoryImpl(Get.find<ForwardingDataSource>()));
+    Get.lazyPut(
+        () => ForwardingRepositoryImpl(Get.find<ForwardingDataSource>()));
   }
 }

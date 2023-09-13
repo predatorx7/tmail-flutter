@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/state/failure.dart';
 import 'package:core/presentation/state/success.dart';
 
@@ -14,6 +13,6 @@ class DeleteMultipleSendingEmailSuccess extends UIState {
 }
 
 class DeleteMultipleSendingEmailFailure extends FeatureFailure {
-
-  DeleteMultipleSendingEmailFailure(dynamic exception) : super(exception: exception);
+  DeleteMultipleSendingEmailFailure(dynamic exception)
+      : super(exception: exception);
 }

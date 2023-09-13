@@ -1,4 +1,1 @@
-
-enum ComposerOverlayState {
-  active, inActive
-}
+enum ComposerOverlayState { active, inActive }

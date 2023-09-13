@@ -18,12 +18,10 @@ extension AccountCacheExtension on AccountCache {
 
   PersonalAccount toAccount() {
     final authenticationType = fromAuthenticationTypeString();
-    return PersonalAccount(
-      id,
-      authenticationType,
-      isSelected: isSelected,
-      accountId: accountId != null ? AccountId(Id(accountId!)) : null,
-      apiUrl: apiUrl,
-      userName: userName != null ? UserName(userName!) : null);
+    return PersonalAccount(id, authenticationType,
+        isSelected: isSelected,
+        accountId: accountId != null ? AccountId(Id(accountId!)) : null,
+        apiUrl: apiUrl,
+        userName: userName != null ? UserName(userName!) : null);
   }
 }

@@ -12,6 +12,6 @@ class GetDeviceContactSuggestionsSuccess extends UIState {
 }
 
 class GetDeviceContactSuggestionsFailure extends FeatureFailure {
-
-  GetDeviceContactSuggestionsFailure(dynamic exception) : super(exception: exception);
+  GetDeviceContactSuggestionsFailure(dynamic exception)
+      : super(exception: exception);
 }

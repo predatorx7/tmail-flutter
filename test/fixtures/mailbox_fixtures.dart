@@ -14,18 +14,9 @@ class MailboxFixtures {
       unreadEmails: UnreadEmails(UnsignedInt(34)),
       totalThreads: TotalThreads(UnsignedInt(2758)),
       unreadThreads: UnreadThreads(UnsignedInt(34)),
-      myRights: MailboxRights(
-          true,
-          true,
-          true,
-          true,
-          true,
-          true,
-          true,
-          true,
-          true),
-      isSubscribed: IsSubscribed(true)
-  );
+      myRights:
+          MailboxRights(true, true, true, true, true, true, true, true, true),
+      isSubscribed: IsSubscribed(true));
 
   static final sentMailbox = Mailbox(
       id: MailboxId(Id('2')),
@@ -37,18 +28,9 @@ class MailboxFixtures {
       unreadEmails: UnreadEmails(UnsignedInt(12)),
       totalThreads: TotalThreads(UnsignedInt(123)),
       unreadThreads: UnreadThreads(UnsignedInt(12)),
-      myRights: MailboxRights(
-          true,
-          true,
-          true,
-          true,
-          true,
-          true,
-          true,
-          true,
-          true),
-      isSubscribed: IsSubscribed(true)
-  );
+      myRights:
+          MailboxRights(true, true, true, true, true, true, true, true, true),
+      isSubscribed: IsSubscribed(true));
 
   static final folder1 = Mailbox(
       id: MailboxId(Id('b1')),
@@ -60,18 +42,9 @@ class MailboxFixtures {
       unreadEmails: UnreadEmails(UnsignedInt(12)),
       totalThreads: TotalThreads(UnsignedInt(123)),
       unreadThreads: UnreadThreads(UnsignedInt(12)),
-      myRights: MailboxRights(
-          true,
-          true,
-          true,
-          true,
-          true,
-          true,
-          true,
-          true,
-          true),
-      isSubscribed: IsSubscribed(true)
-  );
+      myRights:
+          MailboxRights(true, true, true, true, true, true, true, true, true),
+      isSubscribed: IsSubscribed(true));
 
   static final folder1_1 = Mailbox(
       id: MailboxId(Id('b11')),
@@ -83,16 +56,7 @@ class MailboxFixtures {
       unreadEmails: UnreadEmails(UnsignedInt(12)),
       totalThreads: TotalThreads(UnsignedInt(123)),
       unreadThreads: UnreadThreads(UnsignedInt(12)),
-      myRights: MailboxRights(
-          true,
-          true,
-          true,
-          true,
-          true,
-          true,
-          true,
-          true,
-          true),
-      isSubscribed: IsSubscribed(true)
-  );
+      myRights:
+          MailboxRights(true, true, true, true, true, true, true, true, true),
+      isSubscribed: IsSubscribed(true));
 }

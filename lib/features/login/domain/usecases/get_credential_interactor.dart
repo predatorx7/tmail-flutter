@@ -18,12 +18,13 @@ class GetCredentialInteractor {
   Future<Either<Failure, Success>> execute() async {
     try {
       final baseUrl = await credentialRepository.getBaseUrl();
-      final authenticationInfo = await credentialRepository.getAuthenticationInfoStored();
+      final authenticationInfo =
+          await credentialRepository.getAuthenticationInfoStored();
       if (isCredentialValid(baseUrl) && authenticationInfo != null) {
         return Right(GetCredentialViewState(
-          baseUrl,
-          UserName(authenticationInfo.username),
-          Password(authenticationInfo.password)));
+            baseUrl,
+            UserName(authenticationInfo.username),
+            Password(authenticationInfo.password)));
       } else {
         return Left(GetCredentialFailure(BadCredentials()));
       }

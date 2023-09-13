@@ -1,4 +1,3 @@
-
 import 'package:model/model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:jmap_dart_client/jmap/core/properties/properties.dart';
@@ -25,23 +24,23 @@ class EmailChangeResponse with EquatableMixin {
   });
 
   EmailChangeResponse union(EmailChangeResponse other) => EmailChangeResponse(
-    updated: updated.unite(other.updated),
-    created: created.unite(other.created),
-    destroyed: destroyed.unite(other.destroyed),
-    newStateEmail: other.newStateEmail,
-    newStateChanges: other.newStateChanges,
-    hasMoreChanges: other.hasMoreChanges,
-    updatedProperties: other.updatedProperties,
-  );
+        updated: updated.unite(other.updated),
+        created: created.unite(other.created),
+        destroyed: destroyed.unite(other.destroyed),
+        newStateEmail: other.newStateEmail,
+        newStateChanges: other.newStateChanges,
+        hasMoreChanges: other.hasMoreChanges,
+        updatedProperties: other.updatedProperties,
+      );
 
   @override
   List<Object?> get props => [
-    updated,
-    created,
-    destroyed,
-    newStateEmail,
-    newStateChanges,
-    hasMoreChanges,
-    updatedProperties
-  ];
+        updated,
+        created,
+        destroyed,
+        newStateEmail,
+        newStateChanges,
+        hasMoreChanges,
+        updatedProperties
+      ];
 }

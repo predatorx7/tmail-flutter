@@ -4,7 +4,7 @@ import 'package:tmail_ui_user/features/quotas/data/datasource/quotas_data_source
 import 'package:tmail_ui_user/features/quotas/data/network/quotas_api.dart';
 import 'package:tmail_ui_user/main/exceptions/exception_thrower.dart';
 
-class QuotasDataSourceImpl  extends QuotasDataSource {
+class QuotasDataSourceImpl extends QuotasDataSource {
   final QuotasAPI _quotasAPI;
   final ExceptionThrower _exceptionThrower;
 

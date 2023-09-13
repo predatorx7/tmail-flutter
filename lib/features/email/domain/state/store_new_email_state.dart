@@ -6,6 +6,5 @@ class StoreNewEmailLoading extends UIState {}
 class StoreNewEmailSuccess extends UIState {}
 
 class StoreNewEmailFailure extends FeatureFailure {
-
   StoreNewEmailFailure(dynamic exception) : super(exception: exception);
 }

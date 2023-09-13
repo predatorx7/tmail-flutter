@@ -12,11 +12,14 @@ class GetStoredEmailDeliveryStateInteractor {
 
   GetStoredEmailDeliveryStateInteractor(this._fcmRepository);
 
-  Stream<Either<Failure, Success>> execute(AccountId accountId, UserName userName) async* {
+  Stream<Either<Failure, Success>> execute(
+      AccountId accountId, UserName userName) async* {
     try {
       yield Right<Failure, Success>(GetStoredEmailDeliveryStateLoading());
-      final storedState = await _fcmRepository.getStateToRefresh(accountId, userName, TypeName.emailDelivery);
-      yield Right<Failure, Success>(GetStoredEmailDeliveryStateSuccess(storedState));
+      final storedState = await _fcmRepository.getStateToRefresh(
+          accountId, userName, TypeName.emailDelivery);
+      yield Right<Failure, Success>(
+          GetStoredEmailDeliveryStateSuccess(storedState));
     } catch (e) {
       yield Left<Failure, Success>(GetStoredEmailDeliveryStateFailure(e));
     }

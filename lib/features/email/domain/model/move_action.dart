@@ -1,5 +1,1 @@
-
-enum MoveAction {
-  moving,
-  undo
-}
+enum MoveAction { moving, undo }

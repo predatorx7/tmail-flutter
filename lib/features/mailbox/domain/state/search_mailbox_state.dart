@@ -5,7 +5,6 @@ import 'package:model/mailbox/presentation_mailbox.dart';
 class LoadingSearchMailbox extends LoadingState {}
 
 class SearchMailboxSuccess extends UIState {
-
   final List<PresentationMailbox> mailboxesSearched;
 
   SearchMailboxSuccess(this.mailboxesSearched);
@@ -15,6 +14,5 @@ class SearchMailboxSuccess extends UIState {
 }
 
 class SearchMailboxFailure extends FeatureFailure {
-
   SearchMailboxFailure(dynamic exception) : super(exception: exception);
 }

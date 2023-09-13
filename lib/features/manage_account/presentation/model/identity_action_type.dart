@@ -1,5 +1,1 @@
-
-enum IdentityActionType {
-  create,
-  edit
-}
+enum IdentityActionType { create, edit }

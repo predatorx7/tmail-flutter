@@ -1,4 +1,3 @@
-
 enum ToastPosition {
   /// [ToastPosition.TOP] is used to show toast top of the screen
   TOP,

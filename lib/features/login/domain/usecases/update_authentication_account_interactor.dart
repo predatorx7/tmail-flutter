@@ -12,19 +12,15 @@ class UpdateAuthenticationAccountInteractor {
 
   UpdateAuthenticationAccountInteractor(this._accountRepository);
 
-  Stream<Either<Failure, Success>> execute(AccountId accountId, String apiUrl, UserName userName) async* {
-    try{
+  Stream<Either<Failure, Success>> execute(
+      AccountId accountId, String apiUrl, UserName userName) async* {
+    try {
       yield Right(UpdateAuthenticationAccountLoading());
       final currentAccount = await _accountRepository.getCurrentAccount();
-      await _accountRepository.setCurrentAccount(
-        currentAccount.fromAccount(
-          accountId: accountId,
-          apiUrl: apiUrl,
-          userName: userName
-        )
-      );
+      await _accountRepository.setCurrentAccount(currentAccount.fromAccount(
+          accountId: accountId, apiUrl: apiUrl, userName: userName));
       yield Right(UpdateAuthenticationAccountSuccess());
-    } catch(e) {
+    } catch (e) {
       yield Left(UpdateAuthenticationAccountFailure(e));
     }
   }

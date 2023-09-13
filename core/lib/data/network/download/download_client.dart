@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:io';
 
@@ -11,44 +10,42 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 class DownloadClient {
-
   final DioClient _dioClient;
   final CompressFileUtils _compressFileUtils;
 
   DownloadClient(this._dioClient, this._compressFileUtils);
 
   Future<ResponseBody> downloadFile(
-      String url,
-      String basicAuth,
-      CancelToken? cancelToken,
+    String url,
+    String basicAuth,
+    CancelToken? cancelToken,
   ) async {
     final headerParam = _dioClient.getHeaders();
     headerParam[HttpHeaders.authorizationHeader] = basicAuth;
     headerParam[HttpHeaders.acceptHeader] = DioClient.jmapHeader;
 
-    final responseBody = await _dioClient.get(
-      url,
-      options: Options(headers: headerParam, responseType: ResponseType.stream),
-      cancelToken: cancelToken);
+    final responseBody = await _dioClient.get(url,
+        options:
+            Options(headers: headerParam, responseType: ResponseType.stream),
+        cancelToken: cancelToken);
 
     return (responseBody as ResponseBody);
   }
 
   Future<String?> downloadImageAsBase64(
-      String url,
-      String cid,
-      String fileExtension,
-      String fileName,
-      {
-        Uint8List? bytesData,
-        double? maxWidth,
-        bool? compress,
-      }
-  ) async {
+    String url,
+    String cid,
+    String fileExtension,
+    String fileName, {
+    Uint8List? bytesData,
+    double? maxWidth,
+    bool? compress,
+  }) async {
     try {
       if (bytesData == null) {
         log('DownloadClient::downloadImageAsBase64(): bytesData is NULL');
-        bytesData = await _dioClient.get(url, options: Options(responseType: ResponseType.bytes));
+        bytesData = await _dioClient.get(url,
+            options: Options(responseType: ResponseType.bytes));
       }
 
       if (bytesData == null) {
@@ -66,9 +63,8 @@ class DownloadClient {
         return base64Uri;
       } else {
         if (compress == true) {
-          final bytesDataCompressed = await _compressFileUtils.compressBytesDataImage(
-              bytesData,
-              maxWidth: maxWidth?.toInt());
+          final bytesDataCompressed = await _compressFileUtils
+              .compressBytesDataImage(bytesData, maxWidth: maxWidth?.toInt());
 
           final base64Uri = await compute(encodeToBase64Uri, {
             'bytesData': bytesDataCompressed,
@@ -78,7 +74,7 @@ class DownloadClient {
           });
 
           return base64Uri;
-        }  else {
+        } else {
           final base64Uri = await compute(encodeToBase64Uri, {
             'bytesData': bytesData,
             'mimeType': 'image/$fileExtension',
@@ -111,7 +107,8 @@ class DownloadClient {
     if (fileName.contains('.')) {
       fileName = fileName.split('.').first;
     }
-    final base64Uri = '<img src="data:$mimeType;base64,$base64Data" alt="$fileName" id="cid:$cid" style="max-width: 100%" />';
+    final base64Uri =
+        '<img src="data:$mimeType;base64,$base64Data" alt="$fileName" id="cid:$cid" style="max-width: 100%" />';
     return base64Uri;
   }
 }

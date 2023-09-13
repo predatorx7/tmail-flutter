@@ -13,18 +13,16 @@ class DeleteRecipientInForwardingInteractor {
 
   DeleteRecipientInForwardingInteractor(this._forwardingRepository);
 
-  Stream<Either<Failure, Success>> execute(
-      AccountId accountId,
-      DeleteRecipientInForwardingRequest deleteRequest
-  ) async* {
+  Stream<Either<Failure, Success>> execute(AccountId accountId,
+      DeleteRecipientInForwardingRequest deleteRequest) async* {
     try {
       yield Right<Failure, Success>(StartDeleteRecipientInForwarding());
       final result = await _forwardingRepository.deleteRecipientInForwarding(
-          accountId,
-          deleteRequest);
+          accountId, deleteRequest);
       yield Right<Failure, Success>(DeleteRecipientInForwardingSuccess(result));
     } catch (exception) {
-      yield Left<Failure, Success>(DeleteRecipientInForwardingFailure(exception));
+      yield Left<Failure, Success>(
+          DeleteRecipientInForwardingFailure(exception));
     }
   }
 }

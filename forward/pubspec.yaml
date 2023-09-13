@@ -18,25 +18,27 @@ dependencies:
       ref: master
 
   ### Dependencies from pub.dev ###
-  equatable: 2.0.5
+  equatable: ^2.0.5
 
-  json_annotation: 4.8.0
+  json_annotation: ^4.8.0
 
-  dio: 5.0.0
+  dio: ^5.0.0
 
-  http_mock_adapter: 0.4.2
+  http_mock_adapter: ^0.4.2
+
+  watcher: ^1.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: 2.0.1
+  flutter_lints: ^2.0.1
 
-  build_runner: 2.3.3
+  build_runner: ^2.3.3
 
-  json_serializable: 6.6.1
+  json_serializable: ^6.6.1
 
-  mockito: 5.4.2
+  mockito: ^5.4.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

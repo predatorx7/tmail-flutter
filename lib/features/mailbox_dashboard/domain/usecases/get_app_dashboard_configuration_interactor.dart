@@ -12,14 +12,13 @@ class GetAppDashboardConfigurationInteractor {
 
   GetAppDashboardConfigurationInteractor(this._appConfigLoader);
 
-  Stream<Either<Failure, Success>> execute(String appDashboardConfigurationPath) async* {
+  Stream<Either<Failure, Success>> execute(
+      String appDashboardConfigurationPath) async* {
     try {
       yield Right(LoadingAppDashboardConfiguration());
 
       final linagoraApps = await _appConfigLoader.load<LinagoraApplications>(
-        appDashboardConfigurationPath,
-        AppDashboardConfigurationParser()
-      );
+          appDashboardConfigurationPath, AppDashboardConfigurationParser());
 
       yield Right(GetAppDashboardConfigurationSuccess(linagoraApps));
     } catch (e) {

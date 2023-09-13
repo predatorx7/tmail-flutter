@@ -11,7 +11,8 @@ class DeleteAuthorityOidcInteractor {
   final AuthenticationOIDCRepository _authenticationOIDCRepository;
   final CredentialRepository _credentialRepository;
 
-  DeleteAuthorityOidcInteractor(this._authenticationOIDCRepository, this._credentialRepository);
+  DeleteAuthorityOidcInteractor(
+      this._authenticationOIDCRepository, this._credentialRepository);
 
   Future<Either<Failure, Success>> execute() async {
     try {

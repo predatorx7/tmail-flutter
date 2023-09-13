@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/resources/image_paths.dart';
 import 'package:core/presentation/utils/responsive_utils.dart';
@@ -18,13 +17,14 @@ import 'package:tmail_ui_user/features/composer/presentation/extensions/prefix_e
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 import 'package:tmail_ui_user/main/utils/app_utils.dart';
 
-typedef OnPreviewEmailAddressActionCallback = Function(BuildContext context, EmailAddress emailAddress);
+typedef OnPreviewEmailAddressActionCallback = Function(
+    BuildContext context, EmailAddress emailAddress);
 
 class EmailReceiverWidget extends StatefulWidget {
-
   final PresentationEmail emailSelected;
   final double maxWidth;
-  final OnPreviewEmailAddressActionCallback? onPreviewEmailAddressActionCallback;
+  final OnPreviewEmailAddressActionCallback?
+      onPreviewEmailAddressActionCallback;
 
   const EmailReceiverWidget({
     Key? key,
@@ -38,7 +38,6 @@ class EmailReceiverWidget extends StatefulWidget {
 }
 
 class _EmailReceiverWidgetState extends State<EmailReceiverWidget> {
-
   static const double _maxSizeFullDisplayEmailAddressArrowDownButton = 30.0;
 
   final _imagePaths = Get.find<ImagePaths>();
@@ -48,179 +47,135 @@ class _EmailReceiverWidgetState extends State<EmailReceiverWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(child: Padding(
-          padding: EdgeInsets.only(top: _isDisplayAll
-            ? DirectionUtils.isDirectionRTLByLanguage(context) ? 3 : 5.5
-            : 0),
-          child: _buildEmailAddressOfReceiver(
-            context,
-            widget.emailSelected,
-            _isDisplayAll,
-            widget.maxWidth
-          ),
-        )),
-        if (_isDisplayAll)
-          Padding(
+    return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Expanded(
+          child: Padding(
+        padding: EdgeInsets.only(
+            top: _isDisplayAll
+                ? DirectionUtils.isDirectionRTLByLanguage(context)
+                    ? 3
+                    : 5.5
+                : 0),
+        child: _buildEmailAddressOfReceiver(
+            context, widget.emailSelected, _isDisplayAll, widget.maxWidth),
+      )),
+      if (_isDisplayAll)
+        Padding(
             padding: EdgeInsets.symmetric(
-              vertical: DirectionUtils.isDirectionRTLByLanguage(context) ? 0 : 6),
+                vertical:
+                    DirectionUtils.isDirectionRTLByLanguage(context) ? 0 : 6),
             child: MaterialTextButton(
               padding: DirectionUtils.isDirectionRTLByLanguage(context)
-                ? const EdgeInsets.symmetric(horizontal: 8, vertical: 4)
-                : null,
+                  ? const EdgeInsets.symmetric(horizontal: 8, vertical: 4)
+                  : null,
               onTap: () => setState(() => _isDisplayAll = false),
               label: AppLocalizations.of(context).hide,
-            )
-          )
-      ]
-    );
+            ))
+    ]);
   }
 
   Widget _buildEmailAddressOfReceiver(
-    BuildContext context,
-    PresentationEmail presentationEmail,
-    bool isDisplayFull,
-    double maxWidth
-  ) {
+      BuildContext context,
+      PresentationEmail presentationEmail,
+      bool isDisplayFull,
+      double maxWidth) {
     if (!isDisplayFull && presentationEmail.numberOfAllEmailAddress() > 1) {
-      return Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            height: 40,
-            color: Colors.white,
-            constraints: BoxConstraints(maxWidth: _getMaxWidthEmailAddressDisplayed(context, maxWidth)),
-            child: ListView(
+      return Row(mainAxisSize: MainAxisSize.min, children: [
+        Container(
+          height: 40,
+          color: Colors.white,
+          constraints: BoxConstraints(
+              maxWidth: _getMaxWidthEmailAddressDisplayed(context, maxWidth)),
+          child: ListView(
               scrollDirection: Axis.horizontal,
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               children: [
                 if (presentationEmail.to.numberEmailAddress() > 0)
-                  _buildEmailAddressByPrefix(
-                    context,
-                    presentationEmail,
-                    PrefixEmailAddress.to,
-                    isDisplayFull
-                  ),
+                  _buildEmailAddressByPrefix(context, presentationEmail,
+                      PrefixEmailAddress.to, isDisplayFull),
                 if (presentationEmail.cc.numberEmailAddress() > 0)
-                  _buildEmailAddressByPrefix(
-                    context,
-                    presentationEmail,
-                    PrefixEmailAddress.cc,
-                    isDisplayFull
-                  ),
+                  _buildEmailAddressByPrefix(context, presentationEmail,
+                      PrefixEmailAddress.cc, isDisplayFull),
                 if (presentationEmail.bcc.numberEmailAddress() > 0)
-                  _buildEmailAddressByPrefix(
-                    context,
-                    presentationEmail,
-                    PrefixEmailAddress.bcc,
-                    isDisplayFull
-                  ),
-              ]
-            ),
-          ),
-          Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: () => setState(() => _isDisplayAll = true),
-              customBorder: const CircleBorder(),
-              child: Container(
-                padding: const EdgeInsets.all(5),
-                color: Colors.transparent,
-                constraints: const BoxConstraints(
+                  _buildEmailAddressByPrefix(context, presentationEmail,
+                      PrefixEmailAddress.bcc, isDisplayFull),
+              ]),
+        ),
+        Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () => setState(() => _isDisplayAll = true),
+            customBorder: const CircleBorder(),
+            child: Container(
+              padding: const EdgeInsets.all(5),
+              color: Colors.transparent,
+              constraints: const BoxConstraints(
                   maxHeight: _maxSizeFullDisplayEmailAddressArrowDownButton,
-                  maxWidth: _maxSizeFullDisplayEmailAddressArrowDownButton
-                ),
-                child: SvgPicture.asset(
-                  _imagePaths.icChevronDown,
-                  width: 16,
-                  height: 16,
-                  fit: BoxFit.fill
-                ),
-              ),
+                  maxWidth: _maxSizeFullDisplayEmailAddressArrowDownButton),
+              child: SvgPicture.asset(_imagePaths.icChevronDown,
+                  width: 16, height: 16, fit: BoxFit.fill),
             ),
           ),
-        ]
-      );
+        ),
+      ]);
     } else {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (presentationEmail.to.numberEmailAddress() > 0)
-            _buildEmailAddressByPrefix(
-              context,
-              presentationEmail,
-              PrefixEmailAddress.to,
-              isDisplayFull
-            ),
+            _buildEmailAddressByPrefix(context, presentationEmail,
+                PrefixEmailAddress.to, isDisplayFull),
           if (presentationEmail.cc.numberEmailAddress() > 0)
-            _buildEmailAddressByPrefix(
-              context,
-              presentationEmail,
-              PrefixEmailAddress.cc,
-              isDisplayFull
-            ),
+            _buildEmailAddressByPrefix(context, presentationEmail,
+                PrefixEmailAddress.cc, isDisplayFull),
           if (presentationEmail.bcc.numberEmailAddress() > 0)
-            _buildEmailAddressByPrefix(
-              context,
-              presentationEmail,
-              PrefixEmailAddress.bcc,
-              isDisplayFull
-            ),
+            _buildEmailAddressByPrefix(context, presentationEmail,
+                PrefixEmailAddress.bcc, isDisplayFull),
         ],
       );
     }
   }
 
   Widget _buildEmailAddressByPrefix(
-    BuildContext context,
-    PresentationEmail presentationEmail,
-    PrefixEmailAddress prefixEmailAddress,
-    bool isDisplayFull
-  ) {
-    return Row(
-      children: [
-        Text(
-          '${prefixEmailAddress.asName(context)}:',
+      BuildContext context,
+      PresentationEmail presentationEmail,
+      PrefixEmailAddress prefixEmailAddress,
+      bool isDisplayFull) {
+    return Row(children: [
+      Text('${prefixEmailAddress.asName(context)}:',
           style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            color: AppColor.colorEmailAddressFull
-          )
-        ),
-        if (!isDisplayFull && presentationEmail.numberOfAllEmailAddress() > 1)
-          _buildListEmailAddressWidget(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: AppColor.colorEmailAddressFull)),
+      if (!isDisplayFull && presentationEmail.numberOfAllEmailAddress() > 1)
+        _buildListEmailAddressWidget(
             context,
             prefixEmailAddress.listEmailAddress(presentationEmail),
-            isDisplayFull
-          )
-        else
-          Expanded(child: _buildListEmailAddressWidget(
-            context,
-            prefixEmailAddress.listEmailAddress(presentationEmail),
-            isDisplayFull
-          ))
-      ]
-    );
+            isDisplayFull)
+      else
+        Expanded(
+            child: _buildListEmailAddressWidget(
+                context,
+                prefixEmailAddress.listEmailAddress(presentationEmail),
+                isDisplayFull))
+    ]);
   }
 
-  Widget _buildListEmailAddressWidget(
-    BuildContext context,
-    List<EmailAddress> listEmailAddress,
-    bool isDisplayFull
-  ) {
+  Widget _buildListEmailAddressWidget(BuildContext context,
+      List<EmailAddress> listEmailAddress, bool isDisplayFull) {
     final lastEmailAddress = listEmailAddress.last;
     final emailAddressWidgets = listEmailAddress.map((emailAddress) {
       return MaterialTextButton(
         label: lastEmailAddress == emailAddress
-          ? emailAddress.asString()
-          : '${emailAddress.asString()},',
-        onTap: () => widget.onPreviewEmailAddressActionCallback?.call(context, emailAddress),
+            ? emailAddress.asString()
+            : '${emailAddress.asString()},',
+        onTap: () => widget.onPreviewEmailAddressActionCallback
+            ?.call(context, emailAddress),
         onLongPress: () {
-          AppUtils.copyEmailAddressToClipboard(context, emailAddress.emailAddress);
+          AppUtils.copyEmailAddressToClipboard(
+              context, emailAddress.emailAddress);
         },
         borderRadius: 8,
         labelColor: Colors.black,
@@ -237,21 +192,21 @@ class _EmailReceiverWidgetState extends State<EmailReceiverWidget> {
         scrollDirection: Axis.horizontal,
         physics: const NeverScrollableScrollPhysics(),
         child: Row(
-          crossAxisAlignment:CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: emailAddressWidgets
-        ),
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: emailAddressWidgets),
       );
     }
   }
 
-  double _getMaxWidthEmailAddressDisplayed(BuildContext context, double maxWidth) {
+  double _getMaxWidthEmailAddressDisplayed(
+      BuildContext context, double maxWidth) {
     if (_responsiveUtils.isPortraitMobile(context)) {
       return maxWidth - _maxSizeFullDisplayEmailAddressArrowDownButton;
     } else if (_responsiveUtils.isWebDesktop(context)) {
       return maxWidth / 2;
     } else {
-      return maxWidth * 3/4;
+      return maxWidth * 3 / 4;
     }
   }
 }

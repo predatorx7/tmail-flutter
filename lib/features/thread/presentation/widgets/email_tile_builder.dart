@@ -9,7 +9,6 @@ import 'package:tmail_ui_user/features/thread/domain/model/search_query.dart';
 import 'package:tmail_ui_user/features/thread/presentation/mixin/base_email_item_tile.dart';
 
 class EmailTileBuilder with BaseEmailItemTile {
-
   final PresentationEmail _presentationEmail;
   final BuildContext _context;
   final SelectMode _selectModeAll;
@@ -28,15 +27,13 @@ class EmailTileBuilder with BaseEmailItemTile {
     this._presentationEmail,
     this._selectModeAll,
     this._searchQuery,
-    this._isShowingEmailContent,
-    {
-      this.isSearchEmailRunning = false,
-      this.mailboxContain,
-      this.padding,
-      this.paddingDivider,
-      this.isDrag = false,
-    }
-  );
+    this._isShowingEmailContent, {
+    this.isSearchEmailRunning = false,
+    this.mailboxContain,
+    this.padding,
+    this.paddingDivider,
+    this.isDrag = false,
+  });
 
   void addOnPressEmailActionClick(OnPressEmailActionClick actionClick) {
     _emailActionClick = actionClick;
@@ -50,14 +47,16 @@ class EmailTileBuilder with BaseEmailItemTile {
       child: Column(
         children: [
           ListTile(
-            tileColor: _isShowingEmailContent ? AppColor.colorItemEmailSelectedDesktop : null,
-            contentPadding: padding ?? const EdgeInsetsDirectional.symmetric(horizontal: 16, vertical: 5),
+            tileColor: _isShowingEmailContent
+                ? AppColor.colorItemEmailSelectedDesktop
+                : null,
+            contentPadding: padding ??
+                const EdgeInsetsDirectional.symmetric(
+                    horizontal: 16, vertical: 5),
             onTap: () => _emailActionClick?.call(
-                EmailActionType.preview,
-                _presentationEmail),
+                EmailActionType.preview, _presentationEmail),
             onLongPress: () => _emailActionClick?.call(
-                EmailActionType.selection,
-                _presentationEmail),
+                EmailActionType.selection, _presentationEmail),
             leading: GestureDetector(
               onTap: () => _emailActionClick?.call(
                   _selectModeAll == SelectMode.ACTIVE
@@ -76,18 +75,15 @@ class EmailTileBuilder with BaseEmailItemTile {
                 if (!_presentationEmail.hasRead)
                   Padding(
                       padding: const EdgeInsetsDirectional.only(end: 5),
-                      child: SvgPicture.asset(
-                          imagePaths.icUnreadStatus,
-                          width: 9,
-                          height: 9,
-                          fit: BoxFit.fill)),
-                Expanded(child: buildInformationSender(
-                  _context,
-                  _presentationEmail,
-                  mailboxContain,
-                  isSearchEmailRunning,
-                  _searchQuery)),
-                buildIconAnsweredOrForwarded(width: 16, height: 16, presentationEmail: _presentationEmail),
+                      child: SvgPicture.asset(imagePaths.icUnreadStatus,
+                          width: 9, height: 9, fit: BoxFit.fill)),
+                Expanded(
+                    child: buildInformationSender(_context, _presentationEmail,
+                        mailboxContain, isSearchEmailRunning, _searchQuery)),
+                buildIconAnsweredOrForwarded(
+                    width: 16,
+                    height: 16,
+                    presentationEmail: _presentationEmail),
                 if (_presentationEmail.hasAttachment == true)
                   Padding(
                       padding: const EdgeInsetsDirectional.only(start: 8),
@@ -108,16 +104,14 @@ class EmailTileBuilder with BaseEmailItemTile {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         if (_presentationEmail.hasCalendarEvent)
-                          buildCalendarEventIcon(context: _context, presentationEmail: _presentationEmail),
-                        Expanded(child: buildEmailTitle(
-                          _context,
-                          _presentationEmail,
-                          isSearchEmailRunning,
-                          _searchQuery)),
+                          buildCalendarEventIcon(
+                              context: _context,
+                              presentationEmail: _presentationEmail),
+                        Expanded(
+                            child: buildEmailTitle(_context, _presentationEmail,
+                                isSearchEmailRunning, _searchQuery)),
                         buildMailboxContain(
-                          _context,
-                          isSearchEmailRunning,
-                          _presentationEmail),
+                            _context, isSearchEmailRunning, _presentationEmail),
                         if (_presentationEmail.hasStarred)
                           Padding(
                             padding: const EdgeInsetsDirectional.only(start: 8),
@@ -128,19 +122,21 @@ class EmailTileBuilder with BaseEmailItemTile {
                 Padding(
                     padding: const EdgeInsetsDirectional.only(top: 6),
                     child: Row(children: [
-                      Expanded(child: buildEmailPartialContent(
-                        _context,
-                        _presentationEmail,
-                        isSearchEmailRunning,
-                        _searchQuery)),
-                    ])
-                ),
+                      Expanded(
+                          child: buildEmailPartialContent(
+                              _context,
+                              _presentationEmail,
+                              isSearchEmailRunning,
+                              _searchQuery)),
+                    ])),
               ],
             ),
           ),
           Padding(
-            padding: paddingDivider ?? const EdgeInsetsDirectional.symmetric(horizontal: 16),
-            child: const Divider(color: AppColor.lineItemListColor, height: 1)),
+              padding: paddingDivider ??
+                  const EdgeInsetsDirectional.symmetric(horizontal: 16),
+              child:
+                  const Divider(color: AppColor.lineItemListColor, height: 1)),
         ],
       ),
     );

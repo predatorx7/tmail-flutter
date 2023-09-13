@@ -1,8 +1,6 @@
-
 import 'package:equatable/equatable.dart';
 
 class FirebaseToken with EquatableMixin {
-
   final String value;
 
   FirebaseToken(this.value);

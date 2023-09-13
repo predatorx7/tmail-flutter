@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 import 'package:tmail_ui_user/features/caching/utils/caching_constants.dart';
@@ -8,7 +7,6 @@ part 'email_cache.g.dart';
 
 @HiveType(typeId: CachingConstants.EMAIL_CACHE_IDENTIFY)
 class EmailCache extends HiveObject with EquatableMixin {
-
   @HiveField(0)
   final String id;
 
@@ -55,41 +53,39 @@ class EmailCache extends HiveObject with EquatableMixin {
   Map<String, String?>? headerCalendarEvent;
 
   EmailCache(
-    this.id,
-    {
-      this.keywords,
-      this.size,
-      this.receivedAt,
-      this.hasAttachment,
-      this.preview,
-      this.subject,
-      this.sentAt,
-      this.from,
-      this.to,
-      this.cc,
-      this.bcc,
-      this.replyTo,
-      this.mailboxIds,
-      this.headerCalendarEvent,
-    }
-  );
+    this.id, {
+    this.keywords,
+    this.size,
+    this.receivedAt,
+    this.hasAttachment,
+    this.preview,
+    this.subject,
+    this.sentAt,
+    this.from,
+    this.to,
+    this.cc,
+    this.bcc,
+    this.replyTo,
+    this.mailboxIds,
+    this.headerCalendarEvent,
+  });
 
   @override
   List<Object?> get props => [
-    id,
-    subject,
-    from,
-    to,
-    cc,
-    bcc,
-    keywords,
-    size,
-    receivedAt,
-    sentAt,
-    replyTo,
-    preview,
-    hasAttachment,
-    mailboxIds,
-    headerCalendarEvent,
-  ];
+        id,
+        subject,
+        from,
+        to,
+        cc,
+        bcc,
+        keywords,
+        size,
+        receivedAt,
+        sentAt,
+        replyTo,
+        preview,
+        hasAttachment,
+        mailboxIds,
+        headerCalendarEvent,
+      ];
 }

@@ -31,20 +31,19 @@ class SendingEmail with EquatableMixin {
   final SelectMode selectMode;
   final SendingState sendingState;
 
-  SendingEmail({
-    required this.sendingId,
-    required this.email,
-    required this.emailActionType,
-    required this.createTime,
-    this.sentMailboxId,
-    this.emailIdDestroyed,
-    this.emailIdAnsweredOrForwarded,
-    this.identityId,
-    this.mailboxNameRequest,
-    this.creationIdRequest,
-    this.selectMode = SelectMode.INACTIVE,
-    this.sendingState = SendingState.waiting
-  });
+  SendingEmail(
+      {required this.sendingId,
+      required this.email,
+      required this.emailActionType,
+      required this.createTime,
+      this.sentMailboxId,
+      this.emailIdDestroyed,
+      this.emailIdAnsweredOrForwarded,
+      this.identityId,
+      this.mailboxNameRequest,
+      this.creationIdRequest,
+      this.selectMode = SelectMode.INACTIVE,
+      this.sendingState = SendingState.waiting});
 
   Map<String, dynamic> toJson() {
     final val = <String, dynamic>{};
@@ -59,17 +58,23 @@ class SendingEmail with EquatableMixin {
     writeNotNull('email', email.asString());
     writeNotNull('emailActionType', emailActionType.name);
     writeNotNull('createTime', createTime.toIso8601String());
-    writeNotNull('sentMailboxId', const MailboxIdNullableConverter().toJson(sentMailboxId));
-    writeNotNull('emailIdDestroyed', const EmailIdNullableConverter().toJson(emailIdDestroyed));
-    writeNotNull('emailIdAnsweredOrForwarded', const EmailIdNullableConverter().toJson(emailIdAnsweredOrForwarded));
-    writeNotNull('identityId', const IdentityIdNullableConverter().toJson(identityId));
+    writeNotNull('sentMailboxId',
+        const MailboxIdNullableConverter().toJson(sentMailboxId));
+    writeNotNull('emailIdDestroyed',
+        const EmailIdNullableConverter().toJson(emailIdDestroyed));
+    writeNotNull('emailIdAnsweredOrForwarded',
+        const EmailIdNullableConverter().toJson(emailIdAnsweredOrForwarded));
+    writeNotNull(
+        'identityId', const IdentityIdNullableConverter().toJson(identityId));
     writeNotNull('mailboxNameRequest', mailboxNameRequest?.name);
-    writeNotNull('creationIdRequest', const IdNullableConverter().toJson(creationIdRequest));
+    writeNotNull('creationIdRequest',
+        const IdNullableConverter().toJson(creationIdRequest));
 
     return val;
   }
 
-  PresentationEmail get presentationEmail => email.sendingEmailToPresentationEmail();
+  PresentationEmail get presentationEmail =>
+      email.sendingEmailToPresentationEmail();
 
   String getCreateTimeAt(String newLocale) {
     return DateFormat(createTime.toPattern(), newLocale).format(createTime);
@@ -81,12 +86,18 @@ class SendingEmail with EquatableMixin {
       email: Email.fromJson(jsonDecode(json['email'])),
       emailActionType: _getEmailActionType(json['emailActionType'] as String),
       createTime: DateTime.parse(json['createTime'] as String),
-      sentMailboxId: const MailboxIdNullableConverter().fromJson(json['sentMailboxId'] as String?),
-      emailIdDestroyed: const EmailIdNullableConverter().fromJson(json['emailIdDestroyed'] as String?),
-      emailIdAnsweredOrForwarded: const EmailIdNullableConverter().fromJson(json['emailIdAnsweredOrForwarded'] as String?),
-      identityId: const IdentityIdNullableConverter().fromJson(json['identityId'] as String?),
-      mailboxNameRequest: const MailboxNameConverter().fromJson(json['mailboxNameRequest'] as String?),
-      creationIdRequest: const IdNullableConverter().fromJson(json['creationIdRequest'] as String?),
+      sentMailboxId: const MailboxIdNullableConverter()
+          .fromJson(json['sentMailboxId'] as String?),
+      emailIdDestroyed: const EmailIdNullableConverter()
+          .fromJson(json['emailIdDestroyed'] as String?),
+      emailIdAnsweredOrForwarded: const EmailIdNullableConverter()
+          .fromJson(json['emailIdAnsweredOrForwarded'] as String?),
+      identityId: const IdentityIdNullableConverter()
+          .fromJson(json['identityId'] as String?),
+      mailboxNameRequest: const MailboxNameConverter()
+          .fromJson(json['mailboxNameRequest'] as String?),
+      creationIdRequest: const IdNullableConverter()
+          .fromJson(json['creationIdRequest'] as String?),
     );
   }
 
@@ -107,17 +118,17 @@ class SendingEmail with EquatableMixin {
 
   @override
   List<Object?> get props => [
-    sendingId,
-    email,
-    emailActionType,
-    createTime,
-    sentMailboxId,
-    emailIdDestroyed,
-    emailIdAnsweredOrForwarded,
-    identityId,
-    mailboxNameRequest,
-    creationIdRequest,
-    selectMode,
-    sendingState,
-  ];
+        sendingId,
+        email,
+        emailActionType,
+        createTime,
+        sentMailboxId,
+        emailIdDestroyed,
+        emailIdAnsweredOrForwarded,
+        identityId,
+        mailboxNameRequest,
+        creationIdRequest,
+        selectMode,
+        sendingState,
+      ];
 }

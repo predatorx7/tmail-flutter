@@ -34,22 +34,25 @@ class DownloadAttachmentForWebInteractor {
       Attachment attachment,
       AccountId accountId,
       String baseDownloadUrl,
-      StreamController<Either<Failure, Success>> onReceiveController
-  ) async* {
+      StreamController<Either<Failure, Success>> onReceiveController) async* {
     try {
-      yield Right<Failure, Success>(StartDownloadAttachmentForWeb(taskId, attachment));
-      onReceiveController.add(Right(StartDownloadAttachmentForWeb(taskId, attachment)));
+      yield Right<Failure, Success>(
+          StartDownloadAttachmentForWeb(taskId, attachment));
+      onReceiveController
+          .add(Right(StartDownloadAttachmentForWeb(taskId, attachment)));
 
       final currentAccount = await _accountRepository.getCurrentAccount();
       AccountRequest? accountRequest;
 
       if (currentAccount.authenticationType == AuthenticationType.oidc) {
-        final tokenOidc = await _authenticationOIDCRepository.getStoredTokenOIDC(currentAccount.id);
+        final tokenOidc = await _authenticationOIDCRepository
+            .getStoredTokenOIDC(currentAccount.id);
         accountRequest = AccountRequest(
             token: tokenOidc.toToken(),
             authenticationType: AuthenticationType.oidc);
       } else {
-        final authenticationInfoCache = await credentialRepository.getAuthenticationInfoStored();
+        final authenticationInfoCache =
+            await credentialRepository.getAuthenticationInfoStored();
         if (authenticationInfoCache != null) {
           accountRequest = AccountRequest(
               userName: UserName(authenticationInfoCache.username),
@@ -68,16 +71,14 @@ class DownloadAttachmentForWebInteractor {
             onReceiveController);
 
         yield Right<Failure, Success>(DownloadAttachmentForWebSuccess(
-            taskId,
-            attachment,
-            bytesDownloaded));
+            taskId, attachment, bytesDownloaded));
       } else {
-        yield Left<Failure, Success>(DownloadAttachmentForWebFailure(taskId, null));
+        yield Left<Failure, Success>(
+            DownloadAttachmentForWebFailure(taskId, null));
       }
     } catch (exception) {
-      yield Left<Failure, Success>(DownloadAttachmentForWebFailure(
-          taskId,
-          exception));
+      yield Left<Failure, Success>(
+          DownloadAttachmentForWebFailure(taskId, exception));
     }
   }
 }

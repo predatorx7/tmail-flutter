@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 import 'package:tmail_ui_user/features/caching/utils/caching_constants.dart';
@@ -7,7 +6,6 @@ part 'sending_email_hive_cache.g.dart';
 
 @HiveType(typeId: CachingConstants.SENDING_EMAIL_HIVE_CACHE_ID)
 class SendingEmailHiveCache extends HiveObject with EquatableMixin {
-
   @HiveField(0)
   final String sendingId;
 
@@ -57,16 +55,16 @@ class SendingEmailHiveCache extends HiveObject with EquatableMixin {
 
   @override
   List<Object?> get props => [
-    sendingId,
-    email,
-    emailActionType,
-    createTime,
-    sentMailboxId,
-    emailIdDestroyed,
-    emailIdAnsweredOrForwarded,
-    identityId,
-    mailboxNameRequest,
-    creationIdRequest,
-    sendingState,
-  ];
+        sendingId,
+        email,
+        emailActionType,
+        createTime,
+        sentMailboxId,
+        emailIdDestroyed,
+        emailIdAnsweredOrForwarded,
+        identityId,
+        mailboxNameRequest,
+        creationIdRequest,
+        sendingState,
+      ];
 }

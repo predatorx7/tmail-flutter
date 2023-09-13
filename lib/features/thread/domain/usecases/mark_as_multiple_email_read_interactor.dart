@@ -12,14 +12,11 @@ class MarkAsMultipleEmailReadInteractor {
   final EmailRepository _emailRepository;
   final MailboxRepository _mailboxRepository;
 
-  MarkAsMultipleEmailReadInteractor(this._emailRepository, this._mailboxRepository);
+  MarkAsMultipleEmailReadInteractor(
+      this._emailRepository, this._mailboxRepository);
 
-  Stream<Either<Failure, Success>> execute(
-    Session session,
-    AccountId accountId,
-    List<Email> emails,
-    ReadActions readAction
-  ) async* {
+  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId,
+      List<Email> emails, ReadActions readAction) async* {
     try {
       yield Right(LoadingMarkAsMultipleEmailReadAll());
 
@@ -32,25 +29,27 @@ class MarkAsMultipleEmailReadInteractor {
       final currentEmailState = listState.last;
 
       final listEmailNeedMarkAsRead = emails
-          .where((email) => readAction == ReadActions.markAsUnread ? email.hasRead : !email.hasRead)
+          .where((email) => readAction == ReadActions.markAsUnread
+              ? email.hasRead
+              : !email.hasRead)
           .toList();
 
-      final result = await _emailRepository.markAsRead(session, accountId, listEmailNeedMarkAsRead, readAction);
+      final result = await _emailRepository.markAsRead(
+          session, accountId, listEmailNeedMarkAsRead, readAction);
 
       if (listEmailNeedMarkAsRead.length == result.length) {
         final countMarkAsReadSuccess = emails.length;
         yield Right(MarkAsMultipleEmailReadAllSuccess(
-            countMarkAsReadSuccess,
-            readAction,
+            countMarkAsReadSuccess, readAction,
             currentEmailState: currentEmailState,
             currentMailboxState: currentMailboxState));
       } else if (result.isEmpty) {
         yield Left(MarkAsMultipleEmailReadAllFailure(readAction));
       } else {
-        final countMarkAsReadSuccess = emails.length - (listEmailNeedMarkAsRead.length - result.length);
+        final countMarkAsReadSuccess =
+            emails.length - (listEmailNeedMarkAsRead.length - result.length);
         yield Right(MarkAsMultipleEmailReadHasSomeEmailFailure(
-            countMarkAsReadSuccess,
-            readAction,
+            countMarkAsReadSuccess, readAction,
             currentEmailState: currentEmailState,
             currentMailboxState: currentMailboxState));
       }

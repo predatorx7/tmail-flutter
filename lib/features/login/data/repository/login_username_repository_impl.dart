@@ -6,10 +6,12 @@ class LoginUsernameRepositoryImpl implements LoginUsernameRepository {
   final LoginUsernameDataSource loginUsernameDatasource;
 
   LoginUsernameRepositoryImpl(this.loginUsernameDatasource);
-  
+
   @override
-  Future<List<RecentLoginUsername>> getAllRecentLoginUsernameLatest({int? limit, String? pattern}) {
-    return loginUsernameDatasource.getAllRecentLoginUsernamesLatest(limit: limit, pattern: pattern);
+  Future<List<RecentLoginUsername>> getAllRecentLoginUsernameLatest(
+      {int? limit, String? pattern}) {
+    return loginUsernameDatasource.getAllRecentLoginUsernamesLatest(
+        limit: limit, pattern: pattern);
   }
 
   @override

@@ -125,22 +125,28 @@ class _ScrollingFloatingButtonAnimatedState
     }
     return Card(
       elevation: widget.elevation,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(widget.height! / 2))),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(widget.height! / 2))),
       child: AnimatedContainer(
         curve: widget.curve ?? Curves.easeInOut,
         duration: widget.duration!,
         height: widget.height,
         width: _onTop ? widget.width : widget.height,
-        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(widget.height! / 2))),
+        decoration: BoxDecoration(
+            borderRadius:
+                BorderRadius.all(Radius.circular(widget.height! / 2))),
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(widget.height! / 2)),
           onTap: widget.onPress,
           child: Ink(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(widget.height! / 2)),
+                borderRadius:
+                    BorderRadius.all(Radius.circular(widget.height! / 2)),
                 color: widget.color),
             child: Row(
-              mainAxisAlignment: _onTop ? MainAxisAlignment.spaceEvenly : MainAxisAlignment.center,
+              mainAxisAlignment: _onTop
+                  ? MainAxisAlignment.spaceEvenly
+                  : MainAxisAlignment.center,
               children: [
                 Container(
                   padding: EdgeInsets.only(left: 16, right: _onTop ? 10 : 16),
@@ -148,17 +154,14 @@ class _ScrollingFloatingButtonAnimatedState
                       animation: _animationController,
                       builder: (BuildContext context, Widget? widget) {
                         return Transform.rotate(
-                          angle: (_animationController.value * 3 * math.pi) / 180,
+                          angle:
+                              (_animationController.value * 3 * math.pi) / 180,
                           child: widget!,
                         );
                       },
                       child: widget.icon!),
                 ),
-                ...(_onTop
-                    ? [
-                        Expanded(child: widget.text!)
-                      ]
-                    : []),
+                ...(_onTop ? [Expanded(child: widget.text!)] : []),
               ],
             ),
           ),

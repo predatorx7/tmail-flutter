@@ -7,7 +7,6 @@ import 'package:jmap_dart_client/jmap/core/state.dart' as jmap;
 class EmptySpamFolderLoading extends LoadingState {}
 
 class EmptySpamFolderSuccess extends UIActionState {
-
   final List<EmailId> emailIds;
 
   EmptySpamFolderSuccess(
@@ -21,6 +20,5 @@ class EmptySpamFolderSuccess extends UIActionState {
 }
 
 class EmptySpamFolderFailure extends FeatureFailure {
-
   EmptySpamFolderFailure(dynamic exception) : super(exception: exception);
 }

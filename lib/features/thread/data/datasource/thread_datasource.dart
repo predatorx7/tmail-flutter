@@ -16,46 +16,34 @@ import 'package:tmail_ui_user/features/thread/domain/model/email_response.dart';
 import 'package:tmail_ui_user/features/thread/domain/model/filter_message_option.dart';
 
 abstract class ThreadDataSource {
-  Future<EmailsResponse> getAllEmail(
-    Session session,
-    AccountId accountId,
-    {
-      UnsignedInt? limit,
+  Future<EmailsResponse> getAllEmail(Session session, AccountId accountId,
+      {UnsignedInt? limit,
       Set<Comparator>? sort,
       Filter? filter,
-      Properties? properties
-    }
-  );
+      Properties? properties});
 
   Future<EmailChangeResponse> getChanges(
-    Session session,
-    AccountId accountId,
-    State sinceState,
-    {
-      Properties? propertiesCreated,
-      Properties? propertiesUpdated
-    }
-  );
+      Session session, AccountId accountId, State sinceState,
+      {Properties? propertiesCreated, Properties? propertiesUpdated});
 
-  Future<List<Email>> getAllEmailCache(
-    AccountId accountId,
-    UserName userName,
-    {
-      MailboxId? inMailboxId,
+  Future<List<Email>> getAllEmailCache(AccountId accountId, UserName userName,
+      {MailboxId? inMailboxId,
       Set<Comparator>? sort,
       FilterMessageOption? filterOption,
-      UnsignedInt? limit
-    }
-  );
+      UnsignedInt? limit});
 
-  Future<void> update(AccountId accountId, UserName userName, {List<Email>? updated, List<Email>? created, List<EmailId>? destroyed});
+  Future<void> update(AccountId accountId, UserName userName,
+      {List<Email>? updated, List<Email>? created, List<EmailId>? destroyed});
 
   Future<List<EmailId>> emptyMailboxFolder(
     Session session,
     AccountId accountId,
     MailboxId mailboxId,
-    Future<void> Function(List<EmailId>? newDestroyed) updateDestroyedEmailCache,
+    Future<void> Function(List<EmailId>? newDestroyed)
+        updateDestroyedEmailCache,
   );
 
-  Future<PresentationEmail> getEmailById(Session session, AccountId accountId, EmailId emailId, {Properties? properties});
+  Future<PresentationEmail> getEmailById(
+      Session session, AccountId accountId, EmailId emailId,
+      {Properties? properties});
 }

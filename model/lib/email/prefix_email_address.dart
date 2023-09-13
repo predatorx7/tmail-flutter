@@ -1,7 +1,1 @@
-
-enum PrefixEmailAddress {
-  from,
-  to,
-  cc,
-  bcc
-}
+enum PrefixEmailAddress { from, to, cc, bcc }

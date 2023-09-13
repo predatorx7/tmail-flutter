@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:collection';
 
@@ -6,7 +5,6 @@ import 'package:core/utils/app_logger.dart';
 import 'package:tmail_ui_user/features/offline_mode/hive_worker/hive_task.dart';
 
 abstract class WorkerQueue<A> {
-
   final Queue<HiveTask<A>> queue = Queue<HiveTask<A>>();
   Completer? completer;
 
@@ -26,9 +24,10 @@ abstract class WorkerQueue<A> {
     if (queue.isNotEmpty) {
       final firstTask = queue.removeFirst();
       log('WorkerQueue<$workerName>::_processTask(): ${firstTask.id}');
-      firstTask.execute()
-        .then(_handleTaskExecuteCompleted)
-        .catchError(_handleTaskExecuteError);
+      firstTask
+          .execute()
+          .then(_handleTaskExecuteCompleted)
+          .catchError(_handleTaskExecuteError);
     } else {
       completer?.complete();
     }

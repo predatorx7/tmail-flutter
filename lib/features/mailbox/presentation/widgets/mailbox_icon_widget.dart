@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/resources/image_paths.dart';
 import 'package:core/utils/platform_info.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,6 @@ import 'package:tmail_ui_user/features/mailbox/presentation/styles/mailbox_icon_
 import 'package:tmail_ui_user/features/mailbox/presentation/utils/mailbox_method_action_define.dart';
 
 class MailboxIconWidget extends StatelessWidget {
-
   final MailboxNode mailboxNode;
   final SelectMode selectionMode;
   final OnSelectMailboxNodeAction? onSelectMailboxFolderClick;
@@ -30,33 +28,29 @@ class MailboxIconWidget extends StatelessWidget {
 
     if (_isSelectionActivatedOnMobile) {
       return InkWell(
-        onTap: () => onSelectMailboxFolderClick?.call(mailboxNode),
-        child: SvgPicture.asset(
-          _getSelectionIcon(imagePaths),
-          width: MailboxIconWidgetStyles.iconSize,
-          height: MailboxIconWidgetStyles.iconSize,
-          fit: BoxFit.fill
-        )
-      );
+          onTap: () => onSelectMailboxFolderClick?.call(mailboxNode),
+          child: SvgPicture.asset(_getSelectionIcon(imagePaths),
+              width: MailboxIconWidgetStyles.iconSize,
+              height: MailboxIconWidgetStyles.iconSize,
+              fit: BoxFit.fill));
     } else {
       if (mailboxNode.item.isPersonal || mailboxNode.item.hasParentId()) {
-        return SvgPicture.asset(
-          mailboxNode.item.getMailboxIcon(imagePaths),
-          width: MailboxIconWidgetStyles.iconSize,
-          height: MailboxIconWidgetStyles.iconSize,
-          fit: BoxFit.fill
-        );
+        return SvgPicture.asset(mailboxNode.item.getMailboxIcon(imagePaths),
+            width: MailboxIconWidgetStyles.iconSize,
+            height: MailboxIconWidgetStyles.iconSize,
+            fit: BoxFit.fill);
       } else {
         return const SizedBox();
       }
     }
   }
 
-  bool get _isSelectionActivatedOnMobile => PlatformInfo.isMobile && selectionMode == SelectMode.ACTIVE;
+  bool get _isSelectionActivatedOnMobile =>
+      PlatformInfo.isMobile && selectionMode == SelectMode.ACTIVE;
 
   String _getSelectionIcon(ImagePaths imagePaths) {
     return mailboxNode.selectMode == SelectMode.ACTIVE
-      ? imagePaths.icSelected
-      : imagePaths.icUnSelected;
+        ? imagePaths.icSelected
+        : imagePaths.icUnSelected;
   }
 }

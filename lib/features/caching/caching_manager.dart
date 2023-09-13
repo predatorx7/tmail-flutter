@@ -60,13 +60,12 @@ class CachingManager {
       _fcmSubscriptionCacheClient.clearAllData(),
       _recentSearchCacheClient.clearAllData(),
       _accountCacheClient.clearAllData(),
-      if (PlatformInfo.isMobile)
-        ...[
-          _sessionHiveCacheClient.clearAllData(),
-          _newEmailHiveCacheClient.clearAllData(),
-          _openedEmailHiveCacheClient.clearAllData(),
-          _clearSendingEmailCache(),
-        ]
+      if (PlatformInfo.isMobile) ...[
+        _sessionHiveCacheClient.clearAllData(),
+        _newEmailHiveCacheClient.clearAllData(),
+        _openedEmailHiveCacheClient.clearAllData(),
+        _clearSendingEmailCache(),
+      ]
     ], eagerError: true);
   }
 
@@ -78,18 +77,19 @@ class CachingManager {
       _fcmCacheClient.clearAllData(),
       _fcmSubscriptionCacheClient.clearAllData(),
       _recentSearchCacheClient.clearAllData(),
-      if (PlatformInfo.isMobile)
-       ...[
-         _newEmailHiveCacheClient.clearAllData(),
-         _openedEmailHiveCacheClient.clearAllData(),
-         _clearSendingEmailCache(),
-       ]
+      if (PlatformInfo.isMobile) ...[
+        _newEmailHiveCacheClient.clearAllData(),
+        _openedEmailHiveCacheClient.clearAllData(),
+        _clearSendingEmailCache(),
+      ]
     ], eagerError: true);
   }
 
-  Future<void> clearEmailCacheAndStateCacheByTupleKey(AccountId accountId, Session session) {
+  Future<void> clearEmailCacheAndStateCacheByTupleKey(
+      AccountId accountId, Session session) {
     return Future.wait([
-      _stateCacheClient.deleteItem(StateType.email.getTupleKeyStored(accountId, session.username)),
+      _stateCacheClient.deleteItem(
+          StateType.email.getTupleKeyStored(accountId, session.username)),
       _emailCacheClient.clearAllData(),
     ], eagerError: true);
   }
@@ -128,13 +128,16 @@ class CachingManager {
   }
 
   Future<void> _clearSendingEmailCache() async {
-    final listSendingEmails = await _sendingEmailCacheManager.getAllSendingEmails();
-    final sendingIds = listSendingEmails.map((sendingEmail) => sendingEmail.sendingId).toSet().toList();
+    final listSendingEmails =
+        await _sendingEmailCacheManager.getAllSendingEmails();
+    final sendingIds = listSendingEmails
+        .map((sendingEmail) => sendingEmail.sendingId)
+        .toSet()
+        .toList();
     if (sendingIds.isNotEmpty) {
       await Future.wait(
-        sendingIds.map(WorkManagerController().cancelByUniqueId),
-        eagerError: true
-      );
+          sendingIds.map(WorkManagerController().cancelByUniqueId),
+          eagerError: true);
       await _sendingEmailCacheManager.clearAllSendingEmails();
     }
   }

@@ -1,6 +1,1 @@
-
-enum ButtonLayoutType {
-  scrollHorizontal,
-  scrollVertical,
-  wrapParent
-}
+enum ButtonLayoutType { scrollHorizontal, scrollVertical, wrapParent }

@@ -1,4 +1,3 @@
-
 class CalendarIconWidgetStyles {
   static const double borderRadius = 8;
   static const double headerVerticalContentPadding = 4;

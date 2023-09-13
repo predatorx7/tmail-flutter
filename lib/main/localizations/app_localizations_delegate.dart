@@ -7,7 +7,8 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
 
   @override
   bool isSupported(Locale locale) {
-    return LocalizationService.supportedLanguageCodes.contains(locale.languageCode);
+    return LocalizationService.supportedLanguageCodes
+        .contains(locale.languageCode);
   }
 
   @override
@@ -16,5 +17,6 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   }
 
   @override
-  bool shouldReload(covariant LocalizationsDelegate<AppLocalizations> old) => false;
+  bool shouldReload(covariant LocalizationsDelegate<AppLocalizations> old) =>
+      false;
 }

@@ -4,7 +4,6 @@ import 'package:tmail_ui_user/features/login/data/local/account_cache_manager.da
 import 'package:tmail_ui_user/main/exceptions/exception_thrower.dart';
 
 class HiveAccountDatasourceImpl extends AccountDatasource {
-
   final AccountCacheManager _accountCacheManager;
   final ExceptionThrower _exceptionThrower;
 

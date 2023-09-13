@@ -4,7 +4,6 @@ import 'package:tmail_ui_user/features/manage_account/data/datasource/manage_acc
 import 'package:tmail_ui_user/features/manage_account/domain/repository/manage_account_repository.dart';
 
 class ManageAccountRepositoryImpl extends ManageAccountRepository {
-
   final ManageAccountDataSource dataSource;
 
   ManageAccountRepositoryImpl(this.dataSource);

@@ -14,7 +14,6 @@ import 'package:tmail_ui_user/features/manage_account/presentation/model/recipie
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
 class ListEmailForwardsWidget extends GetWidget<ForwardController> {
-
   final _imagePaths = Get.find<ImagePaths>();
   final _responsiveUtils = Get.find<ResponsiveUtils>();
 
@@ -24,78 +23,75 @@ class ListEmailForwardsWidget extends GetWidget<ForwardController> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.transparent,
-      padding: SettingsUtils.getPaddingListRecipientForwarding(context, _responsiveUtils),
+      padding: SettingsUtils.getPaddingListRecipientForwarding(
+          context, _responsiveUtils),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _buildTitleHeader(context),
-          Obx(() {
-            if (controller.listRecipientForward.isEmpty) {
-              return const SizedBox.shrink();
-            } else {
-              return ListView.builder(
-                shrinkWrap: true,
-                primary: false,
-                itemCount: controller.listRecipientForward.length,
-                padding: EdgeInsets.zero,
-                itemExtent: 75,
-                itemBuilder: (context, index) {
-                  return EmailForwardItemWidget(
-                    controller.listRecipientForward[index],
-                    selectionMode: controller.selectionMode.value,
-                    onSelectRecipientCallback: controller.selectRecipientForward,
-                    onDeleteRecipientCallback: (recipientForward) {
-                      controller.deleteRecipients(context, recipientForward.emailAddress.emailAddress);
-                    },
-                  );
-                }
-              );
-            }
-          }),
-        ]
-      ),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildTitleHeader(context),
+            Obx(() {
+              if (controller.listRecipientForward.isEmpty) {
+                return const SizedBox.shrink();
+              } else {
+                return ListView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    itemCount: controller.listRecipientForward.length,
+                    padding: EdgeInsets.zero,
+                    itemExtent: 75,
+                    itemBuilder: (context, index) {
+                      return EmailForwardItemWidget(
+                        controller.listRecipientForward[index],
+                        selectionMode: controller.selectionMode.value,
+                        onSelectRecipientCallback:
+                            controller.selectRecipientForward,
+                        onDeleteRecipientCallback: (recipientForward) {
+                          controller.deleteRecipients(context,
+                              recipientForward.emailAddress.emailAddress);
+                        },
+                      );
+                    });
+              }
+            }),
+          ]),
     );
   }
 
   Widget _buildTitleHeader(BuildContext context) {
     return Obx(() => Container(
-      width: double.infinity,
-      color: Colors.transparent,
-      height: 44,
-      padding: const EdgeInsets.only(right: 12),
-      child: Row(children: [
-        if (controller.selectionMode.value == SelectMode.ACTIVE)
-          _buildCancelSectionButton(context),
-        if (!controller.isAllSelected)
-          _buildSelectAllButton(context),
-        const Spacer(),
-        const SizedBox(width: 12),
-        if (controller.listRecipientForwardSelected.isNotEmpty)
-          _buildDeleteAllButton(context)
-      ]),
-    ));
+          width: double.infinity,
+          color: Colors.transparent,
+          height: 44,
+          padding: const EdgeInsets.only(right: 12),
+          child: Row(children: [
+            if (controller.selectionMode.value == SelectMode.ACTIVE)
+              _buildCancelSectionButton(context),
+            if (!controller.isAllSelected) _buildSelectAllButton(context),
+            const Spacer(),
+            const SizedBox(width: 12),
+            if (controller.listRecipientForwardSelected.isNotEmpty)
+              _buildDeleteAllButton(context)
+          ]),
+        ));
   }
 
   Widget _buildSelectAllButton(BuildContext context) {
     return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        customBorder: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
-        onTap: controller.selectAllRecipientForward,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-          child: Text(
-            AppLocalizations.of(context).select_all,
-            style: const TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.normal,
-              color: AppColor.colorTextButton
-            )
+        color: Colors.transparent,
+        child: InkWell(
+          customBorder: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(5))),
+          onTap: controller.selectAllRecipientForward,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            child: Text(AppLocalizations.of(context).select_all,
+                style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.normal,
+                    color: AppColor.colorTextButton)),
           ),
-        ),
-      )
-    );
+        ));
   }
 
   Widget _buildCancelSectionButton(BuildContext context) {
@@ -105,23 +101,21 @@ class ListEmailForwardsWidget extends GetWidget<ForwardController> {
         mainAxisSize: MainAxisSize.min,
         children: [
           buildIconWeb(
-            icon: SvgPicture.asset(
-              _imagePaths.icCloseComposer,
-              colorFilter: AppColor.colorTextButton.asFilter(),
-              fit: BoxFit.fill),
-            tooltip: AppLocalizations.of(context).cancel,
-            onTap: controller.cancelSelectionMode
-          ),
+              icon: SvgPicture.asset(_imagePaths.icCloseComposer,
+                  colorFilter: AppColor.colorTextButton.asFilter(),
+                  fit: BoxFit.fill),
+              tooltip: AppLocalizations.of(context).cancel,
+              onTap: controller.cancelSelectionMode),
           Text(
-            controller.isAllSelected
-              ? AppLocalizations.of(context).totalEmailSelected(controller.listRecipientForwardSelected.length)
-              : AppLocalizations.of(context).count_email_selected(controller.listRecipientForwardSelected.length),
-            style: const TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.normal,
-              color: AppColor.colorTextButton
-            )
-          )
+              controller.isAllSelected
+                  ? AppLocalizations.of(context).totalEmailSelected(
+                      controller.listRecipientForwardSelected.length)
+                  : AppLocalizations.of(context).count_email_selected(
+                      controller.listRecipientForwardSelected.length),
+              style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.normal,
+                  color: AppColor.colorTextButton))
         ],
       ),
     );
@@ -129,24 +123,19 @@ class ListEmailForwardsWidget extends GetWidget<ForwardController> {
 
   Widget _buildDeleteAllButton(BuildContext context) {
     return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        customBorder: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
-          child: Text(
-            AppLocalizations.of(context).remove,
-            style: const TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.normal,
-              color: AppColor.colorDeletePermanentlyButton
-            )
-          ),
-        ),
-        onTap: () => controller.deleteMultipleRecipients(
-          context,
-          controller.listRecipientForwardSelected.listEmailAddress)
-      )
-    );
+        color: Colors.transparent,
+        child: InkWell(
+            customBorder: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(5))),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
+              child: Text(AppLocalizations.of(context).remove,
+                  style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.normal,
+                      color: AppColor.colorDeletePermanentlyButton)),
+            ),
+            onTap: () => controller.deleteMultipleRecipients(context,
+                controller.listRecipientForwardSelected.listEmailAddress)));
   }
 }

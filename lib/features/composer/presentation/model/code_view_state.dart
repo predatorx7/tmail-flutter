@@ -1,5 +1,1 @@
-
-enum CodeViewState {
-  enabled,
-  disabled
-}
+enum CodeViewState { enabled, disabled }

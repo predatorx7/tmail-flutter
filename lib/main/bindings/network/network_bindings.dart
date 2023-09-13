@@ -32,7 +32,6 @@ import 'package:tmail_ui_user/main/exceptions/remote_exception_thrower.dart';
 import 'package:uuid/uuid.dart';
 
 class NetworkBindings extends Bindings {
-
   @override
   void dependencies() {
     _bindingConnection();
@@ -64,10 +63,10 @@ class NetworkBindings extends Bindings {
   void _bindingInterceptors() {
     Get.put(DynamicUrlInterceptors());
     Get.put(AuthorizationInterceptors(
-        Get.find<Dio>(),
-        Get.find<AuthenticationClientBase>(),
-        Get.find<TokenOidcCacheManager>(),
-        Get.find<AccountCacheManager>(),
+      Get.find<Dio>(),
+      Get.find<AuthenticationClientBase>(),
+      Get.find<TokenOidcCacheManager>(),
+      Get.find<AccountCacheManager>(),
     ));
     Get.find<Dio>().interceptors.add(Get.find<DynamicUrlInterceptors>());
     Get.find<Dio>().interceptors.add(Get.find<AuthorizationInterceptors>());
@@ -78,7 +77,8 @@ class NetworkBindings extends Bindings {
 
   void _bindingApi() {
     Get.put(HttpClient(Get.find<Dio>()));
-    Get.put(DownloadClient(Get.find<DioClient>(), Get.find<CompressFileUtils>()));
+    Get.put(
+        DownloadClient(Get.find<DioClient>(), Get.find<CompressFileUtils>()));
     Get.put(DownloadManager(Get.find<DownloadClient>()));
     Get.put(MailboxAPI(Get.find<HttpClient>()));
     Get.put(SessionAPI(Get.find<HttpClient>()));

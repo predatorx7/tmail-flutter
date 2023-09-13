@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:workmanager/workmanager.dart';
 
@@ -15,30 +14,29 @@ abstract class WorkRequest with EquatableMixin {
   final OutOfQuotaPolicy? outOfQuotaPolicy;
   final Constraints? constraints;
 
-  WorkRequest( {
-    required this.uniqueId,
-    required this.taskId,
-    this.tag,
-    this.inputData,
-    this.initialDelay = Duration.zero,
-    this.backoffPolicyDelay = Duration.zero,
-    this.existingWorkPolicy,
-    this.backoffPolicy,
-    this.outOfQuotaPolicy,
-    this.constraints
-  });
+  WorkRequest(
+      {required this.uniqueId,
+      required this.taskId,
+      this.tag,
+      this.inputData,
+      this.initialDelay = Duration.zero,
+      this.backoffPolicyDelay = Duration.zero,
+      this.existingWorkPolicy,
+      this.backoffPolicy,
+      this.outOfQuotaPolicy,
+      this.constraints});
 
   @override
   List<Object?> get props => [
-    uniqueId,
-    taskId,
-    tag,
-    inputData,
-    initialDelay,
-    backoffPolicyDelay,
-    existingWorkPolicy,
-    backoffPolicy,
-    outOfQuotaPolicy,
-    constraints
-  ];
+        uniqueId,
+        taskId,
+        tag,
+        inputData,
+        initialDelay,
+        backoffPolicyDelay,
+        existingWorkPolicy,
+        backoffPolicy,
+        outOfQuotaPolicy,
+        constraints
+      ];
 }

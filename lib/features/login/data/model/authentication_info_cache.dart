@@ -6,7 +6,6 @@ part 'authentication_info_cache.g.dart';
 
 @HiveType(typeId: CachingConstants.AUTHENTICATION_INFO_HIVE_CACHE_IDENTIFY)
 class AuthenticationInfoCache extends HiveObject with EquatableMixin {
-
   static const String keyCacheValue = 'authenticationInfoCache';
 
   @HiveField(0)

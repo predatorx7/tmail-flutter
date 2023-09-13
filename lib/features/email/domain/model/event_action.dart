@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
@@ -9,7 +8,7 @@ enum EventActionType {
   no;
 
   String getLabelButton(BuildContext context) {
-    switch(this) {
+    switch (this) {
       case EventActionType.yes:
         return AppLocalizations.of(context).yes;
       case EventActionType.maybe:

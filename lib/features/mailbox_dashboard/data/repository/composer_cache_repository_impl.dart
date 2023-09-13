@@ -4,7 +4,6 @@ import 'package:tmail_ui_user/features/mailbox_dashboard/data/model/composer_cac
 import 'package:tmail_ui_user/features/mailbox_dashboard/domain/repository/composer_cache_repository.dart';
 
 class ComposerCacheRepositoryImpl extends ComposerCacheRepository {
-
   final SessionStorageComposerDatasource composerCacheDataSource;
 
   ComposerCacheRepositoryImpl(this.composerCacheDataSource);

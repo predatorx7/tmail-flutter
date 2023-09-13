@@ -1,9 +1,7 @@
-
 import 'package:core/core.dart';
 import 'package:model/email/attachment.dart';
 
 extension AttachmentExtension on Attachment {
-
   String getIcon(ImagePaths imagePaths) {
     final mediaType = type;
     log('AttachmentExtension::getIcon(): mediaType: $mediaType');

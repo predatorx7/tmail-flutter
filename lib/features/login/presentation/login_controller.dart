@@ -56,20 +56,24 @@ import 'package:tmail_ui_user/main/utils/app_config.dart';
 import 'package:universal_html/html.dart' as html;
 
 class LoginController extends ReloadableController {
-
   final AuthenticationInteractor _authenticationInteractor;
   final DynamicUrlInterceptors _dynamicUrlInterceptors;
   final CheckOIDCIsAvailableInteractor _checkOIDCIsAvailableInteractor;
   final GetOIDCIsAvailableInteractor _getOIDCIsAvailableInteractor;
   final GetOIDCConfigurationInteractor _getOIDCConfigurationInteractor;
   final GetTokenOIDCInteractor _getTokenOIDCInteractor;
-  final AuthenticateOidcOnBrowserInteractor _authenticateOidcOnBrowserInteractor;
+  final AuthenticateOidcOnBrowserInteractor
+      _authenticateOidcOnBrowserInteractor;
   final GetAuthenticationInfoInteractor _getAuthenticationInfoInteractor;
-  final GetStoredOidcConfigurationInteractor _getStoredOidcConfigurationInteractor;
+  final GetStoredOidcConfigurationInteractor
+      _getStoredOidcConfigurationInteractor;
   final SaveLoginUrlOnMobileInteractor _saveLoginUrlOnMobileInteractor;
-  final GetAllRecentLoginUrlOnMobileInteractor _getAllRecentLoginUrlOnMobileInteractor;
-  final SaveLoginUsernameOnMobileInteractor _saveLoginUsernameOnMobileInteractor;
-  final GetAllRecentLoginUsernameOnMobileInteractor _getAllRecentLoginUsernameOnMobileInteractor;
+  final GetAllRecentLoginUrlOnMobileInteractor
+      _getAllRecentLoginUrlOnMobileInteractor;
+  final SaveLoginUsernameOnMobileInteractor
+      _saveLoginUsernameOnMobileInteractor;
+  final GetAllRecentLoginUsernameOnMobileInteractor
+      _getAllRecentLoginUsernameOnMobileInteractor;
 
   final TextEditingController urlInputController = TextEditingController();
   final TextEditingController usernameInputController = TextEditingController();
@@ -92,10 +96,8 @@ class LoginController extends ReloadableController {
     this._getAllRecentLoginUrlOnMobileInteractor,
     this._saveLoginUsernameOnMobileInteractor,
     this._getAllRecentLoginUsernameOnMobileInteractor,
-  ) : super(
-    getAuthenticatedAccountInteractor,
-    updateAuthenticationAccountInteractor
-  );
+  ) : super(getAuthenticatedAccountInteractor,
+            updateAuthenticationAccountInteractor);
 
   final loginFormType = LoginFormType.baseUrlForm.obs;
 
@@ -110,17 +112,18 @@ class LoginController extends ReloadableController {
 
   void setPasswordText(String password) => _passwordText = password;
 
-  Uri? _parseUri(String? url) => url != null && url.trim().isNotEmpty
-      ? Uri.parse(url.trim())
-      : null;
+  Uri? _parseUri(String? url) =>
+      url != null && url.trim().isNotEmpty ? Uri.parse(url.trim()) : null;
 
-  UserName? _parseUserName(String? userName) => userName != null && userName.trim().isNotEmpty
-      ? UserName(userName.trim())
-      : null;
+  UserName? _parseUserName(String? userName) =>
+      userName != null && userName.trim().isNotEmpty
+          ? UserName(userName.trim())
+          : null;
 
-  Password? _parsePassword(String? password) => password != null && password.trim().isNotEmpty
-      ? Password(password.trim())
-      : null;
+  Password? _parsePassword(String? password) =>
+      password != null && password.trim().isNotEmpty
+          ? Password(password.trim())
+          : null;
 
   @override
   void onReady() {
@@ -174,7 +177,8 @@ class LoginController extends ReloadableController {
   @override
   void handleExceptionAction({Failure? failure, Exception? exception}) {
     super.handleExceptionAction(failure: failure, exception: exception);
-    if (failure is CheckOIDCIsAvailableFailure || failure is GetOIDCIsAvailableFailure) {
+    if (failure is CheckOIDCIsAvailableFailure ||
+        failure is GetOIDCIsAvailableFailure) {
       _showFormLoginWithCredentialAction();
     } else {
       clearState();
@@ -184,9 +188,9 @@ class LoginController extends ReloadableController {
   @override
   void handleReloaded(Session session) {
     popAndPush(
-      RouteUtils.generateNavigationRoute(AppRoutes.dashboard, NavigationRouter()),
-      arguments: session
-    );
+        RouteUtils.generateNavigationRoute(
+            AppRoutes.dashboard, NavigationRouter()),
+        arguments: session);
   }
 
   void _getAuthenticationInfo() {
@@ -207,12 +211,8 @@ class LoginController extends ReloadableController {
     if (baseUrl == null) {
       dispatchState(Left(CheckOIDCIsAvailableFailure(CanNotFoundBaseUrl())));
     } else {
-      consumeState(_checkOIDCIsAvailableInteractor.execute(
-        OIDCRequest(
-          baseUrl: baseUrl.toString(),
-          resourceUrl: baseUrl.origin
-        )
-      ));
+      consumeState(_checkOIDCIsAvailableInteractor.execute(OIDCRequest(
+          baseUrl: baseUrl.toString(), resourceUrl: baseUrl.origin)));
     }
   }
 
@@ -250,12 +250,8 @@ class LoginController extends ReloadableController {
   void handleSSOPressed() {
     final baseUrl = _getBaseUrl();
     if (baseUrl != null) {
-      consumeState(_getOIDCIsAvailableInteractor.execute(
-        OIDCRequest(
-          baseUrl: baseUrl.toString(),
-          resourceUrl: baseUrl.origin
-        )
-      ));
+      consumeState(_getOIDCIsAvailableInteractor.execute(OIDCRequest(
+          baseUrl: baseUrl.toString(), resourceUrl: baseUrl.origin)));
     } else {
       dispatchState(Left(GetOIDCIsAvailableFailure(CanNotFoundBaseUrl())));
     }
@@ -292,14 +288,17 @@ class LoginController extends ReloadableController {
 
     final baseUri = _parseUri(AppConfig.baseUrl);
     if (baseUri != null) {
-      consumeState(_authenticateOidcOnBrowserInteractor.execute(baseUri, config));
+      consumeState(
+          _authenticateOidcOnBrowserInteractor.execute(baseUri, config));
     } else {
-      dispatchState(Left(AuthenticateOidcOnBrowserFailure(CanNotFoundBaseUrl())));
+      dispatchState(
+          Left(AuthenticateOidcOnBrowserFailure(CanNotFoundBaseUrl())));
     }
   }
 
   void _removeAuthDestinationUrlInSessionStorage() {
-    final authDestinationUrlExist = html.window.sessionStorage.containsKey(LoginConstants.AUTH_DESTINATION_KEY);
+    final authDestinationUrlExist = html.window.sessionStorage
+        .containsKey(LoginConstants.AUTH_DESTINATION_KEY);
     if (authDestinationUrlExist) {
       html.window.sessionStorage.remove(LoginConstants.AUTH_DESTINATION_KEY);
     }
@@ -320,17 +319,16 @@ class LoginController extends ReloadableController {
 
   void _loginAction({Uri? baseUrl, UserName? userName, Password? password}) {
     consumeState(_authenticationInteractor.execute(
-      baseUrl: baseUrl,
-      userName: userName,
-      password: password
-    ));
+        baseUrl: baseUrl, userName: userName, password: password));
   }
 
   void _loginSuccessAction(AuthenticationUserSuccess success) {
     _dynamicUrlInterceptors.setJmapUrl(_getBaseUrl().toString());
     _dynamicUrlInterceptors.changeBaseUrl(_getBaseUrl().toString());
-    authorizationInterceptors.setBasicAuthorization(_userNameText, _passwordText);
-    authorizationIsolateInterceptors.setBasicAuthorization(_userNameText, _passwordText);
+    authorizationInterceptors.setBasicAuthorization(
+        _userNameText, _passwordText);
+    authorizationIsolateInterceptors.setBasicAuthorization(
+        _userNameText, _passwordText);
     popAndPush(AppRoutes.session, arguments: _dynamicUrlInterceptors.baseUrl);
   }
 
@@ -350,15 +348,15 @@ class LoginController extends ReloadableController {
     }
   }
 
-  Future<List<RecentLoginUrl>> getAllRecentLoginUrlAction(String pattern) async {
+  Future<List<RecentLoginUrl>> getAllRecentLoginUrlAction(
+      String pattern) async {
     return await _getAllRecentLoginUrlOnMobileInteractor
         .execute(pattern: pattern)
         .then((result) => result.fold(
             (failure) => <RecentLoginUrl>[],
             (success) => success is GetAllRecentLoginUrlLatestSuccess
                 ? success.listRecentLoginUrl
-                : <RecentLoginUrl>[]
-        ));
+                : <RecentLoginUrl>[]));
   }
 
   void setUsername(String username) {
@@ -368,26 +366,30 @@ class LoginController extends ReloadableController {
   }
 
   void _saveRecentLoginUsername() {
-    if(PlatformInfo.isWeb || _userNameText == null || _userNameText!.isEmpty || !_userNameText!.isEmail) {
-      return ;
+    if (PlatformInfo.isWeb ||
+        _userNameText == null ||
+        _userNameText!.isEmpty ||
+        !_userNameText!.isEmail) {
+      return;
     }
     final recentLoginUsername = RecentLoginUsername.now(_userNameText!);
     log('LoginController::_saveRecentLoginUsername(): $recentLoginUsername');
     _saveLoginUsernameOnMobileInteractor.execute(recentLoginUsername);
   }
 
-  Future<List<RecentLoginUsername>> getAllRecentLoginUsernameAction(String pattern) async {
+  Future<List<RecentLoginUsername>> getAllRecentLoginUsernameAction(
+      String pattern) async {
     return await _getAllRecentLoginUsernameOnMobileInteractor
         .execute(pattern: pattern)
         .then((result) => result.fold(
             (failure) => <RecentLoginUsername>[],
             (success) => success is GetAllRecentLoginUsernameLatestSuccess
                 ? success.listRecentLoginUsername
-                : <RecentLoginUsername>[]
-        ));
+                : <RecentLoginUsername>[]));
   }
 
-  Uri? _getBaseUrl() => PlatformInfo.isWeb ? _parseUri(AppConfig.baseUrl) : _parseUri(_urlText);
+  Uri? _getBaseUrl() =>
+      PlatformInfo.isWeb ? _parseUri(AppConfig.baseUrl) : _parseUri(_urlText);
 
   @override
   void onClose() {

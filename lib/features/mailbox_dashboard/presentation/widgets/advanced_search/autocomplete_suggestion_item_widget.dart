@@ -8,7 +8,6 @@ import 'package:tmail_ui_user/features/mailbox_dashboard/presentation/widgets/ad
 typedef OnSelectSuggestionItemCallback = Function(String emailAddress);
 
 class AutocompleteSuggestionItemWidget extends StatelessWidget {
-
   final EmailAddress emailAddress;
   final OnSelectSuggestionItemCallback onSelectCallback;
 
@@ -26,37 +25,30 @@ class AutocompleteSuggestionItemWidget extends StatelessWidget {
         onTap: () => onSelectCallback(emailAddress.emailAddress),
         child: Container(
           padding: AutocompleteSuggestionItemStyle.padding,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              AvatarSuggestionItemWidget(emailAddress: emailAddress),
-              const SizedBox(width: AutocompleteSuggestionItemStyle.space),
-              Expanded(
+          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            AvatarSuggestionItemWidget(emailAddress: emailAddress),
+            const SizedBox(width: AutocompleteSuggestionItemStyle.space),
+            Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (emailAddress.displayName.isNotEmpty)
-                      Text(
-                        emailAddress.displayName,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                  if (emailAddress.displayName.isNotEmpty)
+                    Text(emailAddress.displayName,
                         maxLines: 1,
                         softWrap: CommonTextStyle.defaultSoftWrap,
                         overflow: CommonTextStyle.defaultTextOverFlow,
-                        style: AutocompleteSuggestionItemStyle.displayNameTextStyle
-                      ),
-                    if (emailAddress.emailAddress.isNotEmpty)
-                      Text(
-                        emailAddress.emailAddress,
+                        style: AutocompleteSuggestionItemStyle
+                            .displayNameTextStyle),
+                  if (emailAddress.emailAddress.isNotEmpty)
+                    Text(emailAddress.emailAddress,
                         maxLines: 1,
                         softWrap: CommonTextStyle.defaultSoftWrap,
                         overflow: CommonTextStyle.defaultTextOverFlow,
-                        style: AutocompleteSuggestionItemStyle.emailAddressNameTextStyle
-                      )
-                  ]
-                )
-              ),
-            ]
-          ),
+                        style: AutocompleteSuggestionItemStyle
+                            .emailAddressNameTextStyle)
+                ])),
+          ]),
         ),
       ),
     );

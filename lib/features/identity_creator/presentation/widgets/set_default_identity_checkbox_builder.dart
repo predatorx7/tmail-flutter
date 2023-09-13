@@ -12,11 +12,11 @@ class SetDefaultIdentityCheckboxBuilder extends StatelessWidget {
   final bool isCheck;
 
   const SetDefaultIdentityCheckboxBuilder(
-    {Key? key,
-    required this.imagePaths,
-    required this.onCheckboxChanged,
-    required this.isCheck})
-    : super(key: key);
+      {Key? key,
+      required this.imagePaths,
+      required this.onCheckboxChanged,
+      required this.isCheck})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,8 @@ class SetDefaultIdentityCheckboxBuilder extends StatelessWidget {
                 ),
                 child: SvgPicture.asset(
                   imagePaths.icSelectedSB,
-                  colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                  colorFilter:
+                      const ColorFilter.mode(Colors.white, BlendMode.srcIn),
                   width: 18,
                   height: 18,
                 )),

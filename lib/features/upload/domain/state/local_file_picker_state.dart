@@ -12,7 +12,6 @@ class LocalFilePickerSuccess extends UIState {
 }
 
 class LocalFilePickerFailure extends FeatureFailure {
-
   LocalFilePickerFailure(dynamic exception) : super(exception: exception);
 }
 

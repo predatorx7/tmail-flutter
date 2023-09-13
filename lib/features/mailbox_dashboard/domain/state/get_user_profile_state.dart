@@ -12,6 +12,5 @@ class GetUserProfileSuccess extends UIState {
 }
 
 class GetUserProfileFailure extends FeatureFailure {
-
   GetUserProfileFailure(dynamic exception) : super(exception: exception);
 }

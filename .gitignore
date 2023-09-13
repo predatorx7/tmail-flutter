@@ -116,7 +116,7 @@ app.*.symbols
 !**/pubspec.lock
 !**/Podfile.lock
 
-#generated file
-*.g.dart
-messages_*.dart
-*.mocks.dart
+# DO NOT IGNORE generated files 
+# *.g.dart
+# messages_*.dart
+# *.mocks.dart

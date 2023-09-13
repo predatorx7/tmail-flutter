@@ -1,4 +1,3 @@
-
 import 'package:tmail_ui_user/features/base/action/ui_action.dart';
 
 class DashBoardSettingAction extends UIAction {
@@ -11,7 +10,6 @@ class DashBoardSettingAction extends UIAction {
 }
 
 class ClearAllInputForwarding extends DashBoardSettingAction {
-
   ClearAllInputForwarding();
 
   @override

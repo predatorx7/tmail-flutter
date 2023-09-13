@@ -11,9 +11,11 @@ class DeleteEmailPermanentlyInteractor {
   final EmailRepository _emailRepository;
   final MailboxRepository _mailboxRepository;
 
-  DeleteEmailPermanentlyInteractor(this._emailRepository, this._mailboxRepository);
+  DeleteEmailPermanentlyInteractor(
+      this._emailRepository, this._mailboxRepository);
 
-  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId, EmailId emailId) async* {
+  Stream<Either<Failure, Success>> execute(
+      Session session, AccountId accountId, EmailId emailId) async* {
     try {
       yield Right<Failure, Success>(StartDeleteEmailPermanently());
 
@@ -25,7 +27,8 @@ class DeleteEmailPermanentlyInteractor {
       final currentMailboxState = listState.first;
       final currentEmailState = listState.last;
 
-      final result = await _emailRepository.deleteEmailPermanently(session, accountId, emailId);
+      final result = await _emailRepository.deleteEmailPermanently(
+          session, accountId, emailId);
       if (result) {
         yield Right<Failure, Success>(DeleteEmailPermanentlySuccess(
             currentEmailState: currentEmailState,

@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:jmap_dart_client/jmap/account_id.dart';
 import 'package:jmap_dart_client/jmap/core/session/session.dart';
@@ -17,22 +16,20 @@ class RulesFilterCreatorArguments with EquatableMixin {
 
   RulesFilterCreatorArguments(
     this.accountId,
-    this.session,
-    {
-      this.actionType = CreatorActionType.create,
-      this.tMailRule,
-      this.emailAddress,
-      this.mailboxDestination,
-    }
-  );
+    this.session, {
+    this.actionType = CreatorActionType.create,
+    this.tMailRule,
+    this.emailAddress,
+    this.mailboxDestination,
+  });
 
   @override
   List<Object?> get props => [
-    accountId,
-    actionType,
-    session,
-    tMailRule,
-    emailAddress,
-    mailboxDestination,
-  ];
+        accountId,
+        actionType,
+        session,
+        tMailRule,
+        emailAddress,
+        mailboxDestination,
+      ];
 }

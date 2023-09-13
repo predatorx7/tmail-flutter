@@ -1,4 +1,3 @@
-
 abstract class QueryParameter<T> {
   final String queryName;
   final T queryValue;
@@ -7,13 +6,16 @@ abstract class QueryParameter<T> {
 }
 
 class BooleanQueryParameter extends QueryParameter<bool> {
-  BooleanQueryParameter(String queryName, bool queryValue) : super(queryName, queryValue);
+  BooleanQueryParameter(String queryName, bool queryValue)
+      : super(queryName, queryValue);
 }
 
 class StringQueryParameter extends QueryParameter<String> {
-  StringQueryParameter(String queryName, String queryValue) : super(queryName, queryValue);
+  StringQueryParameter(String queryName, String queryValue)
+      : super(queryName, queryValue);
 }
 
 class IntQueryParameter extends QueryParameter<int> {
-  IntQueryParameter(String queryName, int queryValue) : super(queryName, queryValue);
+  IntQueryParameter(String queryName, int queryValue)
+      : super(queryName, queryValue);
 }

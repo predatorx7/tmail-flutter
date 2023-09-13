@@ -6,7 +6,8 @@ class ForwardIdNullableConverter implements JsonConverter<ForwardId?, String?> {
   const ForwardIdNullableConverter();
 
   @override
-  ForwardId? fromJson(String? json) => json != null ? ForwardId(id: Id(json)) : null;
+  ForwardId? fromJson(String? json) =>
+      json != null ? ForwardId(id: Id(json)) : null;
 
   @override
   String? toJson(ForwardId? object) => object?.id.value;

@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 
 abstract class ContextMenuItemAction<T> with EquatableMixin {
@@ -13,7 +12,4 @@ abstract class ContextMenuItemAction<T> with EquatableMixin {
   bool get isActivated => state == ContextMenuItemState.activated;
 }
 
-enum ContextMenuItemState {
-  activated,
-  deactivated
-}
+enum ContextMenuItemState { activated, deactivated }

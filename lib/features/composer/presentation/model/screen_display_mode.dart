@@ -1,6 +1,1 @@
-
-enum ScreenDisplayMode {
-  fullScreen,
-  minimize,
-  normal
-}
+enum ScreenDisplayMode { fullScreen, minimize, normal }

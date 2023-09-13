@@ -1,11 +1,9 @@
-
 import 'package:flutter/widgets.dart';
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
 extension LocaleExtension on Locale {
-
   String getLanguageNameByCurrentLocale(BuildContext context) {
-    switch(languageCode) {
+    switch (languageCode) {
       case 'fr':
         return AppLocalizations.of(context).languageFrench;
       case 'en':
@@ -24,7 +22,7 @@ extension LocaleExtension on Locale {
   }
 
   String getSourceLanguageName() {
-    switch(languageCode) {
+    switch (languageCode) {
       case 'fr':
         return 'Français';
       case 'en':

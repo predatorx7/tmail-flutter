@@ -14,6 +14,5 @@ class CheckOIDCIsAvailableSuccess extends UIState {
 }
 
 class CheckOIDCIsAvailableFailure extends FeatureFailure {
-
   CheckOIDCIsAvailableFailure(dynamic exception) : super(exception: exception);
 }

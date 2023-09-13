@@ -12,23 +12,25 @@ class SubscribeMailboxInteractor {
 
   SubscribeMailboxInteractor(this._mailboxRepository);
 
-  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId, SubscribeMailboxRequest request) async* {
+  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId,
+      SubscribeMailboxRequest request) async* {
     try {
       yield Right<Failure, Success>(LoadingSubscribeMailbox());
 
-      final currentMailboxState = await _mailboxRepository.getMailboxState(session, accountId);
+      final currentMailboxState =
+          await _mailboxRepository.getMailboxState(session, accountId);
 
-      final result = await _mailboxRepository.subscribeMailbox(session, accountId, request);
+      final result = await _mailboxRepository.subscribeMailbox(
+          session, accountId, request);
 
       if (result) {
         yield Right<Failure, Success>(SubscribeMailboxSuccess(
-          request.mailboxId, 
-          currentMailboxState: currentMailboxState,
-          request.subscribeAction));
+            request.mailboxId,
+            currentMailboxState: currentMailboxState,
+            request.subscribeAction));
       } else {
         yield Left<Failure, Success>(SubscribeMailboxFailure(null));
       }
-
     } catch (exception) {
       yield Left<Failure, Success>(SubscribeMailboxFailure(exception));
     }

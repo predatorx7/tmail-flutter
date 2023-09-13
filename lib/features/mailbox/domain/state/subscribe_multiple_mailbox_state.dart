@@ -8,7 +8,6 @@ import 'package:tmail_ui_user/features/mailbox/domain/model/mailbox_subscribe_ac
 class LoadingSubscribeMultipleMailbox extends UIState {}
 
 class SubscribeMultipleMailboxAllSuccess extends UIActionState {
-
   final MailboxId parentMailboxId;
   final List<MailboxId> mailboxIdsSubscribe;
   final MailboxSubscribeAction subscribeAction;
@@ -16,24 +15,17 @@ class SubscribeMultipleMailboxAllSuccess extends UIActionState {
   SubscribeMultipleMailboxAllSuccess(
     this.parentMailboxId,
     this.mailboxIdsSubscribe,
-    this.subscribeAction,
-    {
-      jmap.State? currentEmailState,
-      jmap.State? currentMailboxState,
-    }
-  ) : super(currentEmailState, currentMailboxState);
+    this.subscribeAction, {
+    jmap.State? currentEmailState,
+    jmap.State? currentMailboxState,
+  }) : super(currentEmailState, currentMailboxState);
 
   @override
-  List<Object?> get props => [
-    parentMailboxId,
-    mailboxIdsSubscribe,
-    subscribeAction,
-    ...super.props
-  ];
+  List<Object?> get props =>
+      [parentMailboxId, mailboxIdsSubscribe, subscribeAction, ...super.props];
 }
 
 class SubscribeMultipleMailboxHasSomeSuccess extends UIActionState {
-
   final MailboxId parentMailboxId;
   final List<MailboxId> mailboxIdsSubscribe;
   final MailboxSubscribeAction subscribeAction;
@@ -41,25 +33,19 @@ class SubscribeMultipleMailboxHasSomeSuccess extends UIActionState {
   SubscribeMultipleMailboxHasSomeSuccess(
     this.parentMailboxId,
     this.mailboxIdsSubscribe,
-    this.subscribeAction,
-    {
-      jmap.State? currentEmailState,
-      jmap.State? currentMailboxState,
-    }
-  ) : super(currentEmailState, currentMailboxState);
+    this.subscribeAction, {
+    jmap.State? currentEmailState,
+    jmap.State? currentMailboxState,
+  }) : super(currentEmailState, currentMailboxState);
 
   @override
-  List<Object?> get props => [
-    parentMailboxId,
-    mailboxIdsSubscribe,
-    subscribeAction,
-    ...super.props
-  ];
+  List<Object?> get props =>
+      [parentMailboxId, mailboxIdsSubscribe, subscribeAction, ...super.props];
 }
 
 class SubscribeMultipleMailboxAllFailure extends FeatureFailure {}
 
 class SubscribeMultipleMailboxFailure extends FeatureFailure {
-
-  SubscribeMultipleMailboxFailure(dynamic exception) : super(exception: exception);
+  SubscribeMultipleMailboxFailure(dynamic exception)
+      : super(exception: exception);
 }

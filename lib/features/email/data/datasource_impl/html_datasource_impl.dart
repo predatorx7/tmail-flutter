@@ -5,7 +5,6 @@ import 'package:tmail_ui_user/features/email/data/local/html_analyzer.dart';
 import 'package:tmail_ui_user/main/exceptions/exception_thrower.dart';
 
 class HtmlDataSourceImpl extends HtmlDataSource {
-
   final HtmlAnalyzer _htmlAnalyzer;
   final ExceptionThrower _exceptionThrower;
 
@@ -13,26 +12,21 @@ class HtmlDataSourceImpl extends HtmlDataSource {
 
   @override
   Future<EmailContent> transformEmailContent(
-    EmailContent emailContent,
-    Map<String, String> mapCidImageDownloadUrl,
-    TransformConfiguration transformConfiguration
-  ) {
+      EmailContent emailContent,
+      Map<String, String> mapCidImageDownloadUrl,
+      TransformConfiguration transformConfiguration) {
     return Future.sync(() async {
       return await _htmlAnalyzer.transformEmailContent(
-        emailContent,
-        mapCidImageDownloadUrl,
-        transformConfiguration
-      );
+          emailContent, mapCidImageDownloadUrl, transformConfiguration);
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<String> transformHtmlEmailContent(String htmlContent, TransformConfiguration configuration) {
+  Future<String> transformHtmlEmailContent(
+      String htmlContent, TransformConfiguration configuration) {
     return Future.sync(() async {
       return await _htmlAnalyzer.transformHtmlEmailContent(
-        htmlContent,
-        configuration
-      );
+          htmlContent, configuration);
     }).catchError(_exceptionThrower.throwException);
   }
 }

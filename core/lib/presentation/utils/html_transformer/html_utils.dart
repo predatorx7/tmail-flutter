@@ -1,10 +1,8 @@
-
 import 'package:core/presentation/utils/html_transformer/html_event_action.dart';
 import 'package:core/utils/platform_info.dart';
 import 'package:flutter/material.dart';
 
 class HtmlUtils {
-
   static const scrollEventJSChannelName = 'ScrollEventListener';
 
   static const runScriptsHandleScrollEvent = '''
@@ -101,7 +99,8 @@ class HtmlUtils {
     </script>
   ''';
 
-  static String customCssStyleHtmlEditor({TextDirection direction = TextDirection.ltr}) {
+  static String customCssStyleHtmlEditor(
+      {TextDirection direction = TextDirection.ltr}) {
     if (PlatformInfo.isWeb) {
       return '''
         <style>

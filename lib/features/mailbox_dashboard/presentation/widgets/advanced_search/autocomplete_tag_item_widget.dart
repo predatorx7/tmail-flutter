@@ -9,7 +9,6 @@ import 'package:tmail_ui_user/features/mailbox_dashboard/presentation/widgets/ad
 typedef OnDeleteTagItemCallback = Function(String tagName);
 
 class AutocompleteTagItemWidget extends StatelessWidget {
-
   final String tagName;
   final OnDeleteTagItemCallback onDeleteCallback;
 
@@ -37,13 +36,11 @@ class AutocompleteTagItemWidget extends StatelessWidget {
         children: [
           AvatarTagItemWidget(tagName: tagName),
           const SizedBox(width: AutocompleteTagItemStyle.space),
-          Text(
-            tagName,
-            maxLines: 1,
-            overflow: CommonTextStyle.defaultTextOverFlow,
-            softWrap: CommonTextStyle.defaultSoftWrap,
-            style: AutocompleteTagItemStyle.labelTextStyle
-          ),
+          Text(tagName,
+              maxLines: 1,
+              overflow: CommonTextStyle.defaultTextOverFlow,
+              softWrap: CommonTextStyle.defaultSoftWrap,
+              style: AutocompleteTagItemStyle.labelTextStyle),
           const SizedBox(width: AutocompleteTagItemStyle.space),
           TMailButtonWidget.fromIcon(
             icon: imagePaths.icClose,

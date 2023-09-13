@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/resources/image_paths.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,7 @@ enum SendingState {
   success;
 
   String getTitle(BuildContext context) {
-    switch(this) {
+    switch (this) {
       case SendingState.waiting:
       case SendingState.running:
       case SendingState.success:
@@ -22,7 +21,7 @@ enum SendingState {
   }
 
   String getIcon(ImagePaths imagePaths) {
-    switch(this) {
+    switch (this) {
       case SendingState.waiting:
       case SendingState.running:
       case SendingState.success:
@@ -33,7 +32,7 @@ enum SendingState {
   }
 
   String getAvatarGroup(ImagePaths imagePaths) {
-    switch(this) {
+    switch (this) {
       case SendingState.running:
         return imagePaths.icAvatarGroupDelivering;
       case SendingState.waiting:
@@ -44,7 +43,7 @@ enum SendingState {
   }
 
   String getAvatarPersonal(ImagePaths imagePaths) {
-    switch(this) {
+    switch (this) {
       case SendingState.running:
         return imagePaths.icAvatarPersonalDelivering;
       case SendingState.waiting:
@@ -55,7 +54,7 @@ enum SendingState {
   }
 
   Color getTitleColor() {
-    switch(this) {
+    switch (this) {
       case SendingState.waiting:
       case SendingState.running:
       case SendingState.success:
@@ -66,7 +65,7 @@ enum SendingState {
   }
 
   Color getBackgroundColor() {
-    switch(this) {
+    switch (this) {
       case SendingState.waiting:
       case SendingState.running:
       case SendingState.success:
@@ -77,7 +76,7 @@ enum SendingState {
   }
 
   Color getTitleSendingEmailItemColor() {
-    switch(this) {
+    switch (this) {
       case SendingState.running:
         return AppColor.colorDeliveringState;
       case SendingState.waiting:
@@ -88,7 +87,7 @@ enum SendingState {
   }
 
   Color getSubTitleSendingEmailItemColor() {
-    switch(this) {
+    switch (this) {
       case SendingState.running:
         return AppColor.colorDeliveringState;
       case SendingState.waiting:

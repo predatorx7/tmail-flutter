@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 enum HeaderStyleType {
@@ -80,7 +79,7 @@ enum HeaderStyleType {
   }
 
   double get textSize {
-    switch(this) {
+    switch (this) {
       case HeaderStyleType.normal:
         return 16;
       case HeaderStyleType.blockquote:
@@ -103,7 +102,7 @@ enum HeaderStyleType {
   }
 
   FontWeight get fontWeight {
-    switch(this) {
+    switch (this) {
       case HeaderStyleType.normal:
       case HeaderStyleType.blockquote:
       case HeaderStyleType.code:

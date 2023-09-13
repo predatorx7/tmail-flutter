@@ -1,4 +1,3 @@
-
 import 'package:core/utils/platform_info.dart';
 
 class IconUtils {

@@ -1,8 +1,6 @@
-
 import 'package:flutter/material.dart';
 
 extension TapDownDetailsExtension on TapDownDetails {
-
   RelativeRect getPosition(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final offset = globalPosition;

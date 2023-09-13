@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/utils/responsive_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,15 +8,11 @@ import 'package:tmail_ui_user/features/email/presentation/styles/event_attendee_
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
 class EventAttendeeInformationWidget extends StatelessWidget {
-
   final List<CalendarAttendee> attendees;
   final CalendarOrganizer organizer;
 
-  const EventAttendeeInformationWidget({
-    super.key,
-    required this.attendees,
-    required this.organizer
-  });
+  const EventAttendeeInformationWidget(
+      {super.key, required this.attendees, required this.organizer});
 
   @override
   Widget build(BuildContext context) {
@@ -30,35 +25,35 @@ class EventAttendeeInformationWidget extends StatelessWidget {
           child: Text(
             AppLocalizations.of(context).who,
             style: const TextStyle(
-              fontSize: EventAttendeeInformationWidgetStyles.textSize,
-              fontWeight: FontWeight.w500,
-              color: EventAttendeeInformationWidgetStyles.labelColor
-            ),
+                fontSize: EventAttendeeInformationWidgetStyles.textSize,
+                fontWeight: FontWeight.w500,
+                color: EventAttendeeInformationWidgetStyles.labelColor),
           ),
         ),
-        Expanded(child: RichText(
+        Expanded(
+            child: RichText(
           text: TextSpan(
-            style: const TextStyle(
-              fontSize: EventAttendeeInformationWidgetStyles.textSize,
-              fontWeight: FontWeight.w500,
-              color: EventAttendeeInformationWidgetStyles.valueColor
-            ),
-            children: [
-              TextSpan(
-                text: '${organizer.mailto?.value} (${AppLocalizations.of(context).organizer})',
-                style: const TextStyle(
-                  color: EventAttendeeInformationWidgetStyles.valueOrganizerColor,
+              style: const TextStyle(
                   fontSize: EventAttendeeInformationWidgetStyles.textSize,
-                  fontWeight: FontWeight.w500
+                  fontWeight: FontWeight.w500,
+                  color: EventAttendeeInformationWidgetStyles.valueColor),
+              children: [
+                TextSpan(
+                  text:
+                      '${organizer.mailto?.value} (${AppLocalizations.of(context).organizer})',
+                  style: const TextStyle(
+                      color: EventAttendeeInformationWidgetStyles
+                          .valueOrganizerColor,
+                      fontSize: EventAttendeeInformationWidgetStyles.textSize,
+                      fontWeight: FontWeight.w500),
                 ),
-              ),
-              const TextSpan(text: ', '),
-              TextSpan(text: attendees.withoutOrganizer(organizer).mailtoAsString)
-            ]
-          ),
+                const TextSpan(text: ', '),
+                TextSpan(
+                    text: attendees.withoutOrganizer(organizer).mailtoAsString)
+              ]),
           overflow: responsiveUtils.isPortraitMobile(context)
-            ? TextOverflow.clip
-            : TextOverflow.ellipsis,
+              ? TextOverflow.clip
+              : TextOverflow.ellipsis,
           maxLines: responsiveUtils.isPortraitMobile(context) ? null : 2,
         ))
       ],

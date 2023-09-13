@@ -1,5 +1,1 @@
-
-enum MailboxDisplayed {
-  mailbox,
-  destinationPicker
-}
+enum MailboxDisplayed { mailbox, destinationPicker }

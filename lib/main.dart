@@ -22,15 +22,14 @@ void main() async {
     ThemeUtils.setSystemLightUIStyle();
 
     await Future.wait([
-       MainBindings().dependencies(),
-       HiveCacheConfig().setUp(),
-       Executor().warmUp(),
-       if (PlatformInfo.isMobile)
-         ... [
-           WorkManagerConfig().initialize(),
-           LocalNotificationManager.instance.setUp(),
-         ],
-       AppUtils.loadEnvFile()
+      MainBindings().dependencies(),
+      HiveCacheConfig().setUp(),
+      Executor().warmUp(),
+      if (PlatformInfo.isMobile) ...[
+        WorkManagerConfig().initialize(),
+        LocalNotificationManager.instance.setUp(),
+      ],
+      AppUtils.loadEnvFile()
     ]);
     await HiveCacheConfig.initializeEncryptionKey();
 
@@ -44,36 +43,36 @@ class TMailApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeUtils.appTheme,
-      supportedLocales: LocalizationService.supportedLocales,
-      localizationsDelegates: const [
-        AppLocalizationsDelegate(),
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      localeResolutionCallback: (deviceLocale, supportedLocales) {
-        for (var locale in supportedLocales) {
-          if (locale.languageCode == deviceLocale?.languageCode) {
-            return deviceLocale;
+        debugShowCheckedModeBanner: false,
+        theme: ThemeUtils.appTheme,
+        supportedLocales: LocalizationService.supportedLocales,
+        localizationsDelegates: const [
+          AppLocalizationsDelegate(),
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        localeResolutionCallback: (deviceLocale, supportedLocales) {
+          for (var locale in supportedLocales) {
+            if (locale.languageCode == deviceLocale?.languageCode) {
+              return deviceLocale;
+            }
           }
-        }
-        return supportedLocales.first;
-      },
-      locale: LocalizationService.locale,
-      fallbackLocale: LocalizationService.fallbackLocale,
-      translations: LocalizationService(),
-      onGenerateTitle: (context) {
-        if (Get.currentRoute == AppRoutes.unknownRoutePage) {
-          return AppLocalizations.of(context).page404;
-        } else {
-          return AppLocalizations.of(context).page_name;
-        }
-      },
-      unknownRoute: AppPages.unknownRoutePage,
-      defaultTransition: Transition.noTransition,
-      initialRoute: AppRoutes.home,
-      getPages: AppPages.pages);
+          return supportedLocales.first;
+        },
+        locale: LocalizationService.locale,
+        fallbackLocale: LocalizationService.fallbackLocale,
+        translations: LocalizationService(),
+        onGenerateTitle: (context) {
+          if (Get.currentRoute == AppRoutes.unknownRoutePage) {
+            return AppLocalizations.of(context).page404;
+          } else {
+            return AppLocalizations.of(context).page_name;
+          }
+        },
+        unknownRoute: AppPages.unknownRoutePage,
+        defaultTransition: Transition.noTransition,
+        initialRoute: AppRoutes.home,
+        getPages: AppPages.pages);
   }
 }

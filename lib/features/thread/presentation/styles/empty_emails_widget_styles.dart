@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -21,10 +20,14 @@ class EmptyEmailsWidgetStyles {
   static const Color labelTextColor = Colors.black;
   static const Color messageTextColor = AppColor.colorSubtitle;
   static const Color createFilterButtonTextColor = AppColor.primaryColor;
-  static const Color createFilterButtonBackgroundColor = AppColor.colorCreateFiltersButton;
+  static const Color createFilterButtonBackgroundColor =
+      AppColor.colorCreateFiltersButton;
 
   static const EdgeInsetsGeometry padding = EdgeInsetsDirectional.all(16);
-  static const EdgeInsetsGeometry labelPadding = EdgeInsetsDirectional.symmetric(vertical: 12);
-  static const EdgeInsetsGeometry createFilterButtonPadding = EdgeInsetsDirectional.symmetric(vertical: 12, horizontal: 24);
-  static const EdgeInsetsGeometry createFilterButtonMargin = EdgeInsetsDirectional.only(top: 28);
+  static const EdgeInsetsGeometry labelPadding =
+      EdgeInsetsDirectional.symmetric(vertical: 12);
+  static const EdgeInsetsGeometry createFilterButtonPadding =
+      EdgeInsetsDirectional.symmetric(vertical: 12, horizontal: 24);
+  static const EdgeInsetsGeometry createFilterButtonMargin =
+      EdgeInsetsDirectional.only(top: 28);
 }

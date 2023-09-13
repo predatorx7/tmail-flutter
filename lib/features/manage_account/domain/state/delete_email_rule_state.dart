@@ -11,6 +11,5 @@ class DeleteEmailRuleSuccess extends UIState {
 }
 
 class DeleteEmailRuleFailure extends FeatureFailure {
-
   DeleteEmailRuleFailure(dynamic exception) : super(exception: exception);
 }

@@ -12,6 +12,5 @@ class QuickSearchEmailSuccess extends UIState {
 }
 
 class QuickSearchEmailFailure extends FeatureFailure {
-
   QuickSearchEmailFailure(dynamic exception) : super(exception: exception);
 }

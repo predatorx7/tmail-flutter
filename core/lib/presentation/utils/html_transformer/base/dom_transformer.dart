@@ -1,10 +1,8 @@
-
 import 'package:core/data/network/dio_client.dart';
 import 'package:html/dom.dart';
 
 /// Transforms the HTML DOM.
 abstract class DomTransformer {
-
   const DomTransformer();
 
   /// Uses the `DOM` [document] to transform the `document`.

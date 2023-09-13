@@ -30,26 +30,23 @@ class IconBuilder {
 
   Widget build() {
     return Container(
-      key: _key,
-      width: _size ?? 40,
-      height: _size ?? 40,
-      alignment: Alignment.center,
-      padding: _padding ?? const EdgeInsets.all(3),
-      child: Material(
-          borderRadius: BorderRadius.circular((_size ?? 40) / 2),
-          color: Colors.transparent,
-          child: IconButton(
-              padding: EdgeInsets.zero,
-              iconSize: _size ?? 40,
-              splashRadius: 20,
-              icon: SvgPicture.asset(_icon!, width: _size ?? 40, height: _size ?? 40, fit: BoxFit.fill),
-              onPressed: () => {
-                if (_onPressIconActionClick != null) {
-                  _onPressIconActionClick!()
-                }
-              }
-          )
-      )
-    );
+        key: _key,
+        width: _size ?? 40,
+        height: _size ?? 40,
+        alignment: Alignment.center,
+        padding: _padding ?? const EdgeInsets.all(3),
+        child: Material(
+            borderRadius: BorderRadius.circular((_size ?? 40) / 2),
+            color: Colors.transparent,
+            child: IconButton(
+                padding: EdgeInsets.zero,
+                iconSize: _size ?? 40,
+                splashRadius: 20,
+                icon: SvgPicture.asset(_icon!,
+                    width: _size ?? 40, height: _size ?? 40, fit: BoxFit.fill),
+                onPressed: () => {
+                      if (_onPressIconActionClick != null)
+                        {_onPressIconActionClick!()}
+                    })));
   }
 }

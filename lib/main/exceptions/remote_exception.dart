@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:jmap_dart_client/jmap/core/error/error_type.dart';
 import 'package:jmap_dart_client/jmap/core/error/method/error_method_response.dart';
@@ -18,28 +17,32 @@ abstract class RemoteException with EquatableMixin implements Exception {
 }
 
 class BadCredentialsException extends RemoteException {
-  const BadCredentialsException() : super(message: RemoteException.badCredentials);
+  const BadCredentialsException()
+      : super(message: RemoteException.badCredentials);
 
   @override
   List<Object?> get props => [];
 }
 
 class UnknownError extends RemoteException {
-  const UnknownError({int? code, String? message}) : super(code: code, message: message);
+  const UnknownError({int? code, String? message})
+      : super(code: code, message: message);
 
   @override
   List<Object?> get props => [code, message];
 }
 
 class ConnectionError extends RemoteException {
-  const ConnectionError({String? message}) : super(message: message ?? RemoteException.connectionError);
+  const ConnectionError({String? message})
+      : super(message: message ?? RemoteException.connectionError);
 
   @override
   List<Object?> get props => [code, message];
 }
 
 class ConnectionTimeout extends RemoteException {
-  const ConnectionTimeout({String? message}) : super(message: message ?? RemoteException.connectionTimeout);
+  const ConnectionTimeout({String? message})
+      : super(message: message ?? RemoteException.connectionTimeout);
 
   @override
   List<Object?> get props => [code, message];
@@ -53,7 +56,8 @@ class SocketError extends RemoteException {
 }
 
 class InternalServerError extends RemoteException {
-  const InternalServerError() : super(message: RemoteException.internalServerError);
+  const InternalServerError()
+      : super(message: RemoteException.internalServerError);
 
   @override
   List<Object?> get props => [code, message];
@@ -62,17 +66,16 @@ class InternalServerError extends RemoteException {
 class MethodLevelErrors extends RemoteException {
   final ErrorType type;
 
-  const MethodLevelErrors(
-    this.type,
-    {String? message}
-  ) : super(message: message);
+  const MethodLevelErrors(this.type, {String? message})
+      : super(message: message);
 
   @override
   List<Object?> get props => [type, code, message];
 }
 
 class CannotCalculateChangesMethodResponseException extends MethodLevelErrors {
-  CannotCalculateChangesMethodResponseException({String? message}) : super(ErrorMethodResponse.cannotCalculateChanges, message: message);
+  CannotCalculateChangesMethodResponseException({String? message})
+      : super(ErrorMethodResponse.cannotCalculateChanges, message: message);
 }
 
 class NoNetworkError extends RemoteException {

@@ -3,5 +3,6 @@ import 'package:tmail_ui_user/features/email/domain/extensions/attachment_hive_c
 import 'package:tmail_ui_user/features/offline_mode/model/attachment_hive_cache.dart';
 
 extension ListAttachmentsHiveCacheExtension on List<AttachmentHiveCache> {
-  List<Attachment> toAttachment() => map((attachmentHiveCache) => attachmentHiveCache.toAttachment()).toList();
+  List<Attachment> toAttachment() =>
+      map((attachmentHiveCache) => attachmentHiveCache.toAttachment()).toList();
 }

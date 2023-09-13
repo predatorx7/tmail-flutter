@@ -14,6 +14,5 @@ class GetQuotasSuccess extends UIState {
 }
 
 class GetQuotasFailure extends FeatureFailure {
-
   GetQuotasFailure(dynamic exception) : super(exception: exception);
 }

@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:jmap_dart_client/jmap/account_id.dart';
 import 'package:jmap_dart_client/jmap/core/session/session.dart';
@@ -13,21 +12,10 @@ class IdentityCreatorArguments with EquatableMixin {
   final IdentityActionType actionType;
   final Identity? identity;
 
-  IdentityCreatorArguments(
-    this.accountId,
-    this.session,
-    this.userProfile,
-    {
-      this.identity,
-      this.actionType = IdentityActionType.create
-    }
-  );
+  IdentityCreatorArguments(this.accountId, this.session, this.userProfile,
+      {this.identity, this.actionType = IdentityActionType.create});
 
   @override
-  List<Object?> get props => [
-    accountId, 
-    session, 
-    userProfile, 
-    identity, 
-    actionType];
+  List<Object?> get props =>
+      [accountId, session, userProfile, identity, actionType];
 }

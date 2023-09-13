@@ -1,10 +1,8 @@
-
 import 'package:core/presentation/action/action_callback_define.dart';
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:flutter/material.dart';
 
 class TMailContainerWidget extends StatelessWidget {
-
   final OnTapActionCallback? onTapActionCallback;
   final OnTapActionAtPositionCallback? onTapActionAtPositionCallback;
 
@@ -44,58 +42,54 @@ class TMailContainerWidget extends StatelessWidget {
     final materialChild = Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: onTapActionCallback,
-        onTapDown: (detail) {
-          if (onTapActionAtPositionCallback != null) {
-            final screenSize = MediaQuery.of(context).size;
-            final offset = detail.globalPosition;
-            final position = RelativeRect.fromLTRB(
-              offset.dx,
-              offset.dy,
-              screenSize.width - offset.dx,
-              screenSize.height - offset.dy,
-            );
-            onTapActionAtPositionCallback!.call(position);
-          }
-        },
-        borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
-        child: tooltipMessage != null
-          ? Tooltip(
-              message: tooltipMessage,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: backgroundColor ?? AppColor.colorButtonHeaderThread,
-                  borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
-                  border: border,
-                  boxShadow: boxShadow
-                ),
-                width: width,
-                constraints: BoxConstraints(
-                  maxWidth: maxWidth,
-                  maxHeight: maxHeight,
-                  minWidth: minWidth
-                ),
-                padding: padding ?? const EdgeInsetsDirectional.all(8),
-                child: child
-              )
-            )
-          : Container(
-              decoration: BoxDecoration(
-                color: backgroundColor ?? AppColor.colorButtonHeaderThread,
-                borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
-                border: border,
-                boxShadow: boxShadow
-              ),
-              width: width,
-              constraints: BoxConstraints(
-                maxWidth: maxWidth,
-                maxHeight: maxHeight,
-                minWidth: minWidth
-              ),
-              padding: padding ?? const EdgeInsetsDirectional.all(8),
-              child: child
-            )
-      ),
+          onTap: onTapActionCallback,
+          onTapDown: (detail) {
+            if (onTapActionAtPositionCallback != null) {
+              final screenSize = MediaQuery.of(context).size;
+              final offset = detail.globalPosition;
+              final position = RelativeRect.fromLTRB(
+                offset.dx,
+                offset.dy,
+                screenSize.width - offset.dx,
+                screenSize.height - offset.dy,
+              );
+              onTapActionAtPositionCallback!.call(position);
+            }
+          },
+          borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
+          child: tooltipMessage != null
+              ? Tooltip(
+                  message: tooltipMessage,
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: backgroundColor ??
+                              AppColor.colorButtonHeaderThread,
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(borderRadius)),
+                          border: border,
+                          boxShadow: boxShadow),
+                      width: width,
+                      constraints: BoxConstraints(
+                          maxWidth: maxWidth,
+                          maxHeight: maxHeight,
+                          minWidth: minWidth),
+                      padding: padding ?? const EdgeInsetsDirectional.all(8),
+                      child: child))
+              : Container(
+                  decoration: BoxDecoration(
+                      color:
+                          backgroundColor ?? AppColor.colorButtonHeaderThread,
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(borderRadius)),
+                      border: border,
+                      boxShadow: boxShadow),
+                  width: width,
+                  constraints: BoxConstraints(
+                      maxWidth: maxWidth,
+                      maxHeight: maxHeight,
+                      minWidth: minWidth),
+                  padding: padding ?? const EdgeInsetsDirectional.all(8),
+                  child: child)),
     );
 
     if (margin != null) {

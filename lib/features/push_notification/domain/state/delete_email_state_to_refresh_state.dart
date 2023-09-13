@@ -1,11 +1,9 @@
-
 import 'package:core/presentation/state/failure.dart';
 import 'package:core/presentation/state/success.dart';
 
 class DeleteEmailStateToRefreshLoading extends UIState {}
 
 class DeleteEmailStateToRefreshSuccess extends UIState {
-
   DeleteEmailStateToRefreshSuccess();
 
   @override
@@ -13,6 +11,6 @@ class DeleteEmailStateToRefreshSuccess extends UIState {
 }
 
 class DeleteEmailStateToRefreshFailure extends FeatureFailure {
-
-  DeleteEmailStateToRefreshFailure(dynamic exception) : super(exception: exception);
+  DeleteEmailStateToRefreshFailure(dynamic exception)
+      : super(exception: exception);
 }

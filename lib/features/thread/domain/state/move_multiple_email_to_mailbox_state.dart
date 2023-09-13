@@ -22,24 +22,22 @@ class MoveMultipleEmailToMailboxAllSuccess extends UIActionState {
     this.currentMailboxId,
     this.destinationMailboxId,
     this.moveAction,
-    this.emailActionType,
-    {
-      this.destinationPath,
-      jmap.State? currentEmailState,
-      jmap.State? currentMailboxState,
-    }
-  ) : super(currentEmailState, currentMailboxState);
+    this.emailActionType, {
+    this.destinationPath,
+    jmap.State? currentEmailState,
+    jmap.State? currentMailboxState,
+  }) : super(currentEmailState, currentMailboxState);
 
   @override
   List<Object?> get props => [
-    movedListEmailId,
-    currentMailboxId,
-    destinationMailboxId,
-    moveAction,
-    emailActionType,
-    destinationPath,
-    ...super.props
-  ];
+        movedListEmailId,
+        currentMailboxId,
+        destinationMailboxId,
+        moveAction,
+        emailActionType,
+        destinationPath,
+        ...super.props
+      ];
 }
 
 class MoveMultipleEmailToMailboxAllFailure extends FeatureFailure {
@@ -65,31 +63,31 @@ class MoveMultipleEmailToMailboxHasSomeEmailFailure extends UIActionState {
     this.currentMailboxId,
     this.destinationMailboxId,
     this.moveAction,
-    this.emailActionType,
-    {
-      this.destinationPath,
-      jmap.State? currentEmailState,
-      jmap.State? currentMailboxState,
-    }
-  ) : super(currentEmailState, currentMailboxState);
+    this.emailActionType, {
+    this.destinationPath,
+    jmap.State? currentEmailState,
+    jmap.State? currentMailboxState,
+  }) : super(currentEmailState, currentMailboxState);
 
   @override
   List<Object?> get props => [
-    movedListEmailId,
-    currentMailboxId,
-    destinationMailboxId,
-    moveAction,
-    emailActionType,
-    destinationPath,
-    ...super.props
-  ];
+        movedListEmailId,
+        currentMailboxId,
+        destinationMailboxId,
+        moveAction,
+        emailActionType,
+        destinationPath,
+        ...super.props
+      ];
 }
 
 class MoveMultipleEmailToMailboxFailure extends FeatureFailure {
   final MoveAction moveAction;
   final EmailActionType emailActionType;
 
-  MoveMultipleEmailToMailboxFailure(this.emailActionType, this.moveAction, dynamic exception) : super(exception: exception);
+  MoveMultipleEmailToMailboxFailure(
+      this.emailActionType, this.moveAction, dynamic exception)
+      : super(exception: exception);
 
   @override
   List<Object?> get props => [emailActionType, moveAction, exception];

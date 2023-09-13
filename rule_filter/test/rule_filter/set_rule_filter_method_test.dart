@@ -143,8 +143,7 @@ void main() {
       final setRuleFilterResponse = response.parse<SetRuleFilterResponse>(
           setRuleFilterInvocation.methodCallId,
           SetRuleFilterResponse.deserialize);
-      expect(setRuleFilterResponse!.updated?.values,
-          contains(expectedUpdated));
+      expect(setRuleFilterResponse!.updated?.values, contains(expectedUpdated));
     });
   });
 }

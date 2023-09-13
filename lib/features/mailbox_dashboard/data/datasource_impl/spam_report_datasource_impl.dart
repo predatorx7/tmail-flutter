@@ -1,4 +1,3 @@
-
 import 'package:jmap_dart_client/jmap/account_id.dart';
 import 'package:jmap_dart_client/jmap/core/session/session.dart';
 import 'package:jmap_dart_client/jmap/core/unsigned_int.dart';
@@ -24,19 +23,12 @@ class SpamReportDataSourceImpl extends SpamReportDataSource {
 
   @override
   Future<UnreadSpamEmailsResponse> findNumberOfUnreadSpamEmails(
-    Session session,
-    AccountId accountId,
-    {
-      MailboxFilterCondition? mailboxFilterCondition,
-      UnsignedInt? limit
-    }
-  ) {
-     return Future.sync(() async {
-      final unreadSpamEmailsResponse = await _spamReportApi.getUnreadSpamEmailbox(
-        session,
-        accountId,
-        mailboxFilterCondition: mailboxFilterCondition,
-        limit: limit);
+      Session session, AccountId accountId,
+      {MailboxFilterCondition? mailboxFilterCondition, UnsignedInt? limit}) {
+    return Future.sync(() async {
+      final unreadSpamEmailsResponse =
+          await _spamReportApi.getUnreadSpamEmailbox(session, accountId,
+              mailboxFilterCondition: mailboxFilterCondition, limit: limit);
       return unreadSpamEmailsResponse;
     }).catchError(_exceptionThrower.throwException);
   }
@@ -47,7 +39,8 @@ class SpamReportDataSourceImpl extends SpamReportDataSource {
   }
 
   @override
-  Future<bool> storeLastTimeDismissedSpamReported(DateTime lastTimeDismissedSpamReported) {
+  Future<bool> storeLastTimeDismissedSpamReported(
+      DateTime lastTimeDismissedSpamReported) {
     throw UnimplementedError();
   }
 

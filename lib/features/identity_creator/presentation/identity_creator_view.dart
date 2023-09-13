@@ -32,7 +32,6 @@ import 'package:tmail_ui_user/main/utils/app_utils.dart';
 
 class IdentityCreatorView extends GetWidget<IdentityCreatorController>
     with RichTextButtonMixin {
-
   final _imagePaths = Get.find<ImagePaths>();
   final _responsiveUtils = Get.find<ResponsiveUtils>();
 
@@ -44,124 +43,124 @@ class IdentityCreatorView extends GetWidget<IdentityCreatorController>
   @override
   Widget build(BuildContext context) {
     final responsiveWidget = ResponsiveWidget(
-      responsiveUtils: _responsiveUtils,
-      mobile: Scaffold(
-        backgroundColor: Colors.black38,
-        body: GestureDetector(
-          onTap: () => controller.clearFocusEditor(context),
-          child: Card(
-            margin: EdgeInsets.zero,
-            borderOnForeground: false,
-            color: Colors.transparent,
-            child: SafeArea(
-              top: PlatformInfo.isMobile,
-              bottom: false,
-              left: false,
-              right: false,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topRight: Radius.circular(16),
-                  topLeft: Radius.circular(16)),
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
+        responsiveUtils: _responsiveUtils,
+        mobile: Scaffold(
+          backgroundColor: Colors.black38,
+          body: GestureDetector(
+            onTap: () => controller.clearFocusEditor(context),
+            child: Card(
+              margin: EdgeInsets.zero,
+              borderOnForeground: false,
+              color: Colors.transparent,
+              child: SafeArea(
+                top: PlatformInfo.isMobile,
+                bottom: false,
+                left: false,
+                right: false,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
                       topRight: Radius.circular(16),
-                      topLeft: Radius.circular(16)
+                      topLeft: Radius.circular(16)),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(16),
+                          topLeft: Radius.circular(16)),
                     ),
+                    child: _buildBodyView(context),
                   ),
-                  child: _buildBodyView(context),
                 ),
               ),
             ),
           ),
         ),
-      ),
-      landscapeMobile: Scaffold(
-        backgroundColor: Colors.white,
-        body: GestureDetector(
-          onTap: () => controller.clearFocusEditor(context),
-          child: SafeArea(
-            child: _buildBodyView(context),
-          ),
-        )
-      ),
-      tablet: Scaffold(
-        backgroundColor: Colors.black38,
-        body: GestureDetector(
-          onTap: () => controller.clearFocusEditor(context),
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsetsDirectional.symmetric(horizontal: 24),
-              child: Card(
-                color: Colors.transparent,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(16))
-                ),
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(16))
-                  ),
-                  width: math.max(_responsiveUtils.getSizeScreenWidth(context) * 0.4, 700),
-                  height: _responsiveUtils.getSizeScreenHeight(context) * 0.8,
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(16)),
-                    child: _buildBodyView(context)
-                  )
-                )
+        landscapeMobile: Scaffold(
+            backgroundColor: Colors.white,
+            body: GestureDetector(
+              onTap: () => controller.clearFocusEditor(context),
+              child: SafeArea(
+                child: _buildBodyView(context),
               ),
-            )
-          )
+            )),
+        tablet: Scaffold(
+          backgroundColor: Colors.black38,
+          body: GestureDetector(
+              onTap: () => controller.clearFocusEditor(context),
+              child: Center(
+                  child: Padding(
+                padding: const EdgeInsetsDirectional.symmetric(horizontal: 24),
+                child: Card(
+                    color: Colors.transparent,
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(16))),
+                    child: Container(
+                        decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(16))),
+                        width: math.max(
+                            _responsiveUtils.getSizeScreenWidth(context) * 0.4,
+                            700),
+                        height:
+                            _responsiveUtils.getSizeScreenHeight(context) * 0.8,
+                        child: ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(16)),
+                            child: _buildBodyView(context)))),
+              ))),
         ),
-      ),
-      desktop: Scaffold(
-        backgroundColor: Colors.black38,
-        body: GestureDetector(
-          onTap: () => controller.clearFocusEditor(context),
-          child: Center(child: Card(
-            color: Colors.transparent,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(16))
-            ),
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(16))
-              ),
-              width: math.max(_responsiveUtils.getSizeScreenWidth(context) * 0.4, 800),
-              height: _responsiveUtils.getSizeScreenHeight(context) * 0.8,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(16)),
-                child: _buildBodyView(context)
-              )
-            )
-          )),
-        )
-      )
-    );
+        desktop: Scaffold(
+            backgroundColor: Colors.black38,
+            body: GestureDetector(
+              onTap: () => controller.clearFocusEditor(context),
+              child: Center(
+                  child: Card(
+                      color: Colors.transparent,
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(16))),
+                      child: Container(
+                          decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(16))),
+                          width: math.max(
+                              _responsiveUtils.getSizeScreenWidth(context) *
+                                  0.4,
+                              800),
+                          height:
+                              _responsiveUtils.getSizeScreenHeight(context) *
+                                  0.8,
+                          child: ClipRRect(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(16)),
+                              child: _buildBodyView(context))))),
+            )));
 
     if (PlatformInfo.isWeb) {
       return responsiveWidget;
     } else {
       return KeyboardRichText(
-        keyBroadToolbar: RichTextKeyboardToolBar(
-          titleBack: AppLocalizations.of(context).titleFormat,
-          backgroundKeyboardToolBarColor: PlatformInfo.isIOS
-            ? AppColor.colorBackgroundKeyboard
-            : AppColor.colorBackgroundKeyboardAndroid,
-          isLandScapeMode: _responsiveUtils.isLandscapeMobile(context),
+          keyBroadToolbar: RichTextKeyboardToolBar(
+            titleBack: AppLocalizations.of(context).titleFormat,
+            backgroundKeyboardToolBarColor: PlatformInfo.isIOS
+                ? AppColor.colorBackgroundKeyboard
+                : AppColor.colorBackgroundKeyboardAndroid,
+            isLandScapeMode: _responsiveUtils.isLandscapeMobile(context),
+            richTextController: controller.keyboardRichTextController,
+            titleQuickStyleBottomSheet:
+                AppLocalizations.of(context).titleQuickStyles,
+            titleBackgroundBottomSheet:
+                AppLocalizations.of(context).titleBackground,
+            titleForegroundBottomSheet:
+                AppLocalizations.of(context).titleForeground,
+            titleFormatBottomSheet: AppLocalizations.of(context).titleFormat,
+            insertImage: () => controller.pickImage(context,
+                maxWidth: _getMaxWidth(context).toInt()),
+          ),
           richTextController: controller.keyboardRichTextController,
-          titleQuickStyleBottomSheet: AppLocalizations.of(context).titleQuickStyles,
-          titleBackgroundBottomSheet: AppLocalizations.of(context).titleBackground,
-          titleForegroundBottomSheet: AppLocalizations.of(context).titleForeground,
-          titleFormatBottomSheet: AppLocalizations.of(context).titleFormat,
-          insertImage: () => controller.pickImage(context, maxWidth: _getMaxWidth(context).toInt()),
-        ),
-        richTextController: controller.keyboardRichTextController,
-        paddingChild: EdgeInsets.zero,
-        child: responsiveWidget
-      );
+          paddingChild: EdgeInsets.zero,
+          child: responsiveWidget);
     }
   }
 
@@ -170,62 +169,63 @@ class IdentityCreatorView extends GetWidget<IdentityCreatorController>
       controller: controller.scrollController,
       physics: const ClampingScrollPhysics(),
       child: Padding(
-        padding: const EdgeInsetsDirectional.symmetric(vertical: 12, horizontal: 24),
+        padding:
+            const EdgeInsetsDirectional.symmetric(vertical: 12, horizontal: 24),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Obx(() => IdentityInputFieldBuilder(
-            AppLocalizations.of(context).name,
-            controller.errorNameIdentity.value,
-            AppLocalizations.of(context).required,
-            editingController: controller.inputNameIdentityController,
-            focusNode: controller.inputNameIdentityFocusNode,
-            isMandatory: true,
-            onChangeInputNameAction: (value) => controller.updateNameIdentity(context, value)
-          )),
+              AppLocalizations.of(context).name,
+              controller.errorNameIdentity.value,
+              AppLocalizations.of(context).required,
+              editingController: controller.inputNameIdentityController,
+              focusNode: controller.inputNameIdentityFocusNode,
+              isMandatory: true,
+              onChangeInputNameAction: (value) =>
+                  controller.updateNameIdentity(context, value))),
           const SizedBox(height: 24),
           Obx(() {
             if (controller.actionType.value == IdentityActionType.create) {
               return IdentityDropListFieldBuilder(
-                _imagePaths,
-                AppLocalizations.of(context).email.inCaps,
-                controller.emailOfIdentity.value,
-                controller.listEmailAddressDefault,
-                onSelectItemDropList: controller.updateEmailOfIdentity);
+                  _imagePaths,
+                  AppLocalizations.of(context).email.inCaps,
+                  controller.emailOfIdentity.value,
+                  controller.listEmailAddressDefault,
+                  onSelectItemDropList: controller.updateEmailOfIdentity);
             } else {
               return IdentityFieldNoEditableBuilder(
-                AppLocalizations.of(context).email.inCaps,
-                controller.emailOfIdentity.value);
+                  AppLocalizations.of(context).email.inCaps,
+                  controller.emailOfIdentity.value);
             }
           }),
           const SizedBox(height: 24),
           Obx(() => IdentityDropListFieldBuilder(
-            _imagePaths,
-            AppLocalizations.of(context).reply_to,
-            controller.replyToOfIdentity.value,
-            controller.listEmailAddressOfReplyTo,
-            onSelectItemDropList: controller.updaterReplyToOfIdentity
-          )),
+              _imagePaths,
+              AppLocalizations.of(context).reply_to,
+              controller.replyToOfIdentity.value,
+              controller.listEmailAddressOfReplyTo,
+              onSelectItemDropList: controller.updaterReplyToOfIdentity)),
           const SizedBox(height: 24),
           Obx(() => IdentityInputWithDropListFieldBuilder(
-            AppLocalizations.of(context).bcc_to,
-            controller.errorBccIdentity.value,
-            controller.inputBccIdentityController,
-            focusNode: controller.inputBccIdentityFocusNode,
-            onSelectedSuggestionAction: (newEmailAddress) {
-              controller.inputBccIdentityController.text = newEmailAddress?.email ?? '';
-              controller.updateBccOfIdentity(newEmailAddress);
-            },
-            onChangeInputSuggestionAction: (pattern) {
-              controller.validateInputBccAddress(context, pattern);
-              if (pattern == null || pattern.trim().isEmpty) {
-                controller.updateBccOfIdentity(null);
-              } else {
-                controller.updateBccOfIdentity(EmailAddress(null, pattern));
-              }
-            },
-            onSuggestionCallbackAction: controller.getSuggestionEmailAddress
-          )),
+                  AppLocalizations.of(context).bcc_to,
+                  controller.errorBccIdentity.value,
+                  controller.inputBccIdentityController,
+                  focusNode: controller.inputBccIdentityFocusNode,
+                  onSelectedSuggestionAction: (newEmailAddress) {
+                controller.inputBccIdentityController.text =
+                    newEmailAddress?.email ?? '';
+                controller.updateBccOfIdentity(newEmailAddress);
+              }, onChangeInputSuggestionAction: (pattern) {
+                controller.validateInputBccAddress(context, pattern);
+                if (pattern == null || pattern.trim().isEmpty) {
+                  controller.updateBccOfIdentity(null);
+                } else {
+                  controller.updateBccOfIdentity(EmailAddress(null, pattern));
+                }
+              },
+                  onSuggestionCallbackAction:
+                      controller.getSuggestionEmailAddress)),
           const SizedBox(height: 32),
-          Text(AppLocalizations.of(context).signature,
+          Text(
+            AppLocalizations.of(context).signature,
             style: const TextStyle(
               fontWeight: FontWeight.normal,
               fontSize: 14,
@@ -275,57 +275,52 @@ class IdentityCreatorView extends GetWidget<IdentityCreatorController>
         const SizedBox(width: 40),
         Expanded(child: Obx(() {
           return Text(
-            controller.actionType.value == IdentityActionType.create
-              ? AppLocalizations.of(context).createNewIdentity.inCaps
-              : AppLocalizations.of(context).edit_identity.inCaps,
-            maxLines: 1,
-            textAlign: TextAlign.center,
-            overflow: CommonTextStyle.defaultTextOverFlow,
-            softWrap: CommonTextStyle.defaultSoftWrap,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-              color: Colors.black
-            ));
+              controller.actionType.value == IdentityActionType.create
+                  ? AppLocalizations.of(context).createNewIdentity.inCaps
+                  : AppLocalizations.of(context).edit_identity.inCaps,
+              maxLines: 1,
+              textAlign: TextAlign.center,
+              overflow: CommonTextStyle.defaultTextOverFlow,
+              softWrap: CommonTextStyle.defaultSoftWrap,
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: Colors.black));
         })),
         buildIconWeb(
-          iconSize: 24,
-          icon: SvgPicture.asset(
-            _imagePaths.icComposerClose,
-            fit: BoxFit.fill,
-            colorFilter: AppColor.colorDeleteContactIcon.asFilter()
-          ),
-          tooltip: AppLocalizations.of(context).close,
-          onTap: () => controller.closeView(context)),
+            iconSize: 24,
+            icon: SvgPicture.asset(_imagePaths.icComposerClose,
+                fit: BoxFit.fill,
+                colorFilter: AppColor.colorDeleteContactIcon.asFilter()),
+            tooltip: AppLocalizations.of(context).close,
+            onTap: () => controller.closeView(context)),
       ]),
     );
   }
 
   Widget _buildSignatureHtmlTemplate(BuildContext context) {
-    final htmlEditor = PlatformInfo.isWeb 
-      ? _buildHtmlEditorWeb(context, controller.contentHtmlEditor ?? '')
-      : _buildHtmlEditor(context, initialContent: controller.contentHtmlEditor ?? '');
+    final htmlEditor = PlatformInfo.isWeb
+        ? _buildHtmlEditorWeb(context, controller.contentHtmlEditor ?? '')
+        : _buildHtmlEditor(context,
+            initialContent: controller.contentHtmlEditor ?? '');
 
     return Column(
       children: [
         if (PlatformInfo.isWeb)
           ToolbarRichTextWebBuilder(
-            richTextWebController: controller.richTextWebController,
-            padding: const EdgeInsets.only(bottom: 12),
-            extendedOption: [
-              Padding(
-                padding: const EdgeInsetsDirectional.only(end: 4.0),
-                child: buildWrapIconStyleText(
-                  icon: buildIconWithTooltip(
-                    path: _imagePaths.icAddPicture,
-                    tooltip: AppLocalizations.of(context).insertImage
-                  ),
-                  hasDropdown: false,
-                  onTap: () => controller.pickImage(context)
+              richTextWebController: controller.richTextWebController,
+              padding: const EdgeInsets.only(bottom: 12),
+              extendedOption: [
+                Padding(
+                  padding: const EdgeInsetsDirectional.only(end: 4.0),
+                  child: buildWrapIconStyleText(
+                      icon: buildIconWithTooltip(
+                          path: _imagePaths.icAddPicture,
+                          tooltip: AppLocalizations.of(context).insertImage),
+                      hasDropdown: false,
+                      onTap: () => controller.pickImage(context)),
                 ),
-              ),
-            ]
-          ),
+              ]),
         htmlEditor,
       ],
     );
@@ -339,30 +334,31 @@ class IdentityCreatorView extends GetWidget<IdentityCreatorController>
         shouldEnsureVisible: true,
         hint: '',
         darkMode: false,
-        customBodyCssStyle: HtmlUtils.customCssStyleHtmlEditor(direction: AppUtils.getCurrentDirection(context)),
+        customBodyCssStyle: HtmlUtils.customCssStyleHtmlEditor(
+            direction: AppUtils.getCurrentDirection(context)),
       ),
       blockQuotedContent: initContent,
       htmlToolbarOptions: const html_editor_browser.HtmlToolbarOptions(
-        toolbarType: html_editor_browser.ToolbarType.hide,
-        defaultToolbarButtons: []
-      ),
+          toolbarType: html_editor_browser.ToolbarType.hide,
+          defaultToolbarButtons: []),
       otherOptions: const html_editor_browser.OtherOptions(height: 200),
       callbacks: html_editor_browser.Callbacks(
-        onBeforeCommand: controller.updateContentHtmlEditor,
-        onChangeContent: controller.updateContentHtmlEditor,
-        onInit: () {
-          controller.richTextWebController.editorController.setFullScreen();
-          controller.updateContentHtmlEditor(initContent);
-        }, onFocus: () {
-          FocusManager.instance.primaryFocus?.unfocus();
-          Future.delayed(const Duration(milliseconds: 500), () {
-            controller.richTextWebController.editorController.setFocus();
-          });
-          controller.richTextWebController.closeAllMenuPopup();
-        },
-        onChangeSelection: controller.richTextWebController.onEditorSettingsChange,
-        onChangeCodeview: controller.updateContentHtmlEditor
-      ),
+          onBeforeCommand: controller.updateContentHtmlEditor,
+          onChangeContent: controller.updateContentHtmlEditor,
+          onInit: () {
+            controller.richTextWebController.editorController.setFullScreen();
+            controller.updateContentHtmlEditor(initContent);
+          },
+          onFocus: () {
+            FocusManager.instance.primaryFocus?.unfocus();
+            Future.delayed(const Duration(milliseconds: 500), () {
+              controller.richTextWebController.editorController.setFocus();
+            });
+            controller.richTextWebController.closeAllMenuPopup();
+          },
+          onChangeSelection:
+              controller.richTextWebController.onEditorSettingsChange,
+          onChangeCodeview: controller.updateContentHtmlEditor),
     );
   }
 
@@ -372,8 +368,10 @@ class IdentityCreatorView extends GetWidget<IdentityCreatorController>
       minHeight: controller.htmlEditorMinHeight,
       addDefaultSelectionMenuItems: false,
       initialContent: initialContent ?? '',
-      customStyleCss: HtmlUtils.customCssStyleHtmlEditor(direction: AppUtils.getCurrentDirection(context)),
-      onCreated: (editorApi) => controller.initRichTextForMobile(context, editorApi),
+      customStyleCss: HtmlUtils.customCssStyleHtmlEditor(
+          direction: AppUtils.getCurrentDirection(context)),
+      onCreated: (editorApi) =>
+          controller.initRichTextForMobile(context, editorApi),
     );
   }
 
@@ -405,9 +403,9 @@ class IdentityCreatorView extends GetWidget<IdentityCreatorController>
     return Obx(() {
       if (controller.isDefaultIdentitySupported.isTrue) {
         return SetDefaultIdentityCheckboxBuilder(
-          imagePaths: _imagePaths,
-          isCheck: controller.isDefaultIdentity.value,
-          onCheckboxChanged: controller.onCheckboxChanged);
+            imagePaths: _imagePaths,
+            isCheck: controller.isDefaultIdentity.value,
+            onCheckboxChanged: controller.onCheckboxChanged);
       } else {
         return const SizedBox.shrink();
       }
@@ -432,36 +430,34 @@ class IdentityCreatorView extends GetWidget<IdentityCreatorController>
 
   Widget _buildSaveButton(BuildContext context, {double? width}) {
     return Obx(() => controller.viewState.value.fold(
-      (failure) => buildTextButton(
-        controller.actionType.value == IdentityActionType.create
-          ? AppLocalizations.of(context).create
-          : AppLocalizations.of(context).save,
-        width: width ?? 128,
-        height: 44,
-        radius: 10,
-        onTap: () => controller.createNewIdentity(context)),
-      (success) {
-        if (success is GetAllIdentitiesLoading) {
-          return const Center(
-            key: Key('create_loading_icon'),
-            child: CircularProgressIndicator(color: AppColor.primaryColor));
-        } else {
-          return buildTextButton(
-            controller.actionType.value == IdentityActionType.create
-              ? AppLocalizations.of(context).create
-              : AppLocalizations.of(context).save,
-            width: width ?? 128,
-            height: 44,
-            radius: 10,
-            onTap: () => controller.createNewIdentity(context));
-        }
-      }
-    ));
+            (failure) => buildTextButton(
+                controller.actionType.value == IdentityActionType.create
+                    ? AppLocalizations.of(context).create
+                    : AppLocalizations.of(context).save,
+                width: width ?? 128,
+                height: 44,
+                radius: 10,
+                onTap: () => controller.createNewIdentity(context)), (success) {
+          if (success is GetAllIdentitiesLoading) {
+            return const Center(
+                key: Key('create_loading_icon'),
+                child: CircularProgressIndicator(color: AppColor.primaryColor));
+          } else {
+            return buildTextButton(
+                controller.actionType.value == IdentityActionType.create
+                    ? AppLocalizations.of(context).create
+                    : AppLocalizations.of(context).save,
+                width: width ?? 128,
+                height: 44,
+                radius: 10,
+                onTap: () => controller.createNewIdentity(context));
+          }
+        }));
   }
 
   bool _isMobile(BuildContext context) =>
-    _responsiveUtils.isPortraitMobile(context) ||
-    _responsiveUtils.isLandscapeMobile(context);
+      _responsiveUtils.isPortraitMobile(context) ||
+      _responsiveUtils.isLandscapeMobile(context);
 
   double _getMaxWidth(BuildContext context) {
     if (_isMobile(context)) {

@@ -15,8 +15,10 @@ class GetAllVacationInteractor {
   Stream<Either<Failure, Success>> execute(AccountId accountId) async* {
     try {
       yield Right<Failure, Success>(LoadingGetAllVacation());
-      final listVacationResponse = await vacationRepository.getAllVacationResponse(accountId);
-      yield Right<Failure, Success>(GetAllVacationSuccess(listVacationResponse));
+      final listVacationResponse =
+          await vacationRepository.getAllVacationResponse(accountId);
+      yield Right<Failure, Success>(
+          GetAllVacationSuccess(listVacationResponse));
     } catch (exception) {
       yield Left<Failure, Success>(GetAllVacationFailure(exception));
     }

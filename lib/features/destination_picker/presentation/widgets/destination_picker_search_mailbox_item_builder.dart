@@ -15,7 +15,6 @@ import 'package:tmail_ui_user/features/search/mailbox/presentation/utils/search_
 import 'package:tmail_ui_user/main/utils/app_utils.dart';
 
 class DestinationPickerSearchMailboxItemBuilder extends StatelessWidget {
-
   final PresentationMailbox _presentationMailbox;
   final ImagePaths _imagePaths;
   final ResponsiveUtils _responsiveUtils;
@@ -24,55 +23,52 @@ class DestinationPickerSearchMailboxItemBuilder extends StatelessWidget {
   final OnClickOpenMailboxAction? onClickOpenMailboxAction;
 
   const DestinationPickerSearchMailboxItemBuilder(
-    this._imagePaths,
-    this._responsiveUtils,
-    this._presentationMailbox,
-    {
-      Key? key,
+      this._imagePaths, this._responsiveUtils, this._presentationMailbox,
+      {Key? key,
       this.mailboxActions,
       this.mailboxIdAlreadySelected,
-      this.onClickOpenMailboxAction
-    }
-  ) : super(key: key);
+      this.onClickOpenMailboxAction})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AbsorbPointer(
       absorbing: !_presentationMailbox.isActivated,
       child: Opacity(
-        opacity: _presentationMailbox.isActivated ? 1.0 : 0.3,
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: _onTapMailboxAction,
-            borderRadius: const BorderRadius.all(Radius.circular(8)),
-            hoverColor: AppColor.colorBgMailboxSelected,
-            child: Padding(
-              padding: SearchMailboxUtils.getPaddingItemListView(context, _responsiveUtils),
-              child: Row(
-                crossAxisAlignment: _presentationMailbox.mailboxPath?.isNotEmpty == true
-                  || _presentationMailbox.isTeamMailboxes
-                    ? CrossAxisAlignment.start
-                    : CrossAxisAlignment.center,
-                children: [
-                  _buildMailboxIcon(),
-                  Expanded(child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+          opacity: _presentationMailbox.isActivated ? 1.0 : 0.3,
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+                onTap: _onTapMailboxAction,
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                hoverColor: AppColor.colorBgMailboxSelected,
+                child: Padding(
+                  padding: SearchMailboxUtils.getPaddingItemListView(
+                      context, _responsiveUtils),
+                  child: Row(
+                      crossAxisAlignment:
+                          _presentationMailbox.mailboxPath?.isNotEmpty ==
+                                      true ||
+                                  _presentationMailbox.isTeamMailboxes
+                              ? CrossAxisAlignment.start
+                              : CrossAxisAlignment.center,
                       children: [
-                        _buildTitleItem(context),
-                        _buildSubtitleItem()
-                      ]
-                    )
-                  )),
-                  _buildSelectedIcon(context)
-                ]
-              ),
-            )
-          ),
-        )
-      ),
+                        _buildMailboxIcon(),
+                        Expanded(
+                            child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8),
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      _buildTitleItem(context),
+                                      _buildSubtitleItem()
+                                    ]))),
+                        _buildSelectedIcon(context)
+                      ]),
+                )),
+          )),
     );
   }
 
@@ -83,12 +79,10 @@ class DestinationPickerSearchMailboxItemBuilder extends StatelessWidget {
   }
 
   Widget _buildMailboxIcon() {
-    return SvgPicture.asset(
-      _presentationMailbox.getMailboxIcon(_imagePaths),
-      width: PlatformInfo.isWeb ? 20 : 24,
-      height: PlatformInfo.isWeb ? 20 : 24,
-      fit: BoxFit.fill
-    );
+    return SvgPicture.asset(_presentationMailbox.getMailboxIcon(_imagePaths),
+        width: PlatformInfo.isWeb ? 20 : 24,
+        height: PlatformInfo.isWeb ? 20 : 24,
+        fit: BoxFit.fill);
   }
 
   Widget _buildTitleItem(BuildContext context) {
@@ -97,10 +91,7 @@ class DestinationPickerSearchMailboxItemBuilder extends StatelessWidget {
       maxLines: 1,
       overflow: CommonTextStyle.defaultTextOverFlow,
       softWrap: CommonTextStyle.defaultSoftWrap,
-      style: const TextStyle(
-        fontSize: 15,
-        color: Colors.black
-      ),
+      style: const TextStyle(fontSize: 15, color: Colors.black),
     );
   }
 
@@ -112,23 +103,19 @@ class DestinationPickerSearchMailboxItemBuilder extends StatelessWidget {
         overflow: CommonTextStyle.defaultTextOverFlow,
         softWrap: CommonTextStyle.defaultSoftWrap,
         style: const TextStyle(
-          fontSize: 11,
-          color: AppColor.colorMailboxPath,
-          fontWeight: FontWeight.normal
-        ),
+            fontSize: 11,
+            color: AppColor.colorMailboxPath,
+            fontWeight: FontWeight.normal),
       );
     } else if (_presentationMailbox.isTeamMailboxes) {
-      return Text(
-        _presentationMailbox.emailTeamMailBoxes,
-        maxLines: 1,
-        softWrap: CommonTextStyle.defaultSoftWrap,
-        overflow: CommonTextStyle.defaultTextOverFlow,
-        style: const TextStyle(
-          fontSize: 11,
-          color: AppColor.colorEmailAddressFull,
-          fontWeight: FontWeight.normal
-        )
-      );
+      return Text(_presentationMailbox.emailTeamMailBoxes,
+          maxLines: 1,
+          softWrap: CommonTextStyle.defaultSoftWrap,
+          overflow: CommonTextStyle.defaultTextOverFlow,
+          style: const TextStyle(
+              fontSize: 11,
+              color: AppColor.colorEmailAddressFull,
+              fontWeight: FontWeight.normal));
     } else {
       return const SizedBox.shrink();
     }
@@ -141,22 +128,17 @@ class DestinationPickerSearchMailboxItemBuilder extends StatelessWidget {
           right: AppUtils.isDirectionRTL(context) ? 0 : 8,
           left: AppUtils.isDirectionRTL(context) ? 8 : 0,
         ),
-        child: SvgPicture.asset(
-          _imagePaths.icSelectedSB,
-          width: 20,
-          height: 20,
-          fit: BoxFit.fill
-        ),
+        child: SvgPicture.asset(_imagePaths.icSelectedSB,
+            width: 20, height: 20, fit: BoxFit.fill),
       );
     } else {
       return const SizedBox.shrink();
     }
   }
 
-  bool get _isSelectActionNoValid => _presentationMailbox.id == mailboxIdAlreadySelected &&
-    (
-      mailboxActions == MailboxActions.select ||
-      mailboxActions == MailboxActions.create ||
-      mailboxActions == MailboxActions.moveEmail
-    );
+  bool get _isSelectActionNoValid =>
+      _presentationMailbox.id == mailboxIdAlreadySelected &&
+      (mailboxActions == MailboxActions.select ||
+          mailboxActions == MailboxActions.create ||
+          mailboxActions == MailboxActions.moveEmail);
 }

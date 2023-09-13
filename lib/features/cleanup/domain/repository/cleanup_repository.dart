@@ -10,5 +10,6 @@ abstract class CleanupRepository {
 
   Future<void> cleanRecentLoginUrlCache(RecentLoginUrlCleanupRule cleanupRule);
 
-  Future<void> cleanRecentLoginUsernameCache(RecentLoginUsernameCleanupRule cleanupRule);
+  Future<void> cleanRecentLoginUsernameCache(
+      RecentLoginUsernameCleanupRule cleanupRule);
 }

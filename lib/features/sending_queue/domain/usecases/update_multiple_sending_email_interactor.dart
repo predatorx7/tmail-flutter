@@ -13,23 +13,21 @@ class UpdateMultipleSendingEmailInteractor {
 
   UpdateMultipleSendingEmailInteractor(this._sendingQueueRepository);
 
-  Stream<Either<Failure, Success>> execute(
-    AccountId accountId,
-    UserName userName,
-    List<SendingEmail> newSendingEmails
-  ) async* {
+  Stream<Either<Failure, Success>> execute(AccountId accountId,
+      UserName userName, List<SendingEmail> newSendingEmails) async* {
     try {
       yield Right<Failure, Success>(UpdateMultipleSendingEmailLoading());
-      final storedSendingEmails = await _sendingQueueRepository.updateMultipleSendingEmail(
-        accountId,
-        userName,
-        newSendingEmails);
+      final storedSendingEmails = await _sendingQueueRepository
+          .updateMultipleSendingEmail(accountId, userName, newSendingEmails);
       if (storedSendingEmails.length == newSendingEmails.length) {
-        yield Right<Failure, Success>(UpdateMultipleSendingEmailAllSuccess(storedSendingEmails));
+        yield Right<Failure, Success>(
+            UpdateMultipleSendingEmailAllSuccess(storedSendingEmails));
       } else if (storedSendingEmails.isEmpty) {
-        yield Left<Failure, Success>(UpdateMultipleSendingEmailAllFailure(NotFoundSendingEmailHiveObject()));
+        yield Left<Failure, Success>(UpdateMultipleSendingEmailAllFailure(
+            NotFoundSendingEmailHiveObject()));
       } else {
-        yield Right<Failure, Success>(UpdateMultipleSendingEmailHasSomeSuccess(storedSendingEmails));
+        yield Right<Failure, Success>(
+            UpdateMultipleSendingEmailHasSomeSuccess(storedSendingEmails));
       }
     } catch (e) {
       yield Left<Failure, Success>(UpdateMultipleSendingEmailFailure(e));

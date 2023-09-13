@@ -36,18 +36,18 @@ class SpamReportController extends BaseController {
   final _spamReportState = Rxn<SpamReportState>(SpamReportState.enabled);
 
   SpamReportController(
-    this._storeSpamReportInteractor,
-    this._getNumberOfUnreadSpamEmailsInteractor,
-    this._storeSpamReportStateInteractor,
-    this._getSpamReportStateInteractor,
-    this._getSpamMailboxCachedInteractor
-  );
+      this._storeSpamReportInteractor,
+      this._getNumberOfUnreadSpamEmailsInteractor,
+      this._storeSpamReportStateInteractor,
+      this._getSpamReportStateInteractor,
+      this._getSpamMailboxCachedInteractor);
 
   @override
   void handleSuccessViewState(Success success) {
     super.handleSuccessViewState(success);
-    if (success is GetUnreadSpamMailboxSuccess){
-      _presentationSpamMailbox.value = success.unreadSpamMailbox.toPresentationMailbox();
+    if (success is GetUnreadSpamMailboxSuccess) {
+      _presentationSpamMailbox.value =
+          success.unreadSpamMailbox.toPresentationMailbox();
     } else if (success is StoreLastTimeDismissedSpamReportSuccess) {
       _presentationSpamMailbox.value = null;
     } else if (success is GetSpamReportStateSuccess) {
@@ -55,7 +55,8 @@ class SpamReportController extends BaseController {
     } else if (success is StoreSpamReportStateSuccess) {
       _spamReportState.value = success.spamReportState;
     } else if (success is GetSpamMailboxCachedSuccess) {
-      _presentationSpamMailbox.value = success.spamMailbox.toPresentationMailbox();
+      _presentationSpamMailbox.value =
+          success.spamMailbox.toPresentationMailbox();
     }
   }
 
@@ -80,12 +81,11 @@ class SpamReportController extends BaseController {
         _storeLastTimeDismissedSpamReportedAction();
 
         mailboxDashBoardController.markAsReadMailbox(
-          session,
-          accountId,
-          spamMailbox.id,
-          spamMailbox.getDisplayName(context),
-          spamMailbox.unreadEmails?.value.value.toInt() ?? 0
-        );
+            session,
+            accountId,
+            spamMailbox.id,
+            spamMailbox.getDisplayName(context),
+            spamMailbox.unreadEmails?.value.value.toInt() ?? 0);
         _presentationSpamMailbox.value = null;
       }
     }
@@ -93,9 +93,8 @@ class SpamReportController extends BaseController {
 
   void getSpamMailboxAction(Session session, AccountId accountId) {
     consumeState(_getNumberOfUnreadSpamEmailsInteractor.execute(
-      session,
-      accountId,
-      mailboxFilterCondition: MailboxFilterCondition(role: Role('Spam'))));
+        session, accountId,
+        mailboxFilterCondition: MailboxFilterCondition(role: Role('Spam'))));
   }
 
   void getSpamMailboxCached(AccountId accountId, UserName userName) {
@@ -108,21 +107,24 @@ class SpamReportController extends BaseController {
 
   bool get notShowSpamReportBanner => _presentationSpamMailbox.value == null;
 
-  String get numberOfUnreadSpamEmails => _presentationSpamMailbox.value?.countUnReadEmailsAsString ?? '';
+  String get numberOfUnreadSpamEmails =>
+      _presentationSpamMailbox.value?.countUnReadEmailsAsString ?? '';
 
-  bool get enableSpamReport => _spamReportState.value == SpamReportState.enabled;
+  bool get enableSpamReport =>
+      _spamReportState.value == SpamReportState.enabled;
 
   void openMailbox() {
     final mailboxDashBoardController = Get.find<MailboxDashBoardController>();
     _storeLastTimeDismissedSpamReportedAction();
-    mailboxDashBoardController.openMailboxAction(_presentationSpamMailbox.value!);
+    mailboxDashBoardController
+        .openMailboxAction(_presentationSpamMailbox.value!);
   }
 
   void storeSpamReportStateAction(SpamReportState spamReportState) {
-   consumeState(_storeSpamReportStateInteractor.execute(spamReportState));
+    consumeState(_storeSpamReportStateInteractor.execute(spamReportState));
   }
 
   void getSpamReportStateAction() {
-   consumeState(_getSpamReportStateInteractor.execute());
+    consumeState(_getSpamReportStateInteractor.execute());
   }
 }

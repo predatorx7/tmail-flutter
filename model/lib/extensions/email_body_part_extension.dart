@@ -3,11 +3,11 @@ import 'package:model/model.dart';
 
 extension EmailBodyPartExtension on EmailBodyPart {
   Attachment toAttachment() => Attachment(
-    partId: partId,
-    blobId: blobId,
-    size: size,
-    name: name,
-    type: type,
-    cid: cid,
-    disposition: disposition.toContentDisposition());
+      partId: partId,
+      blobId: blobId,
+      size: size,
+      name: name,
+      type: type,
+      cid: cid,
+      disposition: disposition.toContentDisposition());
 }

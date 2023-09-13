@@ -13,7 +13,8 @@ class RemoveEmailDraftsInteractor {
 
   RemoveEmailDraftsInteractor(this._emailRepository, this._mailboxRepository);
 
-  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId, EmailId emailId) async* {
+  Stream<Either<Failure, Success>> execute(
+      Session session, AccountId accountId, EmailId emailId) async* {
     try {
       final listState = await Future.wait([
         _mailboxRepository.getMailboxState(session, accountId),
@@ -23,7 +24,8 @@ class RemoveEmailDraftsInteractor {
       final currentMailboxState = listState.first;
       final currentEmailState = listState.last;
 
-      final result = await _emailRepository.removeEmailDrafts(session, accountId, emailId);
+      final result =
+          await _emailRepository.removeEmailDrafts(session, accountId, emailId);
       if (result) {
         yield Right<Failure, Success>(RemoveEmailDraftsSuccess(
             currentEmailState: currentEmailState,

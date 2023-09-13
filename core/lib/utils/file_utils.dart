@@ -5,15 +5,13 @@ import 'package:core/utils/platform_info.dart';
 import 'package:path_provider/path_provider.dart';
 
 class FileUtils {
-
-  Future<String> _getInternalStorageDirPath({
-    required String nameFile,
-    String? folderPath,
-    String? extensionFile
-  }) async {
+  Future<String> _getInternalStorageDirPath(
+      {required String nameFile,
+      String? folderPath,
+      String? extensionFile}) async {
     if (!PlatformInfo.isWeb) {
-
-      String fileDirectory = (await getApplicationDocumentsDirectory()).absolute.path;
+      String fileDirectory =
+          (await getApplicationDocumentsDirectory()).absolute.path;
 
       if (folderPath != null) {
         fileDirectory = '$fileDirectory/$folderPath';
@@ -37,17 +35,15 @@ class FileUtils {
     }
   }
 
-  Future<File> saveToFile({
-    required String nameFile,
-    required String content,
-    String? folderPath,
-    String? extensionFile
-  }) async {
+  Future<File> saveToFile(
+      {required String nameFile,
+      required String content,
+      String? folderPath,
+      String? extensionFile}) async {
     final internalStorageDirPath = await _getInternalStorageDirPath(
-      nameFile: nameFile,
-      folderPath: folderPath,
-      extensionFile: extensionFile
-    );
+        nameFile: nameFile,
+        folderPath: folderPath,
+        extensionFile: extensionFile);
 
     final file = File(internalStorageDirPath);
     log("FileUtils()::saveToFile: $file");
@@ -65,16 +61,14 @@ class FileUtils {
     }
   }
 
-  Future<String> getContentFromFile({
-    required String nameFile,
-    String? folderPath,
-    String? extensionFile
-  }) async {
+  Future<String> getContentFromFile(
+      {required String nameFile,
+      String? folderPath,
+      String? extensionFile}) async {
     final internalStorageDirPath = await _getInternalStorageDirPath(
-      nameFile: nameFile,
-      folderPath: folderPath,
-      extensionFile: extensionFile
-    );
+        nameFile: nameFile,
+        folderPath: folderPath,
+        extensionFile: extensionFile);
 
     final file = File(internalStorageDirPath);
     final emailContent = await file.readAsString();
@@ -84,23 +78,22 @@ class FileUtils {
     return emailContent;
   }
 
-  Future<bool> isFileExisted({
-    required String nameFile,
-    String? folderPath,
-    String? extensionFile
-  }) async {
+  Future<bool> isFileExisted(
+      {required String nameFile,
+      String? folderPath,
+      String? extensionFile}) async {
     final internalStorageDirPath = await _getInternalStorageDirPath(
-      nameFile: nameFile,
-      folderPath: folderPath,
-      extensionFile: extensionFile
-    );
+        nameFile: nameFile,
+        folderPath: folderPath,
+        extensionFile: extensionFile);
 
     return File(internalStorageDirPath).exists();
   }
 
   void removeFolder(String folderName) async {
     try {
-      String folderPath = (await getApplicationDocumentsDirectory()).absolute.path;
+      String folderPath =
+          (await getApplicationDocumentsDirectory()).absolute.path;
       folderPath = '$folderPath/$folderName';
       log('FileUtils::removeFolder():folderPath: $folderPath');
       final dir = Directory(folderPath);

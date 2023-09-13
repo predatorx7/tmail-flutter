@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/utils/responsive_utils.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,6 @@ import 'package:tmail_ui_user/features/manage_account/presentation/menu/settings
 import 'package:tmail_ui_user/main/utils/app_utils.dart';
 
 class LanguageAndRegionView extends GetWidget<LanguageAndRegionController> {
-
   final _responsiveUtils = Get.find<ResponsiveUtils>();
 
   LanguageAndRegionView({Key? key}) : super(key: key);
@@ -26,13 +24,16 @@ class LanguageAndRegionView extends GetWidget<LanguageAndRegionController> {
         body: Container(
           width: double.infinity,
           margin: _responsiveUtils.isWebDesktop(context)
-            ? const EdgeInsets.all(24)
-            : EdgeInsets.symmetric(horizontal: SettingsUtils.getHorizontalPadding(context, _responsiveUtils)),
+              ? const EdgeInsets.all(24)
+              : EdgeInsets.symmetric(
+                  horizontal: SettingsUtils.getHorizontalPadding(
+                      context, _responsiveUtils)),
           color: _responsiveUtils.isWebDesktop(context) ? null : Colors.white,
           decoration: _responsiveUtils.isWebDesktop(context)
               ? BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: AppColor.colorBorderBodyThread, width: 1),
+                  border: Border.all(
+                      color: AppColor.colorBorderBodyThread, width: 1),
                   color: Colors.white)
               : null,
           child: ClipRRect(
@@ -40,22 +41,24 @@ class LanguageAndRegionView extends GetWidget<LanguageAndRegionController> {
                 _responsiveUtils.isWebDesktop(context) ? 20 : 0),
             child: Padding(
               padding: EdgeInsets.only(
-                right: AppUtils.isDirectionRTL(context)
-                  ? _responsiveUtils.isWebDesktop(context) ? 24 : 0
-                  : 0,
-                left: AppUtils.isDirectionRTL(context)
-                  ? 0
-                  : _responsiveUtils.isWebDesktop(context) ? 24 : 0,
-                top: 24
-              ),
+                  right: AppUtils.isDirectionRTL(context)
+                      ? _responsiveUtils.isWebDesktop(context)
+                          ? 24
+                          : 0
+                      : 0,
+                  left: AppUtils.isDirectionRTL(context)
+                      ? 0
+                      : _responsiveUtils.isWebDesktop(context)
+                          ? 24
+                          : 0,
+                  top: 24),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const LanguageAndRegionHeaderWidget(),
-                  const SizedBox(height: 22),
-                  Expanded(child: ChangeLanguageButtonWidget())
-                ]
-              ),
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const LanguageAndRegionHeaderWidget(),
+                    const SizedBox(height: 22),
+                    Expanded(child: ChangeLanguageButtonWidget())
+                  ]),
             ),
           ),
         ),

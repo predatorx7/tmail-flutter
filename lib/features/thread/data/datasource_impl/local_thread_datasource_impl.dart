@@ -19,89 +19,65 @@ import 'package:tmail_ui_user/features/thread/domain/model/filter_message_option
 import 'package:tmail_ui_user/main/exceptions/exception_thrower.dart';
 
 class LocalThreadDataSourceImpl extends ThreadDataSource {
-
   final EmailCacheManager _emailCacheManager;
   final ExceptionThrower _exceptionThrower;
 
   LocalThreadDataSourceImpl(this._emailCacheManager, this._exceptionThrower);
 
   @override
-  Future<EmailsResponse> getAllEmail(
-    Session session,
-    AccountId accountId,
-    {
-      UnsignedInt? limit,
+  Future<EmailsResponse> getAllEmail(Session session, AccountId accountId,
+      {UnsignedInt? limit,
       Set<Comparator>? sort,
       Filter? filter,
-      Properties? properties
-    }
-  ) {
+      Properties? properties}) {
     throw UnimplementedError();
   }
 
   @override
   Future<EmailChangeResponse> getChanges(
-    Session session,
-    AccountId accountId,
-    State sinceState,
-    {
-      Properties? propertiesCreated,
-      Properties? propertiesUpdated
-    }
-  ) {
+      Session session, AccountId accountId, State sinceState,
+      {Properties? propertiesCreated, Properties? propertiesUpdated}) {
     throw UnimplementedError();
   }
 
   @override
-  Future<List<Email>> getAllEmailCache(
-    AccountId accountId,
-    UserName userName, {
-    MailboxId? inMailboxId,
-    Set<Comparator>? sort,
-    FilterMessageOption? filterOption,
-    UnsignedInt? limit
-  }) {
+  Future<List<Email>> getAllEmailCache(AccountId accountId, UserName userName,
+      {MailboxId? inMailboxId,
+      Set<Comparator>? sort,
+      FilterMessageOption? filterOption,
+      UnsignedInt? limit}) {
     return Future.sync(() async {
-      return await _emailCacheManager.getAllEmail(
-        accountId,
-        userName,
-        inMailboxId: inMailboxId,
-        sort: sort,
-        filterOption: filterOption ?? FilterMessageOption.all,
-        limit: limit);
+      return await _emailCacheManager.getAllEmail(accountId, userName,
+          inMailboxId: inMailboxId,
+          sort: sort,
+          filterOption: filterOption ?? FilterMessageOption.all,
+          limit: limit);
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
-  Future<void> update(
-    AccountId accountId,
-    UserName userName, {
-    List<Email>? updated,
-    List<Email>? created,
-    List<EmailId>? destroyed
-  }) {
+  Future<void> update(AccountId accountId, UserName userName,
+      {List<Email>? updated, List<Email>? created, List<EmailId>? destroyed}) {
     return Future.sync(() async {
-      return await _emailCacheManager.update(
-        accountId,
-        userName,
-        updated: updated,
-        created: created,
-        destroyed: destroyed);
+      return await _emailCacheManager.update(accountId, userName,
+          updated: updated, created: created, destroyed: destroyed);
     }).catchError(_exceptionThrower.throwException);
   }
 
   @override
   Future<List<EmailId>> emptyMailboxFolder(
-    Session session,
-    AccountId accountId,
-    MailboxId mailboxId,
-    Future<void> Function(List<EmailId>? newDestroyed) updateDestroyedEmailCache
-  ) {
+      Session session,
+      AccountId accountId,
+      MailboxId mailboxId,
+      Future<void> Function(List<EmailId>? newDestroyed)
+          updateDestroyedEmailCache) {
     throw UnimplementedError();
   }
 
   @override
-  Future<PresentationEmail> getEmailById(Session session, AccountId accountId, EmailId emailId, {Properties? properties}) {
+  Future<PresentationEmail> getEmailById(
+      Session session, AccountId accountId, EmailId emailId,
+      {Properties? properties}) {
     throw UnimplementedError();
   }
 }

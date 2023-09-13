@@ -18,46 +18,42 @@ class AppGridDashboardItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LinkBrowserWidget(
-      uri: app.appUri,
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: () => AppUtils.launchLink(app.appUri.toString()),
-          borderRadius: const BorderRadius.all(Radius.circular(16)),
-          hoverColor: AppColor.colorBgMailboxSelected,
-          child: Container(
-            width: 98,
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Column(children: [
-              app.iconName.endsWith("svg")
-                ? SvgPicture.asset(
-                    _imagePaths.getConfigurationImagePath(app.iconName),
-                    width: 56,
-                    height: 56,
-                    fit: BoxFit.fill)
-                : Image.asset(
-                    _imagePaths.getConfigurationImagePath(app.iconName),
-                    width: 56,
-                    height: 56,
-                    fit: BoxFit.fill),
-              Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: Text(
-                  app.appName,
-                  maxLines: 1,
-                  textAlign: TextAlign.center,
-                  softWrap: CommonTextStyle.defaultSoftWrap,
-                  overflow: CommonTextStyle.defaultTextOverFlow,
-                  style: const TextStyle(
-                    color: AppColor.colorNameEmail,
-                    fontSize: 15
+        uri: app.appUri,
+        child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () => AppUtils.launchLink(app.appUri.toString()),
+              borderRadius: const BorderRadius.all(Radius.circular(16)),
+              hoverColor: AppColor.colorBgMailboxSelected,
+              child: Container(
+                width: 98,
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Column(children: [
+                  app.iconName.endsWith("svg")
+                      ? SvgPicture.asset(
+                          _imagePaths.getConfigurationImagePath(app.iconName),
+                          width: 56,
+                          height: 56,
+                          fit: BoxFit.fill)
+                      : Image.asset(
+                          _imagePaths.getConfigurationImagePath(app.iconName),
+                          width: 56,
+                          height: 56,
+                          fit: BoxFit.fill),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Text(
+                      app.appName,
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                      softWrap: CommonTextStyle.defaultSoftWrap,
+                      overflow: CommonTextStyle.defaultTextOverFlow,
+                      style: const TextStyle(
+                          color: AppColor.colorNameEmail, fontSize: 15),
+                    ),
                   ),
-                ),
+                ]),
               ),
-            ]),
-          ),
-        )
-      )
-    );
+            )));
   }
 }

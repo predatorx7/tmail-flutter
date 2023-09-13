@@ -1,4 +1,3 @@
-
 import 'package:jmap_dart_client/jmap/account_id.dart';
 import 'package:jmap_dart_client/jmap/core/session/session.dart';
 import 'package:jmap_dart_client/jmap/core/unsigned_int.dart';
@@ -15,7 +14,8 @@ class SpamReportCacheDataSourceImpl extends SpamReportDataSource {
   final MailboxCacheManager _mailboxCacheManager;
   final ExceptionThrower _exceptionThrower;
 
-  SpamReportCacheDataSourceImpl(this._mailboxCacheManager, this._exceptionThrower);
+  SpamReportCacheDataSourceImpl(
+      this._mailboxCacheManager, this._exceptionThrower);
 
   @override
   Future<bool> deleteLastTimeDismissedSpamReported() {
@@ -28,7 +28,9 @@ class SpamReportCacheDataSourceImpl extends SpamReportDataSource {
   }
 
   @override
-  Future<UnreadSpamEmailsResponse> findNumberOfUnreadSpamEmails(Session session, AccountId accountId, {MailboxFilterCondition? mailboxFilterCondition, UnsignedInt? limit}) {
+  Future<UnreadSpamEmailsResponse> findNumberOfUnreadSpamEmails(
+      Session session, AccountId accountId,
+      {MailboxFilterCondition? mailboxFilterCondition, UnsignedInt? limit}) {
     throw UnimplementedError();
   }
 
@@ -50,7 +52,8 @@ class SpamReportCacheDataSourceImpl extends SpamReportDataSource {
   }
 
   @override
-  Future<bool> storeLastTimeDismissedSpamReported(DateTime lastTimeDismissedSpamReported) {
+  Future<bool> storeLastTimeDismissedSpamReported(
+      DateTime lastTimeDismissedSpamReported) {
     throw UnimplementedError();
   }
 

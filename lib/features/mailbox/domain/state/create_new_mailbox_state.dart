@@ -7,10 +7,10 @@ import 'package:jmap_dart_client/jmap/core/state.dart' as jmap;
 class LoadingCreateNewMailbox extends UIState {}
 
 class CreateNewMailboxSuccess extends UIActionState {
-
   final Mailbox newMailbox;
 
-  CreateNewMailboxSuccess(this.newMailbox, {
+  CreateNewMailboxSuccess(
+    this.newMailbox, {
     jmap.State? currentEmailState,
     jmap.State? currentMailboxState,
   }) : super(currentEmailState, currentMailboxState);
@@ -20,6 +20,5 @@ class CreateNewMailboxSuccess extends UIActionState {
 }
 
 class CreateNewMailboxFailure extends FeatureFailure {
-
   CreateNewMailboxFailure(dynamic exception) : super(exception: exception);
 }

@@ -1,4 +1,3 @@
-
 import 'package:tmail_ui_user/features/cleanup/data/datasource/cleanup_datasource.dart';
 import 'package:tmail_ui_user/features/cleanup/data/local/recent_login_url_cache_manager.dart';
 import 'package:tmail_ui_user/features/cleanup/data/local/recent_login_username_cache_manager.dart';
@@ -11,7 +10,6 @@ import 'package:tmail_ui_user/features/thread/data/local/email_cache_manager.dar
 import 'package:tmail_ui_user/main/exceptions/exception_thrower.dart';
 
 class CleanupDataSourceImpl extends CleanupDataSource {
-
   final EmailCacheManager emailCacheManager;
   final RecentSearchCacheManager recentSearchCacheManager;
   final RecentLoginUrlCacheManager recentLoginUrlCacheManager;
@@ -19,12 +17,11 @@ class CleanupDataSourceImpl extends CleanupDataSource {
   final ExceptionThrower _exceptionThrower;
 
   CleanupDataSourceImpl(
-    this.emailCacheManager,
-    this.recentSearchCacheManager,
-    this.recentLoginUrlCacheManager,
-    this.recentLoginUsernameCacheManager,
-    this._exceptionThrower
-  );
+      this.emailCacheManager,
+      this.recentSearchCacheManager,
+      this.recentLoginUrlCacheManager,
+      this.recentLoginUsernameCacheManager,
+      this._exceptionThrower);
 
   @override
   Future<void> cleanEmailCache(EmailCleanupRule cleanupRule) {
@@ -48,7 +45,8 @@ class CleanupDataSourceImpl extends CleanupDataSource {
   }
 
   @override
-  Future<void> cleanRecentLoginUsernameCache(RecentLoginUsernameCleanupRule cleanupRule) {
+  Future<void> cleanRecentLoginUsernameCache(
+      RecentLoginUsernameCleanupRule cleanupRule) {
     return Future.sync(() async {
       return await recentLoginUsernameCacheManager.clean(cleanupRule);
     }).catchError(_exceptionThrower.throwException);

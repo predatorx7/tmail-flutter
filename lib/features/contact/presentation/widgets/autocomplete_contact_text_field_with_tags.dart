@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:collection/collection.dart';
@@ -20,12 +19,13 @@ import 'package:tmail_ui_user/features/manage_account/presentation/menu/settings
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 import 'package:tmail_ui_user/main/utils/app_utils.dart';
 
-typedef OnSuggestionContactCallbackAction = Future<List<EmailAddress>> Function(String query);
-typedef OnAddListContactCallbackAction = Function(List<EmailAddress> listEmailAddress);
+typedef OnSuggestionContactCallbackAction = Future<List<EmailAddress>> Function(
+    String query);
+typedef OnAddListContactCallbackAction = Function(
+    List<EmailAddress> listEmailAddress);
 typedef OnExceptionAddListContactCallbackAction = Function(bool isListEmpty);
 
 class AutocompleteContactTextFieldWithTags extends StatefulWidget {
-
   final List<EmailAddress> listEmailAddress;
   final TextEditingController? controller;
   final bool? hasAddContactButton;
@@ -33,24 +33,26 @@ class AutocompleteContactTextFieldWithTags extends StatefulWidget {
   final OnAddListContactCallbackAction? onAddContactCallback;
   final OnExceptionAddListContactCallbackAction? onExceptionCallback;
 
-  const AutocompleteContactTextFieldWithTags(this.listEmailAddress, {
-    Key? key,
-    this.controller,
-    this.hasAddContactButton = false,
-    this.onSuggestionCallback,
-    this.onAddContactCallback,
-    this.onExceptionCallback
-  }) : super(key: key);
+  const AutocompleteContactTextFieldWithTags(this.listEmailAddress,
+      {Key? key,
+      this.controller,
+      this.hasAddContactButton = false,
+      this.onSuggestionCallback,
+      this.onAddContactCallback,
+      this.onExceptionCallback})
+      : super(key: key);
 
   @override
-  State<AutocompleteContactTextFieldWithTags> createState() => _AutocompleteContactTextFieldWithTagsState();
+  State<AutocompleteContactTextFieldWithTags> createState() =>
+      _AutocompleteContactTextFieldWithTagsState();
 }
 
-class _AutocompleteContactTextFieldWithTagsState extends State<AutocompleteContactTextFieldWithTags> {
-
+class _AutocompleteContactTextFieldWithTagsState
+    extends State<AutocompleteContactTextFieldWithTags> {
   final _responsiveUtils = Get.find<ResponsiveUtils>();
   final _imagePaths = Get.find<ImagePaths>();
-  final GlobalKey<TagsEditorState> keyToEmailTagEditor = GlobalKey<TagsEditorState>();
+  final GlobalKey<TagsEditorState> keyToEmailTagEditor =
+      GlobalKey<TagsEditorState>();
 
   late List<EmailAddress> listEmailAddress;
 
@@ -117,43 +119,38 @@ class _AutocompleteContactTextFieldWithTagsState extends State<AutocompleteConta
         }
       },
       textStyle: const TextStyle(
-        color: Colors.black,
-        fontSize: 16,
-        fontWeight: FontWeight.w500),
+          color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),
       inputDecoration: InputDecoration(
-        border: InputBorder.none,
-        hintText: AppLocalizations.of(context).hintInputAutocompleteContact,
-        hintStyle: const TextStyle(
-          fontWeight: FontWeight.w500,
-          color: AppColor.colorSettingExplanation,
-          fontSize: 16
-        )
-      ),
+          border: InputBorder.none,
+          hintText: AppLocalizations.of(context).hintInputAutocompleteContact,
+          hintStyle: const TextStyle(
+              fontWeight: FontWeight.w500,
+              color: AppColor.colorSettingExplanation,
+              fontSize: 16)),
       tagBuilder: (context, index) => ContactInputTagItem(
-        listEmailAddress[index],
-        isLastContact: index == listEmailAddress.length - 1,
-        lastTagFocused: lastTagFocused,
-        deleteContactCallbackAction: (contact) {
-          setState(() => listEmailAddress.remove(contact));
-        }
-      ),
+          listEmailAddress[index],
+          isLastContact: index == listEmailAddress.length - 1,
+          lastTagFocused: lastTagFocused,
+          deleteContactCallbackAction: (contact) {
+        setState(() => listEmailAddress.remove(contact));
+      }),
       onTagChanged: (value) {
         if (!_isDuplicatedRecipient(value)) {
           setState(() => listEmailAddress.add(EmailAddress(null, value)));
         }
         _gapBetweenTagChangedAndFindSuggestion = Timer(
-          const Duration(seconds: 1),
-          _handleGapBetweenTagChangedAndFindSuggestion
-        );
+            const Duration(seconds: 1),
+            _handleGapBetweenTagChangedAndFindSuggestion);
       },
       findSuggestions: _findSuggestions,
-      suggestionBuilder: (context, tagEditorState, suggestionEmailAddress, index, length, highlight, suggestionValid) {
+      suggestionBuilder: (context, tagEditorState, suggestionEmailAddress,
+          index, length, highlight, suggestionValid) {
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: ContactSuggestionBoxItem(
             suggestionEmailAddress,
             shapeBorder: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(12))),
+                borderRadius: BorderRadius.all(Radius.circular(12))),
             selectedContactCallbackAction: (contact) {
               setState(() => listEmailAddress.add(contact));
               tagEditorState.closeSuggestionBox();
@@ -166,27 +163,27 @@ class _AutocompleteContactTextFieldWithTagsState extends State<AutocompleteConta
 
     if (widget.hasAddContactButton == true) {
       return Container(
-        color: Colors.transparent,
-        width: double.infinity,
-        padding: SettingsUtils.getPaddingInputRecipientForwarding(context, _responsiveUtils),
-        child: _responsiveUtils.isScreenWithShortestSide(context)
-          ? Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                itemTagEditor,
-                const SizedBox(height: 16),
-                _buildAddRecipientButton(context, maxWidth: double.infinity)
-              ],
-            )
-          : Row(
-              children: [
-                Expanded(child: itemTagEditor),
-                const SizedBox(width: 12),
-                _buildAddRecipientButton(context)
-              ],
-            )
-      );
+          color: Colors.transparent,
+          width: double.infinity,
+          padding: SettingsUtils.getPaddingInputRecipientForwarding(
+              context, _responsiveUtils),
+          child: _responsiveUtils.isScreenWithShortestSide(context)
+              ? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    itemTagEditor,
+                    const SizedBox(height: 16),
+                    _buildAddRecipientButton(context, maxWidth: double.infinity)
+                  ],
+                )
+              : Row(
+                  children: [
+                    Expanded(child: itemTagEditor),
+                    const SizedBox(width: 12),
+                    _buildAddRecipientButton(context)
+                  ],
+                ));
     } else {
       return itemTagEditor;
     }
@@ -197,9 +194,9 @@ class _AutocompleteContactTextFieldWithTagsState extends State<AutocompleteConta
       return false;
     }
     return listEmailAddress
-      .map((emailAddress) => emailAddress.email)
-      .whereNotNull()
-      .contains(inputEmail);
+        .map((emailAddress) => emailAddress.email)
+        .whereNotNull()
+        .contains(inputEmail);
   }
 
   FutureOr<List<SuggestionEmailAddress>> _findSuggestions(String query) async {
@@ -213,16 +210,20 @@ class _AutocompleteContactTextFieldWithTagsState extends State<AutocompleteConta
       return [];
     }
 
-    final teamMailSuggestion = List<SuggestionEmailAddress>.empty(growable: true);
+    final teamMailSuggestion =
+        List<SuggestionEmailAddress>.empty(growable: true);
     if (processedQuery.isNotEmpty && widget.onSuggestionCallback != null) {
-      final addedEmailAddresses = await widget.onSuggestionCallback!(processedQuery);
+      final addedEmailAddresses =
+          await widget.onSuggestionCallback!(processedQuery);
       final listSuggestionEmailAddress = addedEmailAddresses
-        .map((emailAddress) => _toSuggestionEmailAddress(emailAddress, listEmailAddress))
-        .toList();
+          .map((emailAddress) =>
+              _toSuggestionEmailAddress(emailAddress, listEmailAddress))
+          .toList();
       teamMailSuggestion.addAll(listSuggestionEmailAddress);
     }
 
-    teamMailSuggestion.addAll(_matchedSuggestionEmailAddress(processedQuery, listEmailAddress));
+    teamMailSuggestion.addAll(
+        _matchedSuggestionEmailAddress(processedQuery, listEmailAddress));
 
     final currentTextOnTextField = widget.controller?.text ?? '';
     if (currentTextOnTextField.isEmpty) {
@@ -233,23 +234,21 @@ class _AutocompleteContactTextFieldWithTagsState extends State<AutocompleteConta
   }
 
   SuggestionEmailAddress _toSuggestionEmailAddress(
-      EmailAddress item,
-      List<EmailAddress> addedEmailAddresses
-  ) {
+      EmailAddress item, List<EmailAddress> addedEmailAddresses) {
     if (addedEmailAddresses.contains(item)) {
-      return SuggestionEmailAddress(item, state: SuggestionEmailState.duplicated);
+      return SuggestionEmailAddress(item,
+          state: SuggestionEmailState.duplicated);
     } else {
       return SuggestionEmailAddress(item);
     }
   }
 
   Iterable<SuggestionEmailAddress> _matchedSuggestionEmailAddress(
-    String query,
-    List<EmailAddress> addedEmailAddress
-  ) {
+      String query, List<EmailAddress> addedEmailAddress) {
     return addedEmailAddress
-      .where((addedMail) => addedMail.emailAddress.contains(query))
-      .map((emailAddress) => SuggestionEmailAddress(emailAddress, state: SuggestionEmailState.duplicated));
+        .where((addedMail) => addedMail.emailAddress.contains(query))
+        .map((emailAddress) => SuggestionEmailAddress(emailAddress,
+            state: SuggestionEmailState.duplicated));
   }
 
   void _handleGapBetweenTagChangedAndFindSuggestion() {
@@ -257,7 +256,9 @@ class _AutocompleteContactTextFieldWithTagsState extends State<AutocompleteConta
   }
 
   bool _isValidAllEmailAddress(List<EmailAddress> addedEmailAddress) {
-    return addedEmailAddress.every((addedMail) => addedMail.emailAddress.isEmail || AppUtils.isEmailLocalhost(addedMail.emailAddress));
+    return addedEmailAddress.every((addedMail) =>
+        addedMail.emailAddress.isEmail ||
+        AppUtils.isEmailLocalhost(addedMail.emailAddress));
   }
 
   bool _inputFieldIsEmpty() {
@@ -266,15 +267,14 @@ class _AutocompleteContactTextFieldWithTagsState extends State<AutocompleteConta
 
   Widget _buildAddRecipientButton(BuildContext context, {double? maxWidth}) {
     return MaterialTextIconButton(
-      key: const Key('button_add_recipient'),
-      label: AppLocalizations.of(context).addRecipientButton,
-      icon: _imagePaths.icAddIdentity,
-      backgroundColor: AppColor.colorTextButton,
-      labelColor: Colors.white,
-      iconColor: Colors.white,
-      minimumSize: Size(maxWidth ?? 167, PlatformInfo.isMobile ? 44 : 54),
-      onTap: _handleAddRecipientAction
-    );
+        key: const Key('button_add_recipient'),
+        label: AppLocalizations.of(context).addRecipientButton,
+        icon: _imagePaths.icAddIdentity,
+        backgroundColor: AppColor.colorTextButton,
+        labelColor: Colors.white,
+        iconColor: Colors.white,
+        minimumSize: Size(maxWidth ?? 167, PlatformInfo.isMobile ? 44 : 54),
+        onTap: _handleAddRecipientAction);
   }
 
   void _handleAddRecipientAction() {

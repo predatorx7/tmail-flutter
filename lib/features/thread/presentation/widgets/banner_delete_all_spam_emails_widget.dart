@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/resources/image_paths.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,7 +6,6 @@ import 'package:tmail_ui_user/features/thread/presentation/styles/banner_delete_
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
 class BannerDeleteAllSpamEmailsWidget extends StatelessWidget {
-
   final VoidCallback onTapAction;
 
   const BannerDeleteAllSpamEmailsWidget({super.key, required this.onTapAction});
@@ -23,54 +21,48 @@ class BannerDeleteAllSpamEmailsWidget extends StatelessWidget {
             width: 1,
             color: BannerDeleteAllSpamEmailsStyles.borderStrokeColor,
           ),
-          borderRadius: BorderRadius.all(Radius.circular(BannerDeleteAllSpamEmailsStyles.borderRadius)),
+          borderRadius: BorderRadius.all(
+              Radius.circular(BannerDeleteAllSpamEmailsStyles.borderRadius)),
         ),
       ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           onTap: onTapAction,
-          borderRadius: const BorderRadius.all(Radius.circular(BannerDeleteAllSpamEmailsStyles.borderRadius)),
+          borderRadius: const BorderRadius.all(
+              Radius.circular(BannerDeleteAllSpamEmailsStyles.borderRadius)),
           child: Padding(
             padding: const EdgeInsetsDirectional.symmetric(
-              horizontal: BannerDeleteAllSpamEmailsStyles.horizontalPadding,
-              vertical: BannerDeleteAllSpamEmailsStyles.verticalPadding
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SvgPicture.asset(
-                  imagePaths.icDeleteRuleMobile,
+                horizontal: BannerDeleteAllSpamEmailsStyles.horizontalPadding,
+                vertical: BannerDeleteAllSpamEmailsStyles.verticalPadding),
+            child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              SvgPicture.asset(imagePaths.icDeleteRuleMobile,
                   width: BannerDeleteAllSpamEmailsStyles.iconSize,
                   height: BannerDeleteAllSpamEmailsStyles.iconSize,
-                  fit: BoxFit.fill
-                ),
-                const SizedBox(width: BannerDeleteAllSpamEmailsStyles.space),
-                Expanded(
+                  fit: BoxFit.fill),
+              const SizedBox(width: BannerDeleteAllSpamEmailsStyles.space),
+              Expanded(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        AppLocalizations.of(context).deleteAllSpamEmailsNow,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                    Text(AppLocalizations.of(context).deleteAllSpamEmailsNow,
                         style: const TextStyle(
-                          fontSize: BannerDeleteAllSpamEmailsStyles.buttonTextSize,
-                          fontWeight: FontWeight.w500,
-                          color: BannerDeleteAllSpamEmailsStyles.buttonTextColor
-                        )
-                      ),
-                      Text(
-                        AppLocalizations.of(context).bannerDeleteAllSpamEmailsMessage,
+                            fontSize:
+                                BannerDeleteAllSpamEmailsStyles.buttonTextSize,
+                            fontWeight: FontWeight.w500,
+                            color: BannerDeleteAllSpamEmailsStyles
+                                .buttonTextColor)),
+                    Text(
+                        AppLocalizations.of(context)
+                            .bannerDeleteAllSpamEmailsMessage,
                         style: const TextStyle(
-                          color: BannerDeleteAllSpamEmailsStyles.labelTextColor,
-                          fontSize: BannerDeleteAllSpamEmailsStyles.labelTextSize,
-                          fontWeight: FontWeight.w400
-                        )
-                      ),
-                    ]
-                  )
-                )
-              ]
-            ),
+                            color:
+                                BannerDeleteAllSpamEmailsStyles.labelTextColor,
+                            fontSize:
+                                BannerDeleteAllSpamEmailsStyles.labelTextSize,
+                            fontWeight: FontWeight.w400)),
+                  ]))
+            ]),
           ),
         ),
       ),

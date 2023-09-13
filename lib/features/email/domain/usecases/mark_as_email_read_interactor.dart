@@ -15,23 +15,28 @@ class MarkAsEmailReadInteractor {
 
   MarkAsEmailReadInteractor(this._emailRepository, this._mailboxRepository);
 
-  Stream<Either<Failure, Success>> execute(Session session, AccountId accountId, Email email, ReadActions readAction, MarkReadAction markReadAction) async* {
+  Stream<Either<Failure, Success>> execute(
+      Session session,
+      AccountId accountId,
+      Email email,
+      ReadActions readAction,
+      MarkReadAction markReadAction) async* {
     try {
       final listState = await Future.wait([
-        _mailboxRepository.getMailboxState( session,accountId),
+        _mailboxRepository.getMailboxState(session, accountId),
         _emailRepository.getEmailState(session, accountId),
       ], eagerError: true);
 
       final currentMailboxState = listState.first;
       final currentEmailState = listState.last;
 
-      final result = await _emailRepository.markAsRead(session, accountId, [email], readAction);
+      final result = await _emailRepository.markAsRead(
+          session, accountId, [email], readAction);
       if (result.isNotEmpty) {
-        final updatedEmail = email.updatedEmail(newKeywords: result.first.keywords);
+        final updatedEmail =
+            email.updatedEmail(newKeywords: result.first.keywords);
         yield Right(MarkAsEmailReadSuccess(
-            updatedEmail,
-            readAction,
-            markReadAction,
+            updatedEmail, readAction, markReadAction,
             currentEmailState: currentEmailState,
             currentMailboxState: currentMailboxState));
       } else {

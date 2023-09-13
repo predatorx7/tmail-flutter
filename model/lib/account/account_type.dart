@@ -1,5 +1,1 @@
-
-enum AccountType {
-  oauth,
-  email
-}
+enum AccountType { oauth, email }

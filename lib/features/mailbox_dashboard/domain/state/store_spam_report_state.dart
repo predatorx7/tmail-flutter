@@ -6,7 +6,7 @@ class StoreSpamReportStateLoading extends UIState {}
 
 class StoreSpamReportStateSuccess extends UIState {
   final SpamReportState spamReportState;
-  
+
   StoreSpamReportStateSuccess(this.spamReportState);
 
   @override
@@ -14,6 +14,5 @@ class StoreSpamReportStateSuccess extends UIState {
 }
 
 class StoreSpamReportStateFailure extends FeatureFailure {
-
   StoreSpamReportStateFailure(dynamic exception) : super(exception: exception);
 }

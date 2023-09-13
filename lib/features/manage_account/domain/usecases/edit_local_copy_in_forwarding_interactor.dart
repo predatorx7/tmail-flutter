@@ -14,11 +14,12 @@ class EditLocalCopyInForwardingInteractor {
   EditLocalCopyInForwardingInteractor(this._forwardingRepository);
 
   Stream<Either<Failure, Success>> execute(
-      AccountId accountId,
-      EditLocalCopyInForwardingRequest editRequest,
+    AccountId accountId,
+    EditLocalCopyInForwardingRequest editRequest,
   ) async* {
     try {
-      final result = await _forwardingRepository.editLocalCopyInForwarding(accountId, editRequest);
+      final result = await _forwardingRepository.editLocalCopyInForwarding(
+          accountId, editRequest);
       yield Right<Failure, Success>(EditLocalCopyInForwardingSuccess(result));
     } catch (exception) {
       yield Left<Failure, Success>(EditLocalCopyInForwardingFailure(exception));

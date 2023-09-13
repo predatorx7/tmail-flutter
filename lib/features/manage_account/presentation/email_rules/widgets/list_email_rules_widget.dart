@@ -15,12 +15,10 @@ class ListEmailRulesWidget extends GetWidget<EmailRulesController> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColor.colorBackgroundWrapIconStyleCode,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-            width: 1,
-            color: AppColor.colorBorderListRuleFilter)
-      ),
+          color: AppColor.colorBackgroundWrapIconStyleCode,
+          borderRadius: BorderRadius.circular(16),
+          border:
+              Border.all(width: 1, color: AppColor.colorBorderListRuleFilter)),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
         child: Column(
@@ -45,9 +43,7 @@ class ListEmailRulesWidget extends GetWidget<EmailRulesController> {
                         fontWeight: FontWeight.w500,
                         color: AppColor.colorTextButtonHeaderThread)),
               ),
-              const Divider(
-                color: AppColor.lineItemListColor,
-                height: 1),
+              const Divider(color: AppColor.lineItemListColor, height: 1),
               Obx(() {
                 log('ListEmailRulesWidget::build(): ${controller.listEmailRule}');
                 return ListView.separated(
@@ -64,8 +60,7 @@ class ListEmailRulesWidget extends GetWidget<EmailRulesController> {
                   separatorBuilder: (context, index) {
                     if (controller.listEmailRule.isNotEmpty) {
                       return const Divider(
-                        color: AppColor.lineItemListColor,
-                        height: 1);
+                          color: AppColor.lineItemListColor, height: 1);
                     } else {
                       return const SizedBox.shrink();
                     }

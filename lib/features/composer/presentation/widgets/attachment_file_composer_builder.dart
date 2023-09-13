@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/resources/image_paths.dart';
 import 'package:core/presentation/utils/style_utils.dart';
@@ -17,8 +16,8 @@ import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
 typedef OnDeleteAttachmentAction = void Function(UploadFileState fileState);
 
-class AttachmentFileComposerBuilder extends StatelessWidget with AppLoaderMixin {
-
+class AttachmentFileComposerBuilder extends StatelessWidget
+    with AppLoaderMixin {
   final _imagePaths = Get.find<ImagePaths>();
 
   final UploadFileState fileState;
@@ -27,7 +26,8 @@ class AttachmentFileComposerBuilder extends StatelessWidget with AppLoaderMixin 
   final OnDeleteAttachmentAction? onDeleteAttachmentAction;
   final Widget? buttonAction;
 
-  AttachmentFileComposerBuilder(this.fileState, {
+  AttachmentFileComposerBuilder(
+    this.fileState, {
     super.key,
     this.maxWidth,
     this.itemMargin,
@@ -39,7 +39,7 @@ class AttachmentFileComposerBuilder extends StatelessWidget with AppLoaderMixin 
   Widget build(BuildContext context) {
     return Theme(
         data: ThemeData(
-            splashColor: Colors.transparent ,
+            splashColor: Colors.transparent,
             highlightColor: Colors.transparent),
         child: Container(
           margin: itemMargin ?? EdgeInsets.zero,
@@ -58,56 +58,55 @@ class AttachmentFileComposerBuilder extends StatelessWidget with AppLoaderMixin 
               onTap: () {},
               leading: Padding(
                 padding: const EdgeInsetsDirectional.only(
-                  start: 8,
-                  bottom: PlatformInfo.isWeb ? 6 : 14
-                ),
-                child: SvgPicture.asset(
-                    fileState.getIcon(_imagePaths),
-                    width: 40,
-                    height: 40,
-                    fit: BoxFit.fill),
+                    start: 8, bottom: PlatformInfo.isWeb ? 6 : 14),
+                child: SvgPicture.asset(fileState.getIcon(_imagePaths),
+                    width: 40, height: 40, fit: BoxFit.fill),
               ),
               title: Transform(
                   transform: Matrix4.translationValues(
-                    DirectionUtils.isDirectionRTLByLanguage(context) ? 0.0 : (PlatformInfo.isWeb ? 0.0 : -8.0),
-                    PlatformInfo.isWeb ? -8.0 : -10.0,
-                    0.0),
+                      DirectionUtils.isDirectionRTLByLanguage(context)
+                          ? 0.0
+                          : (PlatformInfo.isWeb ? 0.0 : -8.0),
+                      PlatformInfo.isWeb ? -8.0 : -10.0,
+                      0.0),
                   child: Padding(
-                    padding: const EdgeInsetsDirectional.only(end: PlatformInfo.isWeb ? 20 : 16),
+                    padding: const EdgeInsetsDirectional.only(
+                        end: PlatformInfo.isWeb ? 20 : 16),
                     child: ExtendedText(
                       fileState.fileName,
                       maxLines: 1,
                       overflow: CommonTextStyle.defaultTextOverFlow,
                       softWrap: CommonTextStyle.defaultSoftWrap,
                       overflowWidget: TextOverflowWidget(
-                        position: Directionality.maybeOf(context) == TextDirection.rtl
-                          ? TextOverflowPosition.start
-                          : TextOverflowPosition.end,
+                        position:
+                            Directionality.maybeOf(context) == TextDirection.rtl
+                                ? TextOverflowPosition.start
+                                : TextOverflowPosition.end,
                         child: const Text(
                           '...',
                           style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500
-                          ),
+                              fontSize: 12,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500),
                         ),
                       ),
                       style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500
-                      ),
+                          fontSize: 14,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500),
                     ),
-                  )
-              ),
+                  )),
               subtitle: fileState.fileSize != 0
                   ? Transform(
                       transform: Matrix4.translationValues(
-                        DirectionUtils.isDirectionRTLByLanguage(context) ? 0.0 : PlatformInfo.isWeb ? 0.0 : -8.0,
-                        PlatformInfo.isWeb ? -8.0 : -10.0,
-                        0.0),
-                      child: Text(
-                          filesize(fileState.fileSize),
+                          DirectionUtils.isDirectionRTLByLanguage(context)
+                              ? 0.0
+                              : PlatformInfo.isWeb
+                                  ? 0.0
+                                  : -8.0,
+                          PlatformInfo.isWeb ? -8.0 : -10.0,
+                          0.0),
+                      child: Text(filesize(fileState.fileSize),
                           maxLines: 1,
                           softWrap: CommonTextStyle.defaultSoftWrap,
                           overflow: CommonTextStyle.defaultTextOverFlow,
@@ -118,26 +117,26 @@ class AttachmentFileComposerBuilder extends StatelessWidget with AppLoaderMixin 
                   : null,
             ),
             PositionedDirectional(
-              end: PlatformInfo.isWeb ? -5 : -12,
-              top: PlatformInfo.isWeb ? -5 : -12,
-              child: buildIconWeb(
-                icon: SvgPicture.asset(_imagePaths.icDeleteAttachment, fit: BoxFit.fill),
-                tooltip: AppLocalizations.of(context).delete,
-                onTap: () {
-                  if (onDeleteAttachmentAction != null) {
-                    onDeleteAttachmentAction!.call(fileState);
-                  }
-                }
-              )
-            ),
-            Align(alignment: AlignmentDirectional.bottomCenter, child: _progressLoading),
+                end: PlatformInfo.isWeb ? -5 : -12,
+                top: PlatformInfo.isWeb ? -5 : -12,
+                child: buildIconWeb(
+                    icon: SvgPicture.asset(_imagePaths.icDeleteAttachment,
+                        fit: BoxFit.fill),
+                    tooltip: AppLocalizations.of(context).delete,
+                    onTap: () {
+                      if (onDeleteAttachmentAction != null) {
+                        onDeleteAttachmentAction!.call(fileState);
+                      }
+                    })),
+            Align(
+                alignment: AlignmentDirectional.bottomCenter,
+                child: _progressLoading),
           ]),
-        )
-    );
+        ));
   }
 
   Widget get _progressLoading {
-    switch(fileState.uploadStatus) {
+    switch (fileState.uploadStatus) {
       case UploadFileStatus.waiting:
         return Padding(
             padding: const EdgeInsets.only(left: 8, right: 8, top: 50),

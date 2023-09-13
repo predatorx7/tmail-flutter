@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class TypeAheadFormFieldBuilder<T> extends StatefulWidget {
-
   final TextDirection textDirection;
   final Duration debounceDuration;
   final SuggestionsCallback<T> suggestionsCallback;
@@ -48,11 +47,12 @@ class TypeAheadFormFieldBuilder<T> extends StatefulWidget {
   });
 
   @override
-  State<TypeAheadFormFieldBuilder<T>> createState() => _TypeAheadFormFieldBuilderState<T>();
+  State<TypeAheadFormFieldBuilder<T>> createState() =>
+      _TypeAheadFormFieldBuilderState<T>();
 }
 
-class _TypeAheadFormFieldBuilderState<T> extends State<TypeAheadFormFieldBuilder<T>> {
-
+class _TypeAheadFormFieldBuilderState<T>
+    extends State<TypeAheadFormFieldBuilder<T>> {
   late TextEditingController _controller;
   late TextDirection _textDirection;
 
@@ -68,27 +68,27 @@ class _TypeAheadFormFieldBuilderState<T> extends State<TypeAheadFormFieldBuilder
     return TypeAheadFormField<T>(
       key: widget.key,
       textFieldConfiguration: TextFieldConfiguration(
-        controller: widget.controller,
-        textInputAction: widget.textInputAction,
-        autocorrect: widget.autocorrect,
-        autofillHints: widget.autofillHints,
-        keyboardType: widget.keyboardType,
-        decoration: widget.decoration,
-        focusNode: widget.focusNode,
-        textDirection: _textDirection,
-        onChanged: (value) {
-          widget.onTextChange?.call(value);
-          if (value.isNotEmpty) {
-            final directionByText = DirectionUtils.getDirectionByEndsText(value);
-            if (directionByText != _textDirection) {
-              setState(() {
-                _textDirection = directionByText;
-              });
+          controller: widget.controller,
+          textInputAction: widget.textInputAction,
+          autocorrect: widget.autocorrect,
+          autofillHints: widget.autofillHints,
+          keyboardType: widget.keyboardType,
+          decoration: widget.decoration,
+          focusNode: widget.focusNode,
+          textDirection: _textDirection,
+          onChanged: (value) {
+            widget.onTextChange?.call(value);
+            if (value.isNotEmpty) {
+              final directionByText =
+                  DirectionUtils.getDirectionByEndsText(value);
+              if (directionByText != _textDirection) {
+                setState(() {
+                  _textDirection = directionByText;
+                });
+              }
             }
-          }
-        },
-        onSubmitted: widget.onTextSubmitted
-      ),
+          },
+          onSubmitted: widget.onTextSubmitted),
       debounceDuration: widget.debounceDuration,
       suggestionsCallback: widget.suggestionsCallback,
       itemBuilder: widget.itemBuilder,

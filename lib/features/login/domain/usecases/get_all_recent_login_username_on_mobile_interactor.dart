@@ -8,10 +8,11 @@ class GetAllRecentLoginUsernameOnMobileInteractor {
 
   GetAllRecentLoginUsernameOnMobileInteractor(this.loginUsernameRepository);
 
-  Future<Either<Failure, Success>> execute({int? limit, String? pattern}) async {
+  Future<Either<Failure, Success>> execute(
+      {int? limit, String? pattern}) async {
     try {
-      final listRecent = await loginUsernameRepository.getAllRecentLoginUsernameLatest(
-          limit: limit, pattern: pattern);
+      final listRecent = await loginUsernameRepository
+          .getAllRecentLoginUsernameLatest(limit: limit, pattern: pattern);
       return Right(GetAllRecentLoginUsernameLatestSuccess(listRecent));
     } catch (exception) {
       return Left(GetAllRecentLoginUsernameLatestFailure(exception));

@@ -1,10 +1,9 @@
-
 enum ButtonState {
   enabled,
   disabled;
 
   double get opacity {
-    switch(this) {
+    switch (this) {
       case ButtonState.enabled:
         return 1.0;
       case ButtonState.disabled:

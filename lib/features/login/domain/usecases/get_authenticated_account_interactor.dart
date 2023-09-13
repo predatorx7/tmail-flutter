@@ -12,11 +12,8 @@ class GetAuthenticatedAccountInteractor {
   final GetCredentialInteractor _getCredentialInteractor;
   final GetStoredTokenOidcInteractor _getStoredTokenOidcInteractor;
 
-  GetAuthenticatedAccountInteractor(
-    this._accountRepository,
-    this._getCredentialInteractor,
-    this._getStoredTokenOidcInteractor
-  );
+  GetAuthenticatedAccountInteractor(this._accountRepository,
+      this._getCredentialInteractor, this._getStoredTokenOidcInteractor);
 
   Stream<Either<Failure, Success>> execute() async* {
     try {

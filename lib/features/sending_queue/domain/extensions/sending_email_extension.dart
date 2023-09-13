@@ -28,64 +28,62 @@ extension SendingEmailExtension on SendingEmail {
 
   EmailRequest toEmailRequest({Email? newEmail}) {
     return EmailRequest(
-      email: newEmail ?? email,
-      emailActionType: emailActionType,
-      sentMailboxId: sentMailboxId,
-      emailIdDestroyed: emailIdDestroyed,
-      emailIdAnsweredOrForwarded: emailIdAnsweredOrForwarded,
-      identityId: identityId,
-      storedSendingId: sendingId
-    );
+        email: newEmail ?? email,
+        emailActionType: emailActionType,
+        sentMailboxId: sentMailboxId,
+        emailIdDestroyed: emailIdDestroyed,
+        emailIdAnsweredOrForwarded: emailIdAnsweredOrForwarded,
+        identityId: identityId,
+        storedSendingId: sendingId);
   }
 
   SendingEmail toggleSelection() {
     return SendingEmail(
-      sendingId: sendingId,
-      email: email,
-      emailActionType: emailActionType,
-      createTime: createTime,
-      sentMailboxId: sentMailboxId,
-      emailIdDestroyed: emailIdDestroyed,
-      emailIdAnsweredOrForwarded: emailIdAnsweredOrForwarded,
-      identityId: identityId,
-      mailboxNameRequest: mailboxNameRequest,
-      creationIdRequest: creationIdRequest,
-      sendingState: sendingState,
-      selectMode: selectMode == SelectMode.INACTIVE ? SelectMode.ACTIVE : SelectMode.INACTIVE
-    );
+        sendingId: sendingId,
+        email: email,
+        emailActionType: emailActionType,
+        createTime: createTime,
+        sentMailboxId: sentMailboxId,
+        emailIdDestroyed: emailIdDestroyed,
+        emailIdAnsweredOrForwarded: emailIdAnsweredOrForwarded,
+        identityId: identityId,
+        mailboxNameRequest: mailboxNameRequest,
+        creationIdRequest: creationIdRequest,
+        sendingState: sendingState,
+        selectMode: selectMode == SelectMode.INACTIVE
+            ? SelectMode.ACTIVE
+            : SelectMode.INACTIVE);
   }
 
   SendingEmail unSelected() {
     return SendingEmail(
-      sendingId: sendingId,
-      email: email,
-      emailActionType: emailActionType,
-      createTime: createTime,
-      sentMailboxId: sentMailboxId,
-      emailIdDestroyed: emailIdDestroyed,
-      emailIdAnsweredOrForwarded: emailIdAnsweredOrForwarded,
-      identityId: identityId,
-      mailboxNameRequest: mailboxNameRequest,
-      creationIdRequest: creationIdRequest,
-      sendingState: sendingState,
-      selectMode: SelectMode.INACTIVE
-    );
+        sendingId: sendingId,
+        email: email,
+        emailActionType: emailActionType,
+        createTime: createTime,
+        sentMailboxId: sentMailboxId,
+        emailIdDestroyed: emailIdDestroyed,
+        emailIdAnsweredOrForwarded: emailIdAnsweredOrForwarded,
+        identityId: identityId,
+        mailboxNameRequest: mailboxNameRequest,
+        creationIdRequest: creationIdRequest,
+        sendingState: sendingState,
+        selectMode: SelectMode.INACTIVE);
   }
 
   SendingEmail updatingSendingState(SendingState newState) {
     return SendingEmail(
-      sendingId: sendingId,
-      email: email,
-      emailActionType: emailActionType,
-      createTime: createTime,
-      sentMailboxId: sentMailboxId,
-      emailIdDestroyed: emailIdDestroyed,
-      emailIdAnsweredOrForwarded: emailIdAnsweredOrForwarded,
-      identityId: identityId,
-      mailboxNameRequest: mailboxNameRequest,
-      creationIdRequest: creationIdRequest,
-      sendingState: newState,
-      selectMode: selectMode
-    );
+        sendingId: sendingId,
+        email: email,
+        emailActionType: emailActionType,
+        createTime: createTime,
+        sentMailboxId: sentMailboxId,
+        emailIdDestroyed: emailIdDestroyed,
+        emailIdAnsweredOrForwarded: emailIdAnsweredOrForwarded,
+        identityId: identityId,
+        mailboxNameRequest: mailboxNameRequest,
+        creationIdRequest: creationIdRequest,
+        sendingState: newState,
+        selectMode: selectMode);
   }
 }

@@ -9,9 +9,11 @@ class GetAutoCompleteInteractor {
 
   GetAutoCompleteInteractor(this.autoCompleteRepository);
 
-  Future<Either<Failure, Success>> execute(AutoCompletePattern autoCompletePattern) async {
+  Future<Either<Failure, Success>> execute(
+      AutoCompletePattern autoCompletePattern) async {
     try {
-      final listEmailAddress = await autoCompleteRepository.getAutoComplete(autoCompletePattern);
+      final listEmailAddress =
+          await autoCompleteRepository.getAutoComplete(autoCompletePattern);
       return Right(GetAutoCompleteSuccess(listEmailAddress));
     } catch (e) {
       return Left(GetAutoCompleteFailure(e));

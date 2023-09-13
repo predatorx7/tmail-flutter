@@ -7,7 +7,6 @@ import 'package:tmail_ui_user/features/thread/data/extensions/email_address_exte
 import 'package:tmail_ui_user/features/thread/data/extensions/map_mailbox_id_extension.dart';
 
 extension EmailExtension on Email {
-
   EmailCache toEmailCache() {
     return EmailCache(
       id!.id.value,
@@ -18,19 +17,29 @@ extension EmailExtension on Email {
       preview: preview,
       subject: subject,
       sentAt: sentAt?.value,
-      from: from?.map((emailAddress) => emailAddress.toEmailAddressHiveCache()).toList(),
-      to: to?.map((emailAddress) => emailAddress.toEmailAddressHiveCache()).toList(),
-      cc: cc?.map((emailAddress) => emailAddress.toEmailAddressHiveCache()).toList(),
-      bcc: bcc?.map((emailAddress) => emailAddress.toEmailAddressHiveCache()).toList(),
-      replyTo: replyTo?.map((emailAddress) => emailAddress.toEmailAddressHiveCache()).toList(),
+      from: from
+          ?.map((emailAddress) => emailAddress.toEmailAddressHiveCache())
+          .toList(),
+      to: to
+          ?.map((emailAddress) => emailAddress.toEmailAddressHiveCache())
+          .toList(),
+      cc: cc
+          ?.map((emailAddress) => emailAddress.toEmailAddressHiveCache())
+          .toList(),
+      bcc: bcc
+          ?.map((emailAddress) => emailAddress.toEmailAddressHiveCache())
+          .toList(),
+      replyTo: replyTo
+          ?.map((emailAddress) => emailAddress.toEmailAddressHiveCache())
+          .toList(),
       mailboxIds: mailboxIds?.toMapString(),
       headerCalendarEvent: headerCalendarEvent?.toMapString(),
     );
   }
 
   bool belongTo(MailboxId mailboxId) {
-    return mailboxIds != null
-      && mailboxIds!.containsKey(mailboxId)
-      && mailboxIds![mailboxId] == true;
+    return mailboxIds != null &&
+        mailboxIds!.containsKey(mailboxId) &&
+        mailboxIds![mailboxId] == true;
   }
 }

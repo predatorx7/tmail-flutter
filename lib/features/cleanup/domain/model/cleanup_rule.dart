@@ -1,8 +1,6 @@
-
 import 'package:equatable/equatable.dart';
 
 abstract class CleanupRule with EquatableMixin {
-
   CleanupRule();
 
   @override

@@ -37,29 +37,28 @@ import 'package:tmail_ui_user/main/routes/route_navigation.dart';
 class MailboxVisibilityController extends BaseMailboxController {
   SubscribeMailboxInteractor? _subscribeMailboxInteractor;
   SubscribeMultipleMailboxInteractor? _subscribeMultipleMailboxInteractor;
-  final _accountDashBoardController = Get.find<ManageAccountDashBoardController>();
+  final _accountDashBoardController =
+      Get.find<ManageAccountDashBoardController>();
   final _appToast = Get.find<AppToast>();
   final _imagePaths = Get.find<ImagePaths>();
   final mailboxListScrollController = ScrollController();
 
   MailboxVisibilityController(
-    TreeBuilder treeBuilder,
-    VerifyNameInteractor verifyNameInteractor,
-    GetAllMailboxInteractor getAllMailboxInteractor,
-    RefreshAllMailboxInteractor refreshAllMailboxInteractor
-  ) : super(
-    treeBuilder,
-    verifyNameInteractor,
-    getAllMailboxInteractor: getAllMailboxInteractor,
-    refreshAllMailboxInteractor: refreshAllMailboxInteractor
-  );
+      TreeBuilder treeBuilder,
+      VerifyNameInteractor verifyNameInteractor,
+      GetAllMailboxInteractor getAllMailboxInteractor,
+      RefreshAllMailboxInteractor refreshAllMailboxInteractor)
+      : super(treeBuilder, verifyNameInteractor,
+            getAllMailboxInteractor: getAllMailboxInteractor,
+            refreshAllMailboxInteractor: refreshAllMailboxInteractor);
 
   @override
   void onInit() {
     super.onInit();
     try {
       _subscribeMailboxInteractor = Get.find<SubscribeMailboxInteractor>();
-      _subscribeMultipleMailboxInteractor = Get.find<SubscribeMultipleMailboxInteractor>();
+      _subscribeMultipleMailboxInteractor =
+          Get.find<SubscribeMultipleMailboxInteractor>();
     } catch (e) {
       logError('MailboxVisibilityController::onInit(): ${e.toString()}');
     }
@@ -68,7 +67,7 @@ class MailboxVisibilityController extends BaseMailboxController {
   @override
   void handleSuccessViewState(Success success) async {
     super.handleSuccessViewState(success);
-    if (success is GetAllMailboxSuccess)  {
+    if (success is GetAllMailboxSuccess) {
       currentMailboxState = success.currentMailboxState;
       _handleBuildTree(success.mailboxList);
     } else if (success is RefreshChangesAllMailboxSuccess) {
@@ -90,7 +89,7 @@ class MailboxVisibilityController extends BaseMailboxController {
   void onReady() {
     final session = _accountDashBoardController.sessionCurrent;
     final accountId = _accountDashBoardController.accountId.value;
-    if(session != null && accountId != null) {
+    if (session != null && accountId != null) {
       getAllMailbox(session, accountId);
     }
     super.onReady();
@@ -107,50 +106,63 @@ class MailboxVisibilityController extends BaseMailboxController {
 
   void subscribeMailbox(MailboxNode mailboxNode) {
     final mailboxSubscribeState = mailboxNode.item.isSubscribedMailbox
-      ? MailboxSubscribeState.disabled : MailboxSubscribeState.enabled;
+        ? MailboxSubscribeState.disabled
+        : MailboxSubscribeState.enabled;
     final mailboxSubscribeStateAction = mailboxNode.item.isSubscribedMailbox
-      ? MailboxSubscribeAction.unSubscribe : MailboxSubscribeAction.subscribe;
-    _subscribeMailboxAction(
-        SubscribeMailboxRequest(
-          mailboxNode.item.id,
-          mailboxSubscribeState,
-          mailboxSubscribeStateAction,
-        )
-    );
+        ? MailboxSubscribeAction.unSubscribe
+        : MailboxSubscribeAction.subscribe;
+    _subscribeMailboxAction(SubscribeMailboxRequest(
+      mailboxNode.item.id,
+      mailboxSubscribeState,
+      mailboxSubscribeStateAction,
+    ));
   }
 
-  void _subscribeMailboxAction(SubscribeMailboxRequest subscribeMailboxRequest) {
+  void _subscribeMailboxAction(
+      SubscribeMailboxRequest subscribeMailboxRequest) {
     final accountId = _accountDashBoardController.accountId.value;
     final session = _accountDashBoardController.sessionCurrent;
     if (session != null && accountId != null) {
       final subscribeRequest = generateSubscribeRequest(
-        subscribeMailboxRequest.mailboxId,
-        subscribeMailboxRequest.subscribeState,
-        subscribeMailboxRequest.subscribeAction
-      );
+          subscribeMailboxRequest.mailboxId,
+          subscribeMailboxRequest.subscribeState,
+          subscribeMailboxRequest.subscribeAction);
 
       if (subscribeRequest is SubscribeMultipleMailboxRequest) {
-        consumeState(_subscribeMultipleMailboxInteractor!.execute(session, accountId, subscribeRequest));
+        consumeState(_subscribeMultipleMailboxInteractor!
+            .execute(session, accountId, subscribeRequest));
       } else if (subscribeRequest is SubscribeMailboxRequest) {
-        consumeState(_subscribeMailboxInteractor!.execute(session, accountId, subscribeRequest));
+        consumeState(_subscribeMailboxInteractor!
+            .execute(session, accountId, subscribeRequest));
       }
     }
   }
 
   void toggleMailboxCategories(MailboxCategories categories) {
-    switch(categories) {
+    switch (categories) {
       case MailboxCategories.exchange:
-        final newExpandMode = mailboxCategoriesExpandMode.value.defaultMailbox == ExpandMode.EXPAND ? ExpandMode.COLLAPSE : ExpandMode.EXPAND;
+        final newExpandMode =
+            mailboxCategoriesExpandMode.value.defaultMailbox ==
+                    ExpandMode.EXPAND
+                ? ExpandMode.COLLAPSE
+                : ExpandMode.EXPAND;
         mailboxCategoriesExpandMode.value.defaultMailbox = newExpandMode;
         mailboxCategoriesExpandMode.refresh();
         break;
       case MailboxCategories.personalFolders:
-        final newExpandMode = mailboxCategoriesExpandMode.value.personalFolders == ExpandMode.EXPAND ? ExpandMode.COLLAPSE : ExpandMode.EXPAND;
+        final newExpandMode =
+            mailboxCategoriesExpandMode.value.personalFolders ==
+                    ExpandMode.EXPAND
+                ? ExpandMode.COLLAPSE
+                : ExpandMode.EXPAND;
         mailboxCategoriesExpandMode.value.personalFolders = newExpandMode;
         mailboxCategoriesExpandMode.refresh();
         break;
       case MailboxCategories.teamMailboxes:
-        final newExpandMode = mailboxCategoriesExpandMode.value.teamMailboxes == ExpandMode.EXPAND ? ExpandMode.COLLAPSE : ExpandMode.EXPAND;
+        final newExpandMode =
+            mailboxCategoriesExpandMode.value.teamMailboxes == ExpandMode.EXPAND
+                ? ExpandMode.COLLAPSE
+                : ExpandMode.EXPAND;
         mailboxCategoriesExpandMode.value.teamMailboxes = newExpandMode;
         mailboxCategoriesExpandMode.refresh();
         break;
@@ -159,33 +171,37 @@ class MailboxVisibilityController extends BaseMailboxController {
     }
   }
 
-  void _subscribeMailboxSuccess(SubscribeMailboxSuccess subscribeMailboxSuccess) {
-    if (subscribeMailboxSuccess.subscribeAction == MailboxSubscribeAction.unSubscribe
-        && currentOverlayContext != null
-        && currentContext != null) {
-        _showToastSubscribeMailboxSuccess(subscribeMailboxSuccess.mailboxId);
+  void _subscribeMailboxSuccess(
+      SubscribeMailboxSuccess subscribeMailboxSuccess) {
+    if (subscribeMailboxSuccess.subscribeAction ==
+            MailboxSubscribeAction.unSubscribe &&
+        currentOverlayContext != null &&
+        currentContext != null) {
+      _showToastSubscribeMailboxSuccess(subscribeMailboxSuccess.mailboxId);
     }
 
     _refreshMailboxChanges(subscribeMailboxSuccess.currentMailboxState);
   }
 
-  void _handleUnsubscribeMultipleMailboxHasSomeSuccess(SubscribeMultipleMailboxHasSomeSuccess subscribeMailboxSuccess) {
-    if(subscribeMailboxSuccess.subscribeAction == MailboxSubscribeAction.unSubscribe) {
-      _showToastSubscribeMailboxSuccess(
-        subscribeMailboxSuccess.parentMailboxId,
-        listDescendantMailboxIds: subscribeMailboxSuccess.mailboxIdsSubscribe
-      );
+  void _handleUnsubscribeMultipleMailboxHasSomeSuccess(
+      SubscribeMultipleMailboxHasSomeSuccess subscribeMailboxSuccess) {
+    if (subscribeMailboxSuccess.subscribeAction ==
+        MailboxSubscribeAction.unSubscribe) {
+      _showToastSubscribeMailboxSuccess(subscribeMailboxSuccess.parentMailboxId,
+          listDescendantMailboxIds:
+              subscribeMailboxSuccess.mailboxIdsSubscribe);
     }
 
     _refreshMailboxChanges(subscribeMailboxSuccess.currentMailboxState);
   }
 
-  void _handleUnsubscribeMultipleMailboxAllSuccess(SubscribeMultipleMailboxAllSuccess subscribeMailboxSuccess) {
-    if(subscribeMailboxSuccess.subscribeAction == MailboxSubscribeAction.unSubscribe) {
-      _showToastSubscribeMailboxSuccess(
-          subscribeMailboxSuccess.parentMailboxId,
-          listDescendantMailboxIds: subscribeMailboxSuccess.mailboxIdsSubscribe
-      );
+  void _handleUnsubscribeMultipleMailboxAllSuccess(
+      SubscribeMultipleMailboxAllSuccess subscribeMailboxSuccess) {
+    if (subscribeMailboxSuccess.subscribeAction ==
+        MailboxSubscribeAction.unSubscribe) {
+      _showToastSubscribeMailboxSuccess(subscribeMailboxSuccess.parentMailboxId,
+          listDescendantMailboxIds:
+              subscribeMailboxSuccess.mailboxIdsSubscribe);
     }
 
     _refreshMailboxChanges(subscribeMailboxSuccess.currentMailboxState);
@@ -200,22 +216,17 @@ class MailboxVisibilityController extends BaseMailboxController {
     }
   }
 
-  void _showToastSubscribeMailboxSuccess(
-      MailboxId mailboxIdSubscribed,
-      {List<MailboxId>? listDescendantMailboxIds}
-  ) {
+  void _showToastSubscribeMailboxSuccess(MailboxId mailboxIdSubscribed,
+      {List<MailboxId>? listDescendantMailboxIds}) {
     if (currentOverlayContext != null && currentContext != null) {
       _appToast.showToastMessage(
         currentOverlayContext!,
         AppLocalizations.of(currentContext!).toastMsgHideMailboxSuccess,
         actionName: AppLocalizations.of(currentContext!).undo,
-        onActionClick: () => _subscribeMailboxAction(
-          SubscribeMailboxRequest(
+        onActionClick: () => _subscribeMailboxAction(SubscribeMailboxRequest(
             mailboxIdSubscribed,
             MailboxSubscribeState.enabled,
-            MailboxSubscribeAction.subscribe
-          )
-        ),
+            MailboxSubscribeAction.subscribe)),
         leadingSVGIconColor: Colors.white,
         leadingSVGIcon: _imagePaths.icFolderMailbox,
         backgroundColor: AppColor.toastSuccessBackgroundColor,

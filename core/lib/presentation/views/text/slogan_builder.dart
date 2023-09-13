@@ -9,7 +9,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 typedef OnTapCallback = void Function();
 
 class SloganBuilder extends StatelessWidget {
-
   final bool arrangedByHorizontal;
   final String? text;
   final TextStyle? textStyle;
@@ -24,22 +23,21 @@ class SloganBuilder extends StatelessWidget {
   final Color? hoverColor;
   final double? hoverRadius;
 
-  const SloganBuilder({
-    super.key,
-    this.arrangedByHorizontal = true,
-    this.enableOverflow = false,
-    this.text,
-    this.textStyle,
-    this.textAlign,
-    this.logoSVG,
-    this.logo,
-    this.sizeLogo,
-    this.onTapCallback,
-    this.padding,
-    this.paddingText,
-    this.hoverColor,
-    this.hoverRadius
-  });
+  const SloganBuilder(
+      {super.key,
+      this.arrangedByHorizontal = true,
+      this.enableOverflow = false,
+      this.text,
+      this.textStyle,
+      this.textAlign,
+      this.logoSVG,
+      this.logo,
+      this.sizeLogo,
+      this.onTapCallback,
+      this.padding,
+      this.paddingText,
+      this.hoverColor,
+      this.hoverRadius});
 
   @override
   Widget build(BuildContext context) {
@@ -53,13 +51,16 @@ class SloganBuilder extends StatelessWidget {
           child: Column(children: [
             _logoApp(),
             Padding(
-              padding: paddingText ?? const EdgeInsetsDirectional.only(top: 16, start: 16, end: 16),
+              padding: paddingText ??
+                  const EdgeInsetsDirectional.only(top: 16, start: 16, end: 16),
               child: Text(
                 text ?? '',
                 style: textStyle,
                 textAlign: textAlign,
-                overflow: enableOverflow ? CommonTextStyle.defaultTextOverFlow : null,
-                softWrap: enableOverflow ? CommonTextStyle.defaultSoftWrap : null,
+                overflow:
+                    enableOverflow ? CommonTextStyle.defaultTextOverFlow : null,
+                softWrap:
+                    enableOverflow ? CommonTextStyle.defaultSoftWrap : null,
                 maxLines: enableOverflow ? 1 : null,
               ),
             ),
@@ -77,13 +78,16 @@ class SloganBuilder extends StatelessWidget {
           child: Row(children: [
             _logoApp(),
             Padding(
-              padding: paddingText ?? const EdgeInsets.symmetric(horizontal: 10),
+              padding:
+                  paddingText ?? const EdgeInsets.symmetric(horizontal: 10),
               child: Text(
                 text ?? '',
                 style: textStyle,
                 textAlign: textAlign,
-                overflow: enableOverflow ? CommonTextStyle.defaultTextOverFlow : null,
-                softWrap: enableOverflow ? CommonTextStyle.defaultSoftWrap : null,
+                overflow:
+                    enableOverflow ? CommonTextStyle.defaultTextOverFlow : null,
+                softWrap:
+                    enableOverflow ? CommonTextStyle.defaultSoftWrap : null,
                 maxLines: enableOverflow ? 1 : null,
               ),
             ),
@@ -95,17 +99,15 @@ class SloganBuilder extends StatelessWidget {
 
   Widget _logoApp() {
     if (logoSVG != null) {
-      return SvgPicture.asset(
-        logoSVG!,
-        width: sizeLogo ?? 150,
-        height: sizeLogo ?? 150);
+      return SvgPicture.asset(logoSVG!,
+          width: sizeLogo ?? 150, height: sizeLogo ?? 150);
     } else if (logo != null) {
       return Image(
-        image: AssetImage(logo!),
-        fit: BoxFit.fill,
-        width: sizeLogo ?? 150,
-        height: sizeLogo ?? 150,
-        alignment: Alignment.center);
+          image: AssetImage(logo!),
+          fit: BoxFit.fill,
+          width: sizeLogo ?? 150,
+          height: sizeLogo ?? 150,
+          alignment: Alignment.center);
     }
     return const SizedBox.shrink();
   }

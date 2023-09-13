@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 
 class UserProfile with EquatableMixin {
-
   final String email;
 
   UserProfile(this.email);

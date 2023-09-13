@@ -23,18 +23,22 @@ class LogoutOidcInteractor {
       final currentAccount = await _accountRepository.getCurrentAccount();
       log('LogoutOidcInteractor::execute(): currentAccount: $currentAccount');
       if (currentAccount.authenticationType == AuthenticationType.oidc) {
-        final result = await _authenticationOIDCRepository.getStoredOidcConfiguration()
-          .then((oidcConfig) => Future.wait([
-              Future.value(oidcConfig),
-              _authenticationOIDCRepository.getStoredTokenOIDC(currentAccount.id),
-              _authenticationOIDCRepository.discoverOIDC(oidcConfig)
-            ]))
-          .then((oidcParameters) async {
-            final oidcConfig = oidcParameters[0] as OIDCConfiguration;
-            final tokenOIDC = oidcParameters[1] as TokenOIDC;
-            final oidcDiscoveryResponse = oidcParameters[2] as OIDCDiscoveryResponse;
-            return await _authenticationOIDCRepository.logout(tokenOIDC.tokenId, oidcConfig, oidcDiscoveryResponse);
-          });
+        final result = await _authenticationOIDCRepository
+            .getStoredOidcConfiguration()
+            .then((oidcConfig) => Future.wait([
+                  Future.value(oidcConfig),
+                  _authenticationOIDCRepository
+                      .getStoredTokenOIDC(currentAccount.id),
+                  _authenticationOIDCRepository.discoverOIDC(oidcConfig)
+                ]))
+            .then((oidcParameters) async {
+          final oidcConfig = oidcParameters[0] as OIDCConfiguration;
+          final tokenOIDC = oidcParameters[1] as TokenOIDC;
+          final oidcDiscoveryResponse =
+              oidcParameters[2] as OIDCDiscoveryResponse;
+          return await _authenticationOIDCRepository.logout(
+              tokenOIDC.tokenId, oidcConfig, oidcDiscoveryResponse);
+        });
         log('LogoutOidcInteractor::execute(): statusSuccess: $result');
         if (result) {
           yield Right<Failure, Success>(LogoutOidcSuccess());

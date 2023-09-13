@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/resources/image_paths.dart';
 import 'package:core/presentation/utils/style_utils.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:tmail_ui_user/features/manage_account/presentation/language_and_
 typedef OnSelectLanguageAction = Function(Locale? localeSelected);
 
 class LanguageItemWidget extends StatelessWidget {
-
   final Locale localeSelected;
   final Locale localeCurrent;
   final OnSelectLanguageAction onSelectLanguageAction;
@@ -33,39 +31,32 @@ class LanguageItemWidget extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
           child: Row(children: [
-            Expanded(child: Row(
-              children: [
-                Text(
-                  localeCurrent.getLanguageNameByCurrentLocale(context),
-                  style: const TextStyle(
+            Expanded(
+                child: Row(children: [
+              Text(
+                localeCurrent.getLanguageNameByCurrentLocale(context),
+                style: const TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.normal,
-                    color: Colors.black
-                  ),
-                  maxLines: 1,
-                  softWrap: CommonTextStyle.defaultSoftWrap,
-                  overflow: CommonTextStyle.defaultTextOverFlow,
-                ),
-                Text(
-                  ' - ${localeCurrent.getSourceLanguageName()}',
-                  style: const TextStyle(
+                    color: Colors.black),
+                maxLines: 1,
+                softWrap: CommonTextStyle.defaultSoftWrap,
+                overflow: CommonTextStyle.defaultTextOverFlow,
+              ),
+              Text(
+                ' - ${localeCurrent.getSourceLanguageName()}',
+                style: const TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w500,
-                    color: Colors.black
-                  ),
-                  maxLines: 1,
-                  softWrap: CommonTextStyle.defaultSoftWrap,
-                  overflow: CommonTextStyle.defaultTextOverFlow,
-                )
-              ]
-            )),
-            if (localeCurrent == localeSelected)
-              SvgPicture.asset(
-                imagePaths.icChecked,
-                width: 20,
-                height: 20,
-                fit: BoxFit.fill
+                    color: Colors.black),
+                maxLines: 1,
+                softWrap: CommonTextStyle.defaultSoftWrap,
+                overflow: CommonTextStyle.defaultTextOverFlow,
               )
+            ])),
+            if (localeCurrent == localeSelected)
+              SvgPicture.asset(imagePaths.icChecked,
+                  width: 20, height: 20, fit: BoxFit.fill)
           ]),
         ),
       ),

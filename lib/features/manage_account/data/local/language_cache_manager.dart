@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 
 import 'package:core/utils/app_logger.dart';
@@ -15,7 +14,8 @@ class LanguageCacheManager {
   Future<void> persistLanguage(Locale localeCurrent) async {
     await Future.wait([
       _sharedPreferences.setString(keyLanguageCode, localeCurrent.languageCode),
-      _sharedPreferences.setString(keyCountryCode, localeCurrent.countryCode ?? '')
+      _sharedPreferences.setString(
+          keyCountryCode, localeCurrent.countryCode ?? '')
     ]);
   }
 

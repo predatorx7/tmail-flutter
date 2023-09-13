@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 
 class AvatarId with EquatableMixin {

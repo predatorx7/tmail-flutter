@@ -32,7 +32,6 @@ import 'package:tmail_ui_user/features/thread/data/model/email_address_hive_cach
 import 'package:tmail_ui_user/features/thread/data/model/email_cache.dart';
 
 class HiveCacheConfig {
-
   Future setUp({String? cachePath}) async {
     await initializeDatabase(databasePath: cachePath);
     registerAdapter();
@@ -43,7 +42,8 @@ class HiveCacheConfig {
       Hive.init(databasePath);
     } else {
       if (PlatformInfo.isMobile) {
-        Directory directory = await path_provider.getApplicationDocumentsDirectory();
+        Directory directory =
+            await path_provider.getApplicationDocumentsDirectory();
         Hive.init(directory.path);
       }
     }
@@ -60,18 +60,21 @@ class HiveCacheConfig {
 
   static Future<void> initializeEncryptionKey() async {
     final encryptionKeyCacheManager = Get.find<EncryptionKeyCacheManager>();
-    final encryptionKeyCache = await encryptionKeyCacheManager.getEncryptionKeyStored();
+    final encryptionKeyCache =
+        await encryptionKeyCacheManager.getEncryptionKeyStored();
     if (encryptionKeyCache == null) {
       final secureKey = Hive.generateSecureKey();
       final secureKeyEncode = base64Encode(secureKey);
       log('HiveCacheConfig::_initializeEncryptionKey(): secureKeyEncode: $secureKeyEncode');
-      await encryptionKeyCacheManager.storeEncryptionKey(EncryptionKeyCache(secureKeyEncode));
+      await encryptionKeyCacheManager
+          .storeEncryptionKey(EncryptionKeyCache(secureKeyEncode));
     }
   }
 
   static Future<Uint8List?> getEncryptionKey() async {
     final encryptionKeyCacheManager = Get.find<EncryptionKeyCacheManager>();
-    var encryptionKeyCache = await encryptionKeyCacheManager.getEncryptionKeyStored();
+    var encryptionKeyCache =
+        await encryptionKeyCacheManager.getEncryptionKeyStored();
 
     if (encryptionKeyCache != null) {
       final encryptionKey = encryptionKeyCache.value;
@@ -85,81 +88,46 @@ class HiveCacheConfig {
 
   void registerAdapter() {
     registerCacheAdapter<MailboxCache>(
-      MailboxCacheAdapter(),
-      CachingConstants.MAILBOX_CACHE_IDENTIFY
-    );
-    registerCacheAdapter<MailboxRightsCache>(
-      MailboxRightsCacheAdapter(),
-      CachingConstants.MAILBOX_RIGHTS_CACHE_IDENTIFY
-    );
+        MailboxCacheAdapter(), CachingConstants.MAILBOX_CACHE_IDENTIFY);
+    registerCacheAdapter<MailboxRightsCache>(MailboxRightsCacheAdapter(),
+        CachingConstants.MAILBOX_RIGHTS_CACHE_IDENTIFY);
     registerCacheAdapter<StateCache>(
-      StateCacheAdapter(),
-      CachingConstants.STATE_CACHE_IDENTIFY
-    );
+        StateCacheAdapter(), CachingConstants.STATE_CACHE_IDENTIFY);
     registerCacheAdapter<StateType>(
-      StateTypeAdapter(),
-      CachingConstants.STATE_TYPE_IDENTIFY
-    );
-    registerCacheAdapter<EmailAddressHiveCache>(
-      EmailAddressHiveCacheAdapter(),
-      CachingConstants.EMAIL_ADDRESS_HIVE_CACHE_IDENTIFY
-    );
+        StateTypeAdapter(), CachingConstants.STATE_TYPE_IDENTIFY);
+    registerCacheAdapter<EmailAddressHiveCache>(EmailAddressHiveCacheAdapter(),
+        CachingConstants.EMAIL_ADDRESS_HIVE_CACHE_IDENTIFY);
     registerCacheAdapter<EmailCache>(
-      EmailCacheAdapter(),
-      CachingConstants.EMAIL_CACHE_IDENTIFY
-    );
-    registerCacheAdapter<RecentSearchCache>(
-      RecentSearchCacheAdapter(),
-      CachingConstants.RECENT_SEARCH_HIVE_CACHE_IDENTIFY
-    );
-    registerCacheAdapter<TokenOidcCache>(
-      TokenOidcCacheAdapter(),
-      CachingConstants.TOKEN_OIDC_HIVE_CACHE_IDENTIFY
-    );
+        EmailCacheAdapter(), CachingConstants.EMAIL_CACHE_IDENTIFY);
+    registerCacheAdapter<RecentSearchCache>(RecentSearchCacheAdapter(),
+        CachingConstants.RECENT_SEARCH_HIVE_CACHE_IDENTIFY);
+    registerCacheAdapter<TokenOidcCache>(TokenOidcCacheAdapter(),
+        CachingConstants.TOKEN_OIDC_HIVE_CACHE_IDENTIFY);
     registerCacheAdapter<AccountCache>(
-      AccountCacheAdapter(),
-      CachingConstants.ACCOUNT_HIVE_CACHE_IDENTIFY
-    );
-    registerCacheAdapter<EncryptionKeyCache>(
-      EncryptionKeyCacheAdapter(),
-      CachingConstants.ENCRYPTION_KEY_HIVE_CACHE_IDENTIFY
-    );
+        AccountCacheAdapter(), CachingConstants.ACCOUNT_HIVE_CACHE_IDENTIFY);
+    registerCacheAdapter<EncryptionKeyCache>(EncryptionKeyCacheAdapter(),
+        CachingConstants.ENCRYPTION_KEY_HIVE_CACHE_IDENTIFY);
     registerCacheAdapter<AuthenticationInfoCache>(
-      AuthenticationInfoCacheAdapter(),
-      CachingConstants.AUTHENTICATION_INFO_HIVE_CACHE_IDENTIFY
-    );
-    registerCacheAdapter<RecentLoginUrlCache>(
-      RecentLoginUrlCacheAdapter(),
-      CachingConstants.RECENT_LOGIN_URL_HIVE_CACHE_IDENTITY
-    );
+        AuthenticationInfoCacheAdapter(),
+        CachingConstants.AUTHENTICATION_INFO_HIVE_CACHE_IDENTIFY);
+    registerCacheAdapter<RecentLoginUrlCache>(RecentLoginUrlCacheAdapter(),
+        CachingConstants.RECENT_LOGIN_URL_HIVE_CACHE_IDENTITY);
     registerCacheAdapter<RecentLoginUsernameCache>(
-      RecentLoginUsernameCacheAdapter(),
-      CachingConstants.RECENT_LOGIN_USERNAME_HIVE_CACHE_IDENTITY
-    );
-    registerCacheAdapter<FCMSubscriptionCache>(
-      FCMSubscriptionCacheAdapter(),
-      CachingConstants.FCM_SUBSCRIPTION_HIVE_CACHE_IDENTITY
-    );
-    registerCacheAdapter<AttachmentHiveCache>(
-      AttachmentHiveCacheAdapter(),
-      CachingConstants.ATTACHMENT_HIVE_CACHE_ID
-    );
-    registerCacheAdapter<EmailHeaderHiveCache>(
-      EmailHeaderHiveCacheAdapter(),
-      CachingConstants.EMAIL_HEADER_HIVE_CACHE_ID
-    );
+        RecentLoginUsernameCacheAdapter(),
+        CachingConstants.RECENT_LOGIN_USERNAME_HIVE_CACHE_IDENTITY);
+    registerCacheAdapter<FCMSubscriptionCache>(FCMSubscriptionCacheAdapter(),
+        CachingConstants.FCM_SUBSCRIPTION_HIVE_CACHE_IDENTITY);
+    registerCacheAdapter<AttachmentHiveCache>(AttachmentHiveCacheAdapter(),
+        CachingConstants.ATTACHMENT_HIVE_CACHE_ID);
+    registerCacheAdapter<EmailHeaderHiveCache>(EmailHeaderHiveCacheAdapter(),
+        CachingConstants.EMAIL_HEADER_HIVE_CACHE_ID);
     registerCacheAdapter<DetailedEmailHiveCache>(
-      DetailedEmailHiveCacheAdapter(),
-      CachingConstants.DETAILED_EMAIL_HIVE_CACHE_ID
-    );
-    registerCacheAdapter<SendingEmailHiveCache>(
-      SendingEmailHiveCacheAdapter(),
-      CachingConstants.SENDING_EMAIL_HIVE_CACHE_ID
-    );
+        DetailedEmailHiveCacheAdapter(),
+        CachingConstants.DETAILED_EMAIL_HIVE_CACHE_ID);
+    registerCacheAdapter<SendingEmailHiveCache>(SendingEmailHiveCacheAdapter(),
+        CachingConstants.SENDING_EMAIL_HIVE_CACHE_ID);
     registerCacheAdapter<SessionHiveObj>(
-      SessionHiveObjAdapter(),
-      CachingConstants.typeIdSessionHiveObj
-    );
+        SessionHiveObjAdapter(), CachingConstants.typeIdSessionHiveObj);
   }
 
   void registerCacheAdapter<T>(TypeAdapter<T> typeAdapter, int typeId) {

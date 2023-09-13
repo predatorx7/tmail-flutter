@@ -5,7 +5,6 @@ import 'package:core/core.dart';
 import 'package:collection/collection.dart';
 
 extension EmailAddressExtension on EmailAddress {
-
   String asString() {
     if (displayName.isNotEmpty) {
       return displayName;
@@ -31,7 +30,8 @@ extension EmailAddressExtension on EmailAddress {
 
   String get displayName => name ?? '';
 
-  String get labelAvatar => asString().isNotEmpty ? asString()[0].toUpperCase() : '';
+  String get labelAvatar =>
+      asString().isNotEmpty ? asString()[0].toUpperCase() : '';
 
   List<Color> get avatarColors {
     return AppColor.mapGradientColor[_generateIndex()];

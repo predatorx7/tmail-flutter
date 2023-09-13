@@ -21,11 +21,6 @@ class EmptyMailboxFolderArguments with EquatableMixin {
   );
 
   @override
-  List<Object?> get props => [
-    session,
-    accountId,
-    emailAPI,
-    threadAPI,
-    mailboxId
-  ];
+  List<Object?> get props =>
+      [session, accountId, emailAPI, threadAPI, mailboxId];
 }

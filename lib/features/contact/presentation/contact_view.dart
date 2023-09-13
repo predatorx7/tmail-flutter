@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/resources/image_paths.dart';
 import 'package:core/presentation/utils/responsive_utils.dart';
@@ -15,7 +14,6 @@ import 'package:tmail_ui_user/features/thread/presentation/widgets/search_app_ba
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
 class ContactView extends GetWidget<ContactController> {
-
   final _responsiveUtils = Get.find<ResponsiveUtils>();
   final _imagePaths = Get.find<ImagePaths>();
 
@@ -36,52 +34,58 @@ class ContactView extends GetWidget<ContactController> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(ContactUtils.getRadiusBorderAppBarTop(
-                            context,
-                            _responsiveUtils)),
-                        topRight: Radius.circular(ContactUtils.getRadiusBorderAppBarTop(
-                            context,
-                            _responsiveUtils))),
+                            context, _responsiveUtils)),
+                        topRight: Radius.circular(
+                            ContactUtils.getRadiusBorderAppBarTop(
+                                context, _responsiveUtils))),
                     color: Colors.white),
                 child: ClipRRect(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(ContactUtils.getRadiusBorderAppBarTop(
-                            context,
-                            _responsiveUtils)),
-                        topRight: Radius.circular(ContactUtils.getRadiusBorderAppBarTop(
-                            context,
-                            _responsiveUtils))),
-                    child: SafeArea(child: Container(
+                            context, _responsiveUtils)),
+                        topRight: Radius.circular(
+                            ContactUtils.getRadiusBorderAppBarTop(context, _responsiveUtils))),
+                    child: SafeArea(
+                        child: Container(
                       color: Colors.white,
                       child: Column(children: [
                         Container(
                             height: 52,
                             color: Colors.white,
-                            padding: ContactUtils.getPaddingAppBar(context, _responsiveUtils),
+                            padding: ContactUtils.getPaddingAppBar(
+                                context, _responsiveUtils),
                             child: AppBarContactWidget(
-                                onCloseContactView: () => controller.closeContactView(context))
-                        ),
-                        const Divider(color: AppColor.colorDividerComposer, height: 1),
+                                onCloseContactView: () =>
+                                    controller.closeContactView(context))),
+                        const Divider(
+                            color: AppColor.colorDividerComposer, height: 1),
                         SearchAppBarWidget(
                           imagePaths: _imagePaths,
                           searchQuery: controller.searchQuery.value,
                           searchFocusNode: controller.textInputSearchFocus,
-                          searchInputController: controller.textInputSearchController,
+                          searchInputController:
+                              controller.textInputSearchController,
                           hasBackButton: false,
                           hasSearchButton: true,
                           padding: EdgeInsets.zero,
                           heightSearchBar: 44,
-                          margin: ContactUtils.getPaddingSearchInputForm(context, _responsiveUtils),
+                          margin: ContactUtils.getPaddingSearchInputForm(
+                              context, _responsiveUtils),
                           decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            color: AppColor.colorBgSearchBar),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              color: AppColor.colorBgSearchBar),
                           iconClearText: SvgPicture.asset(
-                            _imagePaths.icClearTextSearch,
-                            width: 18,
-                            height: 18,
-                            fit: BoxFit.fill),
-                          hintText: AppLocalizations.of(context).hintSearchInputContact,
-                          onClearTextSearchAction: controller.clearAllTextInputSearchForm,
-                          onTextChangeSearchAction: controller.onTextSearchChange,
+                              _imagePaths.icClearTextSearch,
+                              width: 18,
+                              height: 18,
+                              fit: BoxFit.fill),
+                          hintText: AppLocalizations.of(context)
+                              .hintSearchInputContact,
+                          onClearTextSearchAction:
+                              controller.clearAllTextInputSearchForm,
+                          onTextChangeSearchAction:
+                              controller.onTextSearchChange,
                           onSearchTextAction: controller.onSearchTextAction,
                         ),
                         Expanded(child: Obx(() {
@@ -89,47 +93,56 @@ class ContactView extends GetWidget<ContactController> {
                             return Container(
                                 color: Colors.white,
                                 child: ListView.separated(
-                                    itemCount: controller.listContactSearched.length,
+                                    itemCount:
+                                        controller.listContactSearched.length,
                                     separatorBuilder: (context, index) {
                                       return Padding(
-                                        padding: ContactUtils.getPaddingDividerSearchResultList(context, _responsiveUtils),
+                                        padding: ContactUtils
+                                            .getPaddingDividerSearchResultList(
+                                                context, _responsiveUtils),
                                         child: const Divider(
                                             height: 1,
                                             color: AppColor.colorDivider),
                                       );
                                     },
                                     itemBuilder: (context, index) {
-                                      final emailAddress = controller.listContactSearched[index];
-                                      final suggestionEmailAddress = _toSuggestionEmailAddress(
-                                        emailAddress,
-                                        controller.contactSelected != null
-                                          ? [controller.contactSelected!]
-                                          : []
-                                      );
+                                      final emailAddress =
+                                          controller.listContactSearched[index];
+                                      final suggestionEmailAddress =
+                                          _toSuggestionEmailAddress(
+                                              emailAddress,
+                                              controller.contactSelected != null
+                                                  ? [
+                                                      controller
+                                                          .contactSelected!
+                                                    ]
+                                                  : []);
                                       return ContactSuggestionBoxItem(
                                         suggestionEmailAddress,
-                                        padding: ContactUtils.getPaddingSearchResultList(context, _responsiveUtils),
-                                        selectedContactCallbackAction: (contact) => controller.selectContact(context, contact),
+                                        padding: ContactUtils
+                                            .getPaddingSearchResultList(
+                                                context, _responsiveUtils),
+                                        selectedContactCallbackAction:
+                                            (contact) =>
+                                                controller.selectContact(
+                                                    context, contact),
                                       );
-                                    }
-                                )
-                            );
+                                    }));
                           } else {
                             return const SizedBox.shrink();
                           }
                         })),
                       ]),
-                    ))
-                )
-            ),
+                    )))),
           ),
-        )
-    );
+        ));
   }
 
-  SuggestionEmailAddress _toSuggestionEmailAddress(EmailAddress item, List<EmailAddress> addedEmailAddresses) {
+  SuggestionEmailAddress _toSuggestionEmailAddress(
+      EmailAddress item, List<EmailAddress> addedEmailAddresses) {
     if (addedEmailAddresses.contains(item)) {
-      return SuggestionEmailAddress(item, state: SuggestionEmailState.duplicated);
+      return SuggestionEmailAddress(item,
+          state: SuggestionEmailState.duplicated);
     } else {
       return SuggestionEmailAddress(item);
     }

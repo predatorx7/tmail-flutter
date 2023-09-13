@@ -3,7 +3,6 @@ import 'package:tmail_ui_user/features/caching/clients/cache_version_client.dart
 import 'package:tmail_ui_user/main/exceptions/exception_thrower.dart';
 
 class HiveCacheVersionClient extends CacheVersionClient {
-
   final SharedPreferences _sharedPreferences;
   final ExceptionThrower _exceptionThrower;
 

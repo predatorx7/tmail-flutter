@@ -1,6 +1,4 @@
-
 extension MapExtensions<K, V> on Map<K, V> {
-
   Map<K, V> where(bool Function(K, V) condition) {
     Map<K, V> result = {};
     for (var element in entries) {

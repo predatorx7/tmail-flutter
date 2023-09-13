@@ -12,24 +12,14 @@ import 'package:jmap_dart_client/jmap/jmap_request.dart';
 
 void main() {
   group('test to json autocomplete_tmail_contact method', () {
-    final contact1 = TMailContact(
-        '2',
-         '',
-         '',
-        'marie@otherdomain.tld'
-    );
+    final contact1 = TMailContact('2', '', '', 'marie@otherdomain.tld');
 
-    final contact2 = TMailContact(
-        '4',
-        'Marie',
-        'Dupond',
-        'mdupond@linagora.com'
-    );
+    final contact2 =
+        TMailContact('4', 'Marie', 'Dupond', 'mdupond@linagora.com');
 
     test('autocomplete_tmail_contact method and response parsing', () async {
-      final baseOption  = BaseOptions(method: 'POST');
-      final dio = Dio(baseOption)
-        ..options.baseUrl = 'http://domain.com/jmap';
+      final baseOption = BaseOptions(method: 'POST');
+      final dio = Dio(baseOption)..options.baseUrl = 'http://domain.com/jmap';
       final dioAdapter = DioAdapter(dio: dio);
       dioAdapter.onPost(
           '',
@@ -71,9 +61,7 @@ void main() {
                 {
                   "accountId":
                       "29883977c13473ae7cb7678ef767cbfbaffc8a44a6e463d971d23a65c1dc4af6",
-                  "filter": {
-                    "text": "marie"
-                  }
+                  "filter": {"text": "marie"}
                 },
                 "c0"
               ]
@@ -86,14 +74,16 @@ void main() {
 
       final httpClient = HttpClient(dio);
       final processingInvocation = ProcessingInvocation();
-      final requestBuilder = JmapRequestBuilder(httpClient, processingInvocation);
-      final accountId = AccountId(Id('29883977c13473ae7cb7678ef767cbfbaffc8a44a6e463d971d23a65c1dc4af6'));
+      final requestBuilder =
+          JmapRequestBuilder(httpClient, processingInvocation);
+      final accountId = AccountId(Id(
+          '29883977c13473ae7cb7678ef767cbfbaffc8a44a6e463d971d23a65c1dc4af6'));
 
-      final autoCompleteMethod = AutoCompleteTMailContactMethod(
-          accountId,
-          ContactFilter('marie'));
-      
-      final autoCompleteInvocation = requestBuilder.invocation(autoCompleteMethod);
+      final autoCompleteMethod =
+          AutoCompleteTMailContactMethod(accountId, ContactFilter('marie'));
+
+      final autoCompleteInvocation =
+          requestBuilder.invocation(autoCompleteMethod);
       final response = await (requestBuilder
             ..usings(autoCompleteMethod.requiredCapabilities))
           .build()

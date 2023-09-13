@@ -1,4 +1,3 @@
-
 import 'package:byte_converter/byte_converter.dart';
 import 'package:core/presentation/resources/image_paths.dart';
 import 'package:core/presentation/utils/style_utils.dart';
@@ -10,10 +9,10 @@ import 'package:tmail_ui_user/features/email/presentation/extensions/attachment_
 import 'package:tmail_ui_user/features/mailbox_dashboard/presentation/model/download/download_task_state.dart';
 
 class DownloadTaskItemWidget extends StatelessWidget with AppLoaderMixin {
-
   final DownloadTaskState taskState;
 
-  const DownloadTaskItemWidget(this.taskState, {
+  const DownloadTaskItemWidget(
+    this.taskState, {
     Key? key,
   }) : super(key: key);
 
@@ -35,11 +34,8 @@ class DownloadTaskItemWidget extends StatelessWidget with AppLoaderMixin {
             color: Colors.transparent,
             height: 30,
             child: Stack(alignment: Alignment.center, children: [
-              SvgPicture.asset(
-                  taskState.attachment.getIcon(imagePaths),
-                  width: 16,
-                  height: 16,
-                  fit: BoxFit.fill),
+              SvgPicture.asset(taskState.attachment.getIcon(imagePaths),
+                  width: 16, height: 16, fit: BoxFit.fill),
               circularPercentLoadingWidget(taskState.percentDownloading)
             ]),
           ),
@@ -58,7 +54,7 @@ class DownloadTaskItemWidget extends StatelessWidget with AppLoaderMixin {
                 const SizedBox(height: 4),
                 Text(
                     '${ByteConverter(taskState.downloaded.toDouble()).toHumanReadable(SizeUnit.MB)}/'
-                        '${ByteConverter(taskState.total.toDouble()).toHumanReadable(SizeUnit.MB)}',
+                    '${ByteConverter(taskState.total.toDouble()).toHumanReadable(SizeUnit.MB)}',
                     softWrap: CommonTextStyle.defaultSoftWrap,
                     overflow: CommonTextStyle.defaultTextOverFlow,
                     maxLines: 1,

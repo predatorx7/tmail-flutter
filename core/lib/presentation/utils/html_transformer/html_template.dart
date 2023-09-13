@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 const nameClassToolTip = 'tmail-tooltip';
@@ -23,14 +22,13 @@ const tooltipLinkCss = '''
   }
 ''';
 
-String generateHtml(String content, {
-  double? minHeight,
-  double? minWidth,
-  String? styleCSS,
-  String? javaScripts,
-  bool hideScrollBar = true,
-  TextDirection? direction
-}) {
+String generateHtml(String content,
+    {double? minHeight,
+    double? minWidth,
+    String? styleCSS,
+    String? javaScripts,
+    bool hideScrollBar = true,
+    TextDirection? direction}) {
   return '''
     <!DOCTYPE html>
     <html>

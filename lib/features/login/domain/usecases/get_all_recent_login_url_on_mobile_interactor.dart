@@ -9,13 +9,13 @@ class GetAllRecentLoginUrlOnMobileInteractor {
 
   GetAllRecentLoginUrlOnMobileInteractor(this._loginUrlRepository);
 
-  Future<Either<Failure, Success>> execute({int? limit, String? pattern}) async {
-    try{
-      final listRecentUrl = await _loginUrlRepository.getAllRecentLoginUrlLatest(
-          limit: limit,
-          pattern: pattern);
+  Future<Either<Failure, Success>> execute(
+      {int? limit, String? pattern}) async {
+    try {
+      final listRecentUrl = await _loginUrlRepository
+          .getAllRecentLoginUrlLatest(limit: limit, pattern: pattern);
       return Right(GetAllRecentLoginUrlLatestSuccess(listRecentUrl));
-    } catch(e) {
+    } catch (e) {
       return Left(GetAllRecentLoginUrlLatestFailure(e));
     }
   }

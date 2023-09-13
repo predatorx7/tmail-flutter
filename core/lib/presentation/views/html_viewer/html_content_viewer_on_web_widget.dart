@@ -12,7 +12,6 @@ import 'package:universal_html/html.dart' as html;
 import 'package:core/presentation/utils/shims/dart_ui.dart' as ui;
 
 class HtmlContentViewerOnWeb extends StatefulWidget {
-
   final String contentHtml;
   final double widthContent;
   final double heightContent;
@@ -22,9 +21,9 @@ class HtmlContentViewerOnWeb extends StatefulWidget {
   /// Handler for mailto: links
   final Function(Uri?)? mailtoDelegate;
 
-  // if widthContent is bigger than width of htmlContent, set this to true let widget able to resize to width of htmlContent 
+  // if widthContent is bigger than width of htmlContent, set this to true let widget able to resize to width of htmlContent
   final bool allowResizeToDocumentSize;
-  
+
   const HtmlContentViewerOnWeb({
     Key? key,
     required this.contentHtml,
@@ -41,11 +40,12 @@ class HtmlContentViewerOnWeb extends StatefulWidget {
 }
 
 class _HtmlContentViewerOnWebState extends State<HtmlContentViewerOnWeb> {
-
   /// The view ID for the IFrameElement. Must be unique.
   late String createdViewId;
+
   /// The actual height of the content view, used to automatically set the height
   late double actualHeight;
+
   /// The actual width of the content view, used to automatically set the width
   late double actualWidth;
 
@@ -169,11 +169,13 @@ class _HtmlContentViewerOnWebState extends State<HtmlContentViewerOnWeb> {
     ''';
 
     final htmlTemplate = generateHtml(content,
-      minHeight: minHeight,
-      minWidth: minWidth,
-      styleCSS: tooltipLinkCss,
-      javaScripts: webViewActionScripts + scriptsDisableZoom + HtmlUtils.scriptLazyLoadImage,
-      direction: widget.direction);
+        minHeight: minHeight,
+        minWidth: minWidth,
+        styleCSS: tooltipLinkCss,
+        javaScripts: webViewActionScripts +
+            scriptsDisableZoom +
+            HtmlUtils.scriptLazyLoadImage,
+        direction: widget.direction);
 
     return htmlTemplate;
   }
@@ -190,8 +192,14 @@ class _HtmlContentViewerOnWebState extends State<HtmlContentViewerOnWeb> {
       ..style.width = '100%'
       ..style.height = '100%'
       ..onLoad.listen((event) async {
-        final dataGetHeight = <String, Object>{'type': 'toIframe: getHeight', 'view' : createdViewId};
-        final dataGetWidth = <String, Object>{'type': 'toIframe: getWidth', 'view' : createdViewId};
+        final dataGetHeight = <String, Object>{
+          'type': 'toIframe: getHeight',
+          'view': createdViewId
+        };
+        final dataGetWidth = <String, Object>{
+          'type': 'toIframe: getWidth',
+          'view': createdViewId
+        };
 
         const jsonEncoder = JsonEncoder();
         final jsonGetHeight = jsonEncoder.convert(dataGetHeight);
@@ -202,7 +210,9 @@ class _HtmlContentViewerOnWebState extends State<HtmlContentViewerOnWeb> {
 
         html.window.onMessage.listen((event) {
           var data = json.decode(event.data);
-          if (data['type'] != null && data['type'].contains('toDart: htmlHeight') && data['view'] == createdViewId) {
+          if (data['type'] != null &&
+              data['type'].contains('toDart: htmlHeight') &&
+              data['view'] == createdViewId) {
             final docHeight = data['height'] ?? actualHeight;
             if (docHeight != null && mounted) {
               final scrollHeightWithBuffer = docHeight + 30.0;
@@ -220,7 +230,9 @@ class _HtmlContentViewerOnWebState extends State<HtmlContentViewerOnWeb> {
             }
           }
 
-          if (data['type'] != null && data['type'].contains('toDart: htmlWidth') && data['view'] == createdViewId) {
+          if (data['type'] != null &&
+              data['type'].contains('toDart: htmlWidth') &&
+              data['view'] == createdViewId) {
             final docWidth = data['width'] ?? actualWidth;
             if (docWidth != null && mounted) {
               if (docWidth > minWidth && widget.allowResizeToDocumentSize) {
@@ -231,7 +243,9 @@ class _HtmlContentViewerOnWebState extends State<HtmlContentViewerOnWeb> {
             }
           }
 
-          if (data['type'] != null && data['type'].contains('toDart: OpenLink') && data['view'] == createdViewId) {
+          if (data['type'] != null &&
+              data['type'].contains('toDart: OpenLink') &&
+              data['view'] == createdViewId) {
             final link = data['url'];
             if (link != null && mounted) {
               log('_HtmlContentViewerOnWebState::_setUpWeb(): OpenLink: $link');
@@ -244,7 +258,8 @@ class _HtmlContentViewerOnWebState extends State<HtmlContentViewerOnWeb> {
         });
       });
 
-    ui.platformViewRegistry.registerViewFactory(createdViewId, (int viewId) => iframe);
+    ui.platformViewRegistry
+        .registerViewFactory(createdViewId, (int viewId) => iframe);
 
     if (mounted) {
       setState(() {
@@ -262,7 +277,8 @@ class _HtmlContentViewerOnWebState extends State<HtmlContentViewerOnWeb> {
           width: actualWidth,
           child: _buildWebView(),
         ),
-        if (_isLoading) Align(alignment: Alignment.topCenter, child: _buildLoadingView())
+        if (_isLoading)
+          Align(alignment: Alignment.topCenter, child: _buildLoadingView())
       ],
     );
   }
@@ -283,17 +299,16 @@ class _HtmlContentViewerOnWebState extends State<HtmlContentViewerOnWeb> {
     }
 
     return FutureBuilder<bool>(
-      future: webInit,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return HtmlElementView(
-            key: ValueKey(htmlData),
-            viewType: createdViewId,
-          );
-        } else {
-          return Container();
-        }
-      }
-    );
+        future: webInit,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return HtmlElementView(
+              key: ValueKey(htmlData),
+              viewType: createdViewId,
+            );
+          } else {
+            return Container();
+          }
+        });
   }
 }

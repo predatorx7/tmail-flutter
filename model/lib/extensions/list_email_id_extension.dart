@@ -6,34 +6,39 @@ import 'package:jmap_dart_client/jmap/mail/mailbox/mailbox.dart';
 import 'package:model/model.dart';
 
 extension ListEmailIdExtension on List<EmailId> {
-
   List<Id> toIds() => map((emailId) => emailId.id).toList();
 
-  Map<Id, PatchObject> generateMapUpdateObjectMarkAsRead(ReadActions readActions) {
+  Map<Id, PatchObject> generateMapUpdateObjectMarkAsRead(
+      ReadActions readActions) {
     return {
       for (var emailId in this)
-        emailId.id: KeyWordIdentifier.emailSeen.generateReadActionPath(readActions)
+        emailId.id:
+            KeyWordIdentifier.emailSeen.generateReadActionPath(readActions)
     };
   }
 
-  Map<Id, PatchObject> generateMapUpdateObjectMoveToMailbox(MailboxId currentMailboxId, MailboxId destinationMailboxId) {
+  Map<Id, PatchObject> generateMapUpdateObjectMoveToMailbox(
+      MailboxId currentMailboxId, MailboxId destinationMailboxId) {
     return {
       for (var emailId in this)
-        emailId.id: currentMailboxId.generateMoveToMailboxActionPath(destinationMailboxId)
+        emailId.id: currentMailboxId
+            .generateMoveToMailboxActionPath(destinationMailboxId)
     };
   }
 
-  Map<Id, PatchObject> generateMapUpdateObjectMarkAsStar(MarkStarAction markStarAction) {
+  Map<Id, PatchObject> generateMapUpdateObjectMarkAsStar(
+      MarkStarAction markStarAction) {
     return {
       for (var emailId in this)
-        emailId.id: KeyWordIdentifier.emailFlagged.generateMarkStarActionPath(markStarAction)
+        emailId.id: KeyWordIdentifier.emailFlagged
+            .generateMarkStarActionPath(markStarAction)
     };
   }
 
-  Map<Id, PatchObject> generateMapUpdateObjectMarkAsSpam(MailboxId spamMailboxId) {
+  Map<Id, PatchObject> generateMapUpdateObjectMarkAsSpam(
+      MailboxId spamMailboxId) {
     return {
-      for (var emailId in this)
-        emailId.id: spamMailboxId.generateActionPath()
+      for (var emailId in this) emailId.id: spamMailboxId.generateActionPath()
     };
   }
 
@@ -47,7 +52,8 @@ extension ListEmailIdExtension on List<EmailId> {
   Map<Id, PatchObject> generateMapUpdateObjectMarkAsForwarded() {
     return {
       for (var emailId in this)
-        emailId.id: KeyWordIdentifier.emailForwarded.generateForwardedActionPath()
+        emailId.id:
+            KeyWordIdentifier.emailForwarded.generateForwardedActionPath()
     };
   }
 }

@@ -1,12 +1,10 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:rule_filter/rule_filter/rule_condition.dart' as rule_condition;
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
 extension RuleConditionFieldExtension on rule_condition.Field {
-
   String getTitle(BuildContext context) {
-    switch(this) {
+    switch (this) {
       case rule_condition.Field.from:
         return AppLocalizations.of(context).ruleFilterAddressFromField;
       case rule_condition.Field.to:
@@ -22,9 +20,8 @@ extension RuleConditionFieldExtension on rule_condition.Field {
 }
 
 extension RuleConditionComparatorExtension on rule_condition.Comparator {
-
   String getTitle(BuildContext context) {
-    switch(this) {
+    switch (this) {
       case rule_condition.Comparator.contains:
         return AppLocalizations.of(context).contains;
       case rule_condition.Comparator.notContains:

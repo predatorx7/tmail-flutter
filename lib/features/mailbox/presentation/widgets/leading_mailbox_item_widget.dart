@@ -1,4 +1,3 @@
-
 import 'package:core/presentation/extensions/color_extension.dart';
 import 'package:core/presentation/resources/image_paths.dart';
 import 'package:core/presentation/views/button/icon_button_web.dart';
@@ -16,7 +15,6 @@ import 'package:tmail_ui_user/features/mailbox/presentation/widgets/mailbox_icon
 import 'package:tmail_ui_user/main/localizations/app_localizations.dart';
 
 class LeadingMailboxItemWidget extends StatelessWidget {
-
   final MailboxNode mailboxNode;
   final SelectMode selectionMode;
   final OnSelectMailboxNodeAction? onSelectMailboxFolderClick;
@@ -39,28 +37,27 @@ class LeadingMailboxItemWidget extends StatelessWidget {
         Padding(
           padding: LeadingMailboxItemWidgetStyles.expandIconPadding,
           child: buildIconWeb(
-            icon: SvgPicture.asset(
-              _getExpandIcon(context, imagePaths),
-              colorFilter: _expandIconColor.asFilter(),
-              fit: BoxFit.fill,
-            ),
-            splashRadius: LeadingMailboxItemWidgetStyles.expandIconSplashRadius,
-            iconPadding: EdgeInsets.zero,
-            minSize: LeadingMailboxItemWidgetStyles.expandIconSize,
-            tooltip: _getExpandTooltipMessage(context),
-            onTap: () => onExpandFolderActionClick?.call(mailboxNode)
-          ),
+              icon: SvgPicture.asset(
+                _getExpandIcon(context, imagePaths),
+                colorFilter: _expandIconColor.asFilter(),
+                fit: BoxFit.fill,
+              ),
+              splashRadius:
+                  LeadingMailboxItemWidgetStyles.expandIconSplashRadius,
+              iconPadding: EdgeInsets.zero,
+              minSize: LeadingMailboxItemWidgetStyles.expandIconSize,
+              tooltip: _getExpandTooltipMessage(context),
+              onTap: () => onExpandFolderActionClick?.call(mailboxNode)),
         )
       else
         const SizedBox(width: LeadingMailboxItemWidgetStyles.emptyBoxSize),
       Transform(
-        transform: LeadingMailboxItemWidgetStyles.mailboxIconTransform(context),
-        child: MailboxIconWidget(
-          mailboxNode: mailboxNode,
-          selectionMode: selectionMode,
-          onSelectMailboxFolderClick: onSelectMailboxFolderClick
-        )
-      ),
+          transform:
+              LeadingMailboxItemWidgetStyles.mailboxIconTransform(context),
+          child: MailboxIconWidget(
+              mailboxNode: mailboxNode,
+              selectionMode: selectionMode,
+              onSelectMailboxFolderClick: onSelectMailboxFolderClick)),
     ]);
   }
 
@@ -69,20 +66,20 @@ class LeadingMailboxItemWidget extends StatelessWidget {
       return imagePaths.icArrowBottom;
     } else {
       return DirectionUtils.isDirectionRTLByLanguage(context)
-        ? imagePaths.icArrowLeft
-        : imagePaths.icArrowRight;
+          ? imagePaths.icArrowLeft
+          : imagePaths.icArrowRight;
     }
   }
 
   Color get _expandIconColor {
     return mailboxNode.item.allowedToDisplay
-      ? LeadingMailboxItemWidgetStyles.displayColor
-      : LeadingMailboxItemWidgetStyles.normalColor;
+        ? LeadingMailboxItemWidgetStyles.displayColor
+        : LeadingMailboxItemWidgetStyles.normalColor;
   }
 
   String _getExpandTooltipMessage(BuildContext context) {
     return mailboxNode.expandMode == ExpandMode.EXPAND
-      ? AppLocalizations.of(context).collapse
-      : AppLocalizations.of(context).expand;
+        ? AppLocalizations.of(context).collapse
+        : AppLocalizations.of(context).expand;
   }
 }

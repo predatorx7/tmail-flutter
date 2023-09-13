@@ -16,7 +16,6 @@ import 'package:uuid/uuid.dart';
 import 'package:worker_manager/worker_manager.dart';
 
 class NetworkIsolateBindings extends Bindings {
-
   @override
   void dependencies() {
     _bindingDio();
@@ -25,36 +24,48 @@ class NetworkIsolateBindings extends Bindings {
   }
 
   void _bindingDio() {
-    final dio = Get.put(Dio(Get.find<BaseOptions>()), tag: BindingTag.isolateTag);
+    final dio =
+        Get.put(Dio(Get.find<BaseOptions>()), tag: BindingTag.isolateTag);
     Get.put(DioClient(dio), tag: BindingTag.isolateTag);
     _bindingInterceptors(dio);
   }
 
   void _bindingInterceptors(Dio dio) {
-    Get.put(AuthorizationInterceptors(
-      dio,
-      Get.find<AuthenticationClientBase>(),
-      Get.find<TokenOidcCacheManager>(),
-      Get.find<AccountCacheManager>(),
-    ), tag: BindingTag.isolateTag);
+    Get.put(
+        AuthorizationInterceptors(
+          dio,
+          Get.find<AuthenticationClientBase>(),
+          Get.find<TokenOidcCacheManager>(),
+          Get.find<AccountCacheManager>(),
+        ),
+        tag: BindingTag.isolateTag);
     dio.interceptors.add(Get.find<DynamicUrlInterceptors>());
-    dio.interceptors.add(Get.find<AuthorizationInterceptors>(tag: BindingTag.isolateTag));
+    dio.interceptors
+        .add(Get.find<AuthorizationInterceptors>(tag: BindingTag.isolateTag));
     if (kDebugMode) {
       dio.interceptors.add(LogInterceptor(requestBody: true));
     }
   }
 
   void _bindingApi() {
-    final httpClient = Get.put(HttpClient(Get.find<Dio>(tag: BindingTag.isolateTag)), tag: BindingTag.isolateTag);
-    Get.put(DownloadClient(Get.find<DioClient>(tag: BindingTag.isolateTag), Get.find<CompressFileUtils>()), tag: BindingTag.isolateTag);
-    Get.put(DownloadManager(Get.find<DownloadClient>(tag: BindingTag.isolateTag)), tag: BindingTag.isolateTag);
+    final httpClient = Get.put(
+        HttpClient(Get.find<Dio>(tag: BindingTag.isolateTag)),
+        tag: BindingTag.isolateTag);
+    Get.put(
+        DownloadClient(Get.find<DioClient>(tag: BindingTag.isolateTag),
+            Get.find<CompressFileUtils>()),
+        tag: BindingTag.isolateTag);
+    Get.put(
+        DownloadManager(Get.find<DownloadClient>(tag: BindingTag.isolateTag)),
+        tag: BindingTag.isolateTag);
     Get.put(ThreadAPI(httpClient), tag: BindingTag.isolateTag);
-    Get.put(EmailAPI(
-      httpClient,
-      Get.find<DownloadManager>(tag: BindingTag.isolateTag),
-      Get.find<DioClient>(tag: BindingTag.isolateTag),
-      Get.find<Uuid>()
-    ), tag: BindingTag.isolateTag);
+    Get.put(
+        EmailAPI(
+            httpClient,
+            Get.find<DownloadManager>(tag: BindingTag.isolateTag),
+            Get.find<DioClient>(tag: BindingTag.isolateTag),
+            Get.find<Uuid>()),
+        tag: BindingTag.isolateTag);
   }
 
   void _bindingIsolateWorker() {

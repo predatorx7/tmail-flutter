@@ -9,7 +9,8 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:rule_filter/rule_filter/capability_rule_filter.dart';
 import 'package:rule_filter/rule_filter/tmail_rule.dart';
 
-class SetRuleFilterMethod extends SetMethod<List<TMailRule>> with OptionalUpdateRuleFilter<List<TMailRule>>{
+class SetRuleFilterMethod extends SetMethod<List<TMailRule>>
+    with OptionalUpdateRuleFilter<List<TMailRule>> {
   SetRuleFilterMethod(AccountId accountId) : super(accountId);
 
   @override
@@ -33,13 +34,11 @@ class SetRuleFilterMethod extends SetMethod<List<TMailRule>> with OptionalUpdate
     }
 
     writeNotNull('ifInState', ifInState?.value);
-    writeNotNull(
-        'update',
-        updateRuleFilter?.map((id, update) {
-        final listJsonUpdatesRuleFilter = update.map((e) => e.toJson()).toList();
-        return  SetMethodPropertiesConverter()
-              .fromMapIdToJson(id, listJsonUpdatesRuleFilter);
-        }));
+    writeNotNull('update', updateRuleFilter?.map((id, update) {
+      final listJsonUpdatesRuleFilter = update.map((e) => e.toJson()).toList();
+      return SetMethodPropertiesConverter()
+          .fromMapIdToJson(id, listJsonUpdatesRuleFilter);
+    }));
 
     return val;
   }

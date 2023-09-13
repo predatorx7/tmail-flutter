@@ -18,9 +18,7 @@ import 'package:tmail_ui_user/features/manage_account/presentation/mailbox_visib
 import 'package:tmail_ui_user/features/manage_account/presentation/mailbox_visibility/widgets/mailbox_visibility_header_widget.dart';
 
 class MailboxVisibilityView extends GetWidget<MailboxVisibilityController>
-  with AppLoaderMixin,
-    MailboxWidgetMixin {
-
+    with AppLoaderMixin, MailboxWidgetMixin {
   final _responsiveUtils = Get.find<ResponsiveUtils>();
   final _imagePaths = Get.find<ImagePaths>();
 
@@ -30,89 +28,74 @@ class MailboxVisibilityView extends GetWidget<MailboxVisibilityController>
   Widget build(BuildContext context) {
     return SettingDetailViewBuilder(
       responsiveUtils: _responsiveUtils,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (_responsiveUtils.isWebDesktop(context))
-            ...[
-              const SizedBox(height: 24),
-              const MailboxVisibilityHeaderWidget(),
-              const SizedBox(height: 16),
-              const Divider(
-                color: AppColor.colorDividerMailbox,
-                height: 0.5,
-                thickness: 0.2
-              )
-            ],
-          _buildLoadingView(),
-          Expanded(child: Padding(
-            padding: MailboxVisibilityUtils.getPaddingListView(context, _responsiveUtils),
-            child: _buildListMailbox(context)
-          ))
-        ]
-      ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        if (_responsiveUtils.isWebDesktop(context)) ...[
+          const SizedBox(height: 24),
+          const MailboxVisibilityHeaderWidget(),
+          const SizedBox(height: 16),
+          const Divider(
+              color: AppColor.colorDividerMailbox, height: 0.5, thickness: 0.2)
+        ],
+        _buildLoadingView(),
+        Expanded(
+            child: Padding(
+                padding: MailboxVisibilityUtils.getPaddingListView(
+                    context, _responsiveUtils),
+                child: _buildListMailbox(context)))
+      ]),
     );
   }
 
   Widget _buildLoadingView() {
     return Obx(() => controller.viewState.value.fold(
-      (failure) => const SizedBox.shrink(),
-      (success) => success is LoadingState || success is LoadingBuildTreeMailboxVisibility
-        ? Padding(padding: const EdgeInsets.only(top: 16), child: loadingWidget)
-        : const SizedBox.shrink()));
+        (failure) => const SizedBox.shrink(),
+        (success) => success is LoadingState ||
+                success is LoadingBuildTreeMailboxVisibility
+            ? Padding(
+                padding: const EdgeInsets.only(top: 16), child: loadingWidget)
+            : const SizedBox.shrink()));
   }
 
   Widget _buildListMailbox(BuildContext context) {
     return SingleChildScrollView(
-      controller: controller.mailboxListScrollController,
-      key: const PageStorageKey('mailbox_list'),
-      physics: const ClampingScrollPhysics(),
-      child: Column(children: [
-        Obx(() => controller.defaultMailboxIsNotEmpty
-          ? _buildMailboxCategory(
-              context,
-              MailboxCategories.exchange,
-              controller.defaultRootNode)
-          : const SizedBox.shrink()
-        ),
-        Obx(() => controller.teamMailboxesIsNotEmpty
-          ? _buildMailboxCategory(
-              context,
-              MailboxCategories.teamMailboxes,
-              controller.teamMailboxesRootNode)
-          : const SizedBox.shrink()
-        ),
-        Obx(() => controller.personalMailboxIsNotEmpty
-          ? _buildMailboxCategory(
-              context,
-              MailboxCategories.personalFolders,
-              controller.personalRootNode)
-          : const SizedBox.shrink()
-        )
-      ])
-    );
+        controller: controller.mailboxListScrollController,
+        key: const PageStorageKey('mailbox_list'),
+        physics: const ClampingScrollPhysics(),
+        child: Column(children: [
+          Obx(() => controller.defaultMailboxIsNotEmpty
+              ? _buildMailboxCategory(context, MailboxCategories.exchange,
+                  controller.defaultRootNode)
+              : const SizedBox.shrink()),
+          Obx(() => controller.teamMailboxesIsNotEmpty
+              ? _buildMailboxCategory(context, MailboxCategories.teamMailboxes,
+                  controller.teamMailboxesRootNode)
+              : const SizedBox.shrink()),
+          Obx(() => controller.personalMailboxIsNotEmpty
+              ? _buildMailboxCategory(
+                  context,
+                  MailboxCategories.personalFolders,
+                  controller.personalRootNode)
+              : const SizedBox.shrink())
+        ]));
   }
 
-  Widget _buildMailboxCategory(BuildContext context, MailboxCategories categories, MailboxNode mailboxNode) {
+  Widget _buildMailboxCategory(BuildContext context,
+      MailboxCategories categories, MailboxNode mailboxNode) {
     if (categories == MailboxCategories.exchange) {
       return _buildBodyMailboxCategory(context, categories, mailboxNode);
     }
     return Column(children: [
       buildHeaderMailboxCategory(
-        context,
-        _responsiveUtils,
-        _imagePaths,
-        categories,
-        controller,
-        padding: const EdgeInsets.all(8),
-        toggleMailboxCategories: controller.toggleMailboxCategories
-      ),
+          context, _responsiveUtils, _imagePaths, categories, controller,
+          padding: const EdgeInsets.all(8),
+          toggleMailboxCategories: controller.toggleMailboxCategories),
       AnimatedContainer(
-        duration: const Duration(milliseconds: 400),
-        child: categories.getExpandMode(controller.mailboxCategoriesExpandMode.value) == ExpandMode.EXPAND
-          ? _buildBodyMailboxCategory(context, categories, mailboxNode)
-          : const Offstage()
-      )
+          duration: const Duration(milliseconds: 400),
+          child: categories.getExpandMode(
+                      controller.mailboxCategoriesExpandMode.value) ==
+                  ExpandMode.EXPAND
+              ? _buildBodyMailboxCategory(context, categories, mailboxNode)
+              : const Offstage())
     ]);
   }
 
@@ -122,9 +105,8 @@ class MailboxVisibilityView extends GetWidget<MailboxVisibilityController>
     MailboxNode mailboxNode,
   ) {
     return TreeView(
-      key: Key('${categories.keyValue}_mailbox_list'),
-      children: _buildListChildTileWidget(context, mailboxNode)
-    );
+        key: Key('${categories.keyValue}_mailbox_list'),
+        children: _buildListChildTileWidget(context, mailboxNode));
   }
 
   List<Widget> _buildListChildTileWidget(
@@ -132,29 +114,30 @@ class MailboxVisibilityView extends GetWidget<MailboxVisibilityController>
     MailboxNode parentNode,
   ) {
     return parentNode.childrenItems
-      ?.map((mailboxNode) => mailboxNode.hasChildren()
-        ? TreeViewChild(
-            context,
-            key: const Key('children_tree_mailbox_child'),
-            isExpanded: mailboxNode.expandMode == ExpandMode.EXPAND,
-            paddingChild: const EdgeInsetsDirectional.only(start: 10),
-            parent: MailBoxVisibilityFolderTileBuilder(
-              _imagePaths,
-              mailboxNode,
-              onClickExpandMailboxNodeAction: (mailboxNode) {
-                controller.toggleMailboxFolder(mailboxNode, controller.mailboxListScrollController);
-              },
-              onClickSubscribeMailboxAction: controller.subscribeMailbox
-            ),
-            children: _buildListChildTileWidget(context, mailboxNode)).build()
-        : MailBoxVisibilityFolderTileBuilder(
-            _imagePaths,
-            mailboxNode,
-            onClickExpandMailboxNodeAction: (mailboxNode) {
-              controller.toggleMailboxFolder(mailboxNode, controller.mailboxListScrollController);
-            },
-            onClickSubscribeMailboxAction: controller.subscribeMailbox
-          ))
-      .toList() ?? <Widget>[];
+            ?.map((mailboxNode) => mailboxNode.hasChildren()
+                ? TreeViewChild(context,
+                        key: const Key('children_tree_mailbox_child'),
+                        isExpanded: mailboxNode.expandMode == ExpandMode.EXPAND,
+                        paddingChild:
+                            const EdgeInsetsDirectional.only(start: 10),
+                        parent: MailBoxVisibilityFolderTileBuilder(
+                            _imagePaths, mailboxNode,
+                            onClickExpandMailboxNodeAction: (mailboxNode) {
+                          controller.toggleMailboxFolder(mailboxNode,
+                              controller.mailboxListScrollController);
+                        },
+                            onClickSubscribeMailboxAction:
+                                controller.subscribeMailbox),
+                        children:
+                            _buildListChildTileWidget(context, mailboxNode))
+                    .build()
+                : MailBoxVisibilityFolderTileBuilder(_imagePaths, mailboxNode,
+                    onClickExpandMailboxNodeAction: (mailboxNode) {
+                    controller.toggleMailboxFolder(
+                        mailboxNode, controller.mailboxListScrollController);
+                  },
+                    onClickSubscribeMailboxAction: controller.subscribeMailbox))
+            .toList() ??
+        <Widget>[];
   }
 }

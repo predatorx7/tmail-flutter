@@ -6,15 +6,12 @@ part 'session_hive_obj.g.dart';
 
 @HiveType(typeId: CachingConstants.typeIdSessionHiveObj)
 class SessionHiveObj extends HiveObject with EquatableMixin {
-
   static const String keyValue = 'session';
 
   @HiveField(0)
   final String value;
 
-  SessionHiveObj({
-    required this.value
-  });
+  SessionHiveObj({required this.value});
 
   @override
   List<Object?> get props => [value];

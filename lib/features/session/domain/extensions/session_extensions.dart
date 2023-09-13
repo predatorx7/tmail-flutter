@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:core/presentation/extensions/uri_extension.dart';
@@ -11,7 +10,6 @@ import 'package:tmail_ui_user/features/session/domain/converter/session_capabili
 import 'package:tmail_ui_user/features/session/domain/converter/session_primary_account_converter.dart';
 
 extension SessionExtensions on Session {
-
   Map<String, dynamic> toJson() {
     final val = <String, dynamic>{};
 
@@ -21,9 +19,18 @@ extension SessionExtensions on Session {
       }
     }
 
-    writeNotNull('capabilities', capabilities.map((key, value) =>  SessionCapabilitiesConverter().convertToMapEntry(key, value)));
-    writeNotNull('accounts', accounts.map((key, value) => SessionAccountConverter().convertToMapEntry(key, value)));
-    writeNotNull('primaryAccounts', primaryAccounts.map((key, value) => SessionPrimaryAccountConverter().convertToMapEntry(key, value)));
+    writeNotNull(
+        'capabilities',
+        capabilities.map((key, value) =>
+            SessionCapabilitiesConverter().convertToMapEntry(key, value)));
+    writeNotNull(
+        'accounts',
+        accounts.map((key, value) =>
+            SessionAccountConverter().convertToMapEntry(key, value)));
+    writeNotNull(
+        'primaryAccounts',
+        primaryAccounts.map((key, value) =>
+            SessionPrimaryAccountConverter().convertToMapEntry(key, value)));
     writeNotNull('username', const UserNameConverter().toJson(username));
     writeNotNull('apiUrl', apiUrl.toString());
     writeNotNull('downloadUrl', downloadUrl.toString());

@@ -42,18 +42,19 @@ void initLogger(VoidCallback runApp) {
     WidgetsFlutterBinding.ensureInitialized();
     FlutterError.onError = (details) {
       FlutterError.dumpErrorToConsole(details);
-      logError('AppLogger::initLogger::runZonedGuarded:FlutterError.onError: ${details.stack.toString()}');
+      logError(
+          'AppLogger::initLogger::runZonedGuarded:FlutterError.onError: ${details.stack.toString()}');
     };
     runApp.call();
   }, (error, stack) {
-    logError('AppLogger::initLogger::runZonedGuarded:onError: $error | stack: $stack');
+    logError(
+        'AppLogger::initLogger::runZonedGuarded:onError: $error | stack: $stack');
   });
 }
 
 class _Dispatcher extends ValueNotifier<String> {
   _Dispatcher(String value) : super(value);
 }
-
 
 enum Level {
   wtf,

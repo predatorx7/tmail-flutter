@@ -15,6 +15,5 @@ class GetCredentialViewState extends UIState {
 }
 
 class GetCredentialFailure extends FeatureFailure {
-
   GetCredentialFailure(dynamic exception) : super(exception: exception);
 }
